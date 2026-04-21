@@ -1,0 +1,338 @@
+import 'package:flutter/material.dart';
+
+import '../../data/models/client_messages_statistics_response.dart';
+import 'messages_statistics_char.dart';
+import 'messages_statistics_header.dart';
+import 'messages_statistics_table.dart';
+
+
+
+class MessagesStatisticsItem extends StatelessWidget {
+  final String title;
+  final ClientMessagesStatisticsDetails messagesStatisticsDetails;
+
+  const MessagesStatisticsItem({
+    super.key,
+    required this.title,
+    required this.messagesStatisticsDetails,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MessagesStatisticsHeader(title: title),
+        MessagesStatisticsTable(details: messagesStatisticsDetails),
+        MessagesStatisticsChart(
+            title: title,
+            details: messagesStatisticsDetails
+        ),
+      ],
+    );
+  }
+}
+
+/*
+import 'package:app/core/widgets/normal_text.dart';
+import 'package:app/core/widgets/subtitle_text.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+
+import '../../../../core/dimensions/dimensions.dart';
+import '../../../../core/theming/colors.dart';
+import '../../data/models/bar_chart_model.dart';
+import '../../data/models/client_messages_statistics_response.dart';
+
+class MessagesStatisticsItem extends StatefulWidget {
+  final String title;
+  final ClientMessagesStatisticsDetails messagesStatisticsDetails;
+
+  const MessagesStatisticsItem({
+    super.key,
+    required this.title,
+    required this.messagesStatisticsDetails,
+  });
+
+  @override
+  State<MessagesStatisticsItem> createState() => _MessagesStatisticsItemState();
+}
+
+class _MessagesStatisticsItemState extends State<MessagesStatisticsItem> {
+  List<BarChartModel> chartData = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Title Section
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: edge, vertical: edge * 0.8),
+          child: SubTitleText(
+            text: widget.title,
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        ),
+        SizedBox(height: edge * 0.8),
+
+        // Table Header
+        _buildTableHeader(["type".tr(), "number".tr()], headerFlex: [2, 1]),
+
+        // Table Rows
+        _buildTableRow(
+          "read_number".tr(),
+          widget.messagesStatisticsDetails.readNumber.toString(),
+        ),
+        _buildTableRow(
+          "delivered_number".tr(),
+          widget.messagesStatisticsDetails.deliverdNumber.toString(),
+        ),
+        _buildTableRow(
+          "sent_number".tr(),
+          widget.messagesStatisticsDetails.sentNumber.toString(),
+        ),
+        _buildTableRow(
+          "failed_number".tr(),
+          widget.messagesStatisticsDetails.failedNumber.toString(),
+        ),
+        _buildTableRow(
+          "not_sent_number".tr(),
+          widget.messagesStatisticsDetails.notSentNumber.toString(),
+        ),
+        SizedBox(height: edge * 1.5),
+        chart(),
+      ],
+    );
+  }
+
+  Widget _buildTableHeader(List<String> headers, {List<int>? headerFlex}) {
+    assert(headers.length == (headerFlex?.length ?? headers.length), "Headers length must match headerFlex length if provided.");
+
+    return Container(
+      color: bgColorOverlay,
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      child: Row(
+        children: headers.asMap().entries.map((entry) {
+          final index = entry.key;
+          final header = entry.value;
+          return Expanded(
+            flex: headerFlex?[index] ?? 1,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: NormalText(
+                text: header,
+                color: Colors.white.withAlpha(128),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildTableRow(String label, String value) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: bgColorOverlay)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: NormalText(
+                text: label,
+                color: Colors.white,
+                fontSize: 14,
+                align: TextAlign.start,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: SubTitleText(
+                text: value,
+                color: Colors.white,
+                fontSize: 18,
+                align: TextAlign.start,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget chart() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Container(
+        decoration: BoxDecoration(color: bgColorOverlay, borderRadius: BorderRadius.circular(12)),
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SubTitleText(
+              text: widget.title,
+              fontSize: 18,
+              color: Colors.white,
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            AspectRatio(
+              aspectRatio: 1.4,
+              child: BarChart(BarChartData(
+                  barTouchData: barTouchData,
+                  alignment: BarChartAlignment.spaceAround,
+                  backgroundColor: Colors.transparent,
+                  borderData: FlBorderData(show: false),
+                  gridData: FlGridData(checkToShowVerticalLine: (val) => false),
+                  titlesData: FlTitlesData(
+                    bottomTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    leftTitles: AxisTitles(sideTitles: _sideTitle),
+                  ),
+                  barGroups: _barChartGroup())),
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            chartLegends(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget chartLegends() {
+    return LegendsListWidget(legends: chartData.map((e) => Legend(e.title, e.color)).toList());
+  }
+
+  SideTitles get _sideTitle => SideTitles(
+        showTitles: true,
+        reservedSize: 50,
+        getTitlesWidget: (value, meta) {
+          String text = value.toString();
+          return NormalText(
+            text: text,
+            fontSize: 12,
+            color: Colors.white,
+          );
+        },
+      );
+
+  List<BarChartGroupData> _barChartGroup() {
+    chartData.clear();
+
+    chartData.add(BarChartModel(value: (widget.messagesStatisticsDetails.readNumber ?? 0).toDouble(), title: "read_number".tr(), color: primaryColor));
+    chartData.add(BarChartModel(value: (widget.messagesStatisticsDetails.deliverdNumber ?? 0).toDouble(), title: "delivered_number".tr(), color: secondaryColor));
+    chartData.add(BarChartModel(value: (widget.messagesStatisticsDetails.sentNumber ?? 0).toDouble(), title: "sent_number".tr(), color: Colors.red));
+    chartData.add(BarChartModel(value: (widget.messagesStatisticsDetails.failedNumber ?? 0).toDouble(), title: "failed_number".tr(), color: Colors.yellowAccent));
+    chartData.add(BarChartModel(value: (widget.messagesStatisticsDetails.notSentNumber ?? 0).toDouble(), title: "not_sent_number".tr(), color: Colors.purple));
+
+    List<BarChartGroupData> data = [];
+
+    for (int i = 0; i < chartData.length; i++) {
+      data.add(BarChartGroupData(x: i, showingTooltipIndicators: [0], barRods: [BarChartRodData(toY: chartData[i].value, color: chartData[i].color, width: 20)]));
+    }
+    return data;
+  }
+
+  BarTouchData get barTouchData => BarTouchData(
+        enabled: true,
+        touchTooltipData: BarTouchTooltipData(
+          getTooltipColor: (group) => Colors.transparent,
+          tooltipPadding: EdgeInsets.zero,
+          tooltipMargin: 8,
+          getTooltipItem: (
+            BarChartGroupData group,
+            int groupIndex,
+            BarChartRodData rod,
+            int rodIndex,
+          ) {
+            return BarTooltipItem(
+              rod.toY.round().toString(),
+              const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            );
+          },
+        ),
+      );
+}
+
+class Legend {
+  Legend(this.name, this.color);
+
+  final String name;
+  final Color color;
+}
+
+class LegendWidget extends StatelessWidget {
+  const LegendWidget({
+    super.key,
+    required this.name,
+    required this.color,
+  });
+
+  final String name;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color,
+          ),
+        ),
+        const SizedBox(width: 6),
+        NormalText(
+          text: name,
+          color: Colors.white,
+          fontSize: 12,
+        ),
+      ],
+    );
+  }
+}
+
+class LegendsListWidget extends StatelessWidget {
+  const LegendsListWidget({
+    super.key,
+    required this.legends,
+  });
+
+  final List<Legend> legends;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 16,
+      children: legends
+          .map(
+            (e) => LegendWidget(
+              name: e.name,
+              color: e.color,
+            ),
+          )
+          .toList(),
+    );
+  }
+}
+*/

@@ -1,0 +1,48 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+
+import '../../../../core/networking/api_result.dart';
+import '../../../../core/networking/api_service.dart';
+import '../models/register_request.dart';
+
+class RegisterRepo {
+  final ApiService _apiService;
+
+  RegisterRepo(this._apiService);
+
+  Future<ApiResult<String>> register(RegisterRequest registerRequestBody) async {
+    try {
+      // Attempt the API call
+      var response = await _apiService.register(registerRequestBody);
+
+      // If the response contains a success message
+      if (response.contains('successfully')) {
+        return ApiResult.success(response);
+      } else if (response.contains("already exists")) {
+        // Handle the case where the username already exists
+        return ApiResult.failure("username_exists_error");
+      }
+      // Return a generic failure if no specific message matches
+      return ApiResult.failure("register_error");
+    } on DioException catch (e) {
+      // Handle DioError (e.g., bad response with 400 status code)
+      debugPrint('DioError: ${e.message}');
+
+      // If the DioError has a response (i.e., it came from the server)
+      if (e.response != null) {
+        final errorMessage = e.response?.data ?? "register_error"; // Default to "register_error" if no error message is provided
+        if (errorMessage is String && errorMessage.contains("already exists")) {
+          return ApiResult.failure("username_exists_error");
+        }
+        return ApiResult.failure(errorMessage.toString());
+      }
+
+      // Catch any other errors that don't have a response
+      return ApiResult.failure("register_error");
+    } catch (error) {
+      // Handle any other errors not related to Dio
+      debugPrint('Unexpected error: $error');
+      return ApiResult.failure(error.toString());
+    }
+  }
+}

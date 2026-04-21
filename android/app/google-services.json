@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "710751253748",
+    "project_id": "myinvite-1b0ca",
+    "storage_bucket": "myinvite-1b0ca.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710751253748:android:f3a6f04c7a941336abdaa1",
+        "android_client_info": {
+          "package_name": "com.app.dawati.mi.dsn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABPDT0ObWbOXgK7KcuEDFwVI2wyYtl6pI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710751253748:android:ce4d49bcf2ecc324abdaa1",
+        "android_client_info": {
+          "package_name": "com.dsn.myinvite.android.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABPDT0ObWbOXgK7KcuEDFwVI2wyYtl6pI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

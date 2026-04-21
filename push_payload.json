@@ -1,0 +1,13 @@
+{
+  "aps": {
+    "alert": {
+      "title": "Test Notification",
+      "body": "This is a test push notification"
+    },
+    "sound": "default"
+  },
+  "customData": {
+    "key1": "value1",
+    "key2": "value2"
+  }
+}
