@@ -248,6 +248,19 @@ class NotificationService {
         await flutterLocalNotificationsPlugin.pendingNotificationRequests();
     return pendingNotifications;
   }
+
+  Future<void> showInstantNotification({
+    required String title,
+    required String body,
+    String? payload,
+  }) async {
+    await showNotification(
+      id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      title: title,
+      body: body,
+      payload: payload,
+    );
+  }
 }
 
 enum NotificationType {

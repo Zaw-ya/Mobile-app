@@ -39,7 +39,7 @@ class _GatekeeperHomeScreenState extends State<GatekeeperHomeScreen> {
   void setFirebase() async {
     try {
       NotificationSettings settings =
-      await FirebaseMessaging.instance.requestPermission(
+          await FirebaseMessaging.instance.requestPermission(
         alert: true,
         badge: true,
         sound: true,
@@ -65,7 +65,6 @@ class _GatekeeperHomeScreenState extends State<GatekeeperHomeScreen> {
 
       // Set up message handlers
       FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-
         final notification = message.notification;
         if (notification != null) {
           NotificationService().showNotificationWithActions(

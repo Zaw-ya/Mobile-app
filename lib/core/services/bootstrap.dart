@@ -20,7 +20,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   try {
     await Firebase.initializeApp();
 
-
     debugPrint('✅ Background notification handled: ${message.messageId}');
   } catch (e) {
     debugPrint('❌ Error in background handler: $e');
