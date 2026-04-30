@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import '../routing/routes.dart';
 import 'navigation_service.dart';
 import 'notification_service.dart';
+import '../di/dependency_injection.dart';
+import '../../features/notifications/logic/notifications_cubit.dart';
 
 class FirebaseMessagingHandler {
   static final FirebaseMessagingHandler _instance =
@@ -94,8 +96,9 @@ class FirebaseMessagingHandler {
     // Foreground messages
     FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
     debugPrint('Listening for foreground messages...');
+
     // Background messages opened by user
-    //FirebaseMessaging.onMessageOpenedApp.listen(_handleMessageOpenedApp);
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessageOpenedApp);
 
     // Check for initial message (app opened from terminated state)
     final initialMessage = await _messaging.getInitialMessage();
@@ -113,13 +116,46 @@ class FirebaseMessagingHandler {
         body: message.notification!.body ?? '',
         title: message.notification!.title ?? '',
       );
+      // Refresh notifications list/badge in real-time
+      try {
+        getIt<NotificationsCubit>().loadNotifications();
+      } catch (_) {}
     }
   }
 
   void _handleMessageOpenedApp(RemoteMessage message) {
     debugPrint(
         'App opened from background via notification: ${message.messageId}');
-    _navigateToEventsCalendar();
+    // Try to deep-link based on payload
+    try {
+      final data = message.data;
+      final navigatorState = NavigationService.navigatorKey.currentState;
+      if (navigatorState != null) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          // If payload contains a direct route, use it
+          if (data.containsKey('route')) {
+            navigatorState.pushNamed(data['route'], arguments: data);
+            return;
+          }
+
+          // If payload contains a type/id mapping, handle common types
+          if (data['type'] == 'event' && data.containsKey('id')) {
+            navigatorState.pushNamed(Routes.eventDetailScreen,
+                arguments: data['id']);
+            return;
+          }
+
+          // Fallback to events calendar
+          navigatorState.pushNamed(Routes.eventsCalendar);
+        });
+      } else {
+        // Store fallback route for later
+        pendingNavigationRoute = Routes.eventsCalendar;
+      }
+    } catch (e) {
+      debugPrint('Error handling opened message: $e');
+      pendingNavigationRoute = Routes.eventsCalendar;
+    }
   }
 
   void _navigateToEventsCalendar() {

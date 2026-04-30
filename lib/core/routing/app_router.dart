@@ -19,6 +19,7 @@ import '../../features/client_statistics/ui/widgets/client_confirmation_services
 import '../../features/client_statistics/ui/widgets/client_messages/client_messages_statistics_screen.dart';
 import '../../features/client_statistics/ui/widgets/sent_cards_services/sent_cards_services_screen.dart';
 import '../../features/event_calender/ui/event_calender_screen.dart';
+import '../../features/notifications/ui/notifications_screen.dart';
 import '../../features/events_scan_history/data/models/gatekeeper_events_response.dart';
 import '../../features/events_scan_history/logic/gatekeeper_events_cubit.dart';
 import '../../features/events_scan_history/ui/my_events_screen.dart';
@@ -40,6 +41,7 @@ import '../../features/splash/ui/on_boarding_screen.dart';
 import '../../features/splash/ui/splash_screen.dart';
 import '../di/dependency_injection.dart';
 import 'routes.dart';
+import '../../features/notifications/logic/notifications_cubit.dart';
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
@@ -136,6 +138,13 @@ class AppRouter {
       case Routes.eventsCalendar:
         return _buildRoute(
           const EventCalenderScreen(),
+        );
+      case Routes.notifications:
+        return _buildRoute(
+          BlocProvider<NotificationsCubit>(
+            create: (_) => getIt<NotificationsCubit>(),
+            child: const NotificationsScreen(),
+          ),
         );
 
       case Routes.clientEvents:

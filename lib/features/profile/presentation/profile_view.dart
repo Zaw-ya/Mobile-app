@@ -49,7 +49,7 @@ class _ProfileViewState extends State<ProfileView> {
                         title:
                             '${AppUtilities().loginData.firstName} ${AppUtilities().loginData.lastName}',
                         subTitle: "welcome".tr(),
-                        notificationCount: 3)
+                      )
                     : ProfileHeader(),
                 UserCart(profileModel: profile),
                 Expanded(child: ProfileMenu()),

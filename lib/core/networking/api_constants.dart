@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const String apiBaseUrl = "https://api-uat.myinvite.cc/";
+  static const String apiBaseUrl = "https://myinvite-api.runasp.net/";
 
   //static const String apiBaseUrl = "https://api.myinvite.cc/";
 
@@ -9,6 +9,11 @@ class ApiConstants {
   static const String clientEventDetailsEndpoint = 'client/geteventclient';
   static const String clientProfileEndpoint = 'client/profile';
   static const String calendarEventsEndpoint = 'events/calender';
+  static const String notificationsEndpoint =
+      'Notifications';
+  static const String unreadNotificationsCountEndpoint =
+      'Notifications/unread-count';
+  static const String markNotificationReadEndpoint = 'Notifications/mark-read';
   static const String reserveEventEndpoint = 'events/reserveevent';
   static const String gatekeeperEventsEndpoint = 'events';
   static const String scanEndpoint = 'scan';

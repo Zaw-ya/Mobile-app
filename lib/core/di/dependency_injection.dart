@@ -25,6 +25,8 @@ import '../../features/qr_code_scanner/data/repo/qr_code_scanner_repo.dart';
 import '../../features/qr_code_scanner/logic/qr_code_scanner_cubit.dart';
 import '../../features/register/data/repo/register_repo.dart';
 import '../../features/register/logic/register_cubit.dart';
+import '../../features/notifications/data/repo/notifications_repo.dart';
+import '../../features/notifications/logic/notifications_cubit.dart';
 import '../helpers/app_utilities.dart';
 import '../networking/api_service.dart';
 import '../networking/dio_factory.dart';
@@ -34,6 +36,8 @@ final getIt = GetIt.instance;
 Future<void> setupGetIt() async {
   // Dio & ApiService
   Dio dio = await DioFactory.getDio();
+  // register Dio so repositories can consume it directly
+  getIt.registerLazySingleton<Dio>(() => dio);
   await _handleFirstInstall();
   getIt.registerLazySingleton<ApiService>(() => ApiService(dio));
 
@@ -76,6 +80,12 @@ Future<void> setupGetIt() async {
       () => ClientStatisticsRepo(getIt()));
   getIt.registerFactory<ClientStatisticsCubit>(
       () => ClientStatisticsCubit(getIt()));
+
+  // Notifications
+  getIt.registerLazySingleton<NotificationsRepo>(() => NotificationsRepo());
+  // Make NotificationsCubit a singleton so all parts of the app share the same instance
+  getIt.registerLazySingleton<NotificationsCubit>(
+      () => NotificationsCubit(getIt<NotificationsRepo>()));
 
   getIt.registerFactory<LandingCubit>(() => LandingCubit(getIt()));
   //profile

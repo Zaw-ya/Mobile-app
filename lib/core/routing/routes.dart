@@ -11,6 +11,7 @@ class Routes {
   static const String eventDetailScreen = '/eventDetailScreen';
   static const String myEventsScreen = '/myEventsScreen';
   static const String eventsCalendar = '/eventsCalendar';
+  static const String notifications = '/notifications';
   static const String clientEvents = '/clientEvents';
   static const String clientEventsDetailsScreen = '/clientEventsDetailsScreen';
   static const String clientMessagesStatusScreen =
@@ -24,11 +25,10 @@ class Routes {
   static const String clientMessageStatus = '/clientMessageStatus';
   static const String sentCardsServicesScreen = '/sentCardsServicesScreen';
   static const String successScreen = '/successScreen';
-  static const String clientStatisticsDetailScreen = '/clientStatisticsDetailScreen';
-
-
+  static const String clientStatisticsDetailScreen =
+      '/clientStatisticsDetailScreen';
 
   static const String landingView = "/landingView";
-  static const String gatekeeperScanHistoryScreen = "/gatekeeperScanHistoryScreen";
-
+  static const String gatekeeperScanHistoryScreen =
+      "/gatekeeperScanHistoryScreen";
 }

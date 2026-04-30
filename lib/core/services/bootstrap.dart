@@ -14,12 +14,12 @@ import '../di/dependency_injection.dart';
 import '../helpers/app_utilities.dart';
 import 'custom_bloc_observer.dart';
 import 'notification_service.dart';
+import 'firebase_messaging_handler.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   try {
     await Firebase.initializeApp();
-
     debugPrint('✅ Background notification handled: ${message.messageId}');
   } catch (e) {
     debugPrint('❌ Error in background handler: $e');
@@ -55,6 +55,7 @@ Future<void> bootstrap(Widget app) async {
   await EasyLocalization.ensureInitialized();
   await AppUtilities.instance.initialize();
   await NotificationService().init();
+  await FirebaseMessagingHandler().initialize();
   tz.initializeTimeZones();
   setupGetIt();
 

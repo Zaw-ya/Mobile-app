@@ -86,7 +86,6 @@ class _NewClientStatisticsScreenState extends State<NewClientStatisticsScreen> {
                   ClientHeader(
                     title: 'statistics'.tr(),
                     subTitle: 'welcome'.tr(),
-                    notificationCount: 3,
                   ),
 
                   // ── Promo card ────────────────────────────────────────

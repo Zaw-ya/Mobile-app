@@ -84,7 +84,6 @@ class _NewClientEventsScreenState extends State<NewClientEventsScreen> {
                     title:
                         '${AppUtilities().loginData.firstName} ${AppUtilities().loginData.lastName}',
                     subTitle: 'welcome'.tr(),
-                    notificationCount: 3,
                   ),
 
                   // ── Promo card ────────────────────────────────────────

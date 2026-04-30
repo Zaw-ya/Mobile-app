@@ -15,6 +15,7 @@ import '../../features/location/data/models/city_response.dart';
 import '../../features/location/data/models/country_response.dart';
 import '../../features/login/data/models/login_request.dart';
 import '../../features/login/data/models/login_response.dart';
+import '../../features/notifications/data/models/notification_model.dart';
 import '../../features/profile/data/models/profile_model.dart';
 import '../../features/qr_code_scanner/data/models/scan_body_request.dart';
 import '../../features/qr_code_scanner/data/models/scan_response.dart';
@@ -101,6 +102,23 @@ abstract class ApiService {
   @GET(ApiConstants.calendarEventsEndpoint)
   Future<List<CalenderEventsResponse>> getEventsCalendar(
     @Header('Authorization') String token,
+  );
+
+  // Notifications - backend-driven
+  @GET(ApiConstants.notificationsEndpoint)
+  Future<List<NotificationModel>> getNotifications(
+    @Header('Authorization') String token,
+  );
+
+  @GET(ApiConstants.unreadNotificationsCountEndpoint)
+  Future<dynamic> getUnreadNotificationsCount(
+    @Header('Authorization') String token,
+  );
+
+  @POST("${ApiConstants.markNotificationReadEndpoint}/{id}")
+  Future<String> markNotificationRead(
+    @Header('Authorization') String token,
+    @Path('id') String id,
   );
 
   @GET(ApiConstants.reserveEventEndpoint)

@@ -86,6 +86,9 @@ class NotificationScheduler {
     }
   }
 
+  // Method to schedule a test notification at a specific time
+  // This can be used for testing purposes to verify that notifications are working correctly
+  // Not used
   Future<void> scheduleNotificationsAtSpecificTime(DateTime dateTime) async {
     try {
       final location = tz.local;
