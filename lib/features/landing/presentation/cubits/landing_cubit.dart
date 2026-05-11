@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/helpers/app_utilities.dart';
-import '../../../client_events/logic/client_events_cubit.dart';
-import '../../../client_statistics/logic/client_statistics_cubit.dart';
 import '../../../event_calender/logic/event_calender_cubit.dart';
 import '../../../events_scan_history/logic/gatekeeper_events_cubit.dart';
 import '../../../gatekeeper_calendar/presentation/calendar_view.dart';
@@ -58,20 +56,18 @@ class LandingCubit extends Cubit<LandingStates> {
       ];
     } else {
       screens = [
-        BlocProvider(
-          create: (_) => getIt<ClientEventsCubit>()..getClientEvents(),
-          child: const NewClientEventsScreen(),
-        ),
-        BlocProvider(
-          create: (_) => getIt<ClientStatisticsCubit>()..getClientEvents(),
-          child: const NewClientStatisticsScreen(),
-        ),
+         const NewClientEventsScreen(),
+        
+        // BlocProvider(
+        //   create: (_) => getIt<ClientEventsCubit>()..getClientEvents(),
+        //   child: const NewClientEventsScreen(),
+        // ),
+       NewClientStatisticsScreen(),
+        
         KeepAliveWrapper(
-          child: BlocProvider(
-            create: (_) => getIt<ProfileCubit>(),
-            child: const ProfileView(),
+          child:  const ProfileView(),
           ),
-        ),
+        
       ];
     }
   }

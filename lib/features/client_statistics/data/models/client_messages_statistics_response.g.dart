@@ -29,6 +29,14 @@ ClientMessagesStatisticsResponse _$ClientMessagesStatisticsResponseFromJson(
           ? null
           : ClientMessagesStatisticsDetails.fromJson(
               json['congratulationMessages'] as Map<String, dynamic>),
+      urgentCancellationMessages: json['urgentCancellationMessages'] == null
+          ? null
+          : ClientMessagesStatisticsDetails.fromJson(
+              json['urgentCancellationMessages'] as Map<String, dynamic>),
+      urgentPostponementMessages: json['urgentPostponementMessages'] == null
+          ? null
+          : ClientMessagesStatisticsDetails.fromJson(
+              json['urgentPostponementMessages'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ClientMessagesStatisticsResponseToJson(
@@ -39,6 +47,8 @@ Map<String, dynamic> _$ClientMessagesStatisticsResponseToJson(
       'eventLocationMessages': instance.eventLocationMessages,
       'reminderMessages': instance.reminderMessages,
       'congratulationMessages': instance.congratulationMessages,
+      'urgentCancellationMessages': instance.urgentCancellationMessages,
+      'urgentPostponementMessages': instance.urgentPostponementMessages,
     };
 
 ClientMessagesStatisticsDetails _$ClientMessagesStatisticsDetailsFromJson(

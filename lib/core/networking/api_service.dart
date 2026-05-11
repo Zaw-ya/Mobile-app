@@ -110,6 +110,13 @@ abstract class ApiService {
     @Header('Authorization') String token,
   );
 
+  // 🔥 NEW: Save device token
+  @PUT(ApiConstants.saveDeviceTokenEndpoint)
+  Future<void> saveDeviceToken(
+    @Header('Authorization') String token,
+    @Body() Map<String, dynamic> body,
+  );
+
   @GET(ApiConstants.unreadNotificationsCountEndpoint)
   Future<dynamic> getUnreadNotificationsCount(
     @Header('Authorization') String token,

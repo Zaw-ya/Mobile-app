@@ -111,6 +111,8 @@ class SentCardsStatisticsTab extends StatelessWidget {
           text: 'statistics_details'.tr(),
           color: AppColor.gray700,
           fontSize: 16,
+          align: TextAlign.start,
+
         ),
         SizedBox(height: edge * 0.6),
         StatCardsGrid(items: cards, total: _total),

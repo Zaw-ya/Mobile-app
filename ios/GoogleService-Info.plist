@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAK6zYpYkZL9AnXyGX0iQ05wEJLaF15L8I</string>
+	<string>AIzaSyDf0eCmjxUNG8ipoQCgZwiy6ECNaXkzop8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>710751253748</string>
+	<string>813336819174</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.dsn.myinvite.ios.app</string>
 	<key>PROJECT_ID</key>
-	<string>myinvite-1b0ca</string>
+	<string>myinvite-uat</string>
 	<key>STORAGE_BUCKET</key>
-	<string>myinvite-1b0ca.firebasestorage.app</string>
+	<string>myinvite-uat.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:710751253748:ios:4810667e2fbf50e9abdaa1</string>
+	<string>1:813336819174:ios:8109d84ea4b4ca3cd05227</string>
 </dict>
 </plist>

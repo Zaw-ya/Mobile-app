@@ -86,6 +86,7 @@ Future<void> setupGetIt() async {
   // Make NotificationsCubit a singleton so all parts of the app share the same instance
   getIt.registerLazySingleton<NotificationsCubit>(
       () => NotificationsCubit(getIt<NotificationsRepo>()));
+      
 
   getIt.registerFactory<LandingCubit>(() => LandingCubit(getIt()));
   //profile

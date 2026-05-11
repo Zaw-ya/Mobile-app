@@ -140,12 +140,15 @@ class AppRouter {
           const EventCalenderScreen(),
         );
       case Routes.notifications:
-        return _buildRoute(
-          BlocProvider<NotificationsCubit>(
-            create: (_) => getIt<NotificationsCubit>(),
-            child: const NotificationsScreen(),
-          ),
-        );
+        return _buildRoute(BlocProvider.value(
+          value: getIt<NotificationsCubit>(),
+          child: const NotificationsScreen(),
+        )
+            // BlocProvider<NotificationsCubit>(
+            //   create: (_) => getIt<NotificationsCubit>(),
+            //   child: const NotificationsScreen(),
+            // ),
+            );
 
       case Routes.clientEvents:
         return _buildRoute(
@@ -237,11 +240,17 @@ class AppRouter {
         );
 
       case Routes.clientStatisticsDetailScreen:
-        final event = arguments as ClientEventDetails;
+        final args = arguments as Map<String, dynamic>;
+
+        final eventId = args['eventId'] as int;
+        final eventTitle = args['eventTitle'] as String;
         return _buildRoute(
           BlocProvider(
             create: (_) => getIt<ClientStatisticsCubit>(),
-            child: ClientStatisticsDetailScreen(event: event),
+            child: ClientStatisticsDetailScreen(
+              eventId: eventId,
+              eventTitle: eventTitle,
+            ),
           ),
         );
 

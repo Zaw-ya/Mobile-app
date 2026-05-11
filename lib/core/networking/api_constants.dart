@@ -8,6 +8,7 @@ class ApiConstants {
   static const String clientEvents = 'client/myevents';
   static const String clientEventDetailsEndpoint = 'client/geteventclient';
   static const String clientProfileEndpoint = 'client/profile';
+  static const String saveDeviceTokenEndpoint = 'Client/device-token';  /// new
   static const String calendarEventsEndpoint = 'events/calender';
   static const String notificationsEndpoint =
       'Notifications';
