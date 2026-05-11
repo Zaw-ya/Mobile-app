@@ -3,6 +3,7 @@ import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/empty_widget.dart';
 import 'package:app/core/widgets/loader.dart';
+import 'package:app/features/notifications/logic/notifications_cubit.dart';
 import 'package:app/generated/assets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +29,13 @@ class NewClientEventsScreen extends StatefulWidget {
 class _NewClientEventsScreenState extends State<NewClientEventsScreen> {
   final ScrollController _scrollController = ScrollController();
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-  }
+@override
+void initState() {
+  super.initState();
+  _scrollController.addListener(_onScroll);
+  // نحدث الـ Badge فقط عند الدخول للشاشة
+  context.read<NotificationsCubit>().updateBadgeCountOnly();
+}
 
   void _onScroll() {
     if (_scrollController.position.pixels >=

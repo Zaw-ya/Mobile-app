@@ -1,7 +1,8 @@
 import 'dart:io';
+import 'package:app/core/helpers/app_utilities.dart';
+import 'package:app/core/networking/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import '../routing/routes.dart';
 import 'navigation_service.dart';
 import 'notification_service.dart';
@@ -20,18 +21,47 @@ class FirebaseMessagingHandler {
 
   // Store the initial route that should be handled after app launch
   static String? pendingNavigationRoute;
+  static Object? pendingNavigationArguments;
 
   /// Initialize FCM and set up all message handlers
-  Future<void> initialize() async {
-    debugPrint('Initializing Firebase Messaging...');
+
+  Future<void> storeInitialMessage() async {
+    debugPrint('Storing initial message...');
     await _setupForegroundSettings();
     await _requestPermissions();
-    await _setupMessageHandlers();
-    await _getFCMToken();
+    await getFCMToken();
+    _listenToTokenRefresh();
+
+    FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessageOpenedApp);
+
+    final initialMessage = await _messaging.getInitialMessage();
+    if (initialMessage != null) {
+      _storePendingNavigation(initialMessage);
+    }
+  }
+
+  Future<void> initialize() async {
+    debugPrint('Initializing Firebase Messaging...');
     // Check if we have a pending route to handle
     if (pendingNavigationRoute != null) {
-      _navigateToEventsCalendar();
+      final route = pendingNavigationRoute!;
+      final arguments = pendingNavigationArguments;
       pendingNavigationRoute = null;
+      pendingNavigationArguments = null;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(const Duration(milliseconds: 800), () {
+          NavigationService.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+            Routes.landingView,
+            (route) => false,
+            // arguments: arguments,
+          );
+          NavigationService.navigatorKey.currentState?.pushNamed(
+            route,
+            arguments: arguments
+          );
+        });
+      });
     }
   }
 
@@ -82,28 +112,74 @@ class FirebaseMessagingHandler {
   }
 
   /// Get FCM token for the device
-  Future<void> _getFCMToken() async {
+
+  Future<String?> getFCMToken() async {
     try {
       final token = await _messaging.getToken();
       debugPrint('FCM Token: $token');
-    } catch (error) {
-      debugPrint('Error getting FCM token: $error');
+      return token;
+    } catch (e) {
+      debugPrint('Error getting FCM token: $e');
+      return null;
     }
+  }
+  // Future<void> _getFCMToken() async {
+  //   try {
+  //     final token = await _messaging.getToken();
+  //     debugPrint('FCM Token: $token');
+  //   } catch (error) {
+  //     debugPrint('Error getting FCM token: $error');
+  //   }
+  // }
+
+  /// Get Refresh FCM Token
+
+  void _listenToTokenRefresh() {
+    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) async {
+      debugPrint("FCM refreshed token: $newToken");
+
+      try {
+        final userToken = AppUtilities().serverToken; // auth token
+        if (userToken.isEmpty) return;
+        // if (userToken != null) {
+        await getIt<ApiService>().saveDeviceToken(
+          "Bearer $userToken",
+          {
+            "token": newToken,
+          },
+        );
+        // }
+      } catch (e) {
+        debugPrint("Error updating refreshed token: $e");
+      }
+    });
   }
 
   /// Set up message handlers for different app states
-  Future<void> _setupMessageHandlers() async {
-    // Foreground messages
-    FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
-    debugPrint('Listening for foreground messages...');
 
-    // Background messages opened by user
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessageOpenedApp);
+  void _storePendingNavigation(RemoteMessage message) {
+    try {
+      final data = message.data;
 
-    // Check for initial message (app opened from terminated state)
-    final initialMessage = await _messaging.getInitialMessage();
-    if (initialMessage != null) {
-      pendingNavigationRoute = Routes.eventsCalendar;
+      if (data.containsKey('type')) {
+        if (data['type'] == 'GKCheckOut' || data['type'] == 'GKCheckIn') {
+          pendingNavigationRoute = Routes.notifications;
+          return;
+        }
+        if (data['type'] == 'GuestConfirmed' ||
+            data['type'] == 'GuestDeclined') {
+          pendingNavigationRoute = Routes.clientStatisticsDetailScreen;
+          pendingNavigationArguments = {
+            'eventId': int.parse(data['eventId']),
+            'eventTitle': data['eventTitle'] ?? '',
+          };
+          return;
+        }
+      }
+      pendingNavigationRoute = Routes.notifications;
+    } catch (e) {
+      debugPrint('Error storing pending navigation: $e');
+      pendingNavigationRoute = Routes.notifications;
     }
   }
 
@@ -123,6 +199,7 @@ class FirebaseMessagingHandler {
     }
   }
 
+// Navigate to app when recieve a message
   void _handleMessageOpenedApp(RemoteMessage message) {
     debugPrint(
         'App opened from background via notification: ${message.messageId}');
@@ -133,47 +210,73 @@ class FirebaseMessagingHandler {
       if (navigatorState != null) {
         Future.delayed(const Duration(milliseconds: 500), () {
           // If payload contains a direct route, use it
-          if (data.containsKey('route')) {
-            navigatorState.pushNamed(data['route'], arguments: data);
+          if (data.containsKey('type')) {
+            if (data['type'] == 'GKCheckOut' || data['type'] == 'GKCheckIn') {
+              navigatorState.pushNamed(Routes.notifications);
+              // debugPrint('eventId: ${data['eventId']}');
+              // debugPrint('eventTitle: ${data['eventTitle']}');
+              // debugPrint('type: ${data['type']}');
+              // navigatorState.pushNamed(
+              //   Routes.clientStatisticsDetailScreen,
+              //   arguments: {
+              //     'eventId': int.parse(data['eventId']),
+              //     'eventTitle': data['eventTitle'] ?? '',
+              //   },
+              // );
+              return;
+            }
+            if (data['type'] == 'GuestConfirmed' ||
+                data['type'] == 'GuestDeclined') {
+              navigatorState.pushNamed(
+                Routes.clientStatisticsDetailScreen,
+                arguments: {
+                  'eventId': int.parse(data['eventId']),
+                  'eventTitle': data['eventTitle'] ?? '',
+                },
+              );
+              return;
+            }
+            navigatorState.pushNamed(Routes.notifications);
             return;
           }
 
           // If payload contains a type/id mapping, handle common types
-          if (data['type'] == 'event' && data.containsKey('id')) {
-            navigatorState.pushNamed(Routes.eventDetailScreen,
-                arguments: data['id']);
-            return;
-          }
+          // if (data['type'] == 'event' && data.containsKey('id')) {
+          //   navigatorState.pushNamed(Routes.eventDetailScreen,
+          //       arguments: data['id']);
+          //   return;
+          // }
 
           // Fallback to events calendar
-          navigatorState.pushNamed(Routes.eventsCalendar);
+          navigatorState.pushNamed(Routes.notifications);
         });
       } else {
         // Store fallback route for later
-        pendingNavigationRoute = Routes.eventsCalendar;
+        pendingNavigationRoute = Routes.notifications;
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
       debugPrint('Error handling opened message: $e');
-      pendingNavigationRoute = Routes.eventsCalendar;
+      debugPrint('$stackTrace');
+      pendingNavigationRoute = Routes.notifications;
     }
   }
 
-  void _navigateToEventsCalendar() {
-    try {
-      final navigatorState = NavigationService.navigatorKey.currentState;
-      if (navigatorState != null) {
-        // Add a small delay to ensure the app is fully initialized
-        Future.delayed(const Duration(milliseconds: 500), () {
-          navigatorState.pushNamed(Routes.eventsCalendar);
-        });
-      } else {
-        // Store the route for later navigation
-        pendingNavigationRoute = Routes.eventsCalendar;
-      }
-    } catch (e) {
-      debugPrint('Navigation error: $e');
-      // Store the route for later navigation
-      pendingNavigationRoute = Routes.eventsCalendar;
-    }
-  }
+  // void _navigateToEventsCalendar() {
+  //   try {
+  //     final navigatorState = NavigationService.navigatorKey.currentState;
+  //     if (navigatorState != null) {
+  //       // Add a small delay to ensure the app is fully initialized
+  //       Future.delayed(const Duration(milliseconds: 500), () {
+  //         navigatorState.pushNamed(Routes.eventsCalendar);
+  //       });
+  //     } else {
+  //       // Store the route for later navigation
+  //       pendingNavigationRoute = Routes.eventsCalendar;
+  //     }
+  //   } catch (e) {
+  //     debugPrint('Navigation error: $e');
+  //     // Store the route for later navigation
+  //     pendingNavigationRoute = Routes.eventsCalendar;
+  //   }
+  // }
 }

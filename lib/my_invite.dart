@@ -1,6 +1,10 @@
+import 'package:app/core/di/dependency_injection.dart';
 import 'package:app/core/helpers/extensions.dart';
+import 'package:app/core/services/firebase_messaging_handler.dart';
+import 'package:app/features/notifications/logic/notifications_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/dimensions/dimensions_constants.dart';
@@ -9,8 +13,20 @@ import 'core/routing/routes.dart';
 import 'core/services/navigation_service.dart';
 import 'core/widgets/network_aware_builder.dart';
 
-class MyInvite extends StatelessWidget {
+class MyInvite extends StatefulWidget {
   const MyInvite({super.key});
+
+  @override
+  State<MyInvite> createState() => _MyInviteState();
+}
+
+class _MyInviteState extends State<MyInvite> {
+ @override
+  void initState() {
+    super.initState();
+    // ✅ هنا الـ navigator بقى جاهز
+    FirebaseMessagingHandler().initialize();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +45,28 @@ class MyInvite extends StatelessWidget {
             context.showErrorToast("Cannot go back further.");
           }
         },
-        child: MaterialApp(
-          theme: ThemeData(useMaterial3: true),
-          debugShowCheckedModeBanner: false,
-          title: 'My Invite',
-          onGenerateRoute: AppRouter().generateRoute,
-          initialRoute: Routes.splashScreen,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          navigatorKey: NavigationService.navigatorKey,
-          builder: (context, widget) {
-            return NetworkAwareBuilder(myChild: widget!);
-          },
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<NotificationsCubit>(
+              // هنا نجعل الـ Cubit متاحاً لكل الصفحات
+              create: (context) =>
+                  getIt<NotificationsCubit>()..loadNotifications(),
+            ),
+          ],
+          child: MaterialApp(
+            theme: ThemeData(useMaterial3: true),
+            debugShowCheckedModeBanner: false,
+            title: 'My Invite',
+            onGenerateRoute: AppRouter().generateRoute,
+            initialRoute: Routes.splashScreen,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            navigatorKey: NavigationService.navigatorKey,
+            builder: (context, widget) {
+              return NetworkAwareBuilder(myChild: widget!);
+            },
+          ),
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:app/core/services/firebase_messaging_handler.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../../core/networking/api_result.dart';
@@ -18,6 +19,22 @@ class LoginRepo {
       // Check if the response contains the necessary data
       if (response.firstName == null) {
         return ApiResult.failure(response.title ?? "login_error");
+      }
+
+// 🔥 save device token after login
+      try {
+        final fcmToken = await FirebaseMessagingHandler().getFCMToken();
+
+        if (fcmToken != null) {
+          await _apiService.saveDeviceToken(
+            "Bearer ${response.token}",
+            {
+              "fcmToken": fcmToken,
+            },
+          );
+        }
+      } catch (e) {
+        debugPrint("Error sending device token: $e");
       }
 
       // Return success if response is valid

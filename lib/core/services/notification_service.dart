@@ -17,8 +17,32 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  // Unified channel constants
+  static const String _channelId = 'high_importance_channel';
+  static const String _channelName = 'High Importance Notifications';
+  static const String _channelDescription = 'Used for important notifications.';
+
+  /// Android notification details used across all notifications
+  static const AndroidNotificationDetails _androidNotificationDetails =
+      AndroidNotificationDetails(
+    _channelId,
+    _channelName,
+    channelDescription: _channelDescription,
+    importance: Importance.max,
+    priority: Priority.high,
+    playSound: true,
+    enableVibration: true,
+    ticker: 'ticker',
+    icon: '@mipmap/launcher_icon',
+  );
+
   Future<void> init() async {
     tz.initializeTimeZones();
+    // flutterLocalNotificationsPlugin.initialize(
+    //   InitializationSettings(
+    //     android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+    //   ),
+    // );
     // iOS Initialization Settings
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
@@ -39,6 +63,30 @@ class NotificationService {
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
     );
+
+// Creating channel لضمان ظهور الاشعار بالصوت
+    // Create Android notification channel
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      _channelId,
+      _channelName,
+      description: _channelDescription,
+      importance: Importance.max,
+      playSound: true,
+      enableVibration: true,
+    );
+
+    final androidImplementation =
+        flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
+ // Create channel
+    await androidImplementation?.createNotificationChannel(channel);
+
+ // Request permission on Android 13+
+    await androidImplementation?.requestNotificationsPermission();
+    // flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+    //     AndroidFlutterLocalNotificationsPlugin>()
+    //   ?..createNotificationChannel(channel)
+    //   ..requestNotificationsPermission();
 
     // Initialize the plugin for both platforms
     await flutterLocalNotificationsPlugin.initialize(
@@ -62,26 +110,39 @@ class NotificationService {
     required String body,
     String? payload,
   }) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+ const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
-      'id759',
-      'id759',
+      _channelId,
+      _channelName,
+      channelDescription: _channelDescription,
       importance: Importance.max,
       priority: Priority.high,
+      playSound: true,
+      enableVibration: true,
+      icon: '@mipmap/launcher_icon',
       // actions: [
-      //   AndroidNotificationAction('accept', 'Accept'), // Match action ID with backend
-      //   AndroidNotificationAction('cancel', 'Cancel'), // Match action ID with backend
+      //   AndroidNotificationAction('accept', 'Accept'),
+      //   AndroidNotificationAction('cancel', 'Cancel'),
       // ],
     );
+        const DarwinNotificationDetails iosDetails =
+        DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+      sound: 'default',
+    );
 
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidDetails,
+         iOS: iosDetails,
+        );
 
     await flutterLocalNotificationsPlugin.show(
       id,
       title,
       body,
-      platformChannelSpecifics,
+      notificationDetails,
       payload: payload,
     );
   }
@@ -92,28 +153,42 @@ class NotificationService {
     required String body,
     String? payload,
   }) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'id759',
-      'id759',
-      importance: Importance.max,
-      priority: Priority.high,
+
+     const DarwinNotificationDetails iosDetails =
+        DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+      sound: 'default',
+      interruptionLevel: InterruptionLevel.active,
     );
 
-    const NotificationDetails platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
+    const NotificationDetails notificationDetails =
+        NotificationDetails(
+      android: _androidNotificationDetails,
+      iOS: iosDetails,
     );
+    // const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    //     AndroidNotificationDetails('id759', 'id759',
+    //         importance: Importance.max,
+    //         priority: Priority.high,
+    //         playSound: true);
+
+    // const NotificationDetails platformChannelSpecifics = NotificationDetails(
+    //   android: androidPlatformChannelSpecifics,
+    // );
+
 
     await flutterLocalNotificationsPlugin
         .show(
       id,
       title,
       body,
-      platformChannelSpecifics,
+      notificationDetails,
       payload: payload,
     )
         .onError((error, trace) {
-      debugPrint("error is ${error.toString()}");
+      debugPrint("Error showing notification: ${error.toString()}");
     });
   }
 
@@ -126,6 +201,7 @@ class NotificationService {
     log("User clicked Cancel. Payload: $payload");
     // Implement your action logic here
   }
+
 
   Future<void> scheduleEventNotifications({
     required int eventId,
@@ -150,7 +226,7 @@ class NotificationService {
       type: NotificationType.today,
     );
 
-    // Schedule a notification for one day before the event
+    // Schedule a notification for 5 day before the event
     final fiveDayBefore = eventDay8AM.subtract(const Duration(days: 5));
     await scheduleNotification(
       id: eventId + 1,
@@ -159,7 +235,7 @@ class NotificationService {
       type: NotificationType.fiveDays,
     );
     debugPrint(eventDay8AM.toString());
-    // Schedule a notification for two days before the event
+    // Schedule a notification for 2 days before the event
     final twoDaysBefore = eventDay8AM.subtract(const Duration(days: 2));
     await scheduleNotification(
       id: eventId + 2,
@@ -170,15 +246,15 @@ class NotificationService {
     debugPrint(eventDay8AM.toString());
   }
 
-  final AndroidNotificationDetails _androidNotificationDetails =
-      const AndroidNotificationDetails(
-    'high_importance_channel', // Channel ID
-    'High Importance Notifications', // Channel name
-    importance: Importance.high, // Importance level
-    priority: Priority.high, // Priority level
-    playSound: true, // Enable sound
-    icon: '@mipmap/launcher_icon', // Notification icon
-  );
+  // final AndroidNotificationDetails _androidNotificationDetails =
+  //     const AndroidNotificationDetails(
+  //   'high_importance_channel', // Channel ID
+  //   'High Importance Notifications', // Channel name
+  //   importance: Importance.high, // Importance level
+  //   priority: Priority.high, // Priority level
+  //   playSound: true, // Enable sound
+  //   icon: '@mipmap/launcher_icon', // Notification icon
+  // );
   String _getLocalizedNotificationMessage(
       String eventTitle, NotificationType type) {
     switch (type) {
@@ -202,10 +278,17 @@ class NotificationService {
       // Convert the scheduled time to a timezone-aware datetime
       final tzDateTime = tz.TZDateTime.from(scheduledTime, tz.local);
 
+      if (tzDateTime.isBefore(tz.TZDateTime.now(tz.local))) {
+        debugPrint(
+          'Skipping notification because scheduled time is in the past.',
+        );
+        return;
+      }
       // Create notification details for both platforms
       /// iOS-specific notification details.
       // Add iOS-specific notification details
-      final iOSPlatformChannelSpecifics = DarwinNotificationDetails(
+   final DarwinNotificationDetails iosDetails =
+          DarwinNotificationDetails(
         presentAlert: true,
         presentBadge: true,
         presentSound: true,
@@ -213,12 +296,11 @@ class NotificationService {
         badgeNumber: 1,
         threadIdentifier: id.toString(),
         interruptionLevel: InterruptionLevel.active,
-        // Add this
-        categoryIdentifier: 'event_reminder', // Add this
+        categoryIdentifier: 'event_reminder',
       );
       final NotificationDetails notificationDetails = NotificationDetails(
         android: _androidNotificationDetails,
-        iOS: iOSPlatformChannelSpecifics,
+        iOS: iosDetails,
       );
 
       // Localize the notification title and body

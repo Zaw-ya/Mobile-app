@@ -82,17 +82,17 @@ class _DonutPainter extends CustomPainter {
   });
 
   // Gap between segments in radians (~6°) — clearly visible like the design.
-  static const double _gapDegrees = 6.0;
+  static const double _gapDegrees = 5.0;
   static const double _gap = _gapDegrees * math.pi / 180;
 
   // Extra space outside the ring reserved for percentage labels.
-  static const double _labelMargin = 22.0;
+  static const double _labelMargin = 20.0;
 
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
     // Shrink the radius to leave room for labels outside the ring.
-    final radius = size.width / 2 - strokeWidth / 2 - _labelMargin;
+    final radius = size.width / 2.2 - strokeWidth / 2 - _labelMargin;
 
     final active = segments.where((s) => s.value > 0).toList();
     final total = active.fold<double>(0.0, (sum, s) => sum + s.value);
@@ -115,7 +115,7 @@ class _DonutPainter extends CustomPainter {
 
       final arcPaint = Paint()
         ..style = PaintingStyle.stroke
-        ..strokeWidth = strokeWidth
+        ..strokeWidth = strokeWidth 
         ..strokeCap = StrokeCap.butt; // flat ends → clean gap
 
       // Start from the top (−90°).
@@ -147,7 +147,7 @@ class _DonutPainter extends CustomPainter {
           canvas,
           '$pct%',
           labelPos,
-          fontSize: 18,
+          fontSize: 15,
           color: seg.color,
           fontWeight: FontWeight.w700,
         );
@@ -171,7 +171,7 @@ class _DonutPainter extends CustomPainter {
       centerValue,
       Offset(
           center.dx, isConfirmStatisticsTab ? center.dy + 5 : center.dy + 10),
-      fontSize: isConfirmStatisticsTab ? 20 : 35,
+      fontSize: isConfirmStatisticsTab ? 18 : 35,
       color: AppColor.primaryColor,
       fontWeight: FontWeight.bold,
     );

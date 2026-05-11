@@ -10,7 +10,6 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/widgets/public_app_bar.dart';
 import '../../../generated/assets.dart';
-import '../../client_events/data/models/client_event_response.dart';
 import '../../client_statistics/data/models/client_confirmation_service_response.dart';
 import '../../client_statistics/data/models/client_messages_statistics_response.dart';
 import '../../client_statistics/data/models/sent_cards_services_response.dart';
@@ -22,9 +21,10 @@ import 'widgets/messages_statistics_tab.dart';
 import 'widgets/sent_cards_statistics_tab.dart';
 
 class ClientStatisticsDetailScreen extends StatefulWidget {
-  final ClientEventDetails event;
+  final int eventId;
+  final String eventTitle;
 
-  const ClientStatisticsDetailScreen({super.key, required this.event});
+  const ClientStatisticsDetailScreen({super.key, required this.eventId,required this.eventTitle});
 
   @override
   State<ClientStatisticsDetailScreen> createState() =>
@@ -49,8 +49,9 @@ class _ClientStatisticsDetailScreenState
   void initState() {
     super.initState();
     // Load tab 0 immediately
-    context.read<ClientStatisticsCubit>().getClientMessageStatistics(widget.event.id.toString());
-
+    context
+        .read<ClientStatisticsCubit>()
+        .getClientMessageStatistics(widget.eventId.toString());
   }
 
   @override
@@ -67,7 +68,7 @@ class _ClientStatisticsDetailScreenState
     });
 
     final cubit = context.read<ClientStatisticsCubit>();
-    final eventId = widget.event.id.toString();
+    final eventId = widget.eventId.toString();
 
     switch (tab) {
       case 0:
@@ -121,7 +122,7 @@ class _ClientStatisticsDetailScreenState
           opacity: 0.5,
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: recordsAppBar(context, widget.event.eventTitle ?? ''),
+            appBar: recordsAppBar(context, widget.eventTitle),
             body: Container(
                 decoration: BoxDecoration(gradient: AppColor.greenGradient),
                 child: Container(
@@ -147,21 +148,26 @@ class _ClientStatisticsDetailScreenState
                                 label: 'messages_statistics'.tr(),
                                 isSelected: _selectedTab == 0,
                                 onTap: () => _switchTab(0),
-                                image: Image.asset(Assets.imagesMessages, fit: BoxFit.contain),
+                                image: Image.asset(Assets.imagesMessages,
+                                    fit: BoxFit.contain),
                               ),
                               SizedBox(width: edge * 0.4),
                               ClientStatisticsTabButton(
                                 label: 'invitations_statistics'.tr(),
                                 isSelected: _selectedTab == 1,
                                 onTap: () => _switchTab(1),
-                                image: Image.asset(Assets.imagesInviteStatistics, fit: BoxFit.contain),
+                                image: Image.asset(
+                                    Assets.imagesInviteStatistics,
+                                    fit: BoxFit.contain),
                               ),
                               SizedBox(width: edge * 0.4),
                               ClientStatisticsTabButton(
                                 label: 'confirmations_statistics'.tr(),
                                 isSelected: _selectedTab == 2,
                                 onTap: () => _switchTab(2),
-                                image: Image.asset(Assets.imagesAcceptStatistics, fit: BoxFit.contain),
+                                image: Image.asset(
+                                    Assets.imagesAcceptStatistics,
+                                    fit: BoxFit.contain),
                               ),
                             ],
                           ),
@@ -207,12 +213,12 @@ class _ClientStatisticsDetailScreenState
       case 1:
         return SentCardsStatisticsTab(
           data: _sentCardsData!,
-          eventId: widget.event.id.toString(),
+          eventId: widget.eventId.toString(),
         );
       case 2:
         return ConfirmationStatisticsTab(
           data: _confirmationData!,
-          eventId: widget.event.id.toString(),
+          eventId: widget.eventId.toString(),
         );
       default:
         return const EmptyWidget();
@@ -222,11 +228,11 @@ class _ClientStatisticsDetailScreenState
   bool _currentTabHasData() {
     switch (_selectedTab) {
       case 0:
-        return _messagesData != null;      // was _confirmationData
+        return _messagesData != null; // was _confirmationData
       case 1:
-        return _sentCardsData != null;     // correct
+        return _sentCardsData != null; // correct
       case 2:
-        return _confirmationData != null;  // was _messagesData
+        return _confirmationData != null; // was _messagesData
       default:
         return false;
     }

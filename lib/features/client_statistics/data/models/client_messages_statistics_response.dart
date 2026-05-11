@@ -9,6 +9,10 @@ class ClientMessagesStatisticsResponse {
   ClientMessagesStatisticsDetails? eventLocationMessages;
   ClientMessagesStatisticsDetails? reminderMessages;
   ClientMessagesStatisticsDetails? congratulationMessages;
+  ClientMessagesStatisticsDetails? urgentCancellationMessages;
+  ClientMessagesStatisticsDetails? urgentPostponementMessages;
+
+
 
   ClientMessagesStatisticsResponse({
     this.confirmationMessages,
@@ -16,6 +20,8 @@ class ClientMessagesStatisticsResponse {
     this.eventLocationMessages,
     this.reminderMessages,
     this.congratulationMessages,
+    this.urgentCancellationMessages,
+    this.urgentPostponementMessages,
   });
 
   factory ClientMessagesStatisticsResponse.fromJson(

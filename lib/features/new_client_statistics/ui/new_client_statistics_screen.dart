@@ -165,7 +165,10 @@ class _StatisticsEventCard extends StatelessWidget {
       onTap: () {
         context.pushNamed(
           Routes.clientStatisticsDetailScreen,
-          arguments: event,
+          arguments:{
+                  'eventId': event.id,
+                  'eventTitle':event.eventTitle,
+                },
         );
       },
       child: Container(

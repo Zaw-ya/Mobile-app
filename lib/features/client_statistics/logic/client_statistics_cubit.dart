@@ -54,7 +54,9 @@ class ClientStatisticsCubit extends Cubit<ClientStatisticsStates> {
           events.cardMessages,
           events.eventLocationMessages,
           events.reminderMessages,
-          events.congratulationMessages
+          events.congratulationMessages,
+          events.urgentCancellationMessages,
+          events.urgentPostponementMessages
         ];
 
         // Check if any message type has meaningful data

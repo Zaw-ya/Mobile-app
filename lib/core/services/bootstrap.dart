@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
@@ -21,6 +22,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   try {
     await Firebase.initializeApp();
     debugPrint('✅ Background notification handled: ${message.messageId}');
+    log("Project ID : >> ${Firebase.app().options.projectId}");
+    log("Sender ID : >> ${Firebase.app().options.messagingSenderId}");
   } catch (e) {
     debugPrint('❌ Error in background handler: $e');
     FirebaseCrashlytics.instance.recordError(e, StackTrace.current);
@@ -33,6 +36,8 @@ Future<void> bootstrap(Widget app) async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await Firebase.initializeApp();
+  log("Project ID : >> ${Firebase.app().options.projectId}");
+  log("Sender ID : >> ${Firebase.app().options.messagingSenderId}");
   Bloc.observer = CustomBlocObserver();
 
   // Crashlytics error handling
@@ -55,7 +60,10 @@ Future<void> bootstrap(Widget app) async {
   await EasyLocalization.ensureInitialized();
   await AppUtilities.instance.initialize();
   await NotificationService().init();
-  await FirebaseMessagingHandler().initialize();
+  // await FirebaseMessagingHandler().initialize();
+  // ✅ حطي ده
+  await FirebaseMessagingHandler().storeInitialMessage();
+
   tz.initializeTimeZones();
   setupGetIt();
 
