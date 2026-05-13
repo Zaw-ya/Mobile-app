@@ -63,8 +63,6 @@ class _UrgentTabSectionState extends State<UrgentTabSection> {
           ],
         ),
 
-        // SizedBox(height: 5.h),
-
         /// Content
         IndexedStack(
           index: selectedIndex,

@@ -87,10 +87,11 @@ class AppRouter {
           const EventInstructionsScreen(),
         );
       case Routes.qrCodeScreen:
+      final eventId = arguments as int;
         return _buildRoute(
           BlocProvider(
             create: (_) => getIt<QrCodeScannerCubit>(),
-            child: const QrCodeScannerScreen(),
+            child:  QrCodeScannerScreen(eventId: eventId,),
           ),
         );
       case Routes.eventsHistory:
@@ -144,10 +145,6 @@ class AppRouter {
           value: getIt<NotificationsCubit>(),
           child: const NotificationsScreen(),
         )
-            // BlocProvider<NotificationsCubit>(
-            //   create: (_) => getIt<NotificationsCubit>(),
-            //   child: const NotificationsScreen(),
-            // ),
             );
 
       case Routes.clientEvents:

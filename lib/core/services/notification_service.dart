@@ -38,11 +38,7 @@ class NotificationService {
 
   Future<void> init() async {
     tz.initializeTimeZones();
-    // flutterLocalNotificationsPlugin.initialize(
-    //   InitializationSettings(
-    //     android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-    //   ),
-    // );
+
     // iOS Initialization Settings
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
@@ -64,7 +60,7 @@ class NotificationService {
       iOS: initializationSettingsDarwin,
     );
 
-// Creating channel لضمان ظهور الاشعار بالصوت
+
     // Create Android notification channel
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
       _channelId,
@@ -83,10 +79,6 @@ class NotificationService {
 
  // Request permission on Android 13+
     await androidImplementation?.requestNotificationsPermission();
-    // flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-    //     AndroidFlutterLocalNotificationsPlugin>()
-    //   ?..createNotificationChannel(channel)
-    //   ..requestNotificationsPermission();
 
     // Initialize the plugin for both platforms
     await flutterLocalNotificationsPlugin.initialize(
@@ -168,16 +160,6 @@ class NotificationService {
       android: _androidNotificationDetails,
       iOS: iosDetails,
     );
-    // const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    //     AndroidNotificationDetails('id759', 'id759',
-    //         importance: Importance.max,
-    //         priority: Priority.high,
-    //         playSound: true);
-
-    // const NotificationDetails platformChannelSpecifics = NotificationDetails(
-    //   android: androidPlatformChannelSpecifics,
-    // );
-
 
     await flutterLocalNotificationsPlugin
         .show(
@@ -246,15 +228,6 @@ class NotificationService {
     debugPrint(eventDay8AM.toString());
   }
 
-  // final AndroidNotificationDetails _androidNotificationDetails =
-  //     const AndroidNotificationDetails(
-  //   'high_importance_channel', // Channel ID
-  //   'High Importance Notifications', // Channel name
-  //   importance: Importance.high, // Importance level
-  //   priority: Priority.high, // Priority level
-  //   playSound: true, // Enable sound
-  //   icon: '@mipmap/launcher_icon', // Notification icon
-  // );
   String _getLocalizedNotificationMessage(
       String eventTitle, NotificationType type) {
     switch (type) {

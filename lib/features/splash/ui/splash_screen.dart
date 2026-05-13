@@ -1,6 +1,5 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import '../../../core/dimensions/dimensions_constants.dart';
 import '../../../core/routing/routes.dart';
 import '../../../core/helpers/app_utilities.dart';
@@ -28,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       if (_navigated) return;
       _navigated = true;
-      FlutterNativeSplash.remove();
+      // FlutterNativeSplash.remove();
       await Future.delayed(const Duration(seconds: 2));
 
       if (!mounted) return;

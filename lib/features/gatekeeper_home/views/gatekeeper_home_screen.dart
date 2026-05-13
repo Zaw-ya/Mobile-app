@@ -142,7 +142,7 @@ class _GatekeeperHomeScreenState extends State<GatekeeperHomeScreen> {
                   GuidelinesInvitationLogs(),
                   SizedBox(height: edge),
                   UpcomingEventsBadge(eventsNumber: events.length),
-                  SizedBox(height: edge * 0.7),
+                  // SizedBox(height: edge * 0.1),
 
                   // ── States ──────────────────────────────────────────────
                   state.maybeWhen(

@@ -69,7 +69,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         decoration: BoxDecoration(
                           color: n.read
                               ? null
-                              : AppColor.primaryColor.withOpacity(0.08),
+                              : AppColor.primaryColor.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: ListTile(

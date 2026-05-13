@@ -1,14 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../core/helpers/extensions.dart';
-import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/normal_text.dart';
 import '../../../../core/widgets/title_text.dart';
-import '../../../../generated/assets.gen.dart';
 
 class CalendarHeader extends StatelessWidget {
   const CalendarHeader({super.key});
@@ -37,24 +32,24 @@ class CalendarHeader extends StatelessWidget {
               )
             ],
           ),
-          GestureDetector(
-            onTap: () => {context.pushNamed(Routes.qrCodeScreen)},
-            child: Container(
-              width: 54,
-              height: 54,
-              decoration: BoxDecoration(
-                color: AppColor.primaryColor.withValues(alpha: .2),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Center(
-                child: SvgPicture.asset(
-                  Assets.images.qrcode,
-                  width: 28,
-                  height: 28,
-                ),
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () => {context.pushNamed(Routes.qrCodeScreen)},
+          //   child: Container(
+          //     width: 54,
+          //     height: 54,
+          //     decoration: BoxDecoration(
+          //       color: AppColor.primaryColor.withValues(alpha: .2),
+          //       borderRadius: BorderRadius.circular(15),
+          //     ),
+          //     child: Center(
+          //       child: SvgPicture.asset(
+          //         Assets.images.qrcode,
+          //         width: 28,
+          //         height: 28,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

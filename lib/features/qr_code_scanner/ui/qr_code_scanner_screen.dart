@@ -15,8 +15,8 @@ import '../data/models/scan_response.dart';
 import '../logic/qr_code_scanner_states.dart';
 
 class QrCodeScannerScreen extends StatefulWidget {
-  const QrCodeScannerScreen({super.key});
-
+  const QrCodeScannerScreen({super.key, required this.eventId});
+  final int eventId;
   @override
   State<QrCodeScannerScreen> createState() => _QrCodeScannerScreenState();
 }
@@ -38,7 +38,6 @@ class _QrCodeScannerScreenState extends State<QrCodeScannerScreen> {
     // Safely dispose of scanner controller
     _scannerController?.dispose();
     _scannerController = null;
-
 
     super.dispose();
   }
@@ -90,7 +89,10 @@ class _QrCodeScannerScreenState extends State<QrCodeScannerScreen> {
               if (barcode.rawValue != null &&
                   cubit.isValidBase64(barcode.rawValue!)) {
                 debugPrint('Barcode found! ${barcode.rawValue}');
-                await cubit.scanQrCode(barcode.rawValue!);
+                await cubit.scanQrCode(
+                  barcode.rawValue!,
+                  widget.eventId
+                );
                 break; // stop after first valid scan
               } else {
                 debugPrint('Not valid barcode ${barcode.rawValue}');
@@ -101,7 +103,6 @@ class _QrCodeScannerScreenState extends State<QrCodeScannerScreen> {
         SizedBox(
           height: 110,
           child: recordsAppBar(context, 'scan_qr'.tr()),
-
         ),
       ],
     );
@@ -136,7 +137,7 @@ class _QrCodeScannerScreenState extends State<QrCodeScannerScreen> {
           // if (!mounted || _isDisposed) return;
           try {
             context.read<QrCodeScannerCubit>().reloadPage();
-          //  _scannerController?.start();
+            //  _scannerController?.start();
             //  _isProcessing = false; // Then reset _isProcessing after dialog close
           } catch (e) {
             debugPrint('Error reloading page: $e');
@@ -183,7 +184,7 @@ class _QrCodeScannerScreenState extends State<QrCodeScannerScreen> {
           if (!mounted || _isDisposed) return;
           try {
             context.read<QrCodeScannerCubit>().reloadPage();
-           // _scannerController?.start();
+            // _scannerController?.start();
           } catch (e) {
             debugPrint('Error reloading page: $e');
           }
