@@ -24,7 +24,7 @@ class _MyInviteState extends State<MyInvite> {
  @override
   void initState() {
     super.initState();
-    // ✅ هنا الـ navigator بقى جاهز
+    // Here navigator is ready 
     FirebaseMessagingHandler().initialize();
   }
 
@@ -48,7 +48,7 @@ class _MyInviteState extends State<MyInvite> {
         child: MultiBlocProvider(
           providers: [
             BlocProvider<NotificationsCubit>(
-              // هنا نجعل الـ Cubit متاحاً لكل الصفحات
+              // To be available for all screens
               create: (context) =>
                   getIt<NotificationsCubit>()..loadNotifications(),
             ),

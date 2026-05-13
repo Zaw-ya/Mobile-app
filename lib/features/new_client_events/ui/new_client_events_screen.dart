@@ -33,7 +33,7 @@ class _NewClientEventsScreenState extends State<NewClientEventsScreen> {
 void initState() {
   super.initState();
   _scrollController.addListener(_onScroll);
-  // نحدث الـ Badge فقط عند الدخول للشاشة
+  // Update badge 
   context.read<NotificationsCubit>().updateBadgeCountOnly();
 }
 

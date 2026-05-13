@@ -4,7 +4,7 @@ class SectionData {
   final String title;
   final ClientMessagesStatisticsDetails? details;
 
-  // للـ urgent فقط
+  // Only for urgebt 
   final ClientMessagesStatisticsDetails? cancellationDetails;
   final ClientMessagesStatisticsDetails? postponementDetails;
 

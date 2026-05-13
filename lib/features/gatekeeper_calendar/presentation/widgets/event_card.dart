@@ -45,6 +45,7 @@ class EventCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        final cubit = context.read<EventCalenderCubit>();
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
@@ -52,7 +53,7 @@ class EventCard extends StatelessWidget {
           enableDrag: false,
           backgroundColor: Colors.transparent,
           builder: (_) => BlocProvider.value(
-            value: context.read<EventCalenderCubit>(),
+            value: cubit,
             child: ReserveEventBottomSheet(event: event),
           ),
         );

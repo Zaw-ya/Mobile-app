@@ -21,7 +21,7 @@ class LoginRepo {
         return ApiResult.failure(response.title ?? "login_error");
       }
 
-// 🔥 save device token after login
+//  save device token after login
       try {
         final fcmToken = await FirebaseMessagingHandler().getFCMToken();
 

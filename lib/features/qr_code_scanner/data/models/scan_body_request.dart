@@ -5,9 +5,10 @@ part 'scan_body_request.g.dart';
 @JsonSerializable()
 class ScanBodyRequest {
   @JsonKey(name: "qRcode")
-  String? qrCode;
+  final String qrCode;
+  final int eventId;
 
-  ScanBodyRequest({this.qrCode});
+  ScanBodyRequest({required this.qrCode, required this.eventId});
 
   Map<String, dynamic> toJson() => _$ScanBodyRequestToJson(this);
 

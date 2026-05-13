@@ -8,7 +8,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 import '../di/dependency_injection.dart';
@@ -32,7 +31,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> bootstrap(Widget app) async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await Firebase.initializeApp();
@@ -60,8 +59,6 @@ Future<void> bootstrap(Widget app) async {
   await EasyLocalization.ensureInitialized();
   await AppUtilities.instance.initialize();
   await NotificationService().init();
-  // await FirebaseMessagingHandler().initialize();
-  // ✅ حطي ده
   await FirebaseMessagingHandler().storeInitialMessage();
 
   tz.initializeTimeZones();

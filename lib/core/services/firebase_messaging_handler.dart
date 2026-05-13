@@ -123,14 +123,7 @@ class FirebaseMessagingHandler {
       return null;
     }
   }
-  // Future<void> _getFCMToken() async {
-  //   try {
-  //     final token = await _messaging.getToken();
-  //     debugPrint('FCM Token: $token');
-  //   } catch (error) {
-  //     debugPrint('Error getting FCM token: $error');
-  //   }
-  // }
+
 
   /// Get Refresh FCM Token
 
@@ -213,16 +206,6 @@ class FirebaseMessagingHandler {
           if (data.containsKey('type')) {
             if (data['type'] == 'GKCheckOut' || data['type'] == 'GKCheckIn') {
               navigatorState.pushNamed(Routes.notifications);
-              // debugPrint('eventId: ${data['eventId']}');
-              // debugPrint('eventTitle: ${data['eventTitle']}');
-              // debugPrint('type: ${data['type']}');
-              // navigatorState.pushNamed(
-              //   Routes.clientStatisticsDetailScreen,
-              //   arguments: {
-              //     'eventId': int.parse(data['eventId']),
-              //     'eventTitle': data['eventTitle'] ?? '',
-              //   },
-              // );
               return;
             }
             if (data['type'] == 'GuestConfirmed' ||

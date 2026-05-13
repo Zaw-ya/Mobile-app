@@ -58,4 +58,3 @@ class MessagesStatisticsTab extends StatelessWidget {
   }
 }
 
-// ── Section widget ────────────────────────────────────────────────────────────

@@ -20,7 +20,6 @@ class UrgentTabItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: edge * 0.5,horizontal: heightEdge*0.5),
-        // margin: EdgeInsets.symmetric(vertical: heightEdge*0.5,horizontal: edge*0.5),
         decoration: BoxDecoration(
           color: isSelected ? app_color.greenPrimaryColor : app_color.AppColor.gray100,
           borderRadius: BorderRadius.circular(15.r),
