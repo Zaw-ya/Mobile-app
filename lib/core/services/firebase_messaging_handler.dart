@@ -205,7 +205,7 @@ class FirebaseMessagingHandler {
           // If payload contains a direct route, use it
           if (data.containsKey('type')) {
             if (data['type'] == 'GKCheckOut' || data['type'] == 'GKCheckIn') {
-              navigatorState.pushNamed(Routes.notifications);
+              navigatorState.pushNamed(Routes.gatekeeperProfileScreen);
               return;
             }
             if (data['type'] == 'GuestConfirmed' ||
@@ -219,6 +219,11 @@ class FirebaseMessagingHandler {
               );
               return;
             }
+            if (data['type'] == 'NewEvent') {
+              navigatorState.pushNamed(Routes.eventsCalendar);
+              return;
+            }
+
             navigatorState.pushNamed(Routes.notifications);
             return;
           }

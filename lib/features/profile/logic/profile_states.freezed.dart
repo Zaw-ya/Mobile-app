@@ -23,6 +23,9 @@ mixin _$ProfileStates<T> {
     required TResult Function() emptyInput,
     required TResult Function(T data) success,
     required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,6 +35,9 @@ mixin _$ProfileStates<T> {
     TResult? Function()? emptyInput,
     TResult? Function(T data)? success,
     TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -41,6 +47,9 @@ mixin _$ProfileStates<T> {
     TResult Function()? emptyInput,
     TResult Function(T data)? success,
     TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -51,6 +60,11 @@ mixin _$ProfileStates<T> {
     required TResult Function(EmptyInput<T> value) emptyInput,
     required TResult Function(Success<T> value) success,
     required TResult Function(Error<T> value) error,
+    required TResult Function(GetGatekeeperLoading<T> value)
+        getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess<T> value)
+        getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -60,6 +74,9 @@ mixin _$ProfileStates<T> {
     TResult? Function(EmptyInput<T> value)? emptyInput,
     TResult? Function(Success<T> value)? success,
     TResult? Function(Error<T> value)? error,
+    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -69,6 +86,9 @@ mixin _$ProfileStates<T> {
     TResult Function(EmptyInput<T> value)? emptyInput,
     TResult Function(Success<T> value)? success,
     TResult Function(Error<T> value)? error,
+    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -141,6 +161,9 @@ class _$InitialImpl<T> implements _Initial<T> {
     required TResult Function() emptyInput,
     required TResult Function(T data) success,
     required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
   }) {
     return initial();
   }
@@ -153,6 +176,9 @@ class _$InitialImpl<T> implements _Initial<T> {
     TResult? Function()? emptyInput,
     TResult? Function(T data)? success,
     TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
   }) {
     return initial?.call();
   }
@@ -165,6 +191,9 @@ class _$InitialImpl<T> implements _Initial<T> {
     TResult Function()? emptyInput,
     TResult Function(T data)? success,
     TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -181,6 +210,11 @@ class _$InitialImpl<T> implements _Initial<T> {
     required TResult Function(EmptyInput<T> value) emptyInput,
     required TResult Function(Success<T> value) success,
     required TResult Function(Error<T> value) error,
+    required TResult Function(GetGatekeeperLoading<T> value)
+        getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess<T> value)
+        getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
   }) {
     return initial(this);
   }
@@ -193,6 +227,9 @@ class _$InitialImpl<T> implements _Initial<T> {
     TResult? Function(EmptyInput<T> value)? emptyInput,
     TResult? Function(Success<T> value)? success,
     TResult? Function(Error<T> value)? error,
+    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
   }) {
     return initial?.call(this);
   }
@@ -205,6 +242,9 @@ class _$InitialImpl<T> implements _Initial<T> {
     TResult Function(EmptyInput<T> value)? emptyInput,
     TResult Function(Success<T> value)? success,
     TResult Function(Error<T> value)? error,
+    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -264,6 +304,9 @@ class _$LoadingImpl<T> implements Loading<T> {
     required TResult Function() emptyInput,
     required TResult Function(T data) success,
     required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
   }) {
     return loading();
   }
@@ -276,6 +319,9 @@ class _$LoadingImpl<T> implements Loading<T> {
     TResult? Function()? emptyInput,
     TResult? Function(T data)? success,
     TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
   }) {
     return loading?.call();
   }
@@ -288,6 +334,9 @@ class _$LoadingImpl<T> implements Loading<T> {
     TResult Function()? emptyInput,
     TResult Function(T data)? success,
     TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -304,6 +353,11 @@ class _$LoadingImpl<T> implements Loading<T> {
     required TResult Function(EmptyInput<T> value) emptyInput,
     required TResult Function(Success<T> value) success,
     required TResult Function(Error<T> value) error,
+    required TResult Function(GetGatekeeperLoading<T> value)
+        getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess<T> value)
+        getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
   }) {
     return loading(this);
   }
@@ -316,6 +370,9 @@ class _$LoadingImpl<T> implements Loading<T> {
     TResult? Function(EmptyInput<T> value)? emptyInput,
     TResult? Function(Success<T> value)? success,
     TResult? Function(Error<T> value)? error,
+    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
   }) {
     return loading?.call(this);
   }
@@ -328,6 +385,9 @@ class _$LoadingImpl<T> implements Loading<T> {
     TResult Function(EmptyInput<T> value)? emptyInput,
     TResult Function(Success<T> value)? success,
     TResult Function(Error<T> value)? error,
+    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -387,6 +447,9 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
     required TResult Function() emptyInput,
     required TResult Function(T data) success,
     required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
   }) {
     return emptyInput();
   }
@@ -399,6 +462,9 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
     TResult? Function()? emptyInput,
     TResult? Function(T data)? success,
     TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
   }) {
     return emptyInput?.call();
   }
@@ -411,6 +477,9 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
     TResult Function()? emptyInput,
     TResult Function(T data)? success,
     TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (emptyInput != null) {
@@ -427,6 +496,11 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
     required TResult Function(EmptyInput<T> value) emptyInput,
     required TResult Function(Success<T> value) success,
     required TResult Function(Error<T> value) error,
+    required TResult Function(GetGatekeeperLoading<T> value)
+        getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess<T> value)
+        getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
   }) {
     return emptyInput(this);
   }
@@ -439,6 +513,9 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
     TResult? Function(EmptyInput<T> value)? emptyInput,
     TResult? Function(Success<T> value)? success,
     TResult? Function(Error<T> value)? error,
+    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
   }) {
     return emptyInput?.call(this);
   }
@@ -451,6 +528,9 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
     TResult Function(EmptyInput<T> value)? emptyInput,
     TResult Function(Success<T> value)? success,
     TResult Function(Error<T> value)? error,
+    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (emptyInput != null) {
@@ -538,6 +618,9 @@ class _$SuccessImpl<T> implements Success<T> {
     required TResult Function() emptyInput,
     required TResult Function(T data) success,
     required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
   }) {
     return success(data);
   }
@@ -550,6 +633,9 @@ class _$SuccessImpl<T> implements Success<T> {
     TResult? Function()? emptyInput,
     TResult? Function(T data)? success,
     TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
   }) {
     return success?.call(data);
   }
@@ -562,6 +648,9 @@ class _$SuccessImpl<T> implements Success<T> {
     TResult Function()? emptyInput,
     TResult Function(T data)? success,
     TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -578,6 +667,11 @@ class _$SuccessImpl<T> implements Success<T> {
     required TResult Function(EmptyInput<T> value) emptyInput,
     required TResult Function(Success<T> value) success,
     required TResult Function(Error<T> value) error,
+    required TResult Function(GetGatekeeperLoading<T> value)
+        getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess<T> value)
+        getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
   }) {
     return success(this);
   }
@@ -590,6 +684,9 @@ class _$SuccessImpl<T> implements Success<T> {
     TResult? Function(EmptyInput<T> value)? emptyInput,
     TResult? Function(Success<T> value)? success,
     TResult? Function(Error<T> value)? error,
+    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
   }) {
     return success?.call(this);
   }
@@ -602,6 +699,9 @@ class _$SuccessImpl<T> implements Success<T> {
     TResult Function(EmptyInput<T> value)? emptyInput,
     TResult Function(Success<T> value)? success,
     TResult Function(Error<T> value)? error,
+    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -696,6 +796,9 @@ class _$ErrorImpl<T> implements Error<T> {
     required TResult Function() emptyInput,
     required TResult Function(T data) success,
     required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
   }) {
     return error(message);
   }
@@ -708,6 +811,9 @@ class _$ErrorImpl<T> implements Error<T> {
     TResult? Function()? emptyInput,
     TResult? Function(T data)? success,
     TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
   }) {
     return error?.call(message);
   }
@@ -720,6 +826,9 @@ class _$ErrorImpl<T> implements Error<T> {
     TResult Function()? emptyInput,
     TResult Function(T data)? success,
     TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -736,6 +845,11 @@ class _$ErrorImpl<T> implements Error<T> {
     required TResult Function(EmptyInput<T> value) emptyInput,
     required TResult Function(Success<T> value) success,
     required TResult Function(Error<T> value) error,
+    required TResult Function(GetGatekeeperLoading<T> value)
+        getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess<T> value)
+        getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
   }) {
     return error(this);
   }
@@ -748,6 +862,9 @@ class _$ErrorImpl<T> implements Error<T> {
     TResult? Function(EmptyInput<T> value)? emptyInput,
     TResult? Function(Success<T> value)? success,
     TResult? Function(Error<T> value)? error,
+    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
   }) {
     return error?.call(this);
   }
@@ -760,6 +877,9 @@ class _$ErrorImpl<T> implements Error<T> {
     TResult Function(EmptyInput<T> value)? emptyInput,
     TResult Function(Success<T> value)? success,
     TResult Function(Error<T> value)? error,
+    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -779,4 +899,511 @@ abstract class Error<T> implements ProfileStates<T> {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<T, _$ErrorImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GetGatekeeperLoadingImplCopyWith<T, $Res> {
+  factory _$$GetGatekeeperLoadingImplCopyWith(
+          _$GetGatekeeperLoadingImpl<T> value,
+          $Res Function(_$GetGatekeeperLoadingImpl<T>) then) =
+      __$$GetGatekeeperLoadingImplCopyWithImpl<T, $Res>;
+}
+
+/// @nodoc
+class __$$GetGatekeeperLoadingImplCopyWithImpl<T, $Res>
+    extends _$ProfileStatesCopyWithImpl<T, $Res, _$GetGatekeeperLoadingImpl<T>>
+    implements _$$GetGatekeeperLoadingImplCopyWith<T, $Res> {
+  __$$GetGatekeeperLoadingImplCopyWithImpl(_$GetGatekeeperLoadingImpl<T> _value,
+      $Res Function(_$GetGatekeeperLoadingImpl<T>) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$GetGatekeeperLoadingImpl<T> implements GetGatekeeperLoading<T> {
+  const _$GetGatekeeperLoadingImpl();
+
+  @override
+  String toString() {
+    return 'ProfileStates<$T>.getGatekeeperLoading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetGatekeeperLoadingImpl<T>);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() emptyInput,
+    required TResult Function(T data) success,
+    required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
+  }) {
+    return getGatekeeperLoading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? emptyInput,
+    TResult? Function(T data)? success,
+    TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
+  }) {
+    return getGatekeeperLoading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? emptyInput,
+    TResult Function(T data)? success,
+    TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
+    required TResult orElse(),
+  }) {
+    if (getGatekeeperLoading != null) {
+      return getGatekeeperLoading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial<T> value) initial,
+    required TResult Function(Loading<T> value) loading,
+    required TResult Function(EmptyInput<T> value) emptyInput,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Error<T> value) error,
+    required TResult Function(GetGatekeeperLoading<T> value)
+        getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess<T> value)
+        getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+  }) {
+    return getGatekeeperLoading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial<T> value)? initial,
+    TResult? Function(Loading<T> value)? loading,
+    TResult? Function(EmptyInput<T> value)? emptyInput,
+    TResult? Function(Success<T> value)? success,
+    TResult? Function(Error<T> value)? error,
+    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+  }) {
+    return getGatekeeperLoading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial<T> value)? initial,
+    TResult Function(Loading<T> value)? loading,
+    TResult Function(EmptyInput<T> value)? emptyInput,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Error<T> value)? error,
+    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    required TResult orElse(),
+  }) {
+    if (getGatekeeperLoading != null) {
+      return getGatekeeperLoading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetGatekeeperLoading<T> implements ProfileStates<T> {
+  const factory GetGatekeeperLoading() = _$GetGatekeeperLoadingImpl<T>;
+}
+
+/// @nodoc
+abstract class _$$GetGatekeeperSuccessImplCopyWith<T, $Res> {
+  factory _$$GetGatekeeperSuccessImplCopyWith(
+          _$GetGatekeeperSuccessImpl<T> value,
+          $Res Function(_$GetGatekeeperSuccessImpl<T>) then) =
+      __$$GetGatekeeperSuccessImplCopyWithImpl<T, $Res>;
+  @useResult
+  $Res call({T data});
+}
+
+/// @nodoc
+class __$$GetGatekeeperSuccessImplCopyWithImpl<T, $Res>
+    extends _$ProfileStatesCopyWithImpl<T, $Res, _$GetGatekeeperSuccessImpl<T>>
+    implements _$$GetGatekeeperSuccessImplCopyWith<T, $Res> {
+  __$$GetGatekeeperSuccessImplCopyWithImpl(_$GetGatekeeperSuccessImpl<T> _value,
+      $Res Function(_$GetGatekeeperSuccessImpl<T>) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = freezed,
+  }) {
+    return _then(_$GetGatekeeperSuccessImpl<T>(
+      freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetGatekeeperSuccessImpl<T> implements GetGatekeeperSuccess<T> {
+  const _$GetGatekeeperSuccessImpl(this.data);
+
+  @override
+  final T data;
+
+  @override
+  String toString() {
+    return 'ProfileStates<$T>.getGatekeeperSuccess(data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetGatekeeperSuccessImpl<T> &&
+            const DeepCollectionEquality().equals(other.data, data));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetGatekeeperSuccessImplCopyWith<T, _$GetGatekeeperSuccessImpl<T>>
+      get copyWith => __$$GetGatekeeperSuccessImplCopyWithImpl<T,
+          _$GetGatekeeperSuccessImpl<T>>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() emptyInput,
+    required TResult Function(T data) success,
+    required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
+  }) {
+    return getGatekeeperSuccess(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? emptyInput,
+    TResult? Function(T data)? success,
+    TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
+  }) {
+    return getGatekeeperSuccess?.call(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? emptyInput,
+    TResult Function(T data)? success,
+    TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
+    required TResult orElse(),
+  }) {
+    if (getGatekeeperSuccess != null) {
+      return getGatekeeperSuccess(data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial<T> value) initial,
+    required TResult Function(Loading<T> value) loading,
+    required TResult Function(EmptyInput<T> value) emptyInput,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Error<T> value) error,
+    required TResult Function(GetGatekeeperLoading<T> value)
+        getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess<T> value)
+        getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+  }) {
+    return getGatekeeperSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial<T> value)? initial,
+    TResult? Function(Loading<T> value)? loading,
+    TResult? Function(EmptyInput<T> value)? emptyInput,
+    TResult? Function(Success<T> value)? success,
+    TResult? Function(Error<T> value)? error,
+    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+  }) {
+    return getGatekeeperSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial<T> value)? initial,
+    TResult Function(Loading<T> value)? loading,
+    TResult Function(EmptyInput<T> value)? emptyInput,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Error<T> value)? error,
+    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    required TResult orElse(),
+  }) {
+    if (getGatekeeperSuccess != null) {
+      return getGatekeeperSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetGatekeeperSuccess<T> implements ProfileStates<T> {
+  const factory GetGatekeeperSuccess(final T data) =
+      _$GetGatekeeperSuccessImpl<T>;
+
+  T get data;
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetGatekeeperSuccessImplCopyWith<T, _$GetGatekeeperSuccessImpl<T>>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GetGatekeeperErrorImplCopyWith<T, $Res> {
+  factory _$$GetGatekeeperErrorImplCopyWith(_$GetGatekeeperErrorImpl<T> value,
+          $Res Function(_$GetGatekeeperErrorImpl<T>) then) =
+      __$$GetGatekeeperErrorImplCopyWithImpl<T, $Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$GetGatekeeperErrorImplCopyWithImpl<T, $Res>
+    extends _$ProfileStatesCopyWithImpl<T, $Res, _$GetGatekeeperErrorImpl<T>>
+    implements _$$GetGatekeeperErrorImplCopyWith<T, $Res> {
+  __$$GetGatekeeperErrorImplCopyWithImpl(_$GetGatekeeperErrorImpl<T> _value,
+      $Res Function(_$GetGatekeeperErrorImpl<T>) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$GetGatekeeperErrorImpl<T>(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetGatekeeperErrorImpl<T> implements GetGatekeeperError<T> {
+  const _$GetGatekeeperErrorImpl({required this.message});
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'ProfileStates<$T>.getGatekeeperError(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetGatekeeperErrorImpl<T> &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetGatekeeperErrorImplCopyWith<T, _$GetGatekeeperErrorImpl<T>>
+      get copyWith => __$$GetGatekeeperErrorImplCopyWithImpl<T,
+          _$GetGatekeeperErrorImpl<T>>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() emptyInput,
+    required TResult Function(T data) success,
+    required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
+  }) {
+    return getGatekeeperError(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? emptyInput,
+    TResult? Function(T data)? success,
+    TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
+  }) {
+    return getGatekeeperError?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? emptyInput,
+    TResult Function(T data)? success,
+    TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
+    required TResult orElse(),
+  }) {
+    if (getGatekeeperError != null) {
+      return getGatekeeperError(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial<T> value) initial,
+    required TResult Function(Loading<T> value) loading,
+    required TResult Function(EmptyInput<T> value) emptyInput,
+    required TResult Function(Success<T> value) success,
+    required TResult Function(Error<T> value) error,
+    required TResult Function(GetGatekeeperLoading<T> value)
+        getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess<T> value)
+        getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+  }) {
+    return getGatekeeperError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial<T> value)? initial,
+    TResult? Function(Loading<T> value)? loading,
+    TResult? Function(EmptyInput<T> value)? emptyInput,
+    TResult? Function(Success<T> value)? success,
+    TResult? Function(Error<T> value)? error,
+    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+  }) {
+    return getGatekeeperError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial<T> value)? initial,
+    TResult Function(Loading<T> value)? loading,
+    TResult Function(EmptyInput<T> value)? emptyInput,
+    TResult Function(Success<T> value)? success,
+    TResult Function(Error<T> value)? error,
+    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    required TResult orElse(),
+  }) {
+    if (getGatekeeperError != null) {
+      return getGatekeeperError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetGatekeeperError<T> implements ProfileStates<T> {
+  const factory GetGatekeeperError({required final String message}) =
+      _$GetGatekeeperErrorImpl<T>;
+
+  String get message;
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetGatekeeperErrorImplCopyWith<T, _$GetGatekeeperErrorImpl<T>>
+      get copyWith => throw _privateConstructorUsedError;
 }

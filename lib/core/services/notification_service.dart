@@ -185,60 +185,69 @@ class NotificationService {
   }
 
 
-  Future<void> scheduleEventNotifications({
-    required int eventId,
-    required DateTime eventStart,
-    required String eventTitle,
-  }) async {
-    // Set notification time to 8 AM on the event day
-    final eventDay8AM = DateTime(
-      eventStart.year,
-      eventStart.month,
-      eventStart.day,
-      8, // Hour (24-hour format)
-      0, // Minute
-      0, // Second
-    );
-    debugPrint(eventDay8AM.toString());
-    // Schedule a notification for the event day
-    await scheduleNotification(
-      id: eventId,
-      scheduledTime: eventDay8AM,
-      title: eventTitle,
-      type: NotificationType.today,
-    );
+// داخل NotificationService
+// داخل ملف NotificationService
 
-    // Schedule a notification for 5 day before the event
-    final fiveDayBefore = eventDay8AM.subtract(const Duration(days: 5));
-    await scheduleNotification(
-      id: eventId + 1,
-      scheduledTime: fiveDayBefore,
-      title: eventTitle,
-      type: NotificationType.fiveDays,
-    );
-    debugPrint(eventDay8AM.toString());
-    // Schedule a notification for 2 days before the event
-    final twoDaysBefore = eventDay8AM.subtract(const Duration(days: 2));
-    await scheduleNotification(
-      id: eventId + 2,
-      scheduledTime: twoDaysBefore,
-      title: eventTitle,
-      type: NotificationType.twoDays,
-    );
-    debugPrint(eventDay8AM.toString());
-  }
+Future<void> scheduleEventNotifications({
+  required int eventId,
+  required DateTime eventStart, // DateTime عادي
+  required String eventTitle,
+  required NotificationType type, // حددنا النوع هنا عشان نختار الرسالة الصح
+}) async {
+  // بننادي الفانكشن اللي بتعمل الجدولة الفعلية
+  await scheduleNotification(
+    id: eventId,
+    scheduledTime: eventStart,
+    title: eventTitle,
+    type: type,
+  );
+}
 
-  String _getLocalizedNotificationMessage(
-      String eventTitle, NotificationType type) {
-    switch (type) {
-      case NotificationType.fiveDays:
-        return "event_five_days_reminder".tr(args: [eventTitle]);
-      case NotificationType.twoDays:
-        return "event_two_days_reminder".tr(args: [eventTitle]);
-      case NotificationType.today:
-        return "event_today_reminder".tr(args: [eventTitle]);
-    }
-  }
+  //     //TODO
+  // Future<void> scheduleEventNotifications({
+  //   required int eventId,
+  //   required DateTime eventStart,
+  //   required String eventTitle,
+  // }) async {
+  //   // Set notification time to 8 AM on the event day
+  //   final eventDay8AM = DateTime(
+  //     eventStart.year,
+  //     eventStart.month,
+  //     eventStart.day,
+  //     8, // Hour (24-hour format)
+  //     0, // Minute
+  //     0, // Second
+  //   );
+  //   debugPrint(eventDay8AM.toString());
+  //   // Schedule a notification for the event day
+  //   await scheduleNotification(
+  //     id: eventId,
+  //     scheduledTime: eventDay8AM,
+  //     title: eventTitle,
+  //     type: NotificationType.today,
+  //   );
+
+  //   // Schedule a notification for 5 day before the event
+  //   final fiveDayBefore = eventDay8AM.subtract(const Duration(days: 5));
+  //   await scheduleNotification(
+  //     id: eventId + 1,
+  //     scheduledTime: fiveDayBefore,
+  //     title: eventTitle,
+  //     type: NotificationType.fiveDays,
+  //   );
+  //   debugPrint(eventDay8AM.toString());
+  //   // Schedule a notification for 2 days before the event
+  //   final twoDaysBefore = eventDay8AM.subtract(const Duration(days: 2));
+  //   await scheduleNotification(
+  //     id: eventId + 2,
+  //     scheduledTime: twoDaysBefore,
+  //     title: eventTitle,
+  //     type: NotificationType.twoDays,
+  //   );
+  //   debugPrint(eventDay8AM.toString());
+  // }
+
+
 
   Future<void> scheduleNotification({
     required int id,
@@ -253,7 +262,7 @@ class NotificationService {
 
       if (tzDateTime.isBefore(tz.TZDateTime.now(tz.local))) {
         debugPrint(
-          'Skipping notification because scheduled time is in the past.',
+          'Skipping notification ID: /''$id/'', because scheduled time is in the past.',
         );
         return;
       }
@@ -292,9 +301,22 @@ class NotificationService {
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         payload: payload,
       );
+      debugPrint('--- [Notification] Success: Scheduled ID $id at $tzDateTime ---');
     } catch (e) {
       // Log any errors that occur during scheduling
-      debugPrint('Notification scheduling error: $e');
+      debugPrint('--- [Notification] Error scheduling ID $id: $e ---');
+    }
+  }
+
+    String _getLocalizedNotificationMessage(
+      String eventTitle, NotificationType type) {
+    switch (type) {
+      case NotificationType.fiveDays:
+        return "event_five_days_reminder".tr(args: [eventTitle]);
+      case NotificationType.twoDays:
+        return "event_two_days_reminder".tr(args: [eventTitle]);
+      case NotificationType.today:
+        return "event_today_reminder".tr(args: [eventTitle]);
     }
   }
 

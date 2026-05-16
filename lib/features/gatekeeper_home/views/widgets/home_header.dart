@@ -1,3 +1,4 @@
+import 'package:app/core/services/notification_scheduler.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/dimensions/dimensions_constants.dart';
@@ -31,9 +32,9 @@ class HomeHeader extends StatelessWidget {
                       '${AppUtilities().loginData.firstName} ${AppUtilities().loginData.lastName}')
             ],
           ),
-          
+
           /// Due to migirate from scanning process that scan qr code in general way without specify the event id
-           
+
           // GestureDetector(
           //   onTap: () => {context.pushNamed(Routes.qrCodeScreen)},
           //   child: Container(
@@ -50,6 +51,23 @@ class HomeHeader extends StatelessWidget {
           //         height: 28,
           //       ),
           //     ),
+          //   ),
+          // ),
+
+          // GestureDetector(
+          //   onTap: () async {
+          //     await NotificationScheduler().scheduleNotificationsAtSpecificTime(
+          //       DateTime.now().add(const Duration(minutes: 2)),
+          //     );
+          //   },
+          //   child: Container(
+          //     width: 54,
+          //     height: 54,
+          //     decoration: BoxDecoration(
+          //       color: AppColor.primaryColor.withValues(alpha: .2),
+          //       borderRadius: BorderRadius.circular(15),
+          //     ),
+          //     child: Center(child: Icon(Icons.notification_add)),
           //   ),
           // ),
         ],
