@@ -9,7 +9,10 @@ import '../../../../core/widgets/title_text.dart';
 import '../../../../generated/assets.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
+  const ProfileHeader({super.key, required this.firstName, required this.lastName});
+  final String firstName;
+  final String lastName;
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +33,10 @@ class ProfileHeader extends StatelessWidget {
                 fontSize: 16,
               ),
               TitleText(
-                  text:
-                      '${AppUtilities().loginData.firstName} ${AppUtilities().loginData.lastName}',fontSize: 30,color: AppColor.primaryColor,
+                text:
+                    '${firstName} ${lastName}',
+                fontSize: 30,
+                color: AppColor.primaryColor,
               )
             ],
           ),

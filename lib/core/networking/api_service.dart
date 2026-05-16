@@ -259,4 +259,12 @@ abstract class ApiService {
     @Header('Authorization') String token,
     @Query('eventid') String eventId,
   );
+
+
+  @GET('/Gatekeeper/{gatekeeperId}/profile')
+  Future<ProfileModel> getGkProfile(
+    @Path("gatekeeperId") int gatekeeperId,
+    @Header('Authorization') String token,  
+  );
+
 }

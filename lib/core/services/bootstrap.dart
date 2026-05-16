@@ -30,13 +30,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 Future<void> bootstrap(Widget app) async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsBinding widgetsBinding =
+   WidgetsFlutterBinding.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await Firebase.initializeApp();
   log("Project ID : >> ${Firebase.app().options.projectId}");
   log("Sender ID : >> ${Firebase.app().options.messagingSenderId}");
+  await NotificationService().init();
   Bloc.observer = CustomBlocObserver();
 
   // Crashlytics error handling

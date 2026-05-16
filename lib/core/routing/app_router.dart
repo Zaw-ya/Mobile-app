@@ -1,4 +1,6 @@
 import 'package:app/core/widgets/success_view.dart';
+import 'package:app/features/profile/logic/profile_cubit.dart';
+import 'package:app/features/profile/presentation/gk_profile.dart';
 import 'package:app/features/qr_code_scanner/logic/qr_code_scanner_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -233,6 +235,14 @@ class AppRouter {
           BlocProvider(
             create: (_) => getIt<LandingCubit>(),
             child: const LandingView(),
+          ),
+        );
+
+        case Routes.gatekeeperProfileScreen:
+        return _buildRoute(
+          BlocProvider(
+            create: (_) => getIt<ProfileCubit>(),
+            child: const GkProfile(),
           ),
         );
 

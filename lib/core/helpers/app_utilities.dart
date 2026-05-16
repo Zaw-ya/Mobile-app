@@ -23,6 +23,8 @@ class AppUtilities {
   }
 
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  final prefs = SharedPreferences;
+
 
   String? _serverToken;
 
@@ -212,6 +214,28 @@ class AppUtilities {
     try {
       final prefs = await SharedPreferences.getInstance();
       return prefs.getBool(key) ?? defaultVal;
+    } catch (e, stackTrace) {
+      debugPrint('Error reading bool value for key "$key": $e');
+      debugPrintStack(stackTrace: stackTrace);
+      return defaultVal;
+    }
+  }
+
+    Future<bool> setString(String key, String value) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return await prefs.setString(key, value);
+    } catch (e, stackTrace) {
+      debugPrint('Error saving String value for key "$key": $e');
+      debugPrintStack(stackTrace: stackTrace);
+      return false;
+    }
+  }
+
+    Future<String> getString(String key, String defaultVal) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString(key) ?? defaultVal;
     } catch (e, stackTrace) {
       debugPrint('Error reading bool value for key "$key": $e');
       debugPrintStack(stackTrace: stackTrace);

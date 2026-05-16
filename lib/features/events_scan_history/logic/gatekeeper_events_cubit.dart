@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:app/core/services/notification_scheduler.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,10 +65,11 @@ class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
       } else {
         _currentPageEvents++;
         if (!isClosed) {
-          emit(ScanHistoryStates.success(           // ✅ guard
-          GatekeeperEventsResponse(entityList: _events),
-          isLoadingMore: true,
-        ));
+          emit(ScanHistoryStates.success(
+            // ✅ guard
+            GatekeeperEventsResponse(entityList: _events),
+            isLoadingMore: true,
+          ));
         }
       }
 
@@ -81,25 +85,52 @@ class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
               _totalPagesEvents = data.noOfPages ?? 1;
             }
             _events.addAll(data.entityList!);
+            // for (var event in data.entityList!) {
+            //   // ملحوظة: لازم تتأكدي إن event هو الموديل اللي بياخده الـ Scheduler
+            //   // لو الموديل مختلف، هتحتاجي تحولي البيانات لموديل CalenderEventsResponse
+            //   await NotificationScheduler().scheduleNotifications(
+            //     id: event.id!,
+            //     eventTitle: event.eventTitle!,
+            //     eventFrom: event.eventFrom!,
+            //   );
+            //   log("Scheduled notifications for event >>> ${event.eventTitle} Haneen Test");
+            // }
             if (!isClosed) {
-              emit(ScanHistoryStates.success(        // ✅ guard
-              GatekeeperEventsResponse(
-                entityList: _events,
-                noOfPages: _totalPagesEvents,
-              ),
-              isLoadingMore: false,
-            ));
+              emit(ScanHistoryStates.success(
+                // ✅ guard
+                GatekeeperEventsResponse(
+                  entityList: _events,
+                  noOfPages: _totalPagesEvents,
+                ),
+                isLoadingMore: false,
+              ));
+            }
+            if (_currentPageEvents == 0) {
+              log("--- Starting Notification Sync (Haneen Test) ---");
+              for (var event in data.entityList!) {
+                // بننادي الـ Scheduler لكل حدث، وهو جواه الـ Logic اللي بيقرر (Skip أو Schedule)
+                // بناءً على الـ Key-Value (ID و Date) المتخزنين في الـ AppUtilities
+                await NotificationScheduler().scheduleNotifications(
+                  id: event.id!,
+                  eventTitle: event.eventTitle!,
+                  eventFrom: event.eventFrom!,
+                );
+              }
+              log("--- Notification Sync Completed (Haneen Test) ---");
             }
           } else if (_currentPageEvents == 0) {
-            if (!isClosed) emit(const ScanHistoryStates.emptyInput()); // ✅ guard
+            if (!isClosed)
+              {emit(const ScanHistoryStates.emptyInput()); }// ✅ guard
           }
         },
         failure: (error) {
-          if (!isClosed) emit(ScanHistoryStates.error(message: error.toString())); // ✅
+          if (!isClosed)
+            {emit(ScanHistoryStates.error(message: error.toString())); }// ✅
         },
       );
     } catch (e) {
-      if (!isClosed) emit(ScanHistoryStates.error(message: 'some_error'.tr())); // ✅
+      if (!isClosed)
+        {emit(ScanHistoryStates.error(message: 'some_error'.tr()));} // ✅
     } finally {
       _isLoadingEvents = false;
     }
@@ -263,4 +294,23 @@ class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
         await AppUtilities().getBool(_checkInStatusKey + eventId, false);
     return status;
   }
+
+// جوه GatekeeperEventsCubit
+
+  // Future<void> syncNotifications() async {
+  //   // بنجيب البيانات من الريبو (ممكن تستخدمي ميثود موجودة فعلاً عندك)
+  //   final response = await _gatekeeperEventsRepo
+  //       .getGatekeeperEvents("1"); // أول صفحة كفاية للمزامنة
+
+  //   response.when(
+  //     success: (data) async {
+  //       if (data.entityList != null && data.entityList!.isNotEmpty) {
+  //         // ننادي المجدول الذكي
+  //         await NotificationScheduler()
+  //             .scheduleMultipleNotifications(data.entityList!);
+  //       }
+  //     },
+  //     failure: (error) => debugPrint("Notification Sync Failed: $error"),
+  //   );
+  // }
 }

@@ -31,4 +31,6 @@ class Routes {
   static const String landingView = "/landingView";
   static const String gatekeeperScanHistoryScreen =
       "/gatekeeperScanHistoryScreen";
+  static const String gatekeeperProfileScreen =
+      "/gatekeeperProfileScreen";
 }

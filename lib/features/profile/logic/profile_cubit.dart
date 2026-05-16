@@ -29,6 +29,19 @@ class ProfileCubit extends Cubit<ProfileStates> {
     );
   }
 
+    void getGkProfile({required int gatekeeperId}) async {
+    if (isClosed) return;
+    emit(const ProfileStates.getGatekeeperLoading());
+
+    final response = await _profileRepo.getGkProfile(gatekeeperId: gatekeeperId);
+    if (isClosed) return;
+
+    response.when(
+      success: (profile) => emit(ProfileStates.getGatekeeperSuccess(profile)),
+      failure: (error) => emit(ProfileStates.getGatekeeperError(message: error.toString())),
+    );
+  }
+
   @override
   Future<void> close() async {
     await super.close();

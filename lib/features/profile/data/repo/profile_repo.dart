@@ -20,4 +20,14 @@ class ProfileRepo {
       return ApiResult.failure(error.toString());
     }
   }
+
+    Future<ApiResult<ProfileModel>> getGkProfile({required int gatekeeperId}) async {
+    try {
+      log(AppUtilities().serverToken);
+      var response = await _apiService.getGkProfile(gatekeeperId,AppUtilities().serverToken);
+      return ApiResult.success(response);
+    } catch (error) {
+      return ApiResult.failure(error.toString());
+    }
+  }
 }

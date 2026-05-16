@@ -1,7 +1,7 @@
+import 'package:app/core/services/notification_scheduler.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import '../../../core/services/notification_scheduler.dart';
 import '../data/models/calender_events.dart';
 import '../data/repo/event_calender_repo.dart';
 import 'event_calender_states.dart';
@@ -25,7 +25,7 @@ class EventCalenderCubit extends Cubit<EventCalenderStates> {
   void getEventsCalendar() async {
     emit(const EventCalenderStates.loading());
     final response = await _eventCalenderRepo.getEventsCalendar();
-     if (isClosed) return;
+    if (isClosed) return;
     response.when(
       success: (response) {
         _events = response;
@@ -33,7 +33,7 @@ class EventCalenderCubit extends Cubit<EventCalenderStates> {
           emit(const EventCalenderStates.emptyInput());
           return;
         }
-         if (isClosed) return;
+        if (isClosed) return;
         emit(EventCalenderStates.success(
           events: _events,
           selectedDay: DateTime.now(),
@@ -41,7 +41,7 @@ class EventCalenderCubit extends Cubit<EventCalenderStates> {
         ));
       },
       failure: (error) {
-         if (isClosed) return;
+        if (isClosed) return;
         if (error == "location_is_not_set_correctly") {
           emit(EventCalenderStates.error(
               message: "location_is_not_set_correctly".tr()));
@@ -71,15 +71,14 @@ class EventCalenderCubit extends Cubit<EventCalenderStates> {
         if (error.contains("Can not assign")) {
           emit(EventCalenderStates.errorReservation(
               message: "already_reserved_an_event".tr()));
-        // }
-        // else if(error.contains("Cannot reserve an event in the past.")){
-        //   emit(EventCalenderStates.errorReservation(
-        //       message: "Cannot reserve an event in the past."));
-        }else if(error.contains("the response has a status code of 400")){
+          // }
+          // else if(error.contains("Cannot reserve an event in the past.")){
+          //   emit(EventCalenderStates.errorReservation(
+          //       message: "Cannot reserve an event in the past."));
+        } else if (error.contains("the response has a status code of 400")) {
           emit(EventCalenderStates.errorReservation(
               message: "Cannot reserve an event in the past."));
-        }
-         else {
+        } else {
           emit(EventCalenderStates.errorReservation(message: error.toString()));
         }
         Future.delayed(const Duration(seconds: 3), () {
@@ -95,9 +94,11 @@ class EventCalenderCubit extends Cubit<EventCalenderStates> {
     if (calenderEventsResponse.id != null) {
       debugPrint(
           "Scheduling notifications for event: ${calenderEventsResponse.eventTitle}");
-
-      await NotificationScheduler()
-          .scheduleNotifications(event: calenderEventsResponse);
+// TODO
+      await NotificationScheduler().scheduleNotifications(
+          id: calenderEventsResponse.id!,
+          eventTitle: calenderEventsResponse.eventTitle!,
+          eventFrom: calenderEventsResponse.eventFrom!);
 
       debugPrint("Notifications scheduled successfully");
     } else {
