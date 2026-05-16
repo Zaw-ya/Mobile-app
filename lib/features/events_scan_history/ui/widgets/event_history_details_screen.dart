@@ -261,7 +261,7 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
                     Expanded(
                       child: Center(
                         child: Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: edge),
+                          padding: EdgeInsets.symmetric(horizontal: edge),
                           child: TitleText(
                             text: "no_event_details_yet".tr(),
                             color: AppColor.primaryColor,
@@ -401,7 +401,13 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
                 onPressed: anyLoading
                     ? null
                     : () async {
-                        await context.pushNamed(Routes.qrCodeScreen);
+                        await Navigator.pushNamed(
+                          context,
+                          Routes.qrCodeScreen,
+                          arguments: widget.event!.id,
+                        );
+                        //  context.pushNamed(Routes.qrCodeScreen,
+                        // arguments: widget.event!.id);
                         if (!context.mounted) return;
 
                         context.read<GatekeeperEventsCubit>().getEventDetails(

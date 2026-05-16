@@ -7,6 +7,7 @@ class NormalText extends StatelessWidget {
     this.color,
     this.decoration,
     this.fontSize,
+    this.fontWeight,
     this.textOverflow,
     this.fontFamily,
     this.maxLines,
@@ -18,6 +19,7 @@ class NormalText extends StatelessWidget {
   final Color? color;
   final String? fontFamily;
   final double? fontSize;
+  final FontWeight? fontWeight;
   final TextAlign? align;
   final TextDecoration? decoration;
   final TextOverflow? textOverflow;
@@ -30,7 +32,7 @@ class NormalText extends StatelessWidget {
       text,
       style: TextStyle(
         color: color ?? Colors.black,
-        fontWeight: FontWeight.w400,
+        fontWeight: fontWeight ?? FontWeight.w400,
         fontSize: fontSize ?? 16,
         fontFamily: "Zain",
         decoration: decoration ?? TextDecoration.none,

@@ -23,7 +23,9 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
 
     try {
       final token = AppUtilities().serverToken;
+
       final response = await _repo.fetchNotifications(token, page: 1);
+
       _backendUnreadCount = await _repo.fetchUnreadCount(token);
 
       _cachedNotifications = response.items;
@@ -93,7 +95,11 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
       final token = AppUtilities().serverToken;
       await _repo.markAsRead(token, id);
       await loadNotifications();
-    } catch (_) {}
+
+    } catch (e) {
+      // can emit error state if you need
+    }
+
   }
 
   // ── Badge calculation ──────────────────────────────────
@@ -102,7 +108,9 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
     return localPending.length + _backendUnreadCount;
   }
 
-  // ── Badge only ─────────────────────────────────────────
+
+  // ── Badge update  
+
   Future<void> updateBadgeCountOnly() async {
     try {
       final token = AppUtilities().serverToken;
@@ -110,6 +118,7 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
       final totalBadge = await _calculateBadgeCount();
 
       if (isClosed) return;
+
       emit(NotificationsSuccess(
         notifications: _cachedNotifications,
         unreadCount: totalBadge,
@@ -119,3 +128,4 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
     } catch (_) {}
   }
 }
+

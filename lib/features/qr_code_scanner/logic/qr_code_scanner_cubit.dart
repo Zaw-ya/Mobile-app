@@ -8,7 +8,7 @@ import '../data/repo/qr_code_scanner_repo.dart';
 class QrCodeScannerCubit extends Cubit<QrCodeScannerStates> {
   final QrCodeScannerRepo _qrCodeScannerRepo;
 
-  QrCodeScannerCubit(this._qrCodeScannerRepo)
+  QrCodeScannerCubit(this._qrCodeScannerRepo,)
       : super(const QrCodeScannerStates.initial());
 
 
@@ -38,7 +38,7 @@ class QrCodeScannerCubit extends Cubit<QrCodeScannerStates> {
     }
   }
 
-  Future<void> scanQrCode(String data) async {
+  Future<void> scanQrCode(String data, int eventId) async {
     if (stopScan) return;
     stopScan = true;
     _scanEndTime = DateTime.now().toString();
@@ -46,7 +46,7 @@ class QrCodeScannerCubit extends Cubit<QrCodeScannerStates> {
 
     try {
       final response = await _qrCodeScannerRepo
-          .scanQrCode(ScanBodyRequest(qrCode: data))
+          .scanQrCode(ScanBodyRequest(qrCode: data, eventId: eventId ))
           .timeout(const Duration(seconds: 10));
 
       response.when(

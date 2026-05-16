@@ -435,7 +435,9 @@
   "total_guests_cards_sent": "Guests whose cards sent",
   "total": "Total",
   "msg": "Message",
+  "contact_info" : "Contact info",
   "guests_count": "{} Guests",
   "rate_app_hint": "Enjoying the app? Let us know what you think!",
   "rate_now": "Rate Now"
+
 }

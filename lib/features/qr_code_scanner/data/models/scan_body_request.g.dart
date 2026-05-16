@@ -8,10 +8,12 @@ part of 'scan_body_request.dart';
 
 ScanBodyRequest _$ScanBodyRequestFromJson(Map<String, dynamic> json) =>
     ScanBodyRequest(
-      qrCode: json['qRcode'] as String?,
+      qrCode: json['qRcode'] as String,
+      eventId: (json['eventId'] as num).toInt(),
     );
 
 Map<String, dynamic> _$ScanBodyRequestToJson(ScanBodyRequest instance) =>
     <String, dynamic>{
       'qRcode': instance.qrCode,
+      'eventId': instance.eventId,
     };

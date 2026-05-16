@@ -41,9 +41,9 @@ class ReserveEventBottomSheet extends StatelessWidget {
           );
         },
         child: DraggableScrollableSheet(
-          initialChildSize: 0.55,
+          initialChildSize: 0.6,
           minChildSize: 0.5,
-          maxChildSize: 0.8,
+          maxChildSize: 0.9,
           expand: false,
           snap: true,
           builder: (context, scrollController) => Container(
@@ -65,7 +65,7 @@ class ReserveEventBottomSheet extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: edge * 0.5),
+                SizedBox(height: heightEdge * 0.5),
                 Row(
                   children: [
                     GestureDetector(
@@ -96,7 +96,7 @@ class ReserveEventBottomSheet extends StatelessWidget {
                 ),
                 SizedBox(height: edge * 0.8),
                 EventDetailCard(event: event),
-                SizedBox(height: edge),
+                SizedBox(height: heightEdge),
                 BlocBuilder<EventCalenderCubit, EventCalenderStates>(
                     builder: (context, state) {
                   final isLoading = state is ReservationLoading;

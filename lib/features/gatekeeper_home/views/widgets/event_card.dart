@@ -31,12 +31,12 @@ class EventCard extends StatelessWidget {
         // if (event.scanned != null && event.scanned! <= 0) {
         //   context.showErrorToast("event_not_attended".tr());
         // } else {
-          debugPrint("index: ${event.id}");
-          context.pushNamed(
-            Routes.eventDetailScreen,
-            arguments: {'event': event, 'showBottomBar': showNavBar},
-          );
-       // }
+        debugPrint("index: ${event.id}");
+        context.pushNamed(
+          Routes.eventDetailScreen,
+          arguments: {'event': event, 'showBottomBar': showNavBar},
+        );
+        // }
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: edge),
@@ -101,12 +101,11 @@ class EventCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: edge),
                 child: eventDateAndTime(
-                  from: event.eventFrom,
-                  to: event.eventTo,
-                  attendanceTime: event.attendanceTime,
-                  leaveTime: event.leaveTime,
-                  isArabic: isArabic
-                ),
+                    from: event.eventFrom,
+                    to: event.eventTo,
+                    attendanceTime: event.attendanceTime,
+                    leaveTime: event.leaveTime,
+                    isArabic: isArabic),
               ),
               SizedBox(height: edge * 0.7),
               Padding(
@@ -154,36 +153,57 @@ class EventCard extends StatelessWidget {
                     bottomRight: Radius.circular(radiusInput),
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Stack(
                   children: [
-                    Column(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        NormalText(
-                          text: event.contactName ?? "",
-                          color: AppColor.whiteColor,
-                          fontSize: 14,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            NormalText(
+                              text: "contact_info".tr(),
+                              color: AppColor.whiteColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            NormalText(
+                              text: event.contactName ?? "",
+                              color: AppColor.whiteColor,
+                              fontSize: 14,
+                            ),
+                            TitleText(
+                              text: event.contactPhone ?? "",
+                              color: AppColor.whiteColor,
+                              fontSize: 20,
+                            ),
+                          ],
                         ),
-                        TitleText(
-                          text: event.contactPhone ?? "",
-                          color: AppColor.whiteColor,
-                          fontSize: 24,
-                        ),
+
+                        // Column(
+                        //   children: [
+                        //     NormalText(
+                        //       text: "attendees_count".tr(),
+                        //       color: AppColor.whiteColor,
+                        //       fontSize: 14,
+                        //     ),
+                        //     TitleText(
+                        //       text: (event.totalAllocated ?? 0).toString(),
+                        //       color: AppColor.whiteColor,
+                        //       fontSize: 24,
+                        //     ),
+                        //   ],
+                        // )
                       ],
                     ),
-                    Column(
-                      children: [
-                        NormalText(
-                          text: "attendees_count".tr(),
-                          color: AppColor.whiteColor,
-                          fontSize: 14,
-                        ),
-                        TitleText(
-                          text: (event.totalAllocated ?? 0).toString(),
-                          color: AppColor.whiteColor,
-                          fontSize: 24,
-                        ),
-                      ],
+                    Positioned(
+                      right: 2,
+                      bottom: 0,
+                      top: 0,
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: AppColor.whiteColor,
+                      ),
                     )
                   ],
                 ),
@@ -216,9 +236,13 @@ class EventCard extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            NormalText(text: DateTimeHelper.formatDate(from,isArabic: isArabic), color: AppColor.gray900),
+            NormalText(
+                text: DateTimeHelper.formatDate(from, isArabic: isArabic),
+                color: AppColor.gray900),
             Icon(Icons.arrow_right_alt, color: AppColor.gray900),
-            NormalText(text: DateTimeHelper.formatDate(to,isArabic: isArabic), color: AppColor.gray900),
+            NormalText(
+                text: DateTimeHelper.formatDate(to, isArabic: isArabic),
+                color: AppColor.gray900),
           ],
         ),
         SizedBox(height: edge * 0.5),
@@ -227,20 +251,24 @@ class EventCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(Icons.access_time, color: AppColor.primaryColor, size: 16),
+                const Icon(Icons.access_time,
+                    color: AppColor.primaryColor, size: 16),
                 SizedBox(width: edge * 0.4),
                 NormalText(
-                  text: DateTimeHelper.formatTimeOnly(attendanceTime, isArabic: isArabic),
+                  text: DateTimeHelper.formatTimeOnly(attendanceTime,
+                      isArabic: isArabic),
                   color: AppColor.gray900,
                 ),
               ],
             ),
             Row(
               children: [
-                const Icon(Icons.access_time, color: AppColor.mainRed, size: 16),
+                const Icon(Icons.access_time,
+                    color: AppColor.mainRed, size: 16),
                 SizedBox(width: edge * 0.4),
                 NormalText(
-                  text: DateTimeHelper.formatTimeOnly(leaveTime, isArabic: isArabic),
+                  text: DateTimeHelper.formatTimeOnly(leaveTime,
+                      isArabic: isArabic),
                   color: AppColor.gray900,
                 ),
               ],
