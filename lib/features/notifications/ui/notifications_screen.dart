@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/theming/colors.dart';
 import '../../../core/dimensions/dimensions_constants.dart';
+import '../../../core/helpers/date_time_helper.dart';
 import '../../notifications/logic/notifications_cubit.dart';
 import '../../notifications/logic/notifications_states.dart';
 
@@ -13,27 +15,43 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
+  final _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     context.read<NotificationsCubit>().loadNotifications();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final atBottom = _scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200;
+
+    if (atBottom) {
+      context.read<NotificationsCubit>().loadMore();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.primaryColor,
         title: const Text('Notifications',
             style: TextStyle(color: AppColor.whiteColor)),
         leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: AppColor.whiteColor,
-            )),
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back, color: AppColor.whiteColor),
+        ),
       ),
       body: BlocBuilder<NotificationsCubit, NotificationsStates>(
         builder: (context, state) {
@@ -59,11 +77,21 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     ),
                   )
                 : ListView.separated(
+                    controller: _scrollController,
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.all(edge),
-                    itemCount: list.length,
+                    // +1 عشان الـ loading indicator في الآخر
+                    itemCount: list.length + (state.hasMore ? 1 : 0),
                     separatorBuilder: (_, __) => const Divider(),
                     itemBuilder: (ctx, idx) {
+                      // last item = loading indicator
+                      if (idx == list.length) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
+
                       final n = list[idx];
                       return Container(
                         decoration: BoxDecoration(
@@ -80,11 +108,25 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           title: Text(
                             n.title,
                             style: TextStyle(
-                              fontWeight:
-                                  n.read ? FontWeight.normal : FontWeight.bold,
+                              fontWeight: n.read
+                                  ? FontWeight.normal
+                                  : FontWeight.bold,
                             ),
                           ),
-                          subtitle: Text(n.body),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(n.body),
+                              const SizedBox(height: 4),
+                              Text(
+                                DateTimeHelper.toRelativeTime(n.createdAt),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey.shade500,
+                                ),
+                              ),
+                            ],
+                          ),
                           trailing: n.read
                               ? null
                               : IconButton(
@@ -99,9 +141,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     },
                   ),
           );
-          // }
-
-          // return const SizedBox.shrink();
         },
       ),
     );

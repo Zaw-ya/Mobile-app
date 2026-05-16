@@ -105,9 +105,10 @@ abstract class ApiService {
   );
 
   // Notifications - backend-driven
-  @GET(ApiConstants.notificationsEndpoint)
-  Future<List<NotificationModel>> getNotifications(
+    @GET(ApiConstants.notificationsEndpoint)
+  Future<dynamic> getNotifications(
     @Header('Authorization') String token,
+    @Query('page') int page,
   );
 
   // 🔥 NEW: Save device token

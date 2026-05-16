@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:intl/intl.dart';
 
 class DateTimeHelper {
   static const List<String> _monthNamesEn = [
@@ -11,7 +12,67 @@ class DateTimeHelper {
     "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
   ];
 
-  /// Input: "2024-08-15T10:30:00" → Output: "Aug 15, 2024" or "15 أغسطس 2024"
+  // ── Internal helper ───────────────────────────────────────────────────────
+
+  static bool _isArabic() => Intl.getCurrentLocale().startsWith('ar');
+
+  // ── Relative Time (Facebook-style) ────────────────────────────────────────
+
+  static String toRelativeTime(DateTime? date, {bool? isArabic}) {
+    if (date == null) return '';
+
+    final arabic = isArabic ?? _isArabic();
+    final now = DateTime.now();
+    final local = date.isUtc ? date.toLocal() : date;
+    final diff = now.difference(local);
+
+    // ── Future date guard ─────────────────────────────────
+    if (diff.isNegative) return arabic ? 'الآن' : 'Just now';
+
+    // ── Just now ──────────────────────────────────────────
+    if (diff.inSeconds < 60) return arabic ? 'الآن' : 'Just now';
+
+    // ── Minutes ───────────────────────────────────────────
+    if (diff.inMinutes < 60) {
+      final m = diff.inMinutes;
+      if (arabic) {
+        if (m == 1) return 'منذ دقيقة';
+        if (m == 2) return 'منذ دقيقتين';
+        if (m <= 10) return 'منذ $m دقائق';
+        return 'منذ $m دقيقة';
+      }
+      return '$m ${m == 1 ? 'min' : 'mins'} ago';
+    }
+
+    // ── Hours ─────────────────────────────────────────────
+    if (diff.inHours < 24) {
+      final h = diff.inHours;
+      if (arabic) {
+        if (h == 1) return 'منذ ساعة';
+        if (h == 2) return 'منذ ساعتين';
+        if (h <= 10) return 'منذ $h ساعات';
+        return 'منذ $h ساعة';
+      }
+      return '${h}h ago';
+    }
+
+    // ── Yesterday ─────────────────────────────────────────
+    final today = DateTime(now.year, now.month, now.day);
+    final msgDay = DateTime(local.year, local.month, local.day);
+    final daysDiff = today.difference(msgDay).inDays;
+
+    if (daysDiff == 1) return arabic ? 'أمس' : 'Yesterday';
+
+    // ── Same year ─────────────────────────────────────────
+    final month = arabic ? _monthNamesAr[local.month] : _monthNamesEn[local.month];
+    if (local.year == now.year) return '${local.day} $month';
+
+    // ── Older ─────────────────────────────────────────────
+    return '${local.day} $month ${local.year}';
+  }
+
+  // ── الـ methods القديمة كما هي ────────────────────────────────────────────
+
   static String formatDate(String? dateStr, {bool isArabic = false}) {
     if (dateStr == null || dateStr.isEmpty) return "N/A";
     if (dateStr.length < 10) return "N/A";
@@ -29,7 +90,6 @@ class DateTimeHelper {
         : "$monthName ${parts[2]}, ${parts[0]}";
   }
 
-  /// Input: "2024-08-15T10:30:00" → Output: "10:30 AM" or "10:30 ص"
   static String formatTime(String? dateStr, {bool isArabic = false}) {
     if (dateStr == null || dateStr.isEmpty) return "N/A";
 
@@ -54,18 +114,16 @@ class DateTimeHelper {
     return "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period";
   }
 
-  /// Input: "2024-08-15T10:30:00" → Output: "Aug 15, 2024 • 10:30 AM" or "15 أغسطس 2024 • 10:30 ص"
   static String formatDateTime(String? dateStr, {bool isArabic = false}) {
     if (dateStr == null || dateStr.isEmpty) return "N/A";
     return "${formatDate(dateStr, isArabic: isArabic)} • ${formatTime(dateStr, isArabic: isArabic)}";
   }
 
-  /// Input: "14:30" or "14:30:00" → Output: "02:30 PM" or "02:30 م"
   static String formatTimeOnly(String? timeStr, {bool isArabic = false}) {
     if (timeStr == null || timeStr.isEmpty) return "";
 
     final timeParts = timeStr.split(':');
-    if (timeParts.length < 2) return timeStr; // return as-is if unrecognized
+    if (timeParts.length < 2) return timeStr;
 
     int hour = int.tryParse(timeParts[0]) ?? 0;
     final int minute = int.tryParse(timeParts[1]) ?? 0;
@@ -79,7 +137,6 @@ class DateTimeHelper {
     return "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period";
   }
 
-  /// Input: "2024-08-15T10:30:00" → Output: "15 أغسطس 2024 • 6:00 م" or "15 August 2024 • 6:00 AM"
   static String formatDateLabel(String? dateStr, {bool isArabic = false}) {
     if (dateStr == null || dateStr.isEmpty) return "";
 

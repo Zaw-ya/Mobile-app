@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5bee5db3-4669-4e86-aa51-091b86f7b736" name="Changes" comment="">
+
       <change beforePath="$PROJECT_DIR$/assets/translations/ar.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/translations/ar.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/translations/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/translations/en.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/routing/app_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/routing/app_router.dart" afterDir="false" />
@@ -22,11 +23,15 @@
       <change beforePath="$PROJECT_DIR$/lib/features/new_client_statistics/ui/widgets/messages_statistics_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/new_client_statistics/ui/widgets/messages_statistics_tab.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/features/new_client_statistics/ui/widgets/urgent_tab_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/new_client_statistics/ui/widgets/urgent_tab_item.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/features/new_client_statistics/ui/widgets/urgent_tab_section.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/new_client_statistics/ui/widgets/urgent_tab_section.dart" afterDir="false" />
+
       <change beforePath="$PROJECT_DIR$/lib/features/notifications/logic/notifications_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/notifications/logic/notifications_cubit.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/features/notifications/ui/notifications_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/notifications/ui/notifications_screen.dart" afterDir="false" />
+
+
       <change beforePath="$PROJECT_DIR$/lib/features/qr_code_scanner/data/models/scan_body_request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/qr_code_scanner/data/models/scan_body_request.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/features/qr_code_scanner/logic/qr_code_scanner_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/qr_code_scanner/logic/qr_code_scanner_cubit.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/my_invite.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/my_invite.dart" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,6 +85,7 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+
     &quot;git-widget-placeholder&quot;: &quot;fix/notification-bug&quot;,
     &quot;io.flutter.project.isFirstOpen&quot;: &quot;true&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,

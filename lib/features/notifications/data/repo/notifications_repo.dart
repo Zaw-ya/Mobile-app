@@ -1,15 +1,16 @@
+import 'package:app/features/notifications/data/models/notifications_response.dart';
+
 import '../../../../core/networking/api_service.dart';
 import '../../../../core/di/dependency_injection.dart';
-import '../models/notification_model.dart';
 
 class NotificationsRepo {
   final ApiService _apiService = getIt<ApiService>();
 
   NotificationsRepo();
 
-  Future<List<NotificationModel>> fetchNotifications(String token) async {
-    final raw = await _apiService.getNotifications(token);
-    return raw;
+  Future<NotificationsResponse> fetchNotifications(String token, {int page = 1}) async {
+    final raw = await _apiService.getNotifications(token, page);
+    return NotificationsResponse.fromJson(raw as Map<String, dynamic>);
   }
 
   Future<void> markAsRead(String token, String notificationId) async {

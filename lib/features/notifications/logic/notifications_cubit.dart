@@ -1,9 +1,9 @@
+import 'package:app/core/helpers/app_utilities.dart';
+import 'package:app/core/services/notification_service.dart';
+import 'package:app/features/notifications/data/models/notification_model.dart';
+import 'package:app/features/notifications/data/repo/notifications_repo.dart';
+import 'package:app/features/notifications/logic/notifications_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/helpers/app_utilities.dart';
-import '../../../core/services/notification_service.dart';
-import '../data/models/notification_model.dart';
-import '../data/repo/notifications_repo.dart';
-import 'notifications_states.dart';
 
 class NotificationsCubit extends Cubit<NotificationsStates> {
   final NotificationsRepo _repo;
@@ -13,7 +13,7 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
   int _backendUnreadCount = 0;
   List<NotificationModel> _cachedNotifications = [];
 
-  // ── Load all notifications ─────────────────────────────
+  // ── Initial load / Refresh ─────────────────────────────
   Future<void> loadNotifications() async {
     if (isClosed) return;
     emit(NotificationsLoading(
@@ -24,17 +24,19 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
     try {
       final token = AppUtilities().serverToken;
 
-      
-      final list = await _repo.fetchNotifications(token);
+      final response = await _repo.fetchNotifications(token, page: 1);
+
       _backendUnreadCount = await _repo.fetchUnreadCount(token);
 
-      _cachedNotifications = list;
+      _cachedNotifications = response.items;
       final totalBadge = await _calculateBadgeCount();
-      
+
       if (isClosed) return;
       emit(NotificationsSuccess(
-        notifications: list,
+        notifications: response.items,
         unreadCount: totalBadge,
+        hasMore: response.hasMore,
+        currentPage: 1,
       ));
     } catch (e) {
       if (isClosed) return;
@@ -42,6 +44,47 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
         e.toString(),
         unreadCount: state.unreadCount,
         notifications: _cachedNotifications,
+        hasMore: state.hasMore,
+        currentPage: state.currentPage,
+      ));
+    }
+  }
+
+  // ── Load next page ─────────────────────────────────────
+  Future<void> loadMore() async {
+    if (isClosed) return;
+    if (!state.hasMore) return;
+    if (state is NotificationsLoadingMore) return;
+
+    emit(NotificationsLoadingMore(
+      notifications: _cachedNotifications,
+      unreadCount: state.unreadCount,
+      hasMore: state.hasMore,
+      currentPage: state.currentPage,
+    ));
+
+    try {
+      final token = AppUtilities().serverToken;
+      final nextPage = state.currentPage + 1;
+      final response = await _repo.fetchNotifications(token, page: nextPage);
+
+      _cachedNotifications = [..._cachedNotifications, ...response.items];
+
+      if (isClosed) return;
+      emit(NotificationsSuccess(
+        notifications: _cachedNotifications,
+        unreadCount: state.unreadCount,
+        hasMore: response.hasMore,
+        currentPage: nextPage,
+      ));
+    } catch (e) {
+      if (isClosed) return;
+      emit(NotificationsError(
+        e.toString(),
+        unreadCount: state.unreadCount,
+        notifications: _cachedNotifications,
+        hasMore: state.hasMore,
+        currentPage: state.currentPage,
       ));
     }
   }
@@ -51,11 +94,12 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
     try {
       final token = AppUtilities().serverToken;
       await _repo.markAsRead(token, id);
-      
       await loadNotifications();
+
     } catch (e) {
       // can emit error state if you need
     }
+
   }
 
   // ── Badge calculation ──────────────────────────────────
@@ -64,7 +108,9 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
     return localPending.length + _backendUnreadCount;
   }
 
+
   // ── Badge update  
+
   Future<void> updateBadgeCountOnly() async {
     try {
       final token = AppUtilities().serverToken;
@@ -72,17 +118,13 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
       final totalBadge = await _calculateBadgeCount();
 
       if (isClosed) return;
-      if (state is NotificationsSuccess) {
-        emit(NotificationsSuccess(
-          notifications: state.notifications,
-          unreadCount: totalBadge,
-        ));
-      } else {
-        emit(NotificationsSuccess(
-          notifications: _cachedNotifications,
-          unreadCount: totalBadge,
-        ));
-      }
+
+      emit(NotificationsSuccess(
+        notifications: _cachedNotifications,
+        unreadCount: totalBadge,
+        hasMore: state.hasMore,
+        currentPage: state.currentPage,
+      ));
     } catch (_) {}
   }
 }
