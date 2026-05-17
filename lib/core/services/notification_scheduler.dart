@@ -57,8 +57,8 @@ class NotificationScheduler {
         eventStart.year,
         eventStart.month,
         eventStart.day,
-        8, // 8 AM
-        0,
+        2, // 8 AM
+        24,
       );
 
       // Check if event day is in the future before scheduling
@@ -71,9 +71,9 @@ class NotificationScheduler {
         eventTitle: eventTitle,
         type: NotificationType.today,
       );
-      debugPrint('Scheduled notifications for event: $eventTitle');
-      debugPrint('Event day notification at: $eventDay8AM');
-      log("Scheduled notifications for event >>> $eventTitle Haneen Test N.S.");
+      // debugPrint('Scheduled notifications for event: $eventTitle');
+      // debugPrint('Event day notification at: $eventDay8AM');
+      // log("Scheduled notifications for event >>> $eventTitle Haneen Test N.S.");
       // } else {
       //   debugPrint(
       //       'Skipping event day notification for ${event.eventTitle} - date is in the past: $eventDay8AM');
@@ -117,6 +117,33 @@ class NotificationScheduler {
     }
   }
 
+
+
+Future<void> cancelScheduledNotifications(int id) async {
+  final storage = AppUtilities();
+  final String eventKey = "event_$id";
+
+  try {
+    // إلغاء إشعار يوم الحدث
+    await NotificationService().cancelNotification(id);
+
+    // إلغاء إشعار قبل 5 أيام
+    await NotificationService().cancelNotification(id + 1000);
+
+    // إلغاء إشعار قبل يومين
+    await NotificationService().cancelNotification(id + 2000);
+
+    // حذف التاريخ المحفوظ من الـ Local Storage
+    await storage.remove(eventKey);
+
+    debugPrint(
+      "--- [Scheduler] Notifications for Event $id cancelled successfully. ---",
+    );
+  } catch (e, stackTrace) {
+    debugPrint('Error cancelling notifications for Event $id: $e');
+    debugPrint('Stack trace: $stackTrace');
+  }
+}
   // Method to schedule a test notification at a specific time
   // This can be used for testing purposes to verify that notifications are working correctly
   // Not used

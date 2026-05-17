@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:app/core/helpers/app_utilities.dart';
 import 'package:app/core/networking/api_service.dart';
@@ -51,15 +52,31 @@ class FirebaseMessagingHandler {
       pendingNavigationArguments = null;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Future.delayed(const Duration(milliseconds: 800), () {
-          NavigationService.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-            Routes.landingView,
-            (route) => false,
-            // arguments: arguments,
-          );
-          NavigationService.navigatorKey.currentState?.pushNamed(
-            route,
-            arguments: arguments
-          );
+          if (route == Routes.landingView) {
+            // لو الصفحة المطلوبة هي الـ LandingView، بنفتحها مباشرة ونمسح الـ stack ونمرر الـ argument
+            NavigationService.navigatorKey.currentState
+                ?.pushNamedAndRemoveUntil(
+              Routes.landingView,
+              (route) => false,
+              arguments: arguments, // هيمرر رقم 1 هنا بنجاح
+            );
+          } else {
+            // لأي صفحة تانية (زي تفاصيل الـ Gatekeeper أو الـ Client)
+            NavigationService.navigatorKey.currentState
+                ?.pushNamedAndRemoveUntil(
+              Routes.landingView,
+              (route) => false,
+            );
+            NavigationService.navigatorKey.currentState
+                ?.pushNamed(route, arguments: arguments);
+          }
+          //   NavigationService.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          //     Routes.landingView,
+          //     (route) => false,
+          //     // arguments: arguments,
+          //   );
+          //   NavigationService.navigatorKey.currentState
+          //       ?.pushNamed(route, arguments: arguments);
         });
       });
     }
@@ -124,7 +141,6 @@ class FirebaseMessagingHandler {
     }
   }
 
-
   /// Get Refresh FCM Token
 
   void _listenToTokenRefresh() {
@@ -154,27 +170,72 @@ class FirebaseMessagingHandler {
     try {
       final data = message.data;
 
+      debugPrint('Initial message data: $data');
+
       if (data.containsKey('type')) {
+        // Gatekeeper notifications
         if (data['type'] == 'GKCheckOut' || data['type'] == 'GKCheckIn') {
-          pendingNavigationRoute = Routes.notifications;
+          pendingNavigationRoute = Routes.gatekeeperProfileScreen;
+
+          pendingNavigationArguments = int.parse(data['gatekeeperId']);
+
           return;
         }
+
+        // Guest notifications
         if (data['type'] == 'GuestConfirmed' ||
             data['type'] == 'GuestDeclined') {
           pendingNavigationRoute = Routes.clientStatisticsDetailScreen;
+
           pendingNavigationArguments = {
             'eventId': int.parse(data['eventId']),
             'eventTitle': data['eventTitle'] ?? '',
           };
+
+          return;
+        }
+
+        // Events
+        if (data['type'] == 'NewEvent') {
+          pendingNavigationRoute = Routes.landingView;
+          pendingNavigationArguments = 1;
           return;
         }
       }
+
+      // Default fallback
       pendingNavigationRoute = Routes.notifications;
     } catch (e) {
       debugPrint('Error storing pending navigation: $e');
+
       pendingNavigationRoute = Routes.notifications;
     }
   }
+  // void _storePendingNavigation(RemoteMessage message) {
+  //   try {
+  //     final data = message.data;
+
+  //     if (data.containsKey('type')) {
+  //       if (data['type'] == 'GKCheckOut' || data['type'] == 'GKCheckIn') {
+  //         pendingNavigationRoute = Routes.notifications;
+  //         return;
+  //       }
+  //       if (data['type'] == 'GuestConfirmed' ||
+  //           data['type'] == 'GuestDeclined') {
+  //         pendingNavigationRoute = Routes.clientStatisticsDetailScreen;
+  //         pendingNavigationArguments = {
+  //           'eventId': int.parse(data['eventId']),
+  //           'eventTitle': data['eventTitle'] ?? '',
+  //         };
+  //         return;
+  //       }
+  //     }
+  //     pendingNavigationRoute = Routes.notifications;
+  //   } catch (e) {
+  //     debugPrint('Error storing pending navigation: $e');
+  //     pendingNavigationRoute = Routes.notifications;
+  //   }
+  // }
 
   void _handleForegroundMessage(RemoteMessage message) {
     debugPrint('Received foreground message: ${message.messageId}');
@@ -184,6 +245,8 @@ class FirebaseMessagingHandler {
       NotificationService().showInstantNotification(
         body: message.notification!.body ?? '',
         title: message.notification!.title ?? '',
+        // payload: message.data.isNotEmpty ? message.data.toString() : null,
+        payload: jsonEncode(message.data),
       );
       // Refresh notifications list/badge in real-time
       try {
@@ -205,7 +268,8 @@ class FirebaseMessagingHandler {
           // If payload contains a direct route, use it
           if (data.containsKey('type')) {
             if (data['type'] == 'GKCheckOut' || data['type'] == 'GKCheckIn') {
-              navigatorState.pushNamed(Routes.gatekeeperProfileScreen);
+              navigatorState.pushNamed(Routes.gatekeeperProfileScreen,
+                  arguments: int.parse(data['gatekeeperId']));
               return;
             }
             if (data['type'] == 'GuestConfirmed' ||
@@ -220,7 +284,15 @@ class FirebaseMessagingHandler {
               return;
             }
             if (data['type'] == 'NewEvent') {
-              navigatorState.pushNamed(Routes.eventsCalendar);
+              // navigatorState.pushNamed(
+              //   Routes.landingView,
+              //   arguments: 1,
+              // );
+            navigatorState.pushNamedAndRemoveUntil(
+                Routes.landingView,
+                (route) => false,
+                arguments: 1, // بنمرر الـ index مباشرة هنا
+              );
               return;
             }
 

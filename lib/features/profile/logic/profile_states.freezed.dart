@@ -15,16 +15,16 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$ProfileStates<T> {
+mixin _$ProfileStates {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() emptyInput,
-    required TResult Function(T data) success,
+    required TResult Function(ProfileModel data) success,
     required TResult Function(String message) error,
     required TResult Function() getGatekeeperLoading,
-    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
   }) =>
       throw _privateConstructorUsedError;
@@ -33,10 +33,10 @@ mixin _$ProfileStates<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? emptyInput,
-    TResult? Function(T data)? success,
+    TResult? Function(ProfileModel data)? success,
     TResult? Function(String message)? error,
     TResult? Function()? getGatekeeperLoading,
-    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
   }) =>
       throw _privateConstructorUsedError;
@@ -45,65 +45,63 @@ mixin _$ProfileStates<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? emptyInput,
-    TResult Function(T data)? success,
+    TResult Function(ProfileModel data)? success,
     TResult Function(String message)? error,
     TResult Function()? getGatekeeperLoading,
-    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial<T> value) initial,
-    required TResult Function(Loading<T> value) loading,
-    required TResult Function(EmptyInput<T> value) emptyInput,
-    required TResult Function(Success<T> value) success,
-    required TResult Function(Error<T> value) error,
-    required TResult Function(GetGatekeeperLoading<T> value)
-        getGatekeeperLoading,
-    required TResult Function(GetGatekeeperSuccess<T> value)
-        getGatekeeperSuccess,
-    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial<T> value)? initial,
-    TResult? Function(Loading<T> value)? loading,
-    TResult? Function(EmptyInput<T> value)? emptyInput,
-    TResult? Function(Success<T> value)? success,
-    TResult? Function(Error<T> value)? error,
-    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial<T> value)? initial,
-    TResult Function(Loading<T> value)? loading,
-    TResult Function(EmptyInput<T> value)? emptyInput,
-    TResult Function(Success<T> value)? success,
-    TResult Function(Error<T> value)? error,
-    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ProfileStatesCopyWith<T, $Res> {
+abstract class $ProfileStatesCopyWith<$Res> {
   factory $ProfileStatesCopyWith(
-          ProfileStates<T> value, $Res Function(ProfileStates<T>) then) =
-      _$ProfileStatesCopyWithImpl<T, $Res, ProfileStates<T>>;
+          ProfileStates value, $Res Function(ProfileStates) then) =
+      _$ProfileStatesCopyWithImpl<$Res, ProfileStates>;
 }
 
 /// @nodoc
-class _$ProfileStatesCopyWithImpl<T, $Res, $Val extends ProfileStates<T>>
-    implements $ProfileStatesCopyWith<T, $Res> {
+class _$ProfileStatesCopyWithImpl<$Res, $Val extends ProfileStates>
+    implements $ProfileStatesCopyWith<$Res> {
   _$ProfileStatesCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -116,18 +114,18 @@ class _$ProfileStatesCopyWithImpl<T, $Res, $Val extends ProfileStates<T>>
 }
 
 /// @nodoc
-abstract class _$$InitialImplCopyWith<T, $Res> {
+abstract class _$$InitialImplCopyWith<$Res> {
   factory _$$InitialImplCopyWith(
-          _$InitialImpl<T> value, $Res Function(_$InitialImpl<T>) then) =
-      __$$InitialImplCopyWithImpl<T, $Res>;
+          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
+      __$$InitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$InitialImplCopyWithImpl<T, $Res>
-    extends _$ProfileStatesCopyWithImpl<T, $Res, _$InitialImpl<T>>
-    implements _$$InitialImplCopyWith<T, $Res> {
+class __$$InitialImplCopyWithImpl<$Res>
+    extends _$ProfileStatesCopyWithImpl<$Res, _$InitialImpl>
+    implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
-      _$InitialImpl<T> _value, $Res Function(_$InitialImpl<T>) _then)
+      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfileStates
@@ -136,18 +134,18 @@ class __$$InitialImplCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$InitialImpl<T> implements _Initial<T> {
+class _$InitialImpl implements _Initial {
   const _$InitialImpl();
 
   @override
   String toString() {
-    return 'ProfileStates<$T>.initial()';
+    return 'ProfileStates.initial()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InitialImpl<T>);
+        (other.runtimeType == runtimeType && other is _$InitialImpl);
   }
 
   @override
@@ -159,10 +157,10 @@ class _$InitialImpl<T> implements _Initial<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() emptyInput,
-    required TResult Function(T data) success,
+    required TResult Function(ProfileModel data) success,
     required TResult Function(String message) error,
     required TResult Function() getGatekeeperLoading,
-    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
   }) {
     return initial();
@@ -174,10 +172,10 @@ class _$InitialImpl<T> implements _Initial<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? emptyInput,
-    TResult? Function(T data)? success,
+    TResult? Function(ProfileModel data)? success,
     TResult? Function(String message)? error,
     TResult? Function()? getGatekeeperLoading,
-    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
   }) {
     return initial?.call();
@@ -189,10 +187,10 @@ class _$InitialImpl<T> implements _Initial<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? emptyInput,
-    TResult Function(T data)? success,
+    TResult Function(ProfileModel data)? success,
     TResult Function(String message)? error,
     TResult Function()? getGatekeeperLoading,
-    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
@@ -205,16 +203,14 @@ class _$InitialImpl<T> implements _Initial<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial<T> value) initial,
-    required TResult Function(Loading<T> value) loading,
-    required TResult Function(EmptyInput<T> value) emptyInput,
-    required TResult Function(Success<T> value) success,
-    required TResult Function(Error<T> value) error,
-    required TResult Function(GetGatekeeperLoading<T> value)
-        getGatekeeperLoading,
-    required TResult Function(GetGatekeeperSuccess<T> value)
-        getGatekeeperSuccess,
-    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
   }) {
     return initial(this);
   }
@@ -222,14 +218,14 @@ class _$InitialImpl<T> implements _Initial<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial<T> value)? initial,
-    TResult? Function(Loading<T> value)? loading,
-    TResult? Function(EmptyInput<T> value)? emptyInput,
-    TResult? Function(Success<T> value)? success,
-    TResult? Function(Error<T> value)? error,
-    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
   }) {
     return initial?.call(this);
   }
@@ -237,14 +233,14 @@ class _$InitialImpl<T> implements _Initial<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial<T> value)? initial,
-    TResult Function(Loading<T> value)? loading,
-    TResult Function(EmptyInput<T> value)? emptyInput,
-    TResult Function(Success<T> value)? success,
-    TResult Function(Error<T> value)? error,
-    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -254,23 +250,23 @@ class _$InitialImpl<T> implements _Initial<T> {
   }
 }
 
-abstract class _Initial<T> implements ProfileStates<T> {
-  const factory _Initial() = _$InitialImpl<T>;
+abstract class _Initial implements ProfileStates {
+  const factory _Initial() = _$InitialImpl;
 }
 
 /// @nodoc
-abstract class _$$LoadingImplCopyWith<T, $Res> {
+abstract class _$$LoadingImplCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
-          _$LoadingImpl<T> value, $Res Function(_$LoadingImpl<T>) then) =
-      __$$LoadingImplCopyWithImpl<T, $Res>;
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$LoadingImplCopyWithImpl<T, $Res>
-    extends _$ProfileStatesCopyWithImpl<T, $Res, _$LoadingImpl<T>>
-    implements _$$LoadingImplCopyWith<T, $Res> {
+class __$$LoadingImplCopyWithImpl<$Res>
+    extends _$ProfileStatesCopyWithImpl<$Res, _$LoadingImpl>
+    implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
-      _$LoadingImpl<T> _value, $Res Function(_$LoadingImpl<T>) _then)
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfileStates
@@ -279,18 +275,18 @@ class __$$LoadingImplCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$LoadingImpl<T> implements Loading<T> {
+class _$LoadingImpl implements Loading {
   const _$LoadingImpl();
 
   @override
   String toString() {
-    return 'ProfileStates<$T>.loading()';
+    return 'ProfileStates.loading()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadingImpl<T>);
+        (other.runtimeType == runtimeType && other is _$LoadingImpl);
   }
 
   @override
@@ -302,10 +298,10 @@ class _$LoadingImpl<T> implements Loading<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() emptyInput,
-    required TResult Function(T data) success,
+    required TResult Function(ProfileModel data) success,
     required TResult Function(String message) error,
     required TResult Function() getGatekeeperLoading,
-    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
   }) {
     return loading();
@@ -317,10 +313,10 @@ class _$LoadingImpl<T> implements Loading<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? emptyInput,
-    TResult? Function(T data)? success,
+    TResult? Function(ProfileModel data)? success,
     TResult? Function(String message)? error,
     TResult? Function()? getGatekeeperLoading,
-    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
   }) {
     return loading?.call();
@@ -332,10 +328,10 @@ class _$LoadingImpl<T> implements Loading<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? emptyInput,
-    TResult Function(T data)? success,
+    TResult Function(ProfileModel data)? success,
     TResult Function(String message)? error,
     TResult Function()? getGatekeeperLoading,
-    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
@@ -348,16 +344,14 @@ class _$LoadingImpl<T> implements Loading<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial<T> value) initial,
-    required TResult Function(Loading<T> value) loading,
-    required TResult Function(EmptyInput<T> value) emptyInput,
-    required TResult Function(Success<T> value) success,
-    required TResult Function(Error<T> value) error,
-    required TResult Function(GetGatekeeperLoading<T> value)
-        getGatekeeperLoading,
-    required TResult Function(GetGatekeeperSuccess<T> value)
-        getGatekeeperSuccess,
-    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
   }) {
     return loading(this);
   }
@@ -365,14 +359,14 @@ class _$LoadingImpl<T> implements Loading<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial<T> value)? initial,
-    TResult? Function(Loading<T> value)? loading,
-    TResult? Function(EmptyInput<T> value)? emptyInput,
-    TResult? Function(Success<T> value)? success,
-    TResult? Function(Error<T> value)? error,
-    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
   }) {
     return loading?.call(this);
   }
@@ -380,14 +374,14 @@ class _$LoadingImpl<T> implements Loading<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial<T> value)? initial,
-    TResult Function(Loading<T> value)? loading,
-    TResult Function(EmptyInput<T> value)? emptyInput,
-    TResult Function(Success<T> value)? success,
-    TResult Function(Error<T> value)? error,
-    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -397,23 +391,23 @@ class _$LoadingImpl<T> implements Loading<T> {
   }
 }
 
-abstract class Loading<T> implements ProfileStates<T> {
-  const factory Loading() = _$LoadingImpl<T>;
+abstract class Loading implements ProfileStates {
+  const factory Loading() = _$LoadingImpl;
 }
 
 /// @nodoc
-abstract class _$$EmptyInputImplCopyWith<T, $Res> {
+abstract class _$$EmptyInputImplCopyWith<$Res> {
   factory _$$EmptyInputImplCopyWith(
-          _$EmptyInputImpl<T> value, $Res Function(_$EmptyInputImpl<T>) then) =
-      __$$EmptyInputImplCopyWithImpl<T, $Res>;
+          _$EmptyInputImpl value, $Res Function(_$EmptyInputImpl) then) =
+      __$$EmptyInputImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$EmptyInputImplCopyWithImpl<T, $Res>
-    extends _$ProfileStatesCopyWithImpl<T, $Res, _$EmptyInputImpl<T>>
-    implements _$$EmptyInputImplCopyWith<T, $Res> {
+class __$$EmptyInputImplCopyWithImpl<$Res>
+    extends _$ProfileStatesCopyWithImpl<$Res, _$EmptyInputImpl>
+    implements _$$EmptyInputImplCopyWith<$Res> {
   __$$EmptyInputImplCopyWithImpl(
-      _$EmptyInputImpl<T> _value, $Res Function(_$EmptyInputImpl<T>) _then)
+      _$EmptyInputImpl _value, $Res Function(_$EmptyInputImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfileStates
@@ -422,18 +416,18 @@ class __$$EmptyInputImplCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$EmptyInputImpl<T> implements EmptyInput<T> {
+class _$EmptyInputImpl implements EmptyInput {
   const _$EmptyInputImpl();
 
   @override
   String toString() {
-    return 'ProfileStates<$T>.emptyInput()';
+    return 'ProfileStates.emptyInput()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$EmptyInputImpl<T>);
+        (other.runtimeType == runtimeType && other is _$EmptyInputImpl);
   }
 
   @override
@@ -445,10 +439,10 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() emptyInput,
-    required TResult Function(T data) success,
+    required TResult Function(ProfileModel data) success,
     required TResult Function(String message) error,
     required TResult Function() getGatekeeperLoading,
-    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
   }) {
     return emptyInput();
@@ -460,10 +454,10 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? emptyInput,
-    TResult? Function(T data)? success,
+    TResult? Function(ProfileModel data)? success,
     TResult? Function(String message)? error,
     TResult? Function()? getGatekeeperLoading,
-    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
   }) {
     return emptyInput?.call();
@@ -475,10 +469,10 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? emptyInput,
-    TResult Function(T data)? success,
+    TResult Function(ProfileModel data)? success,
     TResult Function(String message)? error,
     TResult Function()? getGatekeeperLoading,
-    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
@@ -491,16 +485,14 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial<T> value) initial,
-    required TResult Function(Loading<T> value) loading,
-    required TResult Function(EmptyInput<T> value) emptyInput,
-    required TResult Function(Success<T> value) success,
-    required TResult Function(Error<T> value) error,
-    required TResult Function(GetGatekeeperLoading<T> value)
-        getGatekeeperLoading,
-    required TResult Function(GetGatekeeperSuccess<T> value)
-        getGatekeeperSuccess,
-    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
   }) {
     return emptyInput(this);
   }
@@ -508,14 +500,14 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial<T> value)? initial,
-    TResult? Function(Loading<T> value)? loading,
-    TResult? Function(EmptyInput<T> value)? emptyInput,
-    TResult? Function(Success<T> value)? success,
-    TResult? Function(Error<T> value)? error,
-    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
   }) {
     return emptyInput?.call(this);
   }
@@ -523,14 +515,14 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial<T> value)? initial,
-    TResult Function(Loading<T> value)? loading,
-    TResult Function(EmptyInput<T> value)? emptyInput,
-    TResult Function(Success<T> value)? success,
-    TResult Function(Error<T> value)? error,
-    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (emptyInput != null) {
@@ -540,25 +532,25 @@ class _$EmptyInputImpl<T> implements EmptyInput<T> {
   }
 }
 
-abstract class EmptyInput<T> implements ProfileStates<T> {
-  const factory EmptyInput() = _$EmptyInputImpl<T>;
+abstract class EmptyInput implements ProfileStates {
+  const factory EmptyInput() = _$EmptyInputImpl;
 }
 
 /// @nodoc
-abstract class _$$SuccessImplCopyWith<T, $Res> {
+abstract class _$$SuccessImplCopyWith<$Res> {
   factory _$$SuccessImplCopyWith(
-          _$SuccessImpl<T> value, $Res Function(_$SuccessImpl<T>) then) =
-      __$$SuccessImplCopyWithImpl<T, $Res>;
+          _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
+      __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({T data});
+  $Res call({ProfileModel data});
 }
 
 /// @nodoc
-class __$$SuccessImplCopyWithImpl<T, $Res>
-    extends _$ProfileStatesCopyWithImpl<T, $Res, _$SuccessImpl<T>>
-    implements _$$SuccessImplCopyWith<T, $Res> {
+class __$$SuccessImplCopyWithImpl<$Res>
+    extends _$ProfileStatesCopyWithImpl<$Res, _$SuccessImpl>
+    implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
-      _$SuccessImpl<T> _value, $Res Function(_$SuccessImpl<T>) _then)
+      _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfileStates
@@ -566,49 +558,48 @@ class __$$SuccessImplCopyWithImpl<T, $Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? data = null,
   }) {
-    return _then(_$SuccessImpl<T>(
-      freezed == data
+    return _then(_$SuccessImpl(
+      null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as T,
+              as ProfileModel,
     ));
   }
 }
 
 /// @nodoc
 
-class _$SuccessImpl<T> implements Success<T> {
+class _$SuccessImpl implements Success {
   const _$SuccessImpl(this.data);
 
   @override
-  final T data;
+  final ProfileModel data;
 
   @override
   String toString() {
-    return 'ProfileStates<$T>.success(data: $data)';
+    return 'ProfileStates.success(data: $data)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SuccessImpl<T> &&
-            const DeepCollectionEquality().equals(other.data, data));
+            other is _$SuccessImpl &&
+            (identical(other.data, data) || other.data == data));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
+  int get hashCode => Object.hash(runtimeType, data);
 
   /// Create a copy of ProfileStates
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$SuccessImplCopyWith<T, _$SuccessImpl<T>> get copyWith =>
-      __$$SuccessImplCopyWithImpl<T, _$SuccessImpl<T>>(this, _$identity);
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -616,10 +607,10 @@ class _$SuccessImpl<T> implements Success<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() emptyInput,
-    required TResult Function(T data) success,
+    required TResult Function(ProfileModel data) success,
     required TResult Function(String message) error,
     required TResult Function() getGatekeeperLoading,
-    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
   }) {
     return success(data);
@@ -631,10 +622,10 @@ class _$SuccessImpl<T> implements Success<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? emptyInput,
-    TResult? Function(T data)? success,
+    TResult? Function(ProfileModel data)? success,
     TResult? Function(String message)? error,
     TResult? Function()? getGatekeeperLoading,
-    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
   }) {
     return success?.call(data);
@@ -646,10 +637,10 @@ class _$SuccessImpl<T> implements Success<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? emptyInput,
-    TResult Function(T data)? success,
+    TResult Function(ProfileModel data)? success,
     TResult Function(String message)? error,
     TResult Function()? getGatekeeperLoading,
-    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
@@ -662,16 +653,14 @@ class _$SuccessImpl<T> implements Success<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial<T> value) initial,
-    required TResult Function(Loading<T> value) loading,
-    required TResult Function(EmptyInput<T> value) emptyInput,
-    required TResult Function(Success<T> value) success,
-    required TResult Function(Error<T> value) error,
-    required TResult Function(GetGatekeeperLoading<T> value)
-        getGatekeeperLoading,
-    required TResult Function(GetGatekeeperSuccess<T> value)
-        getGatekeeperSuccess,
-    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
   }) {
     return success(this);
   }
@@ -679,14 +668,14 @@ class _$SuccessImpl<T> implements Success<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial<T> value)? initial,
-    TResult? Function(Loading<T> value)? loading,
-    TResult? Function(EmptyInput<T> value)? emptyInput,
-    TResult? Function(Success<T> value)? success,
-    TResult? Function(Error<T> value)? error,
-    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
   }) {
     return success?.call(this);
   }
@@ -694,14 +683,14 @@ class _$SuccessImpl<T> implements Success<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial<T> value)? initial,
-    TResult Function(Loading<T> value)? loading,
-    TResult Function(EmptyInput<T> value)? emptyInput,
-    TResult Function(Success<T> value)? success,
-    TResult Function(Error<T> value)? error,
-    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -711,33 +700,33 @@ class _$SuccessImpl<T> implements Success<T> {
   }
 }
 
-abstract class Success<T> implements ProfileStates<T> {
-  const factory Success(final T data) = _$SuccessImpl<T>;
+abstract class Success implements ProfileStates {
+  const factory Success(final ProfileModel data) = _$SuccessImpl;
 
-  T get data;
+  ProfileModel get data;
 
   /// Create a copy of ProfileStates
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SuccessImplCopyWith<T, _$SuccessImpl<T>> get copyWith =>
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ErrorImplCopyWith<T, $Res> {
+abstract class _$$ErrorImplCopyWith<$Res> {
   factory _$$ErrorImplCopyWith(
-          _$ErrorImpl<T> value, $Res Function(_$ErrorImpl<T>) then) =
-      __$$ErrorImplCopyWithImpl<T, $Res>;
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String message});
 }
 
 /// @nodoc
-class __$$ErrorImplCopyWithImpl<T, $Res>
-    extends _$ProfileStatesCopyWithImpl<T, $Res, _$ErrorImpl<T>>
-    implements _$$ErrorImplCopyWith<T, $Res> {
+class __$$ErrorImplCopyWithImpl<$Res>
+    extends _$ProfileStatesCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
-      _$ErrorImpl<T> _value, $Res Function(_$ErrorImpl<T>) _then)
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfileStates
@@ -747,7 +736,7 @@ class __$$ErrorImplCopyWithImpl<T, $Res>
   $Res call({
     Object? message = null,
   }) {
-    return _then(_$ErrorImpl<T>(
+    return _then(_$ErrorImpl(
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -758,7 +747,7 @@ class __$$ErrorImplCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$ErrorImpl<T> implements Error<T> {
+class _$ErrorImpl implements Error {
   const _$ErrorImpl({required this.message});
 
   @override
@@ -766,14 +755,14 @@ class _$ErrorImpl<T> implements Error<T> {
 
   @override
   String toString() {
-    return 'ProfileStates<$T>.error(message: $message)';
+    return 'ProfileStates.error(message: $message)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ErrorImpl<T> &&
+            other is _$ErrorImpl &&
             (identical(other.message, message) || other.message == message));
   }
 
@@ -785,8 +774,8 @@ class _$ErrorImpl<T> implements Error<T> {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ErrorImplCopyWith<T, _$ErrorImpl<T>> get copyWith =>
-      __$$ErrorImplCopyWithImpl<T, _$ErrorImpl<T>>(this, _$identity);
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -794,10 +783,10 @@ class _$ErrorImpl<T> implements Error<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() emptyInput,
-    required TResult Function(T data) success,
+    required TResult Function(ProfileModel data) success,
     required TResult Function(String message) error,
     required TResult Function() getGatekeeperLoading,
-    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
   }) {
     return error(message);
@@ -809,10 +798,10 @@ class _$ErrorImpl<T> implements Error<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? emptyInput,
-    TResult? Function(T data)? success,
+    TResult? Function(ProfileModel data)? success,
     TResult? Function(String message)? error,
     TResult? Function()? getGatekeeperLoading,
-    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
   }) {
     return error?.call(message);
@@ -824,10 +813,10 @@ class _$ErrorImpl<T> implements Error<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? emptyInput,
-    TResult Function(T data)? success,
+    TResult Function(ProfileModel data)? success,
     TResult Function(String message)? error,
     TResult Function()? getGatekeeperLoading,
-    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
@@ -840,16 +829,14 @@ class _$ErrorImpl<T> implements Error<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial<T> value) initial,
-    required TResult Function(Loading<T> value) loading,
-    required TResult Function(EmptyInput<T> value) emptyInput,
-    required TResult Function(Success<T> value) success,
-    required TResult Function(Error<T> value) error,
-    required TResult Function(GetGatekeeperLoading<T> value)
-        getGatekeeperLoading,
-    required TResult Function(GetGatekeeperSuccess<T> value)
-        getGatekeeperSuccess,
-    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
   }) {
     return error(this);
   }
@@ -857,14 +844,14 @@ class _$ErrorImpl<T> implements Error<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial<T> value)? initial,
-    TResult? Function(Loading<T> value)? loading,
-    TResult? Function(EmptyInput<T> value)? emptyInput,
-    TResult? Function(Success<T> value)? success,
-    TResult? Function(Error<T> value)? error,
-    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
   }) {
     return error?.call(this);
   }
@@ -872,14 +859,14 @@ class _$ErrorImpl<T> implements Error<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial<T> value)? initial,
-    TResult Function(Loading<T> value)? loading,
-    TResult Function(EmptyInput<T> value)? emptyInput,
-    TResult Function(Success<T> value)? success,
-    TResult Function(Error<T> value)? error,
-    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -889,32 +876,31 @@ class _$ErrorImpl<T> implements Error<T> {
   }
 }
 
-abstract class Error<T> implements ProfileStates<T> {
-  const factory Error({required final String message}) = _$ErrorImpl<T>;
+abstract class Error implements ProfileStates {
+  const factory Error({required final String message}) = _$ErrorImpl;
 
   String get message;
 
   /// Create a copy of ProfileStates
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorImplCopyWith<T, _$ErrorImpl<T>> get copyWith =>
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$GetGatekeeperLoadingImplCopyWith<T, $Res> {
-  factory _$$GetGatekeeperLoadingImplCopyWith(
-          _$GetGatekeeperLoadingImpl<T> value,
-          $Res Function(_$GetGatekeeperLoadingImpl<T>) then) =
-      __$$GetGatekeeperLoadingImplCopyWithImpl<T, $Res>;
+abstract class _$$GetGatekeeperLoadingImplCopyWith<$Res> {
+  factory _$$GetGatekeeperLoadingImplCopyWith(_$GetGatekeeperLoadingImpl value,
+          $Res Function(_$GetGatekeeperLoadingImpl) then) =
+      __$$GetGatekeeperLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GetGatekeeperLoadingImplCopyWithImpl<T, $Res>
-    extends _$ProfileStatesCopyWithImpl<T, $Res, _$GetGatekeeperLoadingImpl<T>>
-    implements _$$GetGatekeeperLoadingImplCopyWith<T, $Res> {
-  __$$GetGatekeeperLoadingImplCopyWithImpl(_$GetGatekeeperLoadingImpl<T> _value,
-      $Res Function(_$GetGatekeeperLoadingImpl<T>) _then)
+class __$$GetGatekeeperLoadingImplCopyWithImpl<$Res>
+    extends _$ProfileStatesCopyWithImpl<$Res, _$GetGatekeeperLoadingImpl>
+    implements _$$GetGatekeeperLoadingImplCopyWith<$Res> {
+  __$$GetGatekeeperLoadingImplCopyWithImpl(_$GetGatekeeperLoadingImpl _value,
+      $Res Function(_$GetGatekeeperLoadingImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfileStates
@@ -923,19 +909,19 @@ class __$$GetGatekeeperLoadingImplCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$GetGatekeeperLoadingImpl<T> implements GetGatekeeperLoading<T> {
+class _$GetGatekeeperLoadingImpl implements GetGatekeeperLoading {
   const _$GetGatekeeperLoadingImpl();
 
   @override
   String toString() {
-    return 'ProfileStates<$T>.getGatekeeperLoading()';
+    return 'ProfileStates.getGatekeeperLoading()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GetGatekeeperLoadingImpl<T>);
+            other is _$GetGatekeeperLoadingImpl);
   }
 
   @override
@@ -947,10 +933,10 @@ class _$GetGatekeeperLoadingImpl<T> implements GetGatekeeperLoading<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() emptyInput,
-    required TResult Function(T data) success,
+    required TResult Function(ProfileModel data) success,
     required TResult Function(String message) error,
     required TResult Function() getGatekeeperLoading,
-    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
   }) {
     return getGatekeeperLoading();
@@ -962,10 +948,10 @@ class _$GetGatekeeperLoadingImpl<T> implements GetGatekeeperLoading<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? emptyInput,
-    TResult? Function(T data)? success,
+    TResult? Function(ProfileModel data)? success,
     TResult? Function(String message)? error,
     TResult? Function()? getGatekeeperLoading,
-    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
   }) {
     return getGatekeeperLoading?.call();
@@ -977,10 +963,10 @@ class _$GetGatekeeperLoadingImpl<T> implements GetGatekeeperLoading<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? emptyInput,
-    TResult Function(T data)? success,
+    TResult Function(ProfileModel data)? success,
     TResult Function(String message)? error,
     TResult Function()? getGatekeeperLoading,
-    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
@@ -993,16 +979,14 @@ class _$GetGatekeeperLoadingImpl<T> implements GetGatekeeperLoading<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial<T> value) initial,
-    required TResult Function(Loading<T> value) loading,
-    required TResult Function(EmptyInput<T> value) emptyInput,
-    required TResult Function(Success<T> value) success,
-    required TResult Function(Error<T> value) error,
-    required TResult Function(GetGatekeeperLoading<T> value)
-        getGatekeeperLoading,
-    required TResult Function(GetGatekeeperSuccess<T> value)
-        getGatekeeperSuccess,
-    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
   }) {
     return getGatekeeperLoading(this);
   }
@@ -1010,14 +994,14 @@ class _$GetGatekeeperLoadingImpl<T> implements GetGatekeeperLoading<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial<T> value)? initial,
-    TResult? Function(Loading<T> value)? loading,
-    TResult? Function(EmptyInput<T> value)? emptyInput,
-    TResult? Function(Success<T> value)? success,
-    TResult? Function(Error<T> value)? error,
-    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
   }) {
     return getGatekeeperLoading?.call(this);
   }
@@ -1025,14 +1009,14 @@ class _$GetGatekeeperLoadingImpl<T> implements GetGatekeeperLoading<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial<T> value)? initial,
-    TResult Function(Loading<T> value)? loading,
-    TResult Function(EmptyInput<T> value)? emptyInput,
-    TResult Function(Success<T> value)? success,
-    TResult Function(Error<T> value)? error,
-    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (getGatekeeperLoading != null) {
@@ -1042,26 +1026,25 @@ class _$GetGatekeeperLoadingImpl<T> implements GetGatekeeperLoading<T> {
   }
 }
 
-abstract class GetGatekeeperLoading<T> implements ProfileStates<T> {
-  const factory GetGatekeeperLoading() = _$GetGatekeeperLoadingImpl<T>;
+abstract class GetGatekeeperLoading implements ProfileStates {
+  const factory GetGatekeeperLoading() = _$GetGatekeeperLoadingImpl;
 }
 
 /// @nodoc
-abstract class _$$GetGatekeeperSuccessImplCopyWith<T, $Res> {
-  factory _$$GetGatekeeperSuccessImplCopyWith(
-          _$GetGatekeeperSuccessImpl<T> value,
-          $Res Function(_$GetGatekeeperSuccessImpl<T>) then) =
-      __$$GetGatekeeperSuccessImplCopyWithImpl<T, $Res>;
+abstract class _$$GetGatekeeperSuccessImplCopyWith<$Res> {
+  factory _$$GetGatekeeperSuccessImplCopyWith(_$GetGatekeeperSuccessImpl value,
+          $Res Function(_$GetGatekeeperSuccessImpl) then) =
+      __$$GetGatekeeperSuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({T data});
+  $Res call({ProfileModel data});
 }
 
 /// @nodoc
-class __$$GetGatekeeperSuccessImplCopyWithImpl<T, $Res>
-    extends _$ProfileStatesCopyWithImpl<T, $Res, _$GetGatekeeperSuccessImpl<T>>
-    implements _$$GetGatekeeperSuccessImplCopyWith<T, $Res> {
-  __$$GetGatekeeperSuccessImplCopyWithImpl(_$GetGatekeeperSuccessImpl<T> _value,
-      $Res Function(_$GetGatekeeperSuccessImpl<T>) _then)
+class __$$GetGatekeeperSuccessImplCopyWithImpl<$Res>
+    extends _$ProfileStatesCopyWithImpl<$Res, _$GetGatekeeperSuccessImpl>
+    implements _$$GetGatekeeperSuccessImplCopyWith<$Res> {
+  __$$GetGatekeeperSuccessImplCopyWithImpl(_$GetGatekeeperSuccessImpl _value,
+      $Res Function(_$GetGatekeeperSuccessImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfileStates
@@ -1069,50 +1052,50 @@ class __$$GetGatekeeperSuccessImplCopyWithImpl<T, $Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? data = null,
   }) {
-    return _then(_$GetGatekeeperSuccessImpl<T>(
-      freezed == data
+    return _then(_$GetGatekeeperSuccessImpl(
+      null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as T,
+              as ProfileModel,
     ));
   }
 }
 
 /// @nodoc
 
-class _$GetGatekeeperSuccessImpl<T> implements GetGatekeeperSuccess<T> {
+class _$GetGatekeeperSuccessImpl implements GetGatekeeperSuccess {
   const _$GetGatekeeperSuccessImpl(this.data);
 
   @override
-  final T data;
+  final ProfileModel data;
 
   @override
   String toString() {
-    return 'ProfileStates<$T>.getGatekeeperSuccess(data: $data)';
+    return 'ProfileStates.getGatekeeperSuccess(data: $data)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GetGatekeeperSuccessImpl<T> &&
-            const DeepCollectionEquality().equals(other.data, data));
+            other is _$GetGatekeeperSuccessImpl &&
+            (identical(other.data, data) || other.data == data));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
+  int get hashCode => Object.hash(runtimeType, data);
 
   /// Create a copy of ProfileStates
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetGatekeeperSuccessImplCopyWith<T, _$GetGatekeeperSuccessImpl<T>>
-      get copyWith => __$$GetGatekeeperSuccessImplCopyWithImpl<T,
-          _$GetGatekeeperSuccessImpl<T>>(this, _$identity);
+  _$$GetGatekeeperSuccessImplCopyWith<_$GetGatekeeperSuccessImpl>
+      get copyWith =>
+          __$$GetGatekeeperSuccessImplCopyWithImpl<_$GetGatekeeperSuccessImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1120,10 +1103,10 @@ class _$GetGatekeeperSuccessImpl<T> implements GetGatekeeperSuccess<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() emptyInput,
-    required TResult Function(T data) success,
+    required TResult Function(ProfileModel data) success,
     required TResult Function(String message) error,
     required TResult Function() getGatekeeperLoading,
-    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
   }) {
     return getGatekeeperSuccess(data);
@@ -1135,10 +1118,10 @@ class _$GetGatekeeperSuccessImpl<T> implements GetGatekeeperSuccess<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? emptyInput,
-    TResult? Function(T data)? success,
+    TResult? Function(ProfileModel data)? success,
     TResult? Function(String message)? error,
     TResult? Function()? getGatekeeperLoading,
-    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
   }) {
     return getGatekeeperSuccess?.call(data);
@@ -1150,10 +1133,10 @@ class _$GetGatekeeperSuccessImpl<T> implements GetGatekeeperSuccess<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? emptyInput,
-    TResult Function(T data)? success,
+    TResult Function(ProfileModel data)? success,
     TResult Function(String message)? error,
     TResult Function()? getGatekeeperLoading,
-    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
@@ -1166,16 +1149,14 @@ class _$GetGatekeeperSuccessImpl<T> implements GetGatekeeperSuccess<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial<T> value) initial,
-    required TResult Function(Loading<T> value) loading,
-    required TResult Function(EmptyInput<T> value) emptyInput,
-    required TResult Function(Success<T> value) success,
-    required TResult Function(Error<T> value) error,
-    required TResult Function(GetGatekeeperLoading<T> value)
-        getGatekeeperLoading,
-    required TResult Function(GetGatekeeperSuccess<T> value)
-        getGatekeeperSuccess,
-    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
   }) {
     return getGatekeeperSuccess(this);
   }
@@ -1183,14 +1164,14 @@ class _$GetGatekeeperSuccessImpl<T> implements GetGatekeeperSuccess<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial<T> value)? initial,
-    TResult? Function(Loading<T> value)? loading,
-    TResult? Function(EmptyInput<T> value)? emptyInput,
-    TResult? Function(Success<T> value)? success,
-    TResult? Function(Error<T> value)? error,
-    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
   }) {
     return getGatekeeperSuccess?.call(this);
   }
@@ -1198,14 +1179,14 @@ class _$GetGatekeeperSuccessImpl<T> implements GetGatekeeperSuccess<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial<T> value)? initial,
-    TResult Function(Loading<T> value)? loading,
-    TResult Function(EmptyInput<T> value)? emptyInput,
-    TResult Function(Success<T> value)? success,
-    TResult Function(Error<T> value)? error,
-    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (getGatekeeperSuccess != null) {
@@ -1215,34 +1196,34 @@ class _$GetGatekeeperSuccessImpl<T> implements GetGatekeeperSuccess<T> {
   }
 }
 
-abstract class GetGatekeeperSuccess<T> implements ProfileStates<T> {
-  const factory GetGatekeeperSuccess(final T data) =
-      _$GetGatekeeperSuccessImpl<T>;
+abstract class GetGatekeeperSuccess implements ProfileStates {
+  const factory GetGatekeeperSuccess(final ProfileModel data) =
+      _$GetGatekeeperSuccessImpl;
 
-  T get data;
+  ProfileModel get data;
 
   /// Create a copy of ProfileStates
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GetGatekeeperSuccessImplCopyWith<T, _$GetGatekeeperSuccessImpl<T>>
+  _$$GetGatekeeperSuccessImplCopyWith<_$GetGatekeeperSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$GetGatekeeperErrorImplCopyWith<T, $Res> {
-  factory _$$GetGatekeeperErrorImplCopyWith(_$GetGatekeeperErrorImpl<T> value,
-          $Res Function(_$GetGatekeeperErrorImpl<T>) then) =
-      __$$GetGatekeeperErrorImplCopyWithImpl<T, $Res>;
+abstract class _$$GetGatekeeperErrorImplCopyWith<$Res> {
+  factory _$$GetGatekeeperErrorImplCopyWith(_$GetGatekeeperErrorImpl value,
+          $Res Function(_$GetGatekeeperErrorImpl) then) =
+      __$$GetGatekeeperErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String message});
 }
 
 /// @nodoc
-class __$$GetGatekeeperErrorImplCopyWithImpl<T, $Res>
-    extends _$ProfileStatesCopyWithImpl<T, $Res, _$GetGatekeeperErrorImpl<T>>
-    implements _$$GetGatekeeperErrorImplCopyWith<T, $Res> {
-  __$$GetGatekeeperErrorImplCopyWithImpl(_$GetGatekeeperErrorImpl<T> _value,
-      $Res Function(_$GetGatekeeperErrorImpl<T>) _then)
+class __$$GetGatekeeperErrorImplCopyWithImpl<$Res>
+    extends _$ProfileStatesCopyWithImpl<$Res, _$GetGatekeeperErrorImpl>
+    implements _$$GetGatekeeperErrorImplCopyWith<$Res> {
+  __$$GetGatekeeperErrorImplCopyWithImpl(_$GetGatekeeperErrorImpl _value,
+      $Res Function(_$GetGatekeeperErrorImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProfileStates
@@ -1252,7 +1233,7 @@ class __$$GetGatekeeperErrorImplCopyWithImpl<T, $Res>
   $Res call({
     Object? message = null,
   }) {
-    return _then(_$GetGatekeeperErrorImpl<T>(
+    return _then(_$GetGatekeeperErrorImpl(
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -1263,7 +1244,7 @@ class __$$GetGatekeeperErrorImplCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$GetGatekeeperErrorImpl<T> implements GetGatekeeperError<T> {
+class _$GetGatekeeperErrorImpl implements GetGatekeeperError {
   const _$GetGatekeeperErrorImpl({required this.message});
 
   @override
@@ -1271,14 +1252,14 @@ class _$GetGatekeeperErrorImpl<T> implements GetGatekeeperError<T> {
 
   @override
   String toString() {
-    return 'ProfileStates<$T>.getGatekeeperError(message: $message)';
+    return 'ProfileStates.getGatekeeperError(message: $message)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GetGatekeeperErrorImpl<T> &&
+            other is _$GetGatekeeperErrorImpl &&
             (identical(other.message, message) || other.message == message));
   }
 
@@ -1290,9 +1271,9 @@ class _$GetGatekeeperErrorImpl<T> implements GetGatekeeperError<T> {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetGatekeeperErrorImplCopyWith<T, _$GetGatekeeperErrorImpl<T>>
-      get copyWith => __$$GetGatekeeperErrorImplCopyWithImpl<T,
-          _$GetGatekeeperErrorImpl<T>>(this, _$identity);
+  _$$GetGatekeeperErrorImplCopyWith<_$GetGatekeeperErrorImpl> get copyWith =>
+      __$$GetGatekeeperErrorImplCopyWithImpl<_$GetGatekeeperErrorImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1300,10 +1281,10 @@ class _$GetGatekeeperErrorImpl<T> implements GetGatekeeperError<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() emptyInput,
-    required TResult Function(T data) success,
+    required TResult Function(ProfileModel data) success,
     required TResult Function(String message) error,
     required TResult Function() getGatekeeperLoading,
-    required TResult Function(T data) getGatekeeperSuccess,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
   }) {
     return getGatekeeperError(message);
@@ -1315,10 +1296,10 @@ class _$GetGatekeeperErrorImpl<T> implements GetGatekeeperError<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? emptyInput,
-    TResult? Function(T data)? success,
+    TResult? Function(ProfileModel data)? success,
     TResult? Function(String message)? error,
     TResult? Function()? getGatekeeperLoading,
-    TResult? Function(T data)? getGatekeeperSuccess,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
   }) {
     return getGatekeeperError?.call(message);
@@ -1330,10 +1311,10 @@ class _$GetGatekeeperErrorImpl<T> implements GetGatekeeperError<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? emptyInput,
-    TResult Function(T data)? success,
+    TResult Function(ProfileModel data)? success,
     TResult Function(String message)? error,
     TResult Function()? getGatekeeperLoading,
-    TResult Function(T data)? getGatekeeperSuccess,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
     required TResult orElse(),
   }) {
@@ -1346,16 +1327,14 @@ class _$GetGatekeeperErrorImpl<T> implements GetGatekeeperError<T> {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial<T> value) initial,
-    required TResult Function(Loading<T> value) loading,
-    required TResult Function(EmptyInput<T> value) emptyInput,
-    required TResult Function(Success<T> value) success,
-    required TResult Function(Error<T> value) error,
-    required TResult Function(GetGatekeeperLoading<T> value)
-        getGatekeeperLoading,
-    required TResult Function(GetGatekeeperSuccess<T> value)
-        getGatekeeperSuccess,
-    required TResult Function(GetGatekeeperError<T> value) getGatekeeperError,
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
   }) {
     return getGatekeeperError(this);
   }
@@ -1363,14 +1342,14 @@ class _$GetGatekeeperErrorImpl<T> implements GetGatekeeperError<T> {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial<T> value)? initial,
-    TResult? Function(Loading<T> value)? loading,
-    TResult? Function(EmptyInput<T> value)? emptyInput,
-    TResult? Function(Success<T> value)? success,
-    TResult? Function(Error<T> value)? error,
-    TResult? Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult? Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult? Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
   }) {
     return getGatekeeperError?.call(this);
   }
@@ -1378,14 +1357,14 @@ class _$GetGatekeeperErrorImpl<T> implements GetGatekeeperError<T> {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial<T> value)? initial,
-    TResult Function(Loading<T> value)? loading,
-    TResult Function(EmptyInput<T> value)? emptyInput,
-    TResult Function(Success<T> value)? success,
-    TResult Function(Error<T> value)? error,
-    TResult Function(GetGatekeeperLoading<T> value)? getGatekeeperLoading,
-    TResult Function(GetGatekeeperSuccess<T> value)? getGatekeeperSuccess,
-    TResult Function(GetGatekeeperError<T> value)? getGatekeeperError,
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
     required TResult orElse(),
   }) {
     if (getGatekeeperError != null) {
@@ -1395,15 +1374,15 @@ class _$GetGatekeeperErrorImpl<T> implements GetGatekeeperError<T> {
   }
 }
 
-abstract class GetGatekeeperError<T> implements ProfileStates<T> {
+abstract class GetGatekeeperError implements ProfileStates {
   const factory GetGatekeeperError({required final String message}) =
-      _$GetGatekeeperErrorImpl<T>;
+      _$GetGatekeeperErrorImpl;
 
   String get message;
 
   /// Create a copy of ProfileStates
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GetGatekeeperErrorImplCopyWith<T, _$GetGatekeeperErrorImpl<T>>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$GetGatekeeperErrorImplCopyWith<_$GetGatekeeperErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

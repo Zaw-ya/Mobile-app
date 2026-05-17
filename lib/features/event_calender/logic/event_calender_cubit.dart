@@ -59,6 +59,8 @@ class EventCalenderCubit extends Cubit<EventCalenderStates> {
     response.when(
       success: (response) async {
         await scheduleNotifications();
+              // cancelScheduledNotifications();
+
         emit(const EventCalenderStates.reservationSuccess(
             "Event reserved successfully"));
         // Delay fetching events to prevent the "no events" message from showing immediately
@@ -100,9 +102,9 @@ class EventCalenderCubit extends Cubit<EventCalenderStates> {
           eventTitle: calenderEventsResponse.eventTitle!,
           eventFrom: calenderEventsResponse.eventFrom!);
 
-      debugPrint("Notifications scheduled successfully");
+      debugPrint("Notifications scheduled successfully after reservation");
     } else {
-      debugPrint("Failed to schedule notification");
+      debugPrint("Failed to schedule notification after reservation");
     }
   }
 

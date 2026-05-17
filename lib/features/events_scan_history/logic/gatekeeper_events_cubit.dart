@@ -119,18 +119,21 @@ class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
               log("--- Notification Sync Completed (Haneen Test) ---");
             }
           } else if (_currentPageEvents == 0) {
-            if (!isClosed)
-              {emit(const ScanHistoryStates.emptyInput()); }// ✅ guard
+            if (!isClosed) {
+              emit(const ScanHistoryStates.emptyInput());
+            } // ✅ guard
           }
         },
         failure: (error) {
-          if (!isClosed)
-            {emit(ScanHistoryStates.error(message: error.toString())); }// ✅
+          if (!isClosed) {
+            emit(ScanHistoryStates.error(message: error.toString()));
+          } // ✅
         },
       );
     } catch (e) {
-      if (!isClosed)
-        {emit(ScanHistoryStates.error(message: 'some_error'.tr()));} // ✅
+      if (!isClosed) {
+        emit(ScanHistoryStates.error(message: 'some_error'.tr()));
+      } // ✅
     } finally {
       _isLoadingEvents = false;
     }
@@ -257,6 +260,7 @@ class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
     response.when(success: (response) async {
       getGatekeeperEvents();
       emit(ScanHistoryStates.successDeleteEvent(response));
+      await NotificationScheduler().cancelScheduledNotifications(int.parse(eventId));
     }, failure: (error) {
       debugPrint(' in error: $error');
       if (error == "not_yet_checked") {

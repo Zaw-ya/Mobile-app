@@ -33,4 +33,8 @@ class Routes {
       "/gatekeeperScanHistoryScreen";
   static const String gatekeeperProfileScreen =
       "/gatekeeperProfileScreen";
+
+        static const String gatekeeperCalendarScreen =
+      "/gatekeeperCalendarScreen";
+
 }

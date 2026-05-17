@@ -31,72 +31,72 @@ class _GatekeeperHomeScreenState extends State<GatekeeperHomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setFirebase());
+    // WidgetsBinding.instance.addPostFrameCallback((_) => setFirebase());
     // Pagination: load next page when near bottom
     _scrollController.addListener(_onScroll);
   }
 
-  void setFirebase() async {
-    try {
-      NotificationSettings settings =
-          await FirebaseMessaging.instance.requestPermission(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
+  // void setFirebase() async {
+  //   try {
+  //     NotificationSettings settings =
+  //         await FirebaseMessaging.instance.requestPermission(
+  //       alert: true,
+  //       badge: true,
+  //       sound: true,
+  //     );
 
-      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-        try {
-          // Get the token and handle refreshes
-          String? token = await FirebaseMessaging.instance.getToken();
-          debugPrint("FCM Token: $token");
-        } catch (e) {
-          debugPrint("Error getting APNs token: $e");
-        }
+  //     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+  //       try {
+  //         // Get the token and handle refreshes
+  //         String? token = await FirebaseMessaging.instance.getToken();
+  //         debugPrint("FCM Token: $token");
+  //       } catch (e) {
+  //         debugPrint("Error getting APNs token: $e");
+  //       }
 
-        // Save token to your backend here
-        // sendTokenToBackend(token);
+  //       // Save token to your backend here
+  //       // sendTokenToBackend(token);
 
-        // Handle token refresh
-        FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
-          // Update token on your backend here
-        });
-      }
+  //       // Handle token refresh
+  //       FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+  //         // Update token on your backend here
+  //       });
+  //     }
 
-      // Set up message handlers
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-        final notification = message.notification;
-        if (notification != null) {
-          NotificationService().showNotificationWithActions(
-            id: message.messageId.hashCode,
-            title: notification.title ?? "",
-            body: notification.body ?? "",
-            payload: message.data.toString(),
-          );
-        }
-      });
+  //     // Set up message handlers
+  //     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+  //       final notification = message.notification;
+  //       if (notification != null) {
+  //         NotificationService().showNotificationWithActions(
+  //           id: message.messageId.hashCode,
+  //           title: notification.title ?? "",
+  //           body: notification.body ?? "",
+  //           payload: message.data.toString(),
+  //         );
+  //       }
+  //     });
 
-      // Check for initial message (app opened from terminated state)
-      FirebaseMessaging.instance
-          .getInitialMessage()
-          .then((RemoteMessage? message) {
-        if (message != null) {
-          debugPrint(
-              "App opened from terminated state with message: ${message.messageId}");
-          // Handle the initial message - perhaps navigate to a specific screen
-        }
-      });
+  //     // Check for initial message (app opened from terminated state)
+  //     FirebaseMessaging.instance
+  //         .getInitialMessage()
+  //         .then((RemoteMessage? message) {
+  //       if (message != null) {
+  //         debugPrint(
+  //             "App opened from terminated state with message: ${message.messageId}");
+  //         // Handle the initial message - perhaps navigate to a specific screen
+  //       }
+  //     });
 
-      // Handle message when app is in background but opened
-      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-        debugPrint(
-            "App opened from background state with message: ${message.messageId}");
-        // Handle the message - perhaps navigate to a specific screen
-      });
-    } catch (e) {
-      debugPrint("FCM setup error: $e");
-    }
-  }
+  //     // Handle message when app is in background but opened
+  //     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+  //       debugPrint(
+  //           "App opened from background state with message: ${message.messageId}");
+  //       // Handle the message - perhaps navigate to a specific screen
+  //     });
+  //   } catch (e) {
+  //     debugPrint("FCM setup error: $e");
+  //   }
+  // }
 
   void _onScroll() {
     if (_scrollController.position.pixels >=
@@ -133,6 +133,7 @@ class _GatekeeperHomeScreenState extends State<GatekeeperHomeScreen> {
           child: Scaffold(
             key: ValueKey(currentLocale.languageCode),
             backgroundColor: AppColor.whiteColor,
+            // TODO SafeArea 
             body: SingleChildScrollView(
               controller: _scrollController,
               child: Column(
@@ -140,7 +141,7 @@ class _GatekeeperHomeScreenState extends State<GatekeeperHomeScreen> {
                 children: [
                   HomeHeader(),
                   GuidelinesInvitationLogs(),
-                  SizedBox(height: edge),
+                  SizedBox(height: heightEdge),
                   UpcomingEventsBadge(eventsNumber: events.length),
                   // SizedBox(height: edge * 0.1),
 
@@ -182,7 +183,7 @@ class _EventsList extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: events.length,
-          separatorBuilder: (_, __) => SizedBox(height: edge * 0.4),
+          separatorBuilder: (_, __) => SizedBox(height: heightEdge),
           itemBuilder: (context, index) => EventCard(event: events[index]),
         ),
         if (isLoadingMore) ...[

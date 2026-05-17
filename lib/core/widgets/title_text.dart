@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TitleText extends StatelessWidget {
-  const TitleText(
+  const TitleText( 
       {required this.text,
       this.align,
       this.decoration,

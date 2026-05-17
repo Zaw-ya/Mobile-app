@@ -49,25 +49,27 @@ class LandingCubit extends Cubit<LandingStates> {
         ),
         KeepAliveWrapper(
           child: BlocProvider(
-            create: (_) => getIt<ProfileCubit>(),
+            create: (_) => getIt<ProfileCubit>()..getProfileData(),
             child: const ProfileView(),
           ),
         ),
       ];
     } else {
       screens = [
-         const NewClientEventsScreen(),
-        
+        const NewClientEventsScreen(),
+
         // BlocProvider(
         //   create: (_) => getIt<ClientEventsCubit>()..getClientEvents(),
         //   child: const NewClientEventsScreen(),
         // ),
-       NewClientStatisticsScreen(),
-        
+        NewClientStatisticsScreen(),
+
         KeepAliveWrapper(
-          child:  const ProfileView(),
+          child: BlocProvider(
+            create:(_) => getIt<ProfileCubit>()..getProfileData(),
+            child: const ProfileView(),
           ),
-        
+        ),
       ];
     }
   }
