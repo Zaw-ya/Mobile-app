@@ -17,7 +17,7 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
       totalEventsAssigned: (json['totalEventsAssigned'] as num?)?.toInt(),
       address: json['address'] as String?,
       primaryContactNo: json['primaryContactNo'] as String?,
-      role: (json['role'] as num?)?.toInt(),
+      role: json['role'] as String?,
     );
 
 Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>

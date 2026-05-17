@@ -1,5 +1,4 @@
 import 'package:app/core/helpers/app_utilities.dart';
-import 'package:app/core/services/notification_service.dart';
 import 'package:app/features/notifications/data/models/notification_model.dart';
 import 'package:app/features/notifications/data/repo/notifications_repo.dart';
 import 'package:app/features/notifications/logic/notifications_states.dart';
@@ -29,12 +28,12 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
       _backendUnreadCount = await _repo.fetchUnreadCount(token);
 
       _cachedNotifications = response.items;
-      final totalBadge = await _calculateBadgeCount();
+      // final totalBadge = await _calculateBadgeCount();
 
       if (isClosed) return;
       emit(NotificationsSuccess(
         notifications: response.items,
-        unreadCount: totalBadge,
+        unreadCount: _backendUnreadCount,
         hasMore: response.hasMore,
         currentPage: 1,
       ));
@@ -103,10 +102,12 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
   }
 
   // ── Badge calculation ──────────────────────────────────
-  Future<int> _calculateBadgeCount() async {
-    final localPending = await NotificationService().getPendingNotifications();
-    return localPending.length + _backendUnreadCount;
-  }
+  //>> We don't calculate Local Notifications >>
+
+  // Future<int> _calculateBadgeCount() async {
+  //   final localPending = await NotificationService().getPendingNotifications();
+  //   return localPending.length + _backendUnreadCount;
+  // }
 
 
   // ── Badge update  
@@ -115,13 +116,13 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
     try {
       final token = AppUtilities().serverToken;
       _backendUnreadCount = await _repo.fetchUnreadCount(token);
-      final totalBadge = await _calculateBadgeCount();
+      // final totalBadge = await _calculateBadgeCount();
 
       if (isClosed) return;
 
       emit(NotificationsSuccess(
         notifications: _cachedNotifications,
-        unreadCount: totalBadge,
+        unreadCount: state.unreadCount,
         hasMore: state.hasMore,
         currentPage: state.currentPage,
       ));

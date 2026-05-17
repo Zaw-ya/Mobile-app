@@ -108,6 +108,10 @@ class ReserveEventBottomSheet extends StatelessWidget {
                               context
                                   .read<EventCalenderCubit>()
                                   .reserveEvent(event.id.toString());
+
+                              context
+                                  .read<EventCalenderCubit>()
+                                  .calenderEventsResponse = event;
                             }
                           },
                     titleKey: 'reserve_now'.tr(),

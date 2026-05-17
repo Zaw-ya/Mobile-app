@@ -438,6 +438,9 @@
   "contact_info" : "Contact info",
   "guests_count": "{} Guests",
   "rate_app_hint": "Enjoying the app? Let us know what you think!",
-  "rate_now": "Rate Now"
+  "rate_now": "Rate Now",
+  "role" : "Role",
+  "total_events_assigned" : "Total Event Assigned",
+  "gk_profile" : "GateKeeper Profile"
 
 }

@@ -437,7 +437,10 @@
   "contact_info": "معلومات التواصل",
   "guests_count": "{} ضيف",
   "rate_app_hint": "هل تستمتع بالتطبيق؟ أخبرنا برأيك!",
-  "rate_now": "قيّم الآن"
+  "rate_now": "قيّم الآن",
+    "role" : "الدور",
+  "total_events_assigned" : "إجمالي الأحداث المخصصة",
+  "gk_profile" : "ملف الحارس"
 
 }
 

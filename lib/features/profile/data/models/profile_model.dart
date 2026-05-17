@@ -14,7 +14,7 @@ class ProfileModel {
   final int? totalEventsAssigned;
   final String? address;
   final String? primaryContactNo;
-  final int? role;
+  final String? role;
 
   ProfileModel({
     this.cityId,

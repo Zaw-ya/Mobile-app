@@ -14,7 +14,8 @@ import 'cubits/landing_cubit.dart';
 import 'cubits/landing_states.dart';
 
 class LandingView extends StatelessWidget {
-  const LandingView({super.key});
+  const LandingView({super.key, this.initialIndex = 0,});
+    final int initialIndex;
 
   @override
   Widget build(BuildContext context) {

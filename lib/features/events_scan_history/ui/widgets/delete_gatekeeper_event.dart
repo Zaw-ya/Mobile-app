@@ -85,6 +85,7 @@ class _EventCheckDialogBoxState extends State<DeleteGatekeeperEventDialogBox> {
               context
                   .read<GatekeeperEventsCubit>()
                   .deleteEvent(widget.event.id.toString());
+              // cancelScheduledNotifications(id: widget.event.id.toString());
             },
             titleKey: "delete".tr(),
             textColor: Colors.white,

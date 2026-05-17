@@ -91,7 +91,7 @@ Future<void> setupGetIt() async {
   getIt.registerFactory<LandingCubit>(() => LandingCubit(getIt()));
   //profile
   getIt.registerLazySingleton<ProfileRepo>(() => ProfileRepo(getIt()));
-  getIt.registerLazySingleton<ProfileCubit>(() => ProfileCubit(getIt()));
+  getIt.registerFactory<ProfileCubit>(() => ProfileCubit(getIt()));
 }
 
 Future<void> _handleFirstInstall() async {
