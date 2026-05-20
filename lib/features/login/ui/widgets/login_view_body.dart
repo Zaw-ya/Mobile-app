@@ -58,14 +58,14 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   SizedBox(height: edge),
                   Image.asset(
                     Assets.images.newLogo.path,
-                    height: 156,
+                    height: 170,
                     fit: BoxFit.contain,
                   ),
                   SizedBox(height: edge),
                   NormalText(
                     text: 'login_dt'.tr(),
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 17,
                     align: TextAlign.center,
                   ),
                   SizedBox(height: edge),

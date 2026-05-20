@@ -25,7 +25,7 @@ class _MyInviteState extends State<MyInvite> {
   void initState() {
     super.initState();
     // Here navigator is ready 
-    FirebaseMessagingHandler().initialize();
+        FirebaseMessagingHandler().initialize();
   }
 
   @override
@@ -54,21 +54,21 @@ class _MyInviteState extends State<MyInvite> {
             ),
           ],
           child: MaterialApp(
-            theme: ThemeData(useMaterial3: true),
-            debugShowCheckedModeBanner: false,
-            title: 'My Invite',
-            onGenerateRoute: AppRouter().generateRoute,
-            initialRoute: Routes.splashScreen,
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            navigatorKey: NavigationService.navigatorKey,
-            builder: (context, widget) {
-              return NetworkAwareBuilder(myChild: widget!);
-            },
-          ),
+                theme: ThemeData(useMaterial3: true),
+                debugShowCheckedModeBanner: false,
+                title: 'Special Cards',
+                onGenerateRoute: AppRouter().generateRoute,
+                initialRoute: Routes.splashScreen,
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                navigatorKey: NavigationService.navigatorKey,
+                builder: (context, widget) {
+                  return NetworkAwareBuilder(myChild: widget!);
+                },
+              ),
+          ),        
         ),
-      ),
-    );
+      );
   }
 }
