@@ -43,7 +43,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
     final topHeight = screenHeight * (7 / 12);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.black,
       body: Stack(
         children: [
           // ── MAIN LAYOUT ──
@@ -59,17 +59,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
             ],
           ),
 
-          Positioned(
-            top: topHeight * 0.13,
-            bottom: screenHeight * 0.35,
-            left: 0,
-            right: 0,
-            child: Image.asset(
-              Assets.imagesOnboarding,
-              fit: BoxFit.contain,
-              alignment: Alignment.bottomCenter,
-            ),
-          ),
+          // Positioned(
+          //   top: topHeight * 0.13,
+          //   bottom: screenHeight * 0.35,
+          //   left: 0,
+          //   right: 0,
+          //   // child: Image.asset(
+          //   //   Assets.imagesOnboarding,
+          //   //   fit: BoxFit.contain,
+          //   //   alignment: Alignment.bottomCenter,
+          //   // ),
+          // ),
         ],
       ),
     );
@@ -79,13 +79,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
     return Stack(
       fit: StackFit.expand,
       children: [
-        // LAYER 1 — background only (no onboarding image here anymore)
-        SvgPicture.asset(
-          Assets.imagesOnboardingBackground,
-          fit: BoxFit.cover,
-          alignment: Alignment.topCenter,
+        Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: SvgPicture.asset(
+              Assets.imagesOnboardingBackground,
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
-
       ],
     );
   }
@@ -110,7 +113,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
 
           NormalText(
             text: "welcome_subtitle".tr(),
-            color: AppColor.gray600,
+            color: AppColor.whiteColor,
             fontSize: 14,
             align: TextAlign.center,
           ),
