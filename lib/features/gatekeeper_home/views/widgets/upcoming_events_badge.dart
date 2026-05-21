@@ -18,7 +18,7 @@ class UpcomingEventsBadge extends StatelessWidget {
           TitleText(
             text: "upcoming_events".tr(),
             fontSize: 24,
-            color: AppColor.primaryColor,
+            color: AppColor.black,
           ),
           SizedBox(width: edge * 0.3),
           Container(

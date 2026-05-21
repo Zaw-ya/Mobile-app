@@ -89,7 +89,7 @@ class LoginScreen extends StatelessWidget {
             color: Colors.black,
             opacity: 0.5,
             child: const Scaffold(
-              backgroundColor: AppColor.primaryColor,
+              backgroundColor: AppColor.black,
               body: LoginViewBody(),
             ),
           );

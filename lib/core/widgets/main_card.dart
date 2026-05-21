@@ -60,7 +60,14 @@ class MainCard extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: edge),
-      decoration: const BoxDecoration(gradient: AppColor.secondaryGradient),
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [AppColor.homeBackground, AppColor.whiteColor],
+            ),
+        // color: AppColor.homeBackground
+        ),
       child: Column(
         children: [
           SizedBox(height: edge ),
@@ -119,7 +126,7 @@ class MainCard extends StatelessWidget {
                                       SizedBox(width: edge * 0.5),
                                       TitleText(
                                         text: whatsappLabel!.tr(),
-                                        color: AppColor.primaryColor,
+                                        color: AppColor.black,
                                         fontSize: 18,
                                       ),
                                     ],

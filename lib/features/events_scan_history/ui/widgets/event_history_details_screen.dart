@@ -264,7 +264,7 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
                           padding: EdgeInsets.symmetric(horizontal: edge),
                           child: TitleText(
                             text: "no_event_details_yet".tr(),
-                            color: AppColor.primaryColor,
+                            color: AppColor.black,
                             align: TextAlign.center,
                           ),
                         ),

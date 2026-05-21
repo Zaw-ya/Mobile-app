@@ -13,8 +13,8 @@ class EventInstructionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.secondaryColor,
-      appBar: recordsAppBar(context, 'events_guidelines_title'.tr(),color: AppColor.secondaryColor),
+      backgroundColor: AppColor.primaryColor,
+      appBar: recordsAppBar(context, 'events_guidelines_title'.tr(),color: AppColor.primaryColor),
       body: Container(
           decoration: const BoxDecoration(
             color: AppColor.whiteColor,

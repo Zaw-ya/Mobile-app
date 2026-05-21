@@ -27,6 +27,7 @@
   "allocated": "مجموع الضيوف",
   "pending": "قيد الإنتظار",
   "allow_notifications": "السماح بالإخطارات",
+  "notifications" : "الإشعارات",
   "event_instructions": "تعليمات هامة",
   "first_name": "الإسم الأول",
   "last_name": "إسم العائلة",

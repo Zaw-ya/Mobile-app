@@ -200,9 +200,11 @@ abstract class AppColor {
 
   // ── Gradients ──
   static const LinearGradient greenGradient = LinearGradient(
-    begin: Alignment.centerLeft,
-    end: Alignment.centerRight,
-    colors: [kGoldDark, kGold],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    // colors: [kGoldDark, kGold],
+    colors: [kBlack, gray700],
+
   );
 
   static const LinearGradient secondaryGradient = LinearGradient(
@@ -211,10 +213,21 @@ abstract class AppColor {
     colors: [Color(0xFFFFF8E1), kWhite],
   );
 
+      static const LinearGradient lightGoldGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [kGold, Color.fromARGB(255, 255, 209, 91)],
+  );
+
   static const LinearGradient goldGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [kGoldDark, kGold, kGoldLight],
     stops: [0.0, 0.5, 1.0],
+  );
+    static const LinearGradient blackGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [kBlack, gray400,kWhite],
   );
 }

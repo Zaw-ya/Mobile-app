@@ -172,11 +172,12 @@ class CalendarGrid extends StatelessWidget {
             NormalText(
               text: isWeekView ? 'view_month'.tr() : 'view_week'.tr(),
               fontSize: 14,
-              color: AppColor.primaryColor,
+              color: AppColor.black,
             ),
             SizedBox(width: edge * 0.4),
             SvgPicture.asset(
               isWeekView ? Assets.svgsChevronDown : Assets.svgsChevronUp,
+              colorFilter: const ColorFilter.mode(AppColor.primaryColor, BlendMode.srcIn),
             ),
           ],
         ),
