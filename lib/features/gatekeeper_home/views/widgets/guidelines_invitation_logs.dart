@@ -16,7 +16,8 @@ class GuidelinesInvitationLogs extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: edge),
       decoration: const BoxDecoration(
-        gradient: AppColor.secondaryGradient
+        color: AppColor.whiteColor,
+        // gradient: AppColor.secondaryGradient
       ),
       child: Row(
         children: [
@@ -28,7 +29,7 @@ class GuidelinesInvitationLogs extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(edge * 0.7),
                 decoration: BoxDecoration(
-                  color: AppColor.containerBackground,
+                  color: AppColor.container2Background,
                   borderRadius: BorderRadius.circular(radiusInput),
                 ),
                 child: Row(

@@ -46,7 +46,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.primaryColor,
-        title: const Text('Notifications',
+        title:  Text('notifications'.tr(),
             style: TextStyle(color: AppColor.whiteColor)),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -97,7 +97,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         decoration: BoxDecoration(
                           color: n.read
                               ? null
-                              : AppColor.primaryColor.withValues(alpha: 0.08),
+                              : AppColor.primaryColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: ListTile(
@@ -131,7 +131,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                               ? null
                               : IconButton(
                                   icon: const Icon(Icons.done,
-                                      color: Colors.green),
+                                      color: AppColor.primaryColor),
                                   onPressed: () => context
                                       .read<NotificationsCubit>()
                                       .markRead(n.id),

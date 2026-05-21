@@ -11,8 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-
-class ClientHeader extends StatelessWidget { 
+class ClientHeader extends StatelessWidget {
   final String? title;
   final String? subTitle;
 
@@ -25,10 +24,11 @@ class ClientHeader extends StatelessWidget {
     // BlocBuilder to rebuild the Badge when state changing
     return BlocBuilder<NotificationsCubit, NotificationsStates>(
       builder: (context, state) {
-        final int count = state.unreadCount; 
+        final int count = state.unreadCount;
 
         return Container(
-          padding: EdgeInsets.only(top: edge * 2.5, bottom: edge, left: edge, right: edge),
+          padding: EdgeInsets.only(
+              top: edge * 2.5, bottom: edge, left: edge, right: edge),
           decoration: BoxDecoration(color: AppColor.homeBackground),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,28 +37,35 @@ class ClientHeader extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  NormalText(text: subTitle ?? "", color: AppColor.gray700, fontSize: 16),
-                  TitleText(text: title ?? "", fontSize: 25, color: AppColor.primaryColor),
+                  NormalText(
+                      text: subTitle ?? "",
+                      color: AppColor.primaryColor,
+                      fontSize: 16),
+                  TitleText(
+                      text: title ?? "", fontSize: 25, color: AppColor.black),
                 ],
               ),
-
               GestureDetector(
                 onTap: () => Navigator.pushNamed(context, Routes.notifications),
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
                     Container(
-                      width: 54, height: 54,
+                      width: 54,
+                      height: 54,
                       decoration: BoxDecoration(
                         color: AppColor.primaryColor.withValues(alpha: .2),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Center(
-                        child: SvgPicture.asset(Assets.svgsNotifications, width: 28, height: 28),
+                        child: SvgPicture.asset(Assets.svgsNotifications,
+                            colorFilter: ColorFilter.mode(
+                                AppColor.primaryColor, BlendMode.srcIn),
+                            width: 28,
+                            height: 28),
                       ),
                     ),
-
-                    if (count > 0) 
+                    if (count > 0)
                       Positioned(
                         bottom: -6,
                         right: isArabic ? -10 : null,
@@ -70,7 +77,8 @@ class ClientHeader extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: AppColor.mainRed,
                             borderRadius: BorderRadius.circular(50),
-                            border: Border.all(color: AppColor.whiteColor, width: 1.5),
+                            border: Border.all(
+                                color: AppColor.whiteColor, width: 1.5),
                           ),
                           child: Center(
                             child: TitleText(

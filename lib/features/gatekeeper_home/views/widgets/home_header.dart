@@ -27,7 +27,7 @@ class HomeHeader extends StatelessWidget {
         return Container(
           padding: EdgeInsets.only(
               top: edge * 2.5, bottom: edge * 1.5, left: edge, right: edge),
-          decoration: BoxDecoration(color: AppColor.homeBackground),
+          decoration: BoxDecoration(color: AppColor.whiteColor),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -53,11 +53,12 @@ class HomeHeader extends StatelessWidget {
                       width: 54,
                       height: 54,
                       decoration: BoxDecoration(
-                        color: AppColor.primaryColor.withValues(alpha: .2),
+                        color: AppColor.container2Background,
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Center(
                         child: SvgPicture.asset(Assets.svgsNotifications,
+                        colorFilter: const ColorFilter.mode(AppColor.primaryColor, BlendMode.srcIn),
                             width: 28, height: 28),
                       ),
                     ),

@@ -133,7 +133,6 @@ class _GatekeeperHomeScreenState extends State<GatekeeperHomeScreen> {
           child: Scaffold(
             key: ValueKey(currentLocale.languageCode),
             backgroundColor: AppColor.whiteColor,
-            // TODO SafeArea 
             body: SingleChildScrollView(
               controller: _scrollController,
               child: Column(

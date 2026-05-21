@@ -50,7 +50,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
           // ── Top header with logo ──
           Container(
             width: double.infinity,
-            color: AppColor.primaryColor,
+            color: AppColor.black,
             child: SafeArea(
               bottom: false,
               child: Column(
@@ -58,10 +58,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   SizedBox(height: edge),
                   Image.asset(
                     Assets.images.newLogo.path,
-                    height: 170,
+                    height: 200,
                     fit: BoxFit.contain,
                   ),
-                  SizedBox(height: edge),
+                  SizedBox(height: edge*.7),
                   NormalText(
                     text: 'login_dt'.tr(),
                     color: Colors.white,
@@ -126,9 +126,9 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                                   child: GoButton(
                                     fun: () => _handleLogin(context, cubit),
                                     titleKey: 'login_sm'.tr(),
-                                    customGradient: AppColor.greenGradient,
+                                    btColor: AppColor.black,
+                                    // customGradient: AppColor.greenGradient,
                                     textColor: Colors.white,
-                                    gradient: true,
                                     fontSize: 18,
                                   ),
                                 ),
@@ -148,6 +148,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                                     child: Center(
                                       child: SvgPicture.asset(
                                         Assets.images.fingerprint,
+                                        colorFilter: const ColorFilter.mode(AppColor.primaryColor, BlendMode.srcIn),
                                         width: 28,
                                         height: 28,
                                       ),
