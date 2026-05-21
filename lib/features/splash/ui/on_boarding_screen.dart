@@ -4,6 +4,7 @@ import 'package:app/core/widgets/normal_text.dart';
 import 'package:app/core/widgets/title_text.dart';
 import 'package:easy_localization/easy_localization.dart' as easy;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../core/dimensions/dimensions_constants.dart';
@@ -104,8 +105,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
 
           TitleText(
             text: "welcome_title".tr(),
-            color: greenPrimaryColor,
-            fontSize: 22,
+            color: AppColor.primaryColor,
+            fontSize: 22.sp,
             align: TextAlign.center,
           ),
 
@@ -114,7 +115,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
           NormalText(
             text: "welcome_subtitle".tr(),
             color: AppColor.whiteColor,
-            fontSize: 14,
+            fontSize: 14.sp,
             align: TextAlign.center,
           ),
 
@@ -124,8 +125,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
           GoButton(
             titleKey: "register".tr(),
             fun: () => context.pushNamed(Routes.registerScreen),
-            btColor: gray50,
-            textColor: greenPrimaryColor,
+            btColor: AppColor.whiteColor,
+            textColor: AppColor.primaryColor,
             fontSize: 20,
           ),
 
@@ -135,8 +136,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
           GoButton(
             titleKey: "login".tr(),
             fun: () => context.pushNamed(Routes.loginScreen),
-            customGradient: greenGradient,
-            textColor: whiteTextColor,
+            btColor: AppColor.primaryColor,
+            // customGradient: greenGradient,
+            textColor: AppColor.whiteColor,
             fontSize: 20,
           ),
 
