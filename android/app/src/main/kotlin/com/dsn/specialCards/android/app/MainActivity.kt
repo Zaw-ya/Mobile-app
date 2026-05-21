@@ -1,4 +1,4 @@
-package com.dsn.myinvite.android.app
+package com.specialCards.app
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

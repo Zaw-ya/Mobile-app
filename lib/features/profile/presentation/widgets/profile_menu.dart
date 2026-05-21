@@ -208,8 +208,8 @@ class ProfileMenu extends StatelessWidget {
   Future<void> _launchStore() async {
     final Uri url = Platform.isAndroid
         ? Uri.parse(
-            'https://play.google.com/store/apps/details?id=com.dsn.myinvite.android.app')
-        : Uri.parse('https://apps.apple.com/sa/app/new-myinvite/id6476280272');
+            'https://play.google.com/store/apps/details?id=com.specialCards.app')
+        : Uri.parse('https://apps.apple.com/sa/app/com.specialCards.app/id6476280272');
 
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       debugPrint('Could not launch store');

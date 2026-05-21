@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "813336819174",
-    "project_id": "myinvite-uat",
-    "storage_bucket": "myinvite-uat.firebasestorage.app"
+    "project_number": "1068275990316",
+    "project_id": "special-cards",
+    "storage_bucket": "special-cards.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:813336819174:android:57b2389d6dab5efbd05227",
+        "mobilesdk_app_id": "1:1068275990316:android:60bc388204eb8f209af689",
         "android_client_info": {
-          "package_name": "com.dsn.myinvite.android.app"
+          "package_name": "com.specialCards.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDoDL9B-H5bTQIT4oPlajzAwqO9gkyNNr4"
+          "current_key": "AIzaSyBnbmfOdcjXPXMY9Nl8WfxlzqqdpyoPBe4"
         }
       ],
       "services": {

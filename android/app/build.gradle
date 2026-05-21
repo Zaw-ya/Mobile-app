@@ -16,7 +16,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.dsn.myinvite.android.app"
+    namespace = "com.specialCards.app"
     compileSdk = 36
     ndkVersion = "28.0.13004108"
 
@@ -31,7 +31,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.dsn.myinvite.android.app"
+        applicationId = "com.specialCards.app"
         minSdk = flutter.minSdkVersion
         targetSdk = 36
         versionCode = flutter.versionCode
