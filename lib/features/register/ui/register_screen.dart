@@ -55,12 +55,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             opacity: 0.5,
             child: Scaffold(
               backgroundColor: Colors.transparent,
-              appBar: recordsAppBar(context, 'creating_account'.tr()),
-              body: Container(
-                  decoration: const BoxDecoration(
-                    gradient: AppColor.greenGradient,
-                  ),
-                  child: SignupViewBody(formKey: _formKey)),
+              appBar: recordsAppBar(context,color: AppColor.black, 'creating_account'.tr()),
+              body: SignupViewBody(formKey: _formKey),
               bottomNavigationBar: Container(
                 color: AppColor.whiteColor,
                 padding: const EdgeInsets.symmetric(
@@ -70,9 +66,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: GoButton(
                   fun: () => _formKey.currentState?.submitForm(),
                   titleKey: 'continue'.tr(),
-                  customGradient: AppColor.greenGradient,
+                  // customGradient: AppColor.greenGradient,
+                  btColor: AppColor.black,
                   textColor: Colors.white,
-                  gradient: true,
+                  gradient: false,
                   fontSize: 18,
                 ),
               ),

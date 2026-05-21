@@ -37,41 +37,41 @@ class ClientMessagesList extends StatelessWidget {
 
 
         // ── Messages header — unchanged from design ───────────────────────
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: edge * 0.8,
-            vertical: edge * 0.7,
-          ),
-          decoration: BoxDecoration(
-            color: AppColor.containerBackground,
-            borderRadius: BorderRadius.circular(radiusInput),
-          ),
-          child: Row(
-            children: [
-              Image.asset(Assets.imagesMessages),
-              SizedBox(width: edge * 0.6),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TitleText(
-                      text: "messages_for_all_guests".tr(),
-                      fontSize: 20,
-                      color: AppColor.primaryColor,
-                    ),
-                    SizedBox(height: edge * 0.2),
-                    NormalText(
-                      text: "messages_for_all_guests_hint".tr(),
-                      fontSize: 14,
-                      color: AppColor.gray600,
-                    ),
-                  ],
-                ),
-              ),
-              Icon(Icons.arrow_forward_ios, color: AppColor.primaryColor),
-            ],
-          ),
-        ),
+        // Container(
+        //   padding: EdgeInsets.symmetric(
+        //     horizontal: edge * 0.8,
+        //     vertical: edge * 0.7,
+        //   ),
+        //   decoration: BoxDecoration(
+        //     color: AppColor.containerBackground,
+        //     borderRadius: BorderRadius.circular(radiusInput),
+        //   ),
+        //   child: Row(
+        //     children: [
+        //       Image.asset(Assets.imagesMessages),
+        //       SizedBox(width: edge * 0.6),
+        //       Expanded(
+        //         child: Column(
+        //           crossAxisAlignment: CrossAxisAlignment.start,
+        //           children: [
+        //             TitleText(
+        //               text: "messages_for_all_guests".tr(),
+        //               fontSize: 20,
+        //               color: AppColor.primaryColor,
+        //             ),
+        //             SizedBox(height: edge * 0.2),
+        //             NormalText(
+        //               text: "messages_for_all_guests_hint".tr(),
+        //               fontSize: 14,
+        //               color: AppColor.gray600,
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //       Icon(Icons.arrow_forward_ios, color: AppColor.primaryColor),
+        //     ],
+        //   ),
+        // ),
         SizedBox(height: edge * 0.5),
         // ── Search field — same logic as old ClientMessagesStatusScreen ───
         Row(
