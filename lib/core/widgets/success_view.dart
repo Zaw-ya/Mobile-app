@@ -52,7 +52,7 @@ class SuccessView extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: edge, vertical: edge * 2),
         child: GoButton(
           titleKey: "back".tr(),
-          btColor: AppColor.primaryColor,
+          btColor: AppColor.black,
           textColor: AppColor.whiteColor,
           fun: () {
             context.pushNamedAndRemoveUntil(
