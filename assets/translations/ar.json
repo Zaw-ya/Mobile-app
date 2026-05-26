@@ -66,7 +66,7 @@
   "wait": "انتظر من فضلك",
   "close": "إغلاق",
   "qr_verified": "تم التحقق من QR",
-  "invalid_qrcode": "غير صالح MYINVITE QRCode",
+  "invalid_qrcode": "غير صالح Special Cards QRCode",
   "no_data": "لاتوجد بيانات",
   "checked_in": "تم تسجيل الدخول",
   "check_in_successful": "تم تسجيل الدخول بنجاح إلى هذه المناسبة",
