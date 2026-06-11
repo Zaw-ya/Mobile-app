@@ -291,12 +291,12 @@ Future<void> cancelNotification(int id) async {
     required NotificationType type, // حددنا النوع هنا عشان نختار الرسالة الصح
   }) async {
     // بننادي الفانكشن اللي بتعمل الجدولة الفعلية
-    await scheduleNotification(
-      id: eventId,
-      scheduledTime: eventStart,
-      title: eventTitle,
-      type: type,
-    );
+    // await scheduleNotification(
+    //   id: eventId,
+    //   scheduledTime: eventStart,
+    //   title: eventTitle,
+    //   type: type,
+    // );
   }
 
   //     //TODO
@@ -343,66 +343,67 @@ Future<void> cancelNotification(int id) async {
   //   debugPrint(eventDay8AM.toString());
   // }
 
-  Future<void> scheduleNotification({
-    required int id,
-    required DateTime scheduledTime,
-    required String title,
-    String? payload,
-    required NotificationType type,
-  }) async {
-    try {
-      // Convert the scheduled time to a timezone-aware datetime
-      final tzDateTime = tz.TZDateTime.from(scheduledTime, tz.local);
+  // Gharabawy commented this : to deploy it to production cause google told us we use the EXACT ALARM 
+  // Future<void> scheduleNotification({
+  //   required int id,
+  //   required DateTime scheduledTime,
+  //   required String title,
+  //   String? payload,
+  //   required NotificationType type,
+  // }) async {
+  //   try {
+  //     // Convert the scheduled time to a timezone-aware datetime
+  //     final tzDateTime = tz.TZDateTime.from(scheduledTime, tz.local);
 
-      if (tzDateTime.isBefore(tz.TZDateTime.now(tz.local))) {
-        debugPrint(
-          'Skipping notification ID: /'
-          '$id/'
-          ', because scheduled time is in the past.',
-        );
-        return;
-      }
-      // Create notification details for both platforms
-      /// iOS-specific notification details.
-      // Add iOS-specific notification details
-      final DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
-        presentAlert: true,
-        presentBadge: true,
-        presentSound: true,
-        sound: 'default',
-        badgeNumber: 1,
-        threadIdentifier: id.toString(),
-        interruptionLevel: InterruptionLevel.active,
-        categoryIdentifier: 'event_reminder',
-      );
-      final NotificationDetails notificationDetails = NotificationDetails(
-        android: _androidNotificationDetails,
-        iOS: iosDetails,
-      );
+  //     if (tzDateTime.isBefore(tz.TZDateTime.now(tz.local))) {
+  //       debugPrint(
+  //         'Skipping notification ID: /'
+  //         '$id/'
+  //         ', because scheduled time is in the past.',
+  //       );
+  //       return;
+  //     }
+  //     // Create notification details for both platforms
+  //     /// iOS-specific notification details.
+  //     // Add iOS-specific notification details
+  //     final DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
+  //       presentAlert: true,
+  //       presentBadge: true,
+  //       presentSound: true,
+  //       sound: 'default',
+  //       badgeNumber: 1,
+  //       threadIdentifier: id.toString(),
+  //       interruptionLevel: InterruptionLevel.active,
+  //       categoryIdentifier: 'event_reminder',
+  //     );
+  //     final NotificationDetails notificationDetails = NotificationDetails(
+  //       android: _androidNotificationDetails,
+  //       iOS: iosDetails,
+  //     );
 
-      // Localize the notification title and body
-      final localizedTitle = 'notification_title'.tr();
-      final localizedBody = _getLocalizedNotificationMessage(title, type);
+  //     // Localize the notification title and body
+  //     final localizedTitle = 'notification_title'.tr();
+  //     final localizedBody = _getLocalizedNotificationMessage(title, type);
 
-      // Schedule the notification
-      await flutterLocalNotificationsPlugin.zonedSchedule(
-        id,
-        localizedTitle,
-        localizedBody,
-        tzDateTime,
-        notificationDetails,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-        payload: payload,
-      );
-      debugPrint(
-          '--- [Notification] Success: Scheduled ID $id at $tzDateTime ---');
-    } catch (e) {
-      // Log any errors that occur during scheduling
-      debugPrint('--- [Notification] Error scheduling ID $id: $e ---');
-    }
-  }
+  //     // Schedule the notification
+  //     await flutterLocalNotificationsPlugin.zonedSchedule(
+  //       id,
+  //       localizedTitle,
+  //       localizedBody,
+  //       tzDateTime,
+  //       notificationDetails,
+  //       uiLocalNotificationDateInterpretation:
+  //           UILocalNotificationDateInterpretation.absoluteTime,
+  //       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+  //       payload: payload,
+  //     );
+  //     debugPrint(
+  //         '--- [Notification] Success: Scheduled ID $id at $tzDateTime ---');
+  //   } catch (e) {
+  //     // Log any errors that occur during scheduling
+  //     debugPrint('--- [Notification] Error scheduling ID $id: $e ---');
+  //   }
+  // }
 
   String _getLocalizedNotificationMessage(
       String eventTitle, NotificationType type) {
