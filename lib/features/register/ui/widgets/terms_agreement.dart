@@ -33,7 +33,7 @@ class TermsAgreement extends StatelessWidget {
           child: TitleText(
             text: 'terms_and_conditions'.tr(),
             fontSize: 16,
-            color: AppColor.primaryColor,
+            color: AppColor.primaryDark,
             decoration: TextDecoration.underline,
           ),
         ),

@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:app/core/helpers/extensions.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -261,7 +263,7 @@ class _CameraScreenState extends State<CameraScreen> with WidgetsBindingObserver
                   const CircularProgressIndicator(),
                   const SizedBox(height: 20),
                   Text("cameraLoading".tr(),
-                      style: const TextStyle(fontSize: 16)),
+                      style: TextStyle(fontFamily: FontFamily.manchetteFine, fontSize: 16.sp)),
                 ],
               ),
             ),

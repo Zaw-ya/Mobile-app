@@ -1,5 +1,7 @@
+import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../dimensions/dimensions_constants.dart';
 import '../theming/colors.dart';
@@ -34,7 +36,7 @@ Widget textFieldWithIcon(
               child: TextFormField(
                 inputFormatters: formatter ?? [],
                 controller: controller,
-                style: const TextStyle(color: AppColor.primaryColor, fontSize: 14),
+                style: TextStyle(fontFamily: FontFamily.manchetteFine, color: AppColor.primaryColor, fontSize: 14.sp),
                 keyboardType: inputType,
                 textAlignVertical: TextAlignVertical.top,
                 obscureText: obscureText,
@@ -42,7 +44,9 @@ Widget textFieldWithIcon(
                 decoration: InputDecoration(
                     hintText: hint,
                     hintStyle: TextStyle(
-                        color: AppColor.primaryColor.withAlpha(128), fontSize: 14),
+                        fontFamily: FontFamily.manchetteFine,
+                        color: AppColor.primaryColor.withValues(alpha: 0.5),
+                        fontSize: 14.sp),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.zero),
               ),
@@ -54,19 +58,18 @@ Widget textFieldWithIcon(
       ),
     );
   } catch (e) {
-    // Fallback to a simpler version if something goes wrong
     debugPrint('Error in textFieldWithIcon: $e');
     return Container(
       height: height,
-      color: Colors.grey[800],
+      color: AppColor.gray800,
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: TextField(
         controller: controller,
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(color: AppColor.primaryLight),
         obscureText: obscureText,
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: const TextStyle(color: Colors.white70),
+          hintStyle: TextStyle(color: AppColor.primaryLight.withValues(alpha: 0.6)),
         ),
       ),
     );

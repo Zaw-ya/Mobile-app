@@ -19,7 +19,7 @@ class TermsAndConditionsBottomSheet extends StatelessWidget {
       maxChildSize: 0.95,
       builder: (context, scrollController) => Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.primaryLight,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(containerRadius),
             topRight: Radius.circular(containerRadius),
@@ -40,7 +40,7 @@ class TermsAndConditionsBottomSheet extends StatelessWidget {
                   ),
                   child: const Icon(
                     Icons.close,
-                    color: AppColor.gray900,
+                    color: AppColor.primaryDark,
                   ),
                 ),
               ),
@@ -50,7 +50,7 @@ class TermsAndConditionsBottomSheet extends StatelessWidget {
               child: TitleText(
                 text: 'terms_and_conditions'.tr(),
                 fontSize: 22,
-                color: AppColor.primaryColor,
+                color: AppColor.primaryDark,
               ),
             ),
             Expanded(

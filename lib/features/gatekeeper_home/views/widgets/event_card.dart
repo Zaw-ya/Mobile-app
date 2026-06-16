@@ -1,16 +1,15 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/normal_text.dart';
-import '../../../../core/widgets/title_text.dart';
 import '../../../../generated/assets.gen.dart';
 import '../../../events_scan_history/data/models/gatekeeper_events_response.dart';
 import '../../../events_scan_history/logic/gatekeeper_events_cubit.dart';
@@ -28,36 +27,33 @@ class EventCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        // if (event.scanned != null && event.scanned! <= 0) {
-        //   context.showErrorToast("event_not_attended".tr());
-        // } else {
         debugPrint("index: ${event.id}");
         context.pushNamed(
           Routes.eventDetailScreen,
           arguments: {'event': event, 'showBottomBar': showNavBar},
         );
-        // }
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: edge),
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: Container(
           decoration: BoxDecoration(
-              color: AppColor.gray50,
-              borderRadius: BorderRadius.circular(radiusInput)),
+            color: AppColor.whiteColor,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: AppColor.gray100),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // ── Top row: code + delete ──────────────────────────────────
               Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: edge, vertical: edge * 0.4),
+                padding:
+                    EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TitleText(
-                      text: event.eventCode ?? "",
-                      color: AppColor.gray800,
-                      fontSize: 16,
-                      align: TextAlign.start,
+                    Text(
+                      event.eventCode ?? '',
+                      style: AppTextStyles.labelMedium,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -65,149 +61,136 @@ class EventCard extends StatelessWidget {
                           context: context,
                           builder: (BuildContext dialogContext) {
                             return BlocProvider.value(
-                              value: context.read<GatekeeperEventsCubit>(),
+                              value:
+                                  context.read<GatekeeperEventsCubit>(),
                               child: DeleteGatekeeperEventDialogBox(
-                                event: event,
-                              ),
+                                  event: event),
                             );
                           },
                         );
                       },
                       child: Container(
-                        padding: EdgeInsets.all(edge * 0.3),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                          color: AppColor.gray400,
-                          borderRadius: BorderRadius.circular(50),
+                          color: AppColor.gray100,
+                          shape: BoxShape.circle,
                         ),
-                        child: Icon(
-                          Icons.delete,
-                          color: Colors.white,
-                          size: 20,
-                        ),
+                        child: const Icon(Icons.delete_outline,
+                            color: AppColor.gray500, size: 18),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
+
+              // ── Event title ─────────────────────────────────────────────
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: edge),
-                child: TitleText(
-                  text: event.eventTitle ?? '',
-                  color: AppColor.gray800,
-                  fontSize: 20,
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Text(
+                  event.eventTitle ?? '',
+                  style: AppTextStyles.headlineSmall,
                 ),
               ),
-              SizedBox(height: edge * 0.2),
+
+              SizedBox(height: 12.h),
+
+              // ── Date & time ─────────────────────────────────────────────
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: edge),
-                child: eventDateAndTime(
-                    from: event.eventFrom,
-                    to: event.eventTo,
-                    attendanceTime: event.attendanceTime,
-                    leaveTime: event.leaveTime,
-                    isArabic: isArabic),
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: _DateTimeRow(
+                  from: event.eventFrom,
+                  to: event.eventTo,
+                  attendanceTime: event.attendanceTime,
+                  leaveTime: event.leaveTime,
+                  isArabic: isArabic,
+                ),
               ),
-              SizedBox(height: edge * 0.7),
+
+              SizedBox(height: 12.h),
+
+              // ── Location ────────────────────────────────────────────────
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () => viewMap(context),
-                      child: Container(
-                        padding: EdgeInsets.all(edge * 0.7),
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: GestureDetector(
+                  onTap: () => _viewMap(context),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppColor.locationBackground,
+                          color: AppColor.gray50,
                           shape: BoxShape.circle,
                         ),
-                        child: SvgPicture.asset(Assets.images.location),
+                        child: SvgPicture.asset(
+                          Assets.images.location,
+                          width: 16.w,
+                          height: 16.w,
+                          colorFilter: const ColorFilter.mode(
+                              AppColor.primaryDark, BlendMode.srcIn),
+                        ),
                       ),
-                    ),
-                    SizedBox(width: edge * 0.4),
+                      SizedBox(width: 8.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(event.eventVenue ?? '',
+                                style: AppTextStyles.titleSmall),
+                            if ((event.eventlocation ?? '').isNotEmpty)
+                              Text(
+                                event.eventlocation ?? '',
+                                style: AppTextStyles.bodySmall,
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 16.h),
+
+              // ── Contact footer ──────────────────────────────────────────
+              Container(
+                padding: EdgeInsets.symmetric(
+                    vertical: 14.h, horizontal: 16.w),
+                decoration: const BoxDecoration(
+                  color: AppColor.primaryDark,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(14),
+                    bottomRight: Radius.circular(14),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TitleText(
-                          text: event.eventVenue ?? "",
-                          color: AppColor.gray800,
-                          fontSize: 16,
+                        Text(
+                          'contact_info'.tr(),
+                          style: AppTextStyles.labelMedium
+                              .copyWith(color: kCream.withValues(alpha: 0.7)),
                         ),
-                        NormalText(
-                          text: event.eventlocation ?? "",
-                          color: AppColor.gray500,
-                          fontSize: 16,
+                        SizedBox(height: 2.h),
+                        Text(
+                          event.contactName ?? '',
+                          style: AppTextStyles.titleSmall
+                              .copyWith(color: AppColor.primaryLight),
+                        ),
+                        Text(
+                          event.contactPhone ?? '',
+                          style: AppTextStyles.bodyMedium
+                              .copyWith(color: AppColor.primaryLight),
                         ),
                       ],
                     ),
+                    const Icon(Icons.arrow_forward_ios_rounded,
+                        color: AppColor.primaryLight, size: 16),
                   ],
                 ),
               ),
-              SizedBox(height: edge * 0.7),
-              Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: edge * 0.6, horizontal: edge * 0.7),
-                decoration: BoxDecoration(
-                  gradient: AppColor.greenGradient,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(radiusInput),
-                    bottomRight: Radius.circular(radiusInput),
-                  ),
-                ),
-                child: Stack(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            NormalText(
-                              text: "contact_info".tr(),
-                              color: AppColor.whiteColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            NormalText(
-                              text: event.contactName ?? "",
-                              color: AppColor.whiteColor,
-                              fontSize: 14,
-                            ),
-                            TitleText(
-                              text: event.contactPhone ?? "",
-                              color: AppColor.whiteColor,
-                              fontSize: 20,
-                            ),
-                          ],
-                        ),
-
-                        // Column(
-                        //   children: [
-                        //     NormalText(
-                        //       text: "attendees_count".tr(),
-                        //       color: AppColor.whiteColor,
-                        //       fontSize: 14,
-                        //     ),
-                        //     TitleText(
-                        //       text: (event.totalAllocated ?? 0).toString(),
-                        //       color: AppColor.whiteColor,
-                        //       fontSize: 24,
-                        //     ),
-                        //   ],
-                        // )
-                      ],
-                    ),
-                    Positioned(
-                      right: 2,
-                      bottom: 0,
-                      top: 0,
-                      child: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: AppColor.whiteColor,
-                      ),
-                    )
-                  ],
-                ),
-              )
             ],
           ),
         ),
@@ -215,83 +198,102 @@ class EventCard extends StatelessWidget {
     );
   }
 
-  Column eventDateAndTime({
-    required String? from,
-    required String? to,
-    required String? attendanceTime,
-    required String? leaveTime,
-    required bool isArabic,
-  }) {
+  Future<void> _viewMap(BuildContext context) async {
+    if (event.gmapCode == null) {
+      context.showErrorToast('location_not_available'.tr());
+      return;
+    }
+    try {
+      await launchUrl(Uri.parse(event.gmapCode!),
+          mode: LaunchMode.platformDefault);
+    } catch (_) {}
+  }
+}
+
+// ── Date / Time row ────────────────────────────────────────────────────────────
+
+class _DateTimeRow extends StatelessWidget {
+  final String? from;
+  final String? to;
+  final String? attendanceTime;
+  final String? leaveTime;
+  final bool isArabic;
+
+  const _DateTimeRow({
+    required this.from,
+    required this.to,
+    required this.attendanceTime,
+    required this.leaveTime,
+    required this.isArabic,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Date range row
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            NormalText(text: 'start_time'.tr(), color: AppColor.gray900),
-            NormalText(text: 'end_time'.tr(), color: AppColor.gray900),
-          ],
-        ),
-        SizedBox(height: edge * 0.5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            NormalText(
-                text: DateTimeHelper.formatDate(from, isArabic: isArabic),
-                color: AppColor.gray900),
-            Icon(Icons.arrow_right_alt, color: AppColor.gray900),
-            NormalText(
-                text: DateTimeHelper.formatDate(to, isArabic: isArabic),
-                color: AppColor.gray900),
-          ],
-        ),
-        SizedBox(height: edge * 0.5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.access_time,
-                    color: AppColor.primaryColor, size: 16),
-                SizedBox(width: edge * 0.4),
-                NormalText(
-                  text: DateTimeHelper.formatTimeOnly(attendanceTime,
-                      isArabic: isArabic),
-                  color: AppColor.gray900,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('start_time'.tr(),
+                      style: AppTextStyles.labelSmall),
+                  SizedBox(height: 2.h),
+                  Text(
+                    DateTimeHelper.formatDate(from, isArabic: isArabic),
+                    style: AppTextStyles.bodySmall
+                        .copyWith(color: AppColor.gray700),
+                  ),
+                ],
+              ),
             ),
-            Row(
-              children: [
-                const Icon(Icons.access_time,
-                    color: AppColor.mainRed, size: 16),
-                SizedBox(width: edge * 0.4),
-                NormalText(
-                  text: DateTimeHelper.formatTimeOnly(leaveTime,
-                      isArabic: isArabic),
-                  color: AppColor.gray900,
-                ),
-              ],
+            const Icon(Icons.arrow_forward,
+                size: 16, color: AppColor.gray300),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text('end_time'.tr(),
+                      style: AppTextStyles.labelSmall),
+                  SizedBox(height: 2.h),
+                  Text(
+                    DateTimeHelper.formatDate(to, isArabic: isArabic),
+                    style: AppTextStyles.bodySmall
+                        .copyWith(color: AppColor.gray700),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 8.h),
+        // Time range row
+        Row(
+          children: [
+            const Icon(Icons.access_time,
+                size: 14, color: AppColor.gray400),
+            SizedBox(width: 4.w),
+            Text(
+              DateTimeHelper.formatTimeOnly(attendanceTime,
+                  isArabic: isArabic),
+              style:
+                  AppTextStyles.labelSmall.copyWith(color: AppColor.gray600),
+            ),
+            const Spacer(),
+            const Icon(Icons.access_time,
+                size: 14, color: AppColor.gray400),
+            SizedBox(width: 4.w),
+            Text(
+              DateTimeHelper.formatTimeOnly(leaveTime, isArabic: isArabic),
+              style:
+                  AppTextStyles.labelSmall.copyWith(color: AppColor.gray600),
             ),
           ],
         ),
       ],
     );
-  }
-
-  // Function to handle map viewing
-  Future viewMap(BuildContext context) async {
-    if (event.gmapCode == null) {
-      context.showErrorToast("location_not_available".tr());
-      return;
-    }
-
-    String googleUrl = event.gmapCode ?? "https://maps.google.com";
-    //print("Google URL: $googleUrl");
-    try {
-      await launchUrl(Uri.parse(googleUrl), mode: LaunchMode.platformDefault);
-    } catch (e) {
-      // Handle exceptions appropriately
-    }
   }
 }

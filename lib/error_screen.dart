@@ -1,6 +1,8 @@
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/title_text.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ErrorDisplayScreen extends StatelessWidget {
   final String errorMessage;
@@ -34,19 +36,19 @@ class ErrorDisplayScreen extends StatelessWidget {
                   child: const Icon(Icons.error_outline,
                       color: Colors.red, size: 64)),
               const SizedBox(height: 16),
-              const Text(
+              Text(
                 'An error occurred',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontFamily: FontFamily.manchetteFine, fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
                 'Error: $errorMessage',
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(fontFamily: FontFamily.manchetteFine, fontSize: 16.sp),
               ),
               const SizedBox(height: 16),
-              const Text(
+              Text(
                 'Stack Trace:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontFamily: FontFamily.manchetteFine, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Container(
@@ -54,13 +56,13 @@ class ErrorDisplayScreen extends StatelessWidget {
                 color: Colors.grey[200],
                 child: Text(
                   stackTrace,
-                  style: const TextStyle(fontSize: 12),
+                  style: TextStyle(fontFamily: FontFamily.manchetteFine, fontSize: 12.sp),
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
+              Text(
                 'Please take a screenshot and send it to the development team.',
-                style: TextStyle(fontStyle: FontStyle.italic),
+                style: TextStyle(fontFamily: FontFamily.manchetteFine, fontStyle: FontStyle.italic),
               ),
             ],
           ),

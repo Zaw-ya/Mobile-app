@@ -22,6 +22,7 @@ dependencies:
   build_runner: ^2.4.14
   pretty_dio_logger: ^1.4.0
   retrofit_generator: ^9.1.7
+  flutter_gen: ^5.14.1
   retrofit: ^4.4.2
   another_flushbar: ^1.12.30
   json_annotation: ^4.9.0
@@ -53,7 +54,6 @@ dependencies:
   package_info_plus: ^8.3.0
   firebase_messaging: ^15.2.7
   firebase_crashlytics: ^4.3.5
-
   path_provider: ^2.1.5
   shared_preferences: ^2.5.3
   flutter_image_compress: ^2.4.0
@@ -92,6 +92,7 @@ flutter:
 
 
   fonts:
+    # ── Legacy (kept during transition — do not remove until all screens updated) ──
     - family: SFPro
       fonts:
         - asset: assets/fonts/sfprodisplaybold.otf
@@ -101,5 +102,73 @@ flutter:
     - family: Zain
       fonts:
         - asset: assets/fonts/zain-bold.ttf
+          weight: 700
         - asset: assets/fonts/zain-regular.ttf
+          weight: 400
+
+    # ── New Brand: Special Cards (بطاقاتي الخاصة) ──
+
+    # Arabic primary — ManchetteFine (9 weights; Heavy has no Flutter slot)
+    - family: ManchetteFine
+      fonts:
+        - asset: "assets/fonts/Manchette Fine/Manchette Fine/ManchetteFine-Thin.ttf"
+          weight: 100
+        - asset: "assets/fonts/Manchette Fine/Manchette Fine/ManchetteFine-UltraLight.ttf"
+          weight: 200
+        - asset: "assets/fonts/Manchette Fine/Manchette Fine/ManchetteFine-Light.ttf"
+          weight: 300
+        - asset: "assets/fonts/Manchette Fine/Manchette Fine/ManchetteFine-Regular.ttf"
+          weight: 400
+        - asset: "assets/fonts/Manchette Fine/Manchette Fine/ManchetteFine-Medium.ttf"
+          weight: 500
+        - asset: "assets/fonts/Manchette Fine/Manchette Fine/ManchetteFine-SemiBold.ttf"
+          weight: 600
+        - asset: "assets/fonts/Manchette Fine/Manchette Fine/ManchetteFine-Bold.ttf"
+          weight: 700
+        - asset: "assets/fonts/Manchette Fine/Manchette Fine/ManchetteFine-ExtraBold.ttf"
+          weight: 800
+        - asset: "assets/fonts/Manchette Fine/Manchette Fine/ManchetteFine-Black.ttf"
+          weight: 900
+
+    # Latin display / headings — Thmanyah Serif Display
+    - family: ThmanyahSerifDisplay
+      fonts:
+        - asset: "assets/fonts/thmanyah typeface/thmanyahserifdisplay/thmanyahserifdisplay-Light.otf"
+          weight: 300
+        - asset: "assets/fonts/thmanyah typeface/thmanyahserifdisplay/thmanyahserifdisplay-Regular.otf"
+          weight: 400
+        - asset: "assets/fonts/thmanyah typeface/thmanyahserifdisplay/thmanyahserifdisplay-Medium.otf"
+          weight: 500
+        - asset: "assets/fonts/thmanyah typeface/thmanyahserifdisplay/thmanyahserifdisplay-Bold.otf"
+          weight: 700
+        - asset: "assets/fonts/thmanyah typeface/thmanyahserifdisplay/thmanyahserifdisplay-Black.otf"
+          weight: 900
+
+    # Latin body / long-form text — Thmanyah Serif Text
+    - family: ThmanyahSerifText
+      fonts:
+        - asset: "assets/fonts/thmanyah typeface/thmanyahseriftext/thmanyahseriftext-Light.otf"
+          weight: 300
+        - asset: "assets/fonts/thmanyah typeface/thmanyahseriftext/thmanyahseriftext-Regular.otf"
+          weight: 400
+        - asset: "assets/fonts/thmanyah typeface/thmanyahseriftext/thmanyahseriftext-Medium.otf"
+          weight: 500
+        - asset: "assets/fonts/thmanyah typeface/thmanyahseriftext/thmanyahseriftext-Bold.otf"
+          weight: 700
+        - asset: "assets/fonts/thmanyah typeface/thmanyahseriftext/thmanyahseriftext-Black.otf"
+          weight: 900
+
+    # Numbers, UI labels, stats — Thmanyah Sans
+    - family: ThmanyahSans
+      fonts:
+        - asset: "assets/fonts/thmanyah typeface/thmanyahsans/thmanyahsans-Light.otf"
+          weight: 300
+        - asset: "assets/fonts/thmanyah typeface/thmanyahsans/thmanyahsans-Regular.otf"
+          weight: 400
+        - asset: "assets/fonts/thmanyah typeface/thmanyahsans/thmanyahsans-Medium.otf"
+          weight: 500
+        - asset: "assets/fonts/thmanyah typeface/thmanyahsans/thmanyahsans-Bold.otf"
+          weight: 700
+        - asset: "assets/fonts/thmanyah typeface/thmanyahsans/thmanyahsans-Black.otf"
+          weight: 900
 

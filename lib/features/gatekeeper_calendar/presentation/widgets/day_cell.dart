@@ -1,4 +1,6 @@
+import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theming/colors.dart';
 
@@ -46,8 +48,9 @@ class DayCell extends StatelessWidget {
               child: Text(
                 '${day.day}',
                 style: TextStyle(
+                  fontFamily: FontFamily.manchetteFine,
                   color: textColor,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   fontWeight: isSelected || isToday
                       ? FontWeight.bold
                       : FontWeight.normal,

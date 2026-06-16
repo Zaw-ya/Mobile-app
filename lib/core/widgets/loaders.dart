@@ -19,23 +19,22 @@ void animatedLoaderWithTitle(
         child: Container(
             padding: EdgeInsets.all(edge * 1.5),
             decoration: BoxDecoration(
-                color: Colors.black, borderRadius: BorderRadius.circular(12)),
+                color: AppColor.primaryDark,
+                borderRadius: BorderRadius.circular(12)),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const CupertinoActivityIndicator(
-                  color: Colors.white,
+                CupertinoActivityIndicator(
+                  color: AppColor.primaryLight,
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
+                const SizedBox(height: 12),
                 Flexible(
                   child: TitleText(
                     text: title,
                     align: TextAlign.center,
-                    color: Colors.white,
+                    color: AppColor.primaryLight,
                   ),
                 )
               ],
@@ -59,10 +58,11 @@ void showLoader({required BuildContext context, bool dismissible = false}) {
           height: dialogSize * 2,
           width: dialogSize,
           decoration: BoxDecoration(
-              color: Colors.black, borderRadius: BorderRadius.circular(12)),
-          child: const Center(
+              color: AppColor.primaryDark,
+              borderRadius: BorderRadius.circular(12)),
+          child: Center(
             child: CupertinoActivityIndicator(
-              color: Colors.white,
+              color: AppColor.primaryLight,
             ),
           ),
         ),
@@ -84,14 +84,14 @@ void dialogWithSingleAction(
       return AlertDialog(
         title: TitleText(
           text: title,
-          color: Colors.white,
+          color: AppColor.primaryLight,
           fontSize: 20,
         ),
         content: NormalText(
           text: msg,
-          color: Colors.white,
+          color: AppColor.primaryLight,
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: AppColor.primaryDark,
         actions: <Widget>[
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
@@ -104,7 +104,7 @@ void dialogWithSingleAction(
             },
             child: TitleText(
               text: actionText ?? "close".tr(),
-              color: Colors.white,
+              color: AppColor.primaryLight,
             ),
           ),
         ],

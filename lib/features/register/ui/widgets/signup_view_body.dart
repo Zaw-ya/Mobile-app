@@ -14,22 +14,15 @@ class SignupViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(edge),
-      margin: EdgeInsets.only(top: edge * 0.6),
-      decoration: BoxDecoration(
-        color: AppColor.whiteColor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(containerRadius),
-          topRight: Radius.circular(containerRadius),
-        ),
-      ),
+      color: AppColor.primaryLight,
+      padding: EdgeInsets.fromLTRB(edge, edge * 0.6, edge, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: edge * 0.3),
           NormalText(
             text: 'register_hint'.tr(),
-            fontSize: 18,
+            fontSize: 16,
             color: AppColor.gray600,
             align: TextAlign.start,
           ),

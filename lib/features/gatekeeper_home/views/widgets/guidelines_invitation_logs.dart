@@ -1,11 +1,11 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:app/core/routing/routes.dart';
+import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/title_text.dart';
 import '../../../../generated/assets.gen.dart';
 
 class GuidelinesInvitationLogs extends StatelessWidget {
@@ -13,78 +13,64 @@ class GuidelinesInvitationLogs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: edge),
-      decoration: const BoxDecoration(
-        color: AppColor.whiteColor,
-        // gradient: AppColor.secondaryGradient
-      ),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
       child: Row(
         children: [
           Expanded(
-            child: GestureDetector(
-              onTap: (){
-                context.pushNamed(Routes.gatekeeperScanHistoryScreen);
-              },
-              child: Container(
-                padding: EdgeInsets.all(edge * 0.7),
-                decoration: BoxDecoration(
-                  color: AppColor.container2Background,
-                  borderRadius: BorderRadius.circular(radiusInput),
-                ),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      Assets.images.invitationHistory.path,
-                    ),
-                    SizedBox(
-                      width: edge * 0.6,
-                    ),
-                    TitleText(
-                      text: "invitations_log".tr(),
-                      fontSize: 20,
-                      color: AppColor.primaryColor,
-                      align: TextAlign.start,
-                    )
-                  ],
-                ),
-              ),
+            child: _QuickActionCard(
+              imagePath: Assets.images.invitationHistory.path,
+              label: 'invitations_log'.tr(),
+              onTap: () =>
+                  context.pushNamed(Routes.gatekeeperScanHistoryScreen),
             ),
           ),
-          SizedBox(
-            width: edge * 0.4,
-          ),
+          SizedBox(width: 12.w),
           Expanded(
-            child: GestureDetector(
-              onTap: (){
-                context.pushNamed(Routes.eventInstructionsScreen);
-              },
-              child: Container(
-                padding: EdgeInsets.all(edge * 0.7),
-                decoration: BoxDecoration(
-                  color: AppColor.container2Background,
-                  borderRadius: BorderRadius.circular(radiusInput),
-                ),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      Assets.images.guidelines.path,
-                    ),
-                    SizedBox(
-                      width: edge * 0.6,
-                    ),
-                    TitleText(
-                      text: "events_guidelines".tr(),
-                      fontSize: 20,
-                      color: AppColor.primaryColor,
-                      align: TextAlign.start,
-                    )
-                  ],
-                ),
-              ),
+            child: _QuickActionCard(
+              imagePath: Assets.images.guidelines.path,
+              label: 'events_guidelines'.tr(),
+              onTap: () =>
+                  context.pushNamed(Routes.eventInstructionsScreen),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _QuickActionCard extends StatelessWidget {
+  final String imagePath;
+  final String label;
+  final VoidCallback onTap;
+
+  const _QuickActionCard({
+    required this.imagePath,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+        decoration: BoxDecoration(
+          color: AppColor.whiteColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColor.gray200),
+        ),
+        child: Row(
+          children: [
+            Image.asset(imagePath, height: 32.h, fit: BoxFit.contain),
+            SizedBox(width: 8.w),
+            Expanded(
+              child: Text(label, style: AppTextStyles.titleSmall),
+            ),
+          ],
+        ),
       ),
     );
   }

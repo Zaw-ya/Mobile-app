@@ -1,20 +1,18 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/helpers/app_utilities.dart';
 import '../../../../core/helpers/biometric_service.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/go_button.dart';
 import '../../../../core/widgets/input_text.dart';
-import '../../../../core/widgets/normal_text.dart';
 import '../../../../core/widgets/not_have_account.dart';
 import '../../../../generated/assets.gen.dart';
 import '../../logic/login_cubit.dart';
-import 'top_curve_clipper.dart';
 
 class LoginViewBody extends StatefulWidget {
   const LoginViewBody({super.key});
@@ -45,140 +43,159 @@ class _LoginViewBodyState extends State<LoginViewBody> {
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Column(
-        children: [
-          // ── Top header with logo ──
-          Container(
-            width: double.infinity,
-            color: AppColor.black,
-            child: SafeArea(
-              bottom: false,
-              child: Column(
-                children: [
-                  SizedBox(height: edge),
-                  Image.asset(
-                    Assets.images.newLogo.path,
-                    height: 200,
-                    fit: BoxFit.contain,
-                  ),
-                  SizedBox(height: edge*.7),
-                  NormalText(
-                    text: 'login_dt'.tr(),
-                    color: Colors.white,
-                    fontSize: 17,
-                    align: TextAlign.center,
-                  ),
-                  SizedBox(height: edge),
-                ],
+      child: SafeArea(
+        child: Column(
+          children: [
+            // ── Brand logo ──
+            Padding(
+              padding: EdgeInsets.only(top: 48.h, bottom: 4.h),
+              child: Image.asset(
+                Assets.images.logoPrimaryVerticalDark.path,
+                height: 88.h,
+                fit: BoxFit.contain,
               ),
             ),
-          ),
 
-          // ── White form area ──
-          Expanded(
-            child: ClipPath(
-              clipper: TopCurveClipper(),
-              child: Container(
-                width: double.infinity,
-                color: AppColor.whiteColor,
-                child: Form(
-                  key: formKey,
-                  autovalidateMode: autoValidateMode,
-                  child: CustomScrollView(
-                    keyboardDismissBehavior:
-                        ScrollViewKeyboardDismissBehavior.onDrag,
-                    slivers: [
-                      SliverPadding(
-                        padding: EdgeInsets.all(edge),
-                        sliver: SliverList(
-                          delegate: SliverChildListDelegate([
-                            SizedBox(height: edge * 2),
+            // ── Scrollable form ──
+            Expanded(
+              child: Form(
+                key: formKey,
+                autovalidateMode: autoValidateMode,
+                child: CustomScrollView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  slivers: [
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate([
+                          SizedBox(height: 28.h),
 
-                            // ── Username ──
-                            InputText.normal(
-                              title: 'username'.tr(),
-                              hint: 'username_hint'.tr(),
-                              controller: cubit.param,
-                              keyboardType: TextInputType.name,
-                              validator: (value) {
-                                final error = cubit.validateUsername(value);
-                                return error?.tr();
-                              },
+                          // Screen heading
+                          Text(
+                            'login'.tr(),
+                            style: AppTextStyles.headlineLarge,
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 6.h),
+                          Text(
+                            'login_dt'.tr(),
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              color: AppColor.gray500,
                             ),
-                            SizedBox(height: edge),
+                            textAlign: TextAlign.center,
+                          ),
 
-                            // ── Password ──
-                            InputText.password(
-                              title: 'password'.tr(),
-                              hint: 'password_hint'.tr(),
-                              controller: cubit.password,
-                              validator: (value) {
-                                final error = cubit.validatePassword(value);
-                                return error?.tr();
-                              },
-                            ),
-                            SizedBox(height: edge * 2),
+                          SizedBox(height: 36.h),
 
-                            // ── Login + Biometric buttons ──
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: GoButton(
-                                    fun: () => _handleLogin(context, cubit),
-                                    titleKey: 'login_sm'.tr(),
-                                    btColor: AppColor.black,
-                                    // customGradient: AppColor.greenGradient,
-                                    textColor: Colors.white,
-                                    fontSize: 18,
-                                  ),
+                          // Username field
+                          InputText.normal(
+                            title: 'username'.tr(),
+                            hint: 'username_hint'.tr(),
+                            controller: cubit.param,
+                            keyboardType: TextInputType.name,
+                            validator: (value) =>
+                                cubit.validateUsername(value)?.tr(),
+                          ),
+                          SizedBox(height: 16.h),
+
+                          // Password field
+                          InputText.password(
+                            title: 'password'.tr(),
+                            hint: 'password_hint'.tr(),
+                            controller: cubit.password,
+                            validator: (value) =>
+                                cubit.validatePassword(value)?.tr(),
+                          ),
+                          SizedBox(height: 32.h),
+
+                          // Primary login button
+                          _LoginButton(
+                            label: 'login_sm'.tr(),
+                            onTap: () => _handleLogin(context, cubit),
+                          ),
+
+                          SizedBox(height: 20.h),
+
+                          // OR divider
+                          Row(
+                            children: [
+                              const Expanded(
+                                child: Divider(
+                                  color: AppColor.gray200,
+                                  thickness: 1,
                                 ),
-                                SizedBox(width: edge * 0.4),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                child: Text(
+                                  'or'.tr(),
+                                  style: AppTextStyles.labelMedium,
+                                ),
+                              ),
+                              const Expanded(
+                                child: Divider(
+                                  color: AppColor.gray200,
+                                  thickness: 1,
+                                ),
+                              ),
+                            ],
+                          ),
 
-                                // ── Biometric button ──
-                                GestureDetector(
-                                  onTap: () => _handleBiometricButtonPress(
-                                      context, cubit),
-                                  child: Container(
-                                    width: 54,
-                                    height: 54,
-                                    decoration: BoxDecoration(
-                                      color: AppColor.gray50,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        Assets.images.fingerprint,
-                                        colorFilter: const ColorFilter.mode(AppColor.primaryColor, BlendMode.srcIn),
-                                        width: 28,
-                                        height: 28,
+                          SizedBox(height: 16.h),
+
+                          // Biometric login
+                          Center(
+                            child: GestureDetector(
+                              onTap: () => _handleBiometricButtonPress(
+                                  context, cubit),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8.h),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset(
+                                      Assets.images.fingerprint,
+                                      width: 22.w,
+                                      height: 22.w,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColor.primaryDark,
+                                        BlendMode.srcIn,
                                       ),
                                     ),
-                                  ),
+                                    SizedBox(width: 8.w),
+                                    Text(
+                                      'biometric_login'.tr(),
+                                      style: AppTextStyles.labelLarge.copyWith(
+                                        color: AppColor.primaryDark,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ]),
-                        ),
+                          ),
+                        ]),
                       ),
+                    ),
 
-                      // ── Back to onboarding ──
-                      SliverFillRemaining(
-                        hasScrollBody: false,
-                        child: Column(
-                          children: [
-                            const Spacer(),
-                            NotHaveAccount(),
-                            SizedBox(height: edge * 1.7),
-                          ],
-                        ),
+                    // Footer
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: [
+                          const Spacer(),
+                          const NotHaveAccount(),
+                          SizedBox(height: 24.h),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -193,26 +210,52 @@ class _LoginViewBodyState extends State<LoginViewBody> {
   }
 
   Future<void> _handleBiometricButtonPress(
-      BuildContext context,
-      LoginCubit cubit,
-      ) async {
-    // Check if device supports biometric at all
+    BuildContext context,
+    LoginCubit cubit,
+  ) async {
     final isSupported = await BiometricHelper.isBiometricSupported();
     if (!isSupported) {
       if (!context.mounted) return;
       context.showErrorToast('biometric_not_supported'.tr());
       return;
     }
-
-    // Check if user has enabled biometric in the app
     final isEnabled = await AppUtilities().isBiometricEnabled();
     if (!isEnabled) {
       if (!context.mounted) return;
       context.showErrorToast('first_time_login_required'.tr());
       return;
     }
-
-    // All good — proceed with biometric login
     cubit.loginWithBiometric();
+  }
+}
+
+// ── Private widget ────────────────────────────────────────────────────────────
+
+class _LoginButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+
+  const _LoginButton({required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 54.h,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColor.primaryDark,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: AppTextStyles.buttonLarge,
+          ),
+        ),
+      ),
+    );
   }
 }

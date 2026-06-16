@@ -1,5 +1,7 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../theming/colors.dart';
@@ -45,7 +47,7 @@ class CustomButton extends StatelessWidget {
       isEnabled: true,
       isLoading: false,
       color: color,
-      textColor: textColor ?? Colors.white,
+      textColor: textColor ?? AppColor.primaryLight,
     );
   }
 
@@ -63,7 +65,7 @@ class CustomButton extends StatelessWidget {
       isEnabled: false,
       isLoading: true,
       color: color,
-      textColor: textColor ?? Colors.white,
+      textColor: textColor ?? AppColor.primaryLight,
     );
   }
 
@@ -82,7 +84,7 @@ class CustomButton extends StatelessWidget {
       isEnabled: false,
       isLoading: false,
       color: color,
-      textColor: textColor ?? Colors.white,
+      textColor: textColor ?? AppColor.primaryLight,
     );
   }
 
@@ -103,7 +105,7 @@ class CustomButton extends StatelessWidget {
       isLoading: false,
       svgIconPath: svgIconPath,
       color: color,
-      textColor: textColor ?? Colors.white,
+      textColor: textColor ?? AppColor.primaryLight,
     );
   }
 
@@ -113,7 +115,7 @@ class CustomButton extends StatelessWidget {
     required String svgIconPath,
     required VoidCallback? onPressed,
     Color color = AppColor.primaryColor,
-    Color iconColor = Colors.white,
+    Color iconColor = AppColor.primaryLight,
     double iconSize = 24,
     double buttonSize = 54,
   }) {
@@ -138,7 +140,7 @@ class CustomButton extends StatelessWidget {
     Key? key,
     required String svgIconPath,
     Color color = AppColor.primaryColor,
-    Color iconColor = Colors.white,
+    Color iconColor = AppColor.primaryLight,
     double buttonSize = 54,
   }) {
     return CustomButton._(
@@ -159,8 +161,8 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isButtonEnabled = isEnabled && !isLoading && onPressed != null;
     final effectiveTextColor = isButtonEnabled
-        ? textColor ?? Colors.white
-        : (textColor ?? Colors.white).withValues(alpha: 0.7);
+        ? textColor ?? AppColor.primaryLight
+        : (textColor ?? AppColor.primaryLight).withValues(alpha: 0.7);
 
     // Handle icon-only button
     if (isIconOnly) {
@@ -220,7 +222,7 @@ class CustomButton extends StatelessWidget {
                 width: 20,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColor.primaryLight),
                 ),
               )
             : svgIconPath != null
@@ -239,17 +241,19 @@ class CustomButton extends StatelessWidget {
                       SizedBox(width: edge * 0.3),
                       Text(text,
                           style: TextStyle(
+                              fontFamily: FontFamily.manchetteFine,
                               fontWeight: FontWeight.bold,
                               color: effectiveTextColor,
-                              fontSize: 16)),
+                              fontSize: 16.sp)),
                     ],
                   )
                 : Text(
                     text,
                     style: TextStyle(
+                        fontFamily: FontFamily.manchetteFine,
                         fontWeight: FontWeight.bold,
                         color: effectiveTextColor,
-                        fontSize: 16),
+                        fontSize: 16.sp),
                   ),
       ),
     );

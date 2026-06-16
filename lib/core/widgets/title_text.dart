@@ -1,7 +1,10 @@
+import 'package:app/core/theming/colors.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TitleText extends StatelessWidget {
-  const TitleText( 
+  const TitleText(
       {required this.text,
       this.align,
       this.decoration,
@@ -22,12 +25,12 @@ class TitleText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-          color: color ?? Colors.black,
+          color: color ?? AppColor.primaryDark,
           fontWeight: FontWeight.w700,
-          fontSize: fontSize ?? 24,
-          fontFamily: "Zain",
+          fontSize: (fontSize ?? 24).sp,
+          fontFamily: fontFamily ?? FontFamily.manchetteFine,
           decoration: decoration ?? TextDecoration.none,
-          decorationColor: Colors.white),
+          decorationColor: AppColor.primaryLight),
       textAlign: align ?? TextAlign.center,
     );
   }

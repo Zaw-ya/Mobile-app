@@ -1,4 +1,7 @@
+import 'package:app/core/theming/colors.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NormalText extends StatelessWidget {
   const NormalText({
@@ -31,10 +34,10 @@ class NormalText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        color: color ?? Colors.black,
+        color: color ?? AppColor.primaryDark,
         fontWeight: fontWeight ?? FontWeight.w400,
-        fontSize: fontSize ?? 16,
-        fontFamily: "Zain",
+        fontSize: (fontSize ?? 16).sp,
+        fontFamily: fontFamily ?? FontFamily.manchetteFine,
         decoration: decoration ?? TextDecoration.none,
         decorationColor: color,
       ),

@@ -1,5 +1,7 @@
+import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../../core/theming/colors.dart';
@@ -141,9 +143,10 @@ class GatekeeperLocationSelector extends StatelessWidget {
       children: [
         Text(
           'no_internet'.tr(),
-          style: const TextStyle(
+          style: TextStyle(
+            fontFamily: FontFamily.manchetteFine,
             color: AppColor.mainRed,
-            fontSize: 11,
+            fontSize: 11.sp,
           ),
         ),
         GestureDetector(
@@ -180,9 +183,10 @@ class GatekeeperLocationSelector extends StatelessWidget {
           color: AppColor.gray400,
           size: 22,
         ),
-        style: const TextStyle(
+        style: TextStyle(
+          fontFamily: FontFamily.manchetteFine,
           color: AppColor.gray400,
-          fontSize: 12,
+          fontSize: 12.sp,
         ),
         items: [
           DropdownMenuItem<T>(

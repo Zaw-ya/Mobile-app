@@ -95,6 +95,13 @@
 import 'package:flutter/material.dart';
 
 // ═══════════════════════════════════════════════
+// Special Cards Brand Seeds
+// ═══════════════════════════════════════════════
+const Color kNavy        = Color(0xFF262938); // #262938 — primary dark
+const Color kCream       = Color(0xFFEDEAE4); // #EDEAE4 — primary light
+const Color kOnlineGreen = Color(0xFF2E7D32); // semantic "connected" state
+
+// ═══════════════════════════════════════════════
 // Core Palette
 // ═══════════════════════════════════════════════
 const Color kBlack        = Color(0xFF000000);
@@ -230,4 +237,29 @@ abstract class AppColor {
     end: Alignment.bottomRight,
     colors: [kBlack, gray400,kWhite],
   );
+
+  // ── Special Cards brand entries (Phase 1 will wire these in) ──
+  static const Color primaryDark  = kNavy;   // #262938
+  static const Color primaryLight = kCream;  // #EDEAE4
+
+  static const LinearGradient brandGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [kNavy, Color(0xFF3A3E55)],
+  );
+
+  // ── Semantic colors ──
+  static const Color semanticError   = Color(0xFFDC2626); // red-600
+  static const Color semanticSuccess = Color(0xFF16A34A); // green-600
+  static const Color semanticWarning = Color(0xFFF59E0B); // amber-400
+  static const Color semanticInfo    = Color(0xFF2563EB); // blue-600
+
+  // ── Chart data palette (7 distinct accessible series colors) ──
+  static const Color chartBlue   = Color(0xFF2563EB);
+  static const Color chartPurple = Color(0xFF7C3AED);
+  static const Color chartOrange = Color(0xFFF97316);
+  static const Color chartGreen  = Color(0xFF16A34A);
+  static const Color chartRed    = Color(0xFFDC2626);
+  static const Color chartYellow = Color(0xFFFBBF24);
+  static const Color chartCyan   = Color(0xFF06B6D4);
 }

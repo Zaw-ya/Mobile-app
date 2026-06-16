@@ -49,7 +49,7 @@ class _LocaleDropdownState extends State<LocaleDropdown> {
 
   void selectLanguage() {
     showModalBottomSheet(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.primaryLight,
         context: context,
         builder: (context) {
           return SafeArea(

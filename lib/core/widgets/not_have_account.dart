@@ -28,7 +28,7 @@ class NotHaveAccount extends StatelessWidget {
           child: TitleText(
             text: "register".tr(),
             fontSize: 16,
-            color: AppColor.primaryColor,
+            color: AppColor.primaryDark,
           ),
         ),
       ],

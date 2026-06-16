@@ -1,5 +1,6 @@
 import 'package:app/core/widgets/normal_text.dart';
 import 'package:app/core/widgets/title_text.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -85,7 +86,7 @@ class EventCard extends StatelessWidget {
         const SizedBox(width: 8),
         Text(
           "${DateFormat('HH:mm').format(eventFrom)} - ${DateFormat('HH:mm').format(eventTo)}",
-          style: TextStyle(color: color),
+          style: TextStyle(fontFamily: FontFamily.manchetteFine, color: color),
         ),
       ],
     );

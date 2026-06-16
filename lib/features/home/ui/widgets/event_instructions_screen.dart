@@ -1,6 +1,7 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:app/core/widgets/normal_text.dart';
 import 'package:app/core/widgets/title_text.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -39,6 +40,7 @@ class EventInstructionsScreen extends StatelessWidget {
             NormalText(
               text: 'event_instructions_para1'.tr(),
               fontSize: 16,
+              fontFamily: FontFamily.thmanyahSerifDisplay,
               color: AppColor.gray900,
               align: TextAlign.start,
             ),

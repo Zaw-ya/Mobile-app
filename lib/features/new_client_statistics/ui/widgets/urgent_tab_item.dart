@@ -1,5 +1,6 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:app/core/theming/colors.dart' as app_color;
+import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -28,6 +29,7 @@ class UrgentTabItem extends StatelessWidget {
         child: Text(
           title,
           style: TextStyle(
+            fontFamily: FontFamily.manchetteFine,
             color: isSelected ? Colors.white : app_color.gray600,
             fontWeight: FontWeight.w600,
             fontSize: 12.sp,

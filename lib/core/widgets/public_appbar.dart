@@ -6,7 +6,7 @@ import '../theming/colors.dart';
 
 AppBar publicAppBar(BuildContext context, String title) {
   return AppBar(
-    backgroundColor: AppColor.gray900,
+    backgroundColor: AppColor.primaryDark,
     elevation: 0,
     leading: Padding(
       padding: EdgeInsets.all(edge * 0.5),
@@ -14,12 +14,12 @@ AppBar publicAppBar(BuildContext context, String title) {
         onTap: () => context.pop(),
         child: Container(
           decoration: const BoxDecoration(
-            color: AppColor.gray50,
+            color: AppColor.primaryLight,
             shape: BoxShape.circle,
           ),
           child: const Icon(
             Icons.close,
-            color: AppColor.gray900,
+            color: AppColor.primaryDark,
             size: 20,
           ),
         ),

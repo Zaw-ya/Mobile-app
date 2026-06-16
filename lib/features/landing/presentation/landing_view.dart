@@ -68,30 +68,29 @@ class LandingView extends StatelessWidget {
                 onPageChanged: cubit.onPageChanged,
                 children: cubit.screens,
               ),
-              bottomNavigationBar: BottomNavigationBar(
-                key: ValueKey(currentLocale.languageCode),
-                elevation: 8,
-                currentIndex: cubit.currentIndex,
-                onTap: cubit.changeIndex,
-                selectedItemColor:
-                    AppColor.secondaryColor, //AppColor.primaryColor,
-                unselectedItemColor: AppColor.black,
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: AppColor.whiteColor,
-                iconSize: 24,
-                selectedLabelStyle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 15,
+              bottomNavigationBar: Container(
+                decoration: const BoxDecoration(
+                  color: AppColor.primaryLight,
+                  border: Border(
+                    top: BorderSide(color: AppColor.gray200, width: 1),
+                  ),
                 ),
-                unselectedLabelStyle: TextStyle(
-                  // fontWeight: FontWeight.w700,
-                  fontSize: 15,
+                child: BottomNavigationBar(
+                  key: ValueKey(currentLocale.languageCode),
+                  elevation: 0,
+                  currentIndex: cubit.currentIndex,
+                  onTap: cubit.changeIndex,
+                  selectedItemColor: AppColor.primaryDark,
+                  unselectedItemColor: AppColor.gray300,
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: Colors.transparent,
+                  iconSize: 26,
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  items: cubit.isOrganizer
+                      ? _buildOrganizerNavItems(cubit)
+                      : _buildUserNavItems(cubit),
                 ),
-                selectedIconTheme: IconThemeData(size: 24),
-                unselectedIconTheme: IconThemeData(size: 24),
-                items: cubit.isOrganizer
-                    ? _buildOrganizerNavItems(cubit)
-                    : _buildUserNavItems(cubit),
               ),
             ),
           );
@@ -106,52 +105,35 @@ List<BottomNavigationBarItem> _buildOrganizerNavItems(LandingCubit cubit) {
     BottomNavigationBarItem(
       icon: SvgPicture.asset(
         Assets.imagesHome,
-        colorFilter: const ColorFilter.mode(AppColor.black, BlendMode.srcIn),
-        // cubit.currentIndex == 0 ? Assets.imagesHomeActive : Assets.imagesHome,
+        colorFilter: const ColorFilter.mode(AppColor.gray300, BlendMode.srcIn),
       ),
       activeIcon: SvgPicture.asset(
         Assets.imagesHomeActive,
-        colorFilter: const ColorFilter.mode(
-            AppColor.secondaryColor, BlendMode.srcIn),
-        // cubit.currentIndex == 0 ? Assets.imagesHomeActive : Assets.imagesHome,
+        colorFilter: const ColorFilter.mode(AppColor.primaryDark, BlendMode.srcIn),
       ),
-      label: "home".tr(),
+      label: '',
     ),
     BottomNavigationBarItem(
       icon: SvgPicture.asset(
         Assets.imagesCalendar,
-        colorFilter: const ColorFilter.mode(AppColor.black, BlendMode.srcIn),
-        // cubit.currentIndex == 1
-        //     ? Assets.imagesCalendarActive
-        //     : Assets.imagesCalendar,
+        colorFilter: const ColorFilter.mode(AppColor.gray300, BlendMode.srcIn),
       ),
       activeIcon: SvgPicture.asset(
         Assets.imagesCalendarActive,
-        colorFilter: const ColorFilter.mode(
-            AppColor.secondaryColor, BlendMode.srcIn),
-        // cubit.currentIndex == 1
-        //     ? Assets.imagesCalendarActive
-        //     : Assets.imagesCalendar,
+        colorFilter: const ColorFilter.mode(AppColor.primaryDark, BlendMode.srcIn),
       ),
-      label: 'calendar'.tr(),
+      label: '',
     ),
     BottomNavigationBarItem(
       icon: SvgPicture.asset(
-        // cubit.currentIndex == 2
-        //     ? Assets.imagesProfileActive
-        //     : Assets.imagesProfile,
         Assets.imagesProfile,
-        colorFilter: const ColorFilter.mode(AppColor.black, BlendMode.srcIn),
+        colorFilter: const ColorFilter.mode(AppColor.gray300, BlendMode.srcIn),
       ),
       activeIcon: SvgPicture.asset(
         Assets.imagesProfileActive,
-        colorFilter: const ColorFilter.mode(
-            AppColor.secondaryColor, BlendMode.srcIn),
-        // cubit.currentIndex == 1
-        //     ? Assets.imagesCalendarActive
-        //     : Assets.imagesCalendar,
+        colorFilter: const ColorFilter.mode(AppColor.primaryDark, BlendMode.srcIn),
       ),
-      label: 'profile'.tr(),
+      label: '',
     ),
   ];
 }
@@ -161,44 +143,35 @@ List<BottomNavigationBarItem> _buildUserNavItems(LandingCubit cubit) {
     BottomNavigationBarItem(
       icon: SvgPicture.asset(
         Assets.imagesCalendar,
-        colorFilter: const ColorFilter.mode(AppColor.black, BlendMode.srcIn),
-        // cubit.currentIndex == 0 ? Assets.imagesHomeActive : Assets.imagesHome,
+        colorFilter: const ColorFilter.mode(AppColor.gray300, BlendMode.srcIn),
       ),
       activeIcon: SvgPicture.asset(
         Assets.imagesCalendarActive,
-        colorFilter: const ColorFilter.mode(
-            AppColor.secondaryColor, BlendMode.srcIn),
-        // cubit.currentIndex == 0 ? Assets.imagesHomeActive : Assets.imagesHome,
+        colorFilter: const ColorFilter.mode(AppColor.primaryDark, BlendMode.srcIn),
       ),
-      label: "my_events".tr(),
+      label: '',
     ),
     BottomNavigationBarItem(
-        icon: SvgPicture.asset(
+      icon: SvgPicture.asset(
         Assets.imagesStatistics,
-        colorFilter: const ColorFilter.mode(AppColor.black, BlendMode.srcIn),
-        // cubit.currentIndex == 0 ? Assets.imagesHomeActive : Assets.imagesHome,
+        colorFilter: const ColorFilter.mode(AppColor.gray300, BlendMode.srcIn),
       ),
       activeIcon: SvgPicture.asset(
         Assets.imagesStatisticsActive,
-        colorFilter: const ColorFilter.mode(
-            AppColor.secondaryColor, BlendMode.srcIn),
-        // cubit.currentIndex == 0 ? Assets.imagesHomeActive : Assets.imagesHome,
+        colorFilter: const ColorFilter.mode(AppColor.primaryDark, BlendMode.srcIn),
       ),
-      label: 'statistics'.tr(),
+      label: '',
     ),
     BottomNavigationBarItem(
-        icon: SvgPicture.asset(
+      icon: SvgPicture.asset(
         Assets.imagesProfile,
-        colorFilter: const ColorFilter.mode(AppColor.black, BlendMode.srcIn),
-        // cubit.currentIndex == 0 ? Assets.imagesHomeActive : Assets.imagesHome,
+        colorFilter: const ColorFilter.mode(AppColor.gray300, BlendMode.srcIn),
       ),
       activeIcon: SvgPicture.asset(
         Assets.imagesProfileActive,
-        colorFilter: const ColorFilter.mode(
-            AppColor.secondaryColor, BlendMode.srcIn),
-        // cubit.currentIndex == 0 ? Assets.imagesHomeActive : Assets.imagesHome,
+        colorFilter: const ColorFilter.mode(AppColor.primaryDark, BlendMode.srcIn),
       ),
-      label: 'profile'.tr(),
+      label: '',
     ),
   ];
 }

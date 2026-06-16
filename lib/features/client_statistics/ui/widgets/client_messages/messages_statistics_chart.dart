@@ -1,4 +1,5 @@
 import 'package:app/core/theming/colors.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -73,7 +74,7 @@ class MessagesStatisticsChart extends StatelessWidget {
         tooltipPadding: EdgeInsets.zero,
         getTooltipItem: (group, _, rod, __) => BarTooltipItem(
           rod.toY.round().toString(),
-          const TextStyle(color: whiteTextColor, fontWeight: FontWeight.bold),
+          const TextStyle(fontFamily: FontFamily.manchetteFine, color: whiteTextColor, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -105,9 +106,9 @@ class MessagesStatisticsChart extends StatelessWidget {
           details.deliverdNumber, "delivered_number".tr(), secondaryColor),
       _createBarChartModel(details.sentNumber, "sent_number".tr(), errorColor),
       _createBarChartModel(
-          details.failedNumber, "failed_number".tr(), Colors.yellowAccent),
+          details.failedNumber, "failed_number".tr(), AppColor.chartYellow),
       _createBarChartModel(
-          details.notSentNumber, "not_sent_number".tr(), Colors.purple),
+          details.notSentNumber, "not_sent_number".tr(), AppColor.chartPurple),
     ];
   }
 
@@ -131,7 +132,7 @@ class MessagesStatisticsChart extends StatelessWidget {
           getTitlesWidget: (value, meta) => Text(
             value.toInt().toString(),
             style: const TextStyle(
-                color: whiteTextColor, fontSize: axisTitleFontSize),
+                fontFamily: FontFamily.manchetteFine, color: whiteTextColor, fontSize: axisTitleFontSize),
           ),
           reservedSize: 40,
         ),
@@ -155,8 +156,8 @@ class MessagesStatisticsChart extends StatelessWidget {
       Legend("read_number".tr(), primaryColor),
       Legend("delivered_number".tr(), secondaryColor),
       Legend("sent_number".tr(), errorColor),
-      Legend("failed_number".tr(), Colors.yellowAccent),
-      Legend("not_sent_number".tr(), Colors.purple),
+      Legend("failed_number".tr(), AppColor.chartYellow),
+      Legend("not_sent_number".tr(), AppColor.chartPurple),
     ];
   }
 
@@ -176,6 +177,7 @@ class MessagesStatisticsChart extends StatelessWidget {
         Text(
           name,
           style: const TextStyle(
+            fontFamily: FontFamily.manchetteFine,
             color: whiteTextColor,
             fontSize: legendTextFontSize,
           ),

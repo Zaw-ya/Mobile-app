@@ -1,10 +1,9 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../core/dimensions/dimensions_constants.dart';
 import '../../../core/routing/routes.dart';
 import '../../../core/helpers/app_utilities.dart';
 import '../../../core/theming/colors.dart';
-import '../../../generated/assets.dart';
+import '../../../generated/assets.gen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,21 +12,36 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   bool _navigated = false;
+  late final AnimationController _ctrl;
+  late final Animation<double> _fade;
+
   @override
   void initState() {
     super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+    _fade = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
+    _ctrl.forward();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       initialization();
     });
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
   }
 
   void initialization() async {
     try {
       if (_navigated) return;
       _navigated = true;
-      // FlutterNativeSplash.remove();
       await Future.delayed(const Duration(seconds: 2));
 
       if (!mounted) return;
@@ -40,7 +54,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
       String nextRoute;
 
-      // ✅ Check token exists AND not expired
       if (token.isEmpty || expirationStr == null || expirationStr.isEmpty) {
         nextRoute = Routes.onBoardingScreen;
       } else {
@@ -48,7 +61,6 @@ class _SplashScreenState extends State<SplashScreen> {
           final expirationDate = DateTime.parse(expirationStr).toLocal();
           final now = DateTime.now();
           debugPrint('Expiration local: $expirationDate, Now: $now');
-
           nextRoute = expirationDate.isAfter(now)
               ? Routes.landingView
               : Routes.onBoardingScreen;
@@ -75,13 +87,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteSmokeColor,
-      body: Center(
-        child: Image.asset(
-          Assets.imagesNyInvite,
-          width: width,
-          height: height,
-          fit: BoxFit.contain,
+      backgroundColor: AppColor.primaryDark,
+      body: FadeTransition(
+        opacity: _fade,
+        child: Center(
+          child: Image.asset(
+            Assets.images.logoPrimaryVerticalLight.path,
+            width: 160,
+            fit: BoxFit.contain,
+          ),
         ),
       ),
     );

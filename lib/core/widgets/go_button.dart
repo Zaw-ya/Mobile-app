@@ -61,7 +61,7 @@ class GoButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           gradient: customGradient ?? (gradient ? gradient1 : null),
-          color: enable ? btColor ?? Colors.black : Colors.grey,
+          color: enable ? btColor ?? AppColor.primaryDark : AppColor.gray400,
           borderRadius: BorderRadius.circular(curvy ?? radiusInput),
         ),
         child: loading
@@ -75,7 +75,7 @@ class GoButton extends StatelessWidget {
                       if (icon != null) const SizedBox(height: 5),
                       TitleText(
                         text: titleKey,
-                        color: textColor ?? Colors.black,
+                        color: textColor ?? AppColor.primaryDark,
                         fontSize: fontSize ?? 16,
                       )
                     ],
@@ -88,7 +88,7 @@ class GoButton extends StatelessWidget {
                       if (icon != null) const SizedBox(width: 2),
                       TitleText(
                         text: titleKey,
-                        color: textColor ?? Colors.black,
+                        color: textColor ?? AppColor.primaryDark,
                         fontSize: fontSize ?? 16,
                       ),
                     ],

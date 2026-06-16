@@ -1,4 +1,5 @@
 import 'package:app/core/theming/colors.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -71,7 +72,7 @@ class SentCardsServicesChart extends StatelessWidget {
         tooltipPadding: EdgeInsets.zero,
         getTooltipItem: (group, _, rod, __) => BarTooltipItem(
           rod.toY.round().toString(),
-          const TextStyle(color: whiteTextColor, fontWeight: FontWeight.bold),
+          const TextStyle(fontFamily: FontFamily.manchetteFine, color: whiteTextColor, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -104,9 +105,9 @@ class SentCardsServicesChart extends StatelessWidget {
       _createBarChartModel(details.failedGuestsNumber,
           "total_guests_cards_failed".tr(), errorColor),
       _createBarChartModel(details.notSentGuestsNumber,
-          "total_guests_cards_not_sent".tr(), Colors.yellowAccent),
+          "total_guests_cards_not_sent".tr(), AppColor.chartYellow),
       _createBarChartModel(details.attendedGuestsNumber,
-          "total_guests_attended".tr(), Colors.purple),
+          "total_guests_attended".tr(), AppColor.chartPurple),
     ];
   }
 
@@ -130,7 +131,7 @@ class SentCardsServicesChart extends StatelessWidget {
           getTitlesWidget: (value, meta) => Text(
             value.toInt().toString(),
             style: const TextStyle(
-                color: whiteTextColor, fontSize: axisTitleFontSize),
+                fontFamily: FontFamily.manchetteFine, color: whiteTextColor, fontSize: axisTitleFontSize),
           ),
           reservedSize: 40,
         ),
@@ -154,8 +155,8 @@ class SentCardsServicesChart extends StatelessWidget {
       Legend("total_guests".tr(), primaryColor),
       Legend("total_guests_received_cards".tr(), secondaryColor),
       Legend("total_guests_cards_failed".tr(), errorColor),
-      Legend("total_guests_cards_not_sent".tr(), Colors.yellowAccent),
-      Legend("total_guests_attended".tr(), Colors.purple),
+      Legend("total_guests_cards_not_sent".tr(), AppColor.chartYellow),
+      Legend("total_guests_attended".tr(), AppColor.chartPurple),
     ];
   }
 
@@ -175,6 +176,7 @@ class SentCardsServicesChart extends StatelessWidget {
         Text(
           name,
           style: const TextStyle(
+            fontFamily: FontFamily.manchetteFine,
             color: whiteTextColor,
             fontSize: legendTextFontSize,
           ),

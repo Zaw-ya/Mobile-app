@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:app/core/theming/colors.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
 
 /// A single arc segment in the donut chart.
@@ -196,6 +197,7 @@ class _DonutPainter extends CustomPainter {
       text: TextSpan(
         text: text,
         style: TextStyle(
+          fontFamily: FontFamily.manchetteFine,
           fontSize: fontSize,
           color: color,
           fontWeight: fontWeight,

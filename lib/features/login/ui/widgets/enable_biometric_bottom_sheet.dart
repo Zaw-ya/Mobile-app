@@ -1,12 +1,10 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/go_button.dart';
-import '../../../../core/widgets/normal_text.dart';
-import '../../../../core/widgets/title_text.dart';
 import '../../logic/login_cubit.dart';
 
 class EnableBiometricBottomSheet extends StatelessWidget {
@@ -15,20 +13,21 @@ class EnableBiometricBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<LoginCubit>();
+
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: edge),
+      padding: EdgeInsets.symmetric(horizontal: 24.w),
       decoration: BoxDecoration(
-        color: AppColor.whiteColor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
+        color: AppColor.primaryLight,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: edge * 0.5),
+          SizedBox(height: 12.h),
 
           // Drag handle
           Center(
@@ -41,70 +40,68 @@ class EnableBiometricBottomSheet extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: edge),
+          SizedBox(height: 24.h),
 
           // Header row
           Row(
             children: [
               GestureDetector(
-                onTap: () async {
-                  Navigator.pop(context);
-                  // context.pushNamedAndRemoveUntil(
-                  //   Routes.landingView,
-                  //   predicate: false,
-                  // );
-                },
+                onTap: () => Navigator.pop(context),
                 child: Container(
-                  padding: EdgeInsets.all(edge * 0.5),
-                  decoration: BoxDecoration(
-                    color: AppColor.gray50,
+                  padding: EdgeInsets.all(8.w),
+                  decoration: const BoxDecoration(
+                    color: AppColor.gray100,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     Icons.close,
-                    size: 20,
-                    color: AppColor.primaryColor,
+                    size: 18,
+                    color: AppColor.primaryDark,
                   ),
                 ),
               ),
-              SizedBox(width: edge * 0.5),
-              TitleText(
-                text: 'enable_biometric'.tr(),
-                color: AppColor.primaryColor,
-                fontSize: 20,
+              SizedBox(width: 12.w),
+              Text(
+                'enable_biometric'.tr(),
+                style: AppTextStyles.headlineSmall,
               ),
             ],
           ),
-          SizedBox(height: edge),
+
+          SizedBox(height: 16.h),
 
           // Message
-          NormalText(
-            text: 'enable_biometric_message'.tr(),
-            color: AppColor.gray600,
-            fontSize: 14,
-            align: TextAlign.start,
+          Text(
+            'enable_biometric_message'.tr(),
+            style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray600),
           ),
-          SizedBox(height: edge * 2),
 
-          // Enable button
-          GoButton(
-            fun: () async {
-              Navigator.pop(context);
-              await cubit.enableBiometricLogin();
-              // if (context.mounted) {
-              //   context.pushNamedAndRemoveUntil(
-              //     Routes.landingView,
-              //     predicate: false,
-              //   );
-              // }
-            },
-            titleKey: 'enable'.tr(),
-            customGradient: greenGradient,
-            textColor: AppColor.whiteColor,
-            gradient: true,
-            fontSize: 18,
+          SizedBox(height: 32.h),
+
+          // Enable button — navy fill
+          SizedBox(
+            width: double.infinity,
+            height: 54.h,
+            child: GestureDetector(
+              onTap: () async {
+                Navigator.pop(context);
+                await cubit.enableBiometricLogin();
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColor.primaryDark,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'enable'.tr(),
+                  style: AppTextStyles.buttonLarge,
+                ),
+              ),
+            ),
           ),
-          SizedBox(height: edge * 2),
+
+          SizedBox(height: 40.h),
         ],
       ),
     );

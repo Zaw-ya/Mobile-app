@@ -1,14 +1,13 @@
-import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:app/core/routing/routes.dart';
+import 'package:app/core/theming/app_typography.dart';
 import 'package:app/core/theming/colors.dart';
-import 'package:app/core/widgets/normal_text.dart';
-import 'package:app/core/widgets/title_text.dart';
 import 'package:app/features/notifications/logic/notifications_cubit.dart';
 import 'package:app/features/notifications/logic/notifications_states.dart';
 import 'package:app/generated/assets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ClientHeader extends StatelessWidget {
@@ -21,70 +20,79 @@ class ClientHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isArabic = context.locale.languageCode == 'ar';
 
-    // BlocBuilder to rebuild the Badge when state changing
     return BlocBuilder<NotificationsCubit, NotificationsStates>(
       builder: (context, state) {
         final int count = state.unreadCount;
-
         return Container(
           padding: EdgeInsets.only(
-              top: edge * 2.5, bottom: edge, left: edge, right: edge),
-          decoration: BoxDecoration(color: AppColor.homeBackground),
+              top: 52.h, bottom: 20.h, left: 24.w, right: 24.w),
+          color: AppColor.primaryLight,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  NormalText(
-                      text: subTitle ?? "",
-                      color: AppColor.primaryColor,
-                      fontSize: 16),
-                  TitleText(
-                      text: title ?? "", fontSize: 25, color: AppColor.black),
+                  if (subTitle != null && subTitle!.isNotEmpty)
+                    Text(
+                      subTitle!,
+                      style: AppTextStyles.bodyMedium
+                          .copyWith(color: AppColor.gray500),
+                    ),
+                  if (subTitle != null && subTitle!.isNotEmpty)
+                    SizedBox(height: 2.h),
+                  if (title != null && title!.isNotEmpty)
+                    Text(
+                      title!,
+                      style: AppTextStyles.headlineLarge,
+                    ),
                 ],
               ),
               GestureDetector(
-                onTap: () => Navigator.pushNamed(context, Routes.notifications),
+                onTap: () =>
+                    Navigator.pushNamed(context, Routes.notifications),
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
                     Container(
-                      width: 54,
-                      height: 54,
+                      width: 48.w,
+                      height: 48.w,
                       decoration: BoxDecoration(
-                        color: AppColor.primaryColor.withValues(alpha: .2),
-                        borderRadius: BorderRadius.circular(15),
+                        color: AppColor.primaryDark,
+                        borderRadius: BorderRadius.circular(14),
                       ),
                       child: Center(
-                        child: SvgPicture.asset(Assets.svgsNotifications,
-                            colorFilter: ColorFilter.mode(
-                                AppColor.primaryColor, BlendMode.srcIn),
-                            width: 28,
-                            height: 28),
+                        child: SvgPicture.asset(
+                          Assets.svgsNotifications,
+                          colorFilter: const ColorFilter.mode(
+                              AppColor.primaryLight, BlendMode.srcIn),
+                          width: 22.w,
+                          height: 22.w,
+                        ),
                       ),
                     ),
                     if (count > 0)
                       Positioned(
-                        bottom: -6,
-                        right: isArabic ? -10 : null,
-                        left: isArabic ? null : -10,
+                        top: -6,
+                        right: isArabic ? null : -6,
+                        left: isArabic ? -6 : null,
                         child: Container(
-                          constraints: const BoxConstraints(minWidth: 30),
-                          height: 30,
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          constraints: const BoxConstraints(minWidth: 20),
+                          height: 20,
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: 4),
                           decoration: BoxDecoration(
-                            color: AppColor.mainRed,
-                            borderRadius: BorderRadius.circular(50),
+                            color: AppColor.semanticError,
+                            borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                                color: AppColor.whiteColor, width: 1.5),
+                                color: AppColor.primaryLight, width: 1.5),
                           ),
                           child: Center(
-                            child: TitleText(
-                              text: count > 99 ? '99+' : '$count',
-                              fontSize: 16,
-                              color: AppColor.whiteColor,
+                            child: Text(
+                              count > 99 ? '99+' : '$count',
+                              style: AppTextStyles.labelSmall
+                                  .copyWith(color: AppColor.primaryLight),
                             ),
                           ),
                         ),

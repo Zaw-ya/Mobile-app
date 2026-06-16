@@ -1,6 +1,8 @@
 import 'package:app/core/widgets/normal_text.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/theming/colors.dart';
@@ -40,9 +42,10 @@ class EventsNumberBadge extends StatelessWidget {
                 ),
                 child: Text(
                   '$eventsNumber',
-                  style: const TextStyle(
+                  style: TextStyle(
+                    fontFamily: FontFamily.manchetteFine,
                     color: AppColor.whiteColor,
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

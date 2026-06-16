@@ -1,16 +1,12 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:app/core/routing/routes.dart';
-import 'package:app/core/widgets/normal_text.dart';
-import 'package:app/core/widgets/title_text.dart';
-import 'package:easy_localization/easy_localization.dart' as easy;
+import 'package:app/core/theming/app_typography.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
-import '../../../core/dimensions/dimensions_constants.dart';
 import '../../../core/theming/colors.dart';
-import '../../../core/widgets/go_button.dart';
-import '../../../generated/assets.dart';
+import '../../../generated/assets.gen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -40,110 +36,107 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final topHeight = screenHeight * (7 / 12);
-
     return Scaffold(
-      backgroundColor: AppColor.black,
-      body: Stack(
-        children: [
-          // ── MAIN LAYOUT ──
-          Column(
+      backgroundColor: AppColor.primaryDark,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 28.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: topHeight+25,
-                child: _topSection(),
+              const Spacer(flex: 2),
+
+              // Brand logo
+              Image.asset(
+                Assets.images.logoPrimaryVerticalLight.path,
+                width: 180.w,
+                fit: BoxFit.contain,
               ),
-              Expanded(
-                child: _bottomSection(),
+
+              const Spacer(flex: 1),
+
+              // Welcome title — Arabic ManchetteFine
+              Text(
+                'welcome_title'.tr(),
+                style: AppTextStyles.displaySmall.copyWith(
+                  color: AppColor.primaryLight,
+                ),
+                textAlign: TextAlign.center,
               ),
+
+              SizedBox(height: 12.h),
+
+              // Subtitle — muted cream
+              Text(
+                'welcome_subtitle'.tr(),
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: kCream.withValues(alpha: 0.7),
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              const Spacer(flex: 3),
+
+              // Login — primary cream fill
+              _OnboardingButton(
+                label: 'login'.tr(),
+                onTap: () => context.pushNamed(Routes.loginScreen),
+                isPrimary: true,
+              ),
+
+              SizedBox(height: 12.h),
+
+              // Register — outlined cream
+              _OnboardingButton(
+                label: 'register'.tr(),
+                onTap: () => context.pushNamed(Routes.registerScreen),
+                isPrimary: false,
+              ),
+
+              SizedBox(height: 40.h),
             ],
           ),
-
-          // Positioned(
-          //   top: topHeight * 0.13,
-          //   bottom: screenHeight * 0.35,
-          //   left: 0,
-          //   right: 0,
-          //   // child: Image.asset(
-          //   //   Assets.imagesOnboarding,
-          //   //   fit: BoxFit.contain,
-          //   //   alignment: Alignment.bottomCenter,
-          //   // ),
-          // ),
-        ],
+        ),
       ),
     );
   }
+}
 
-  Widget _topSection() {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Align(
+class _OnboardingButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  final bool isPrimary;
+
+  const _OnboardingButton({
+    required this.label,
+    required this.onTap,
+    required this.isPrimary,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 54.h,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: isPrimary ? AppColor.primaryLight : Colors.transparent,
+            border: Border.all(
+              color: AppColor.primaryLight,
+              width: 1.5,
+            ),
+            borderRadius: BorderRadius.circular(14),
+          ),
           alignment: Alignment.center,
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: SvgPicture.asset(
-              Assets.imagesOnboardingBackground,
-              fit: BoxFit.contain,
+          child: Text(
+            label,
+            style: AppTextStyles.buttonLarge.copyWith(
+              color: isPrimary ? AppColor.primaryDark : AppColor.primaryLight,
             ),
           ),
         ),
-      ],
-    );
-  }
-
-
-  Widget _bottomSection() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: edge * 1.2),
-      child: Column(
-        children: [
-          // Space to clear the logo circle overlap
-          const SizedBox(height: 65),
-
-          TitleText(
-            text: "welcome_title".tr(),
-            color: AppColor.primaryColor,
-            fontSize: 22.sp,
-            align: TextAlign.center,
-          ),
-
-          SizedBox(height: edge * 0.6),
-
-          NormalText(
-            text: "welcome_subtitle".tr(),
-            color: AppColor.whiteColor,
-            fontSize: 14.sp,
-            align: TextAlign.center,
-          ),
-
-          const Spacer(),
-
-          // Register — light outlined style
-          GoButton(
-            titleKey: "register".tr(),
-            fun: () => context.pushNamed(Routes.registerScreen),
-            btColor: AppColor.whiteColor,
-            textColor: AppColor.primaryColor,
-            fontSize: 20,
-          ),
-
-          SizedBox(height: edge * 0.7),
-
-          // Login — filled green
-          GoButton(
-            titleKey: "login".tr(),
-            fun: () => context.pushNamed(Routes.loginScreen),
-            btColor: AppColor.primaryColor,
-            // customGradient: greenGradient,
-            textColor: AppColor.whiteColor,
-            fontSize: 20,
-          ),
-
-          SizedBox(height: edge),
-        ],
       ),
     );
   }

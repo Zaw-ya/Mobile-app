@@ -20,7 +20,7 @@ class NoInternetWidget extends StatelessWidget {
           SizedBox(height: 50),
           TitleText(
             text: 'no_internet'.tr(),
-            color: Colors.white,
+            color: AppColor.primaryLight,
             fontSize: 16,
             align: TextAlign.center,
           ),

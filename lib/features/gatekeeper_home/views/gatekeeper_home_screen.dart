@@ -1,5 +1,7 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:app/core/theming/colors.dart';
+import 'package:app/generated/fonts.gen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:app/features/gatekeeper_home/views/widgets/event_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -128,11 +130,11 @@ class _GatekeeperHomeScreenState extends State<GatekeeperHomeScreen> {
         return ModalProgressHUD(
           inAsyncCall: isLoading,
           progressIndicator: const CustomLoadingIndicator(),
-          color: Colors.black,
-          opacity: 0.5,
+          color: AppColor.primaryDark,
+          opacity: 0.4,
           child: Scaffold(
             key: ValueKey(currentLocale.languageCode),
-            backgroundColor: AppColor.whiteColor,
+            backgroundColor: AppColor.primaryLight,
             body: SingleChildScrollView(
               controller: _scrollController,
               child: Column(
@@ -212,7 +214,7 @@ class _ErrorWidget extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.red, fontSize: 14),
+              style: TextStyle(fontFamily: FontFamily.manchetteFine, color: Colors.red, fontSize: 14.sp),
             ),
             SizedBox(height: edge),
             ElevatedButton(

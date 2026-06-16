@@ -1,4 +1,6 @@
+import 'package:app/generated/fonts.gen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/theming/colors.dart';
@@ -47,7 +49,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       appBar: AppBar(
         backgroundColor: AppColor.primaryColor,
         title:  Text('notifications'.tr(),
-            style: TextStyle(color: AppColor.whiteColor)),
+            style: TextStyle(fontFamily: FontFamily.manchetteFine, color: AppColor.whiteColor)),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back, color: AppColor.whiteColor),
@@ -108,6 +110,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           title: Text(
                             n.title,
                             style: TextStyle(
+                              fontFamily: FontFamily.manchetteFine,
                               fontWeight: n.read
                                   ? FontWeight.normal
                                   : FontWeight.bold,
@@ -121,7 +124,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                               Text(
                                 DateTimeHelper.toRelativeTime(n.createdAt),
                                 style: TextStyle(
-                                  fontSize: 11,
+                                  fontFamily: FontFamily.manchetteFine,
+                                  fontSize: 11.sp,
                                   color: Colors.grey.shade500,
                                 ),
                               ),

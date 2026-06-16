@@ -72,6 +72,46 @@ class $AssetsImagesGen {
   AssetGenImage get myInvite =>
       const AssetGenImage('assets/images/my_invite.png');
 
+  /// File path: assets/images/logo_horizontal_dark.png
+  AssetGenImage get logoHorizontalDark =>
+      const AssetGenImage('assets/images/logo_horizontal_dark.png');
+
+  /// File path: assets/images/logo_horizontal_light.png
+  AssetGenImage get logoHorizontalLight =>
+      const AssetGenImage('assets/images/logo_horizontal_light.png');
+
+  /// File path: assets/images/logo_horizontal_light_monochrome.png
+  AssetGenImage get logoHorizontalLightMonochrome =>
+      const AssetGenImage('assets/images/logo_horizontal_light_monochrome.png');
+
+  /// File path: assets/images/logo_primary_vertical_dark.png
+  AssetGenImage get logoPrimaryVerticalDark =>
+      const AssetGenImage('assets/images/logo_primary_vertical_dark.png');
+
+  /// File path: assets/images/logo_primary_vertical_light.png
+  AssetGenImage get logoPrimaryVerticalLight =>
+      const AssetGenImage('assets/images/logo_primary_vertical_light.png');
+
+  /// File path: assets/images/logo_secondary_horizontal_light.png
+  AssetGenImage get logoSecondaryHorizontalLight =>
+      const AssetGenImage('assets/images/logo_secondary_horizontal_light.png');
+
+  /// File path: assets/images/logo_secondary_vertical_light.png
+  AssetGenImage get logoSecondaryVerticalLight =>
+      const AssetGenImage('assets/images/logo_secondary_vertical_light.png');
+
+  /// File path: assets/images/logo_symbol_dark.png
+  AssetGenImage get logoSymbolDark =>
+      const AssetGenImage('assets/images/logo_symbol_dark.png');
+
+  /// File path: assets/images/logo_symbol_light.png
+  AssetGenImage get logoSymbolLight =>
+      const AssetGenImage('assets/images/logo_symbol_light.png');
+
+  /// File path: assets/images/logo_vertical_light_monochrome.png
+  AssetGenImage get logoVerticalLightMonochrome =>
+      const AssetGenImage('assets/images/logo_vertical_light_monochrome.png');
+
   /// File path: assets/images/new_logo.png
   AssetGenImage get newLogo =>
       const AssetGenImage('assets/images/new_logo.png');
@@ -130,6 +170,16 @@ class $AssetsImagesGen {
         login,
         logout,
         marker,
+        logoHorizontalDark,
+        logoHorizontalLight,
+        logoHorizontalLightMonochrome,
+        logoPrimaryVerticalDark,
+        logoPrimaryVerticalLight,
+        logoSecondaryHorizontalLight,
+        logoSecondaryVerticalLight,
+        logoSymbolDark,
+        logoSymbolLight,
+        logoVerticalLightMonochrome,
         myInvite,
         newLogo,
         noInternet,

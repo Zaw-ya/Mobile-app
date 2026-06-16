@@ -38,7 +38,7 @@ class _ConnectionBannerWrapperState extends State<ConnectionBannerWrapper>
         });
       } else {
         // Back online — show green briefly then hide
-        setState(() => bannerColor = const Color(0xFF2E7D32));
+        setState(() => bannerColor = kOnlineGreen);
         Future.delayed(const Duration(seconds: 1), () {
           if (mounted) setState(() => showBanner = false);
         });
@@ -91,7 +91,7 @@ class _ConnectionBannerWrapperState extends State<ConnectionBannerWrapper>
                         width: 16,
                         height: 16,
                         child: CircularProgressIndicator(
-                          color: Colors.white,
+                          color: AppColor.primaryLight,
                           strokeWidth: 2,
                         ),
                       ),

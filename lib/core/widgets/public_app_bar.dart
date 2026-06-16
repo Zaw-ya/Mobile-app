@@ -17,9 +17,8 @@ AppBar recordsAppBar(BuildContext context, String title,
     centerTitle: false,
     flexibleSpace: Container(
       decoration: BoxDecoration(
-        // ✅ if color passed → solid color, else → gradient
         color: color,
-        gradient: color != null ? null : AppColor.greenGradient,
+        gradient: color != null ? null : AppColor.brandGradient,
       ),
     ),
     title: Column(
@@ -29,7 +28,7 @@ AppBar recordsAppBar(BuildContext context, String title,
         if (subtitle != null)
           TitleText(
             text: subtitle,
-            color: Colors.white,
+            color: AppColor.primaryLight,
             fontSize: 16,
           ),
       ],
@@ -44,7 +43,7 @@ AppBar recordsAppBar(BuildContext context, String title,
         ),
         padding: EdgeInsets.all(edge * 0.4),
         decoration: const BoxDecoration(
-          color: AppColor.whiteColor,
+          color: AppColor.primaryLight,
           shape: BoxShape.circle,
         ),
         child:  Transform.rotate(

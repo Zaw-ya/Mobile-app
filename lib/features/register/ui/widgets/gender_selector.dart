@@ -22,10 +22,10 @@ class GenderSelector extends StatelessWidget {
       children: [
         TitleText(
           text: 'gender'.tr(),
-          color: AppColor.gray900,
-          fontSize: 16,
+          color: AppColor.gray700,
+          fontSize: 14,
         ),
-        SizedBox(height: edge * 0.3),
+        SizedBox(height: edge * 0.4),
         Row(
           children: [
             Expanded(
@@ -69,52 +69,55 @@ class _GenderOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: EdgeInsets.symmetric(
+          horizontal: edge * 0.6,
+          vertical: edge * 0.55,
+        ),
         decoration: BoxDecoration(
+          color: isSelected ? AppColor.primaryDark : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? AppColor.primaryColor : AppColor.gray200,
-            width: isSelected ? 2 : 1,
+            color: isSelected ? AppColor.primaryDark : AppColor.gray300,
+            width: isSelected ? 1.5 : 1,
           ),
         ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: edge * 0.7,
-            vertical: edge * 0.5,
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: isSelected ? AppColor.primaryColor : AppColor.gray400,
-                    width: 2,
-                  ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 18,
+              height: 18,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: isSelected
+                      ? AppColor.primaryLight
+                      : AppColor.gray400,
+                  width: 2,
                 ),
-                child: isSelected
-                    ? Center(
-                  child: Container(
-                    width: 10,
-                    height: 10,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColor.primaryColor,
-                    ),
-                  ),
-                )
-                    : null,
               ),
-              SizedBox(width: edge * 0.2),
-              TitleText(
-                text: label,
-                color: isSelected ? AppColor.primaryColor : AppColor.gray700,
-                fontSize: 16,
-              ),
-            ],
-          ),
+              child: isSelected
+                  ? Center(
+                      child: Container(
+                        width: 8,
+                        height: 8,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColor.primaryLight,
+                        ),
+                      ),
+                    )
+                  : null,
+            ),
+            SizedBox(width: edge * 0.3),
+            TitleText(
+              text: label,
+              color: isSelected ? AppColor.primaryLight : AppColor.gray700,
+              fontSize: 15,
+            ),
+          ],
         ),
       ),
     );

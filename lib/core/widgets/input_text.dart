@@ -1,4 +1,5 @@
 import 'package:app/core/theming/colors.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -215,6 +216,7 @@ class _InputTextState extends State<InputText> {
             onChanged: widget.onChanged,
             controller: widget.controller,
             style: TextStyle(
+              fontFamily: FontFamily.manchetteFine,
               color: widget.isSearch ? AppColor.whiteColor : AppColor.gray700,
             ),
             maxLines: widget.maxLines ?? 1,
@@ -290,10 +292,11 @@ class _InputTextState extends State<InputText> {
               ),
               hintText: widget.hint,
               hintStyle: TextStyle(
+                fontFamily: FontFamily.manchetteFine,
                 color: widget.isSearch
                     ? AppColor.whiteColor.withValues(alpha: 0.7)
                     : AppColor.gray300,
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
               ),
               fillColor: widget.isSearch

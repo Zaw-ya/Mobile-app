@@ -21,10 +21,10 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light.copyWith(
+      value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
       ),
       child: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {
@@ -89,7 +89,7 @@ class LoginScreen extends StatelessWidget {
             color: Colors.black,
             opacity: 0.5,
             child: const Scaffold(
-              backgroundColor: AppColor.black,
+              backgroundColor: AppColor.primaryLight,
               body: LoginViewBody(),
             ),
           );

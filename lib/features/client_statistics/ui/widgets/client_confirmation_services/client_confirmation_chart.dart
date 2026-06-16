@@ -1,4 +1,5 @@
 import 'package:app/core/theming/colors.dart';
+import 'package:app/generated/fonts.gen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -71,7 +72,7 @@ class ClientConfirmationChart extends StatelessWidget {
         tooltipPadding: EdgeInsets.zero,
         getTooltipItem: (group, _, rod, __) => BarTooltipItem(
           rod.toY.round().toString(),
-          const TextStyle(color: whiteTextColor, fontWeight: FontWeight.bold),
+          const TextStyle(fontFamily: FontFamily.manchetteFine, color: whiteTextColor, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -104,13 +105,13 @@ class ClientConfirmationChart extends StatelessWidget {
       _createBarChartModel(details.declienedGuestsNumber,
           "total_declined_guests".tr(), errorColor),
       _createBarChartModel(details.noAnswerGuestsNumber,
-          "total_not_answered_guests".tr(), Colors.yellowAccent),
+          "total_not_answered_guests".tr(), AppColor.chartYellow),
       _createBarChartModel(details.failedGuestsNumber,
-          "total_failed_guests".tr(), Colors.purple),
+          "total_failed_guests".tr(), AppColor.chartPurple),
       _createBarChartModel(details.notSentGuestsNumber,
-          "total_not_sent_guests".tr(), Colors.green),
+          "total_not_sent_guests".tr(), AppColor.chartGreen),
       _createBarChartModel(details.attendedGuestsNumber,
-          "total_attended_guests".tr(), Colors.cyan),
+          "total_attended_guests".tr(), AppColor.chartCyan),
     ];
   }
 
@@ -134,7 +135,7 @@ class ClientConfirmationChart extends StatelessWidget {
           getTitlesWidget: (value, meta) => Text(
             value.toInt().toString(),
             style: const TextStyle(
-                color: whiteTextColor, fontSize: axisTitleFontSize),
+                fontFamily: FontFamily.manchetteFine, color: whiteTextColor, fontSize: axisTitleFontSize),
           ),
           reservedSize: 40,
         ),
@@ -158,10 +159,10 @@ class ClientConfirmationChart extends StatelessWidget {
       Legend("total_guests".tr(), primaryColor),
       Legend("total_accepted_guests".tr(), secondaryColor),
       Legend("total_declined_guests".tr(), errorColor),
-      Legend("total_not_answered_guests".tr(), Colors.yellowAccent),
-      Legend("total_failed_guests".tr(), Colors.purple),
-      Legend("total_not_sent_guests".tr(), Colors.green),
-      Legend("total_attended_guests".tr(), Colors.cyan),
+      Legend("total_not_answered_guests".tr(), AppColor.chartYellow),
+      Legend("total_failed_guests".tr(), AppColor.chartPurple),
+      Legend("total_not_sent_guests".tr(), AppColor.chartGreen),
+      Legend("total_attended_guests".tr(), AppColor.chartCyan),
     ];
   }
 
@@ -181,6 +182,7 @@ class ClientConfirmationChart extends StatelessWidget {
         Text(
           name,
           style: const TextStyle(
+            fontFamily: FontFamily.manchetteFine,
             color: whiteTextColor,
             fontSize: legendTextFontSize,
           ),

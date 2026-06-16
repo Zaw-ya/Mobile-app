@@ -1,5 +1,7 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:app/core/theming/colors.dart';
+import 'package:app/generated/fonts.gen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/empty_widget.dart';
 import 'package:app/core/widgets/loader.dart';
@@ -72,11 +74,11 @@ void initState() {
         return ModalProgressHUD(
           inAsyncCall: isLoading,
           progressIndicator: const CustomLoadingIndicator(),
-          color: Colors.black,
-          opacity: 0.5,
+          color: AppColor.primaryDark,
+          opacity: 0.4,
           child: Scaffold(
             key: ValueKey(currentLocale.languageCode),
-            backgroundColor: AppColor.whiteColor,
+            backgroundColor: AppColor.primaryLight,
             body: SingleChildScrollView(
               controller: _scrollController,
               child: Column(
@@ -171,7 +173,7 @@ class _ClientErrorWidget extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.red, fontSize: 14),
+              style: TextStyle(fontFamily: FontFamily.manchetteFine, color: Colors.red, fontSize: 14.sp),
             ),
             SizedBox(height: edge),
             ElevatedButton(
