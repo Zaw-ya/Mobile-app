@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../generated/assets.gen.dart';
+import '../theming/colors.dart';
 
 class CustomLoadingIndicator extends StatefulWidget {
   const CustomLoadingIndicator({super.key});
@@ -22,7 +24,7 @@ class _CustomLoadingIndicatorState extends State<CustomLoadingIndicator>
     )..repeat(reverse: true);
 
     _fadeAnimation = Tween<double>(
-      begin: 0.0,
+      begin: 0.3,
       end: 1.0,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
@@ -36,12 +38,20 @@ class _CustomLoadingIndicatorState extends State<CustomLoadingIndicator>
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: FadeTransition(
-        opacity: _fadeAnimation,
-        child: Image.asset(
-          Assets.images.myInvite.path,
-          width: 150,
-          height: 150,
+      child: Container(
+        width: 100,
+        height: 100,
+        decoration: BoxDecoration(
+          color: AppColor.primaryLight,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: const EdgeInsets.all(16),
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: Image.asset(
+            Assets.images.logoSymbolDark.path,
+            fit: BoxFit.contain,
+          ),
         ),
       ),
     );

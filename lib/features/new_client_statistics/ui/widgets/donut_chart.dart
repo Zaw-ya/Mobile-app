@@ -4,7 +4,6 @@ import 'package:app/core/theming/colors.dart';
 import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter/material.dart';
 
-/// A single arc segment in the donut chart.
 class DonutSegment {
   final double value;
   final Color color;
@@ -14,21 +13,15 @@ class DonutSegment {
 
 /// Donut chart drawn entirely with [CustomPainter].
 ///
-/// - Each segment is separated by a visible gap (like the design image).
+/// - Each segment is separated by a visible gap.
 /// - Percentage labels are drawn outside each arc at the midpoint angle.
 /// - Center shows title / value / subtitle.
+/// - Numbers (value, %) use ThmanyahSans. Labels use ManchetteFine.
 class DonutChart extends StatelessWidget {
   final List<DonutSegment> segments;
-
-  /// Small label above the center number (e.g. "جميع الضيوف").
   final String centerTitle;
-
-  /// Large number in the center (e.g. "228").
   final String centerValue;
-
-  /// Small label below the center number (e.g. "ضيف").
   final String centerSubtitle;
-
   final double size;
   final double strokeWidth;
   final bool? isConfirmStatisticsTab;
@@ -63,8 +56,6 @@ class DonutChart extends StatelessWidget {
   }
 }
 
-// ── Painter ───────────────────────────────────────────────────────────────────
-
 class _DonutPainter extends CustomPainter {
   final List<DonutSegment> segments;
   final String centerTitle;
@@ -82,24 +73,19 @@ class _DonutPainter extends CustomPainter {
     required this.isConfirmStatisticsTab,
   });
 
-  // Gap between segments in radians (~6°) — clearly visible like the design.
   static const double _gapDegrees = 5.0;
   static const double _gap = _gapDegrees * math.pi / 180;
-
-  // Extra space outside the ring reserved for percentage labels.
   static const double _labelMargin = 20.0;
 
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    // Shrink the radius to leave room for labels outside the ring.
     final radius = size.width / 2.2 - strokeWidth / 2 - _labelMargin;
 
     final active = segments.where((s) => s.value > 0).toList();
     final total = active.fold<double>(0.0, (sum, s) => sum + s.value);
 
     if (total == 0 || active.isEmpty) {
-      // Empty state — single grey ring.
       canvas.drawArc(
         Rect.fromCircle(center: center, radius: radius),
         0,
@@ -108,7 +94,7 @@ class _DonutPainter extends CustomPainter {
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = strokeWidth
-          ..color = Colors.grey.shade200,
+          ..color = AppColor.gray200,
       );
     } else {
       final totalGapAngle = _gap * active.length;
@@ -116,10 +102,9 @@ class _DonutPainter extends CustomPainter {
 
       final arcPaint = Paint()
         ..style = PaintingStyle.stroke
-        ..strokeWidth = strokeWidth 
-        ..strokeCap = StrokeCap.butt; // flat ends → clean gap
+        ..strokeWidth = strokeWidth
+        ..strokeCap = StrokeCap.butt;
 
-      // Start from the top (−90°).
       double currentAngle = -math.pi / 2;
 
       for (final seg in active) {
@@ -135,9 +120,7 @@ class _DonutPainter extends CustomPainter {
           arcPaint,
         );
 
-        // ── Percentage label ────────────────────────────────────────────
         final midAngle = currentAngle + sweep / 2;
-        // Push the label a bit further out than the arc's outer edge.
         final labelR = radius + strokeWidth / 2 + 22;
         final labelPos = Offset(
           center.dx + labelR * math.cos(midAngle),
@@ -148,40 +131,44 @@ class _DonutPainter extends CustomPainter {
           canvas,
           '$pct%',
           labelPos,
-          fontSize: 15,
+          fontSize: 13,
           color: seg.color,
           fontWeight: FontWeight.w700,
+          fontFamily: FontFamily.thmanyahSans,
         );
 
-        // Advance past the arc AND the gap.
         currentAngle += sweep + _gap;
       }
     }
 
-    // ── Center text ────────────────────────────────────────────────────────
+    // Center text
     _drawText(
       canvas,
       centerTitle,
-      Offset(
-          center.dx, isConfirmStatisticsTab ? center.dy - 18 : center.dy - 22),
-      fontSize: isConfirmStatisticsTab ? 14 : 18,
+      Offset(center.dx,
+          isConfirmStatisticsTab ? center.dy - 18 : center.dy - 22),
+      fontSize: isConfirmStatisticsTab ? 13 : 16,
       color: AppColor.gray600,
+      fontFamily: FontFamily.manchetteFine,
     );
     _drawText(
       canvas,
       centerValue,
-      Offset(
-          center.dx, isConfirmStatisticsTab ? center.dy + 5 : center.dy + 10),
-      fontSize: isConfirmStatisticsTab ? 18 : 35,
-      color: AppColor.primaryColor,
+      Offset(center.dx,
+          isConfirmStatisticsTab ? center.dy + 5 : center.dy + 10),
+      fontSize: isConfirmStatisticsTab ? 20 : 36,
+      color: AppColor.primaryDark,
       fontWeight: FontWeight.bold,
+      fontFamily: FontFamily.thmanyahSans,
     );
     _drawText(
       canvas,
       centerSubtitle,
-      Offset(center.dx,isConfirmStatisticsTab?center.dy + 25: center.dy + 36),
-      fontSize: isConfirmStatisticsTab ? 10 : 14,
-      color: AppColor.gray300,
+      Offset(center.dx,
+          isConfirmStatisticsTab ? center.dy + 26 : center.dy + 36),
+      fontSize: isConfirmStatisticsTab ? 10 : 13,
+      color: AppColor.gray400,
+      fontFamily: FontFamily.manchetteFine,
     );
   }
 
@@ -192,12 +179,13 @@ class _DonutPainter extends CustomPainter {
     double fontSize = 12,
     Color color = Colors.black,
     FontWeight fontWeight = FontWeight.normal,
+    String fontFamily = FontFamily.manchetteFine,
   }) {
     final tp = TextPainter(
       text: TextSpan(
         text: text,
         style: TextStyle(
-          fontFamily: FontFamily.manchetteFine,
+          fontFamily: fontFamily,
           fontSize: fontSize,
           color: color,
           fontWeight: fontWeight,
@@ -211,5 +199,6 @@ class _DonutPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_DonutPainter old) =>
-      old.centerValue != centerValue || old.segments.length != segments.length;
+      old.centerValue != centerValue ||
+      old.segments.length != segments.length;
 }

@@ -1,11 +1,11 @@
 import 'package:app/generated/fonts.gen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:easy_localization/easy_localization.dart';
 
+import '../../../core/theming/app_typography.dart';
 import '../../../core/theming/colors.dart';
-import '../../../core/widgets/normal_text.dart';
 import '../data/models/city_response.dart';
 import '../data/models/country_response.dart';
 import '../logic/location_cubit.dart';
@@ -145,7 +145,7 @@ class GatekeeperLocationSelector extends StatelessWidget {
           'no_internet'.tr(),
           style: TextStyle(
             fontFamily: FontFamily.manchetteFine,
-            color: AppColor.mainRed,
+            color: AppColor.semanticError,
             fontSize: 11.sp,
           ),
         ),
@@ -170,11 +170,10 @@ class GatekeeperLocationSelector extends StatelessWidget {
   }) {
     return DropdownButtonHideUnderline(
       child: DropdownButton<T>(
-        dropdownColor: AppColor.whiteColor,
-        hint: NormalText(
-          text: hintText.tr(),
-          color: AppColor.gray400,
-          fontSize: 12,
+        dropdownColor: Colors.white,
+        hint: Text(
+          hintText.tr(),
+          style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray400),
         ),
         isExpanded: true,
         value: selectedValue,
@@ -191,10 +190,9 @@ class GatekeeperLocationSelector extends StatelessWidget {
         items: [
           DropdownMenuItem<T>(
             value: null,
-            child: NormalText(
-              text: hintText.tr(),
-              color: AppColor.gray400,
-              fontSize: 12,
+            child: Text(
+              hintText.tr(),
+              style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray400),
             ),
           ),
           ...items.map((item) {
@@ -203,10 +201,9 @@ class GatekeeperLocationSelector extends StatelessWidget {
                 : (item as CityResponse).cityName;
             return DropdownMenuItem<T>(
               value: item,
-              child: NormalText(
-                text: displayText,
-                color: AppColor.gray400,
-                fontSize: 12,
+              child: Text(
+                displayText,
+                style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray700),
               ),
             );
           }),
@@ -233,7 +230,7 @@ class _DropdownContainer extends StatelessWidget {
       height: 48,
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: AppColor.whiteColor,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
           color: isEnabled

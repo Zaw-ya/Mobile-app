@@ -2,11 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
+import '../../../../core/theming/app_typography.dart';
 import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/normal_text.dart';
 import '../../../../core/widgets/public_app_bar.dart';
-import '../../../../core/widgets/title_text.dart';
-import 'logout_bottom_sheet.dart';
+import 'language_bottom_sheet.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -16,13 +15,13 @@ class SettingsView extends StatelessWidget {
     final currentLocale = context.locale;
     return Scaffold(
       key: ValueKey(currentLocale.languageCode),
-      backgroundColor: AppColor.primaryColor,
-      appBar: recordsAppBar(context, "settings".tr()),
+      backgroundColor: AppColor.primaryDark,
+      appBar: recordsAppBar(context, 'settings'.tr()),
       body: Container(
         padding: EdgeInsets.all(edge),
         margin: EdgeInsets.only(top: edge * 0.6),
         decoration: BoxDecoration(
-          color: AppColor.whiteColor,
+          color: AppColor.primaryLight,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(containerRadius),
             topRight: Radius.circular(containerRadius),
@@ -32,57 +31,53 @@ class SettingsView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: edge * 0.5),
-            TitleText(
-              text: "app_settings".tr(),
-              color: AppColor.gray900,
-              fontSize: 20,
+            Text(
+              'app_settings'.tr(),
+              style: AppTextStyles.titleMedium.copyWith(color: AppColor.gray700),
             ),
+            SizedBox(height: edge * 0.5),
             GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  isDismissible: true,
-                  enableDrag: true,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) => GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    behavior: HitTestBehavior.opaque,
-                    child: Container(
-                      color: Colors.transparent,
-                      child: GestureDetector(
-                        onTap: () {},
-                        // Absorb taps on the bottom sheet itself
-                        child: const LogoutBottomSheet(),
-                      ),
-                    ),
+              onTap: () => showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                isDismissible: true,
+                enableDrag: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  behavior: HitTestBehavior.opaque,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: const LanguageBottomSheet(),
                   ),
-                );
-              },
+                ),
+              ),
               child: Container(
-                margin: EdgeInsets.only(top: edge * 0.5),
-                padding: EdgeInsets.all(edge * 0.8),
+                margin: EdgeInsets.only(top: edge * 0.3),
+                padding: EdgeInsets.symmetric(
+                  vertical: edge * 0.8,
+                  horizontal: edge,
+                ),
                 decoration: BoxDecoration(
-                  color: AppColor.gray50,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(radiusInput),
+                  border: Border.all(color: AppColor.gray100),
                 ),
                 child: Row(
                   children: [
                     Expanded(
-                      child: NormalText(
-                        text: "language".tr(),
-                        color: AppColor.gray900,
-                        fontSize: 16,
-                        align: TextAlign.start,
+                      child: Text(
+                        'language'.tr(),
+                        style: AppTextStyles.bodyMedium
+                            .copyWith(color: AppColor.gray700),
                       ),
                     ),
-                    NormalText(
-                      text: Localizations.localeOf(context).languageCode == 'ar'
-                          ? "arabic".tr()
-                          : "english".tr(),
-                      color: AppColor.primaryColor,
-                      fontSize: 18,
-                      align: TextAlign.start,
+                    Text(
+                      Localizations.localeOf(context).languageCode == 'ar'
+                          ? 'arabic'.tr()
+                          : 'english'.tr(),
+                      style: AppTextStyles.titleSmall
+                          .copyWith(color: AppColor.primaryDark),
                     ),
                   ],
                 ),

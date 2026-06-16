@@ -27,29 +27,12 @@ class CalendarEventsPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: edge),
-      decoration: BoxDecoration(
-        color: AppColor.whiteColor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(containerRadius),
-          topRight: Radius.circular(containerRadius),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.3),
-            blurRadius: 15,
-            offset: const Offset(0, 2),
-          ),
-        ],
+      decoration: const BoxDecoration(
+        color: AppColor.primaryLight,
+        border: Border(top: BorderSide(color: AppColor.gray200, width: 1)),
       ),
       child: Column(
         children: [
-          SizedBox(height: edge * 0.4),
-          // GestureDetector(
-          //   behavior: HitTestBehavior.translucent,
-          //   onTap: onToggleExpand,
-          //   onVerticalDragEnd: onDragEnd,
-          //   child: const DragHandle(),
-          // ),
           SizedBox(height: edge * 0.8),
           EventsNumberBadge(
             dayName: formattedDate,

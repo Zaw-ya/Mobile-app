@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../generated/assets.dart';
+
+import '../../generated/assets.gen.dart';
 import '../dimensions/dimensions_constants.dart';
 import '../helpers/extensions.dart';
+import '../theming/app_typography.dart';
 import '../theming/colors.dart';
-import 'title_text.dart';
 
 AppBar recordsAppBar(BuildContext context, String title,
     {String? subtitle, Color? color}) {
@@ -24,35 +25,41 @@ AppBar recordsAppBar(BuildContext context, String title,
     title: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleText(text: title, color: AppColor.whiteColor, fontSize: 20),
+        Text(
+          title,
+          style: AppTextStyles.titleLarge.copyWith(color: AppColor.primaryLight),
+        ),
         if (subtitle != null)
-          TitleText(
-            text: subtitle,
-            color: AppColor.primaryLight,
-            fontSize: 16,
+          Text(
+            subtitle,
+            style: AppTextStyles.bodySmall.copyWith(color: AppColor.primaryLight),
           ),
       ],
     ),
-    leading:GestureDetector(
-      onTap:()=> context.pop(),
+    actions: [
+      Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: Image.asset(
+          Assets.images.logoSymbolLight.path,
+          height: 40,
+          fit: BoxFit.contain,
+        ),
+      ),
+    ],
+    leading: GestureDetector(
+      onTap: () => context.pop(),
       child: Container(
         width: 40,
         height: 40,
-        margin: EdgeInsets.all(
-            13
-        ),
+        margin: const EdgeInsets.all(13),
         padding: EdgeInsets.all(edge * 0.4),
         decoration: const BoxDecoration(
           color: AppColor.primaryLight,
           shape: BoxShape.circle,
         ),
-        child:  Transform.rotate(
+        child: Transform.rotate(
           angle: isArabic ? 3.14 : 0,
-          child: SvgPicture.asset(
-            Assets.svgsArrowLeft,
-
-
-          ),
+          child: SvgPicture.asset(Assets.images.arrowLeft),
         ),
       ),
     ),

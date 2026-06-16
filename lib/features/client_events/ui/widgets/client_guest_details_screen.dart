@@ -1,6 +1,5 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:app/core/theming/colors.dart';
-import 'package:app/core/widgets/normal_text.dart';
-import 'package:app/core/widgets/title_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +21,8 @@ class ClientGuestDetailsScreen extends StatelessWidget {
     final messagesConditions = MessagesStatusConditions();
 
     final fullName =
-    '${clientMessagesStatusDetails.firstName ?? ""} ${clientMessagesStatusDetails.lastName ?? ""}'
-        .trim();
+        '${clientMessagesStatusDetails.firstName ?? ""} ${clientMessagesStatusDetails.lastName ?? ""}'
+            .trim();
 
     final phone = isArabic
         ? '${clientMessagesStatusDetails.secondaryContactNo ?? ""}${clientMessagesStatusDetails.primaryContactNo ?? ""}+'
@@ -32,27 +31,33 @@ class ClientGuestDetailsScreen extends StatelessWidget {
     final details = [
       {
         'title': 'inv_status'.tr(),
-        'subtitle': messagesConditions.getInvitationStatus(clientMessagesStatusDetails),
+        'subtitle':
+            messagesConditions.getInvitationStatus(clientMessagesStatusDetails),
       },
       {
         'title': 'qr_status'.tr(),
-        'subtitle': messagesConditions.getQrStatus(clientMessagesStatusDetails),
+        'subtitle':
+            messagesConditions.getQrStatus(clientMessagesStatusDetails),
       },
       {
         'title': 'event_location_status'.tr(),
-        'subtitle': messagesConditions.getEventLocationStatus(clientMessagesStatusDetails),
+        'subtitle': messagesConditions
+            .getEventLocationStatus(clientMessagesStatusDetails),
       },
       {
         'title': 'reminder_message_status'.tr(),
-        'subtitle': messagesConditions.getReminderMessageStatus(clientMessagesStatusDetails),
+        'subtitle': messagesConditions
+            .getReminderMessageStatus(clientMessagesStatusDetails),
       },
       {
         'title': 'congrats_message_status'.tr(),
-        'subtitle': messagesConditions.getCongratsMessageStatus(clientMessagesStatusDetails),
+        'subtitle': messagesConditions
+            .getCongratsMessageStatus(clientMessagesStatusDetails),
       },
       {
         'title': 'response'.tr(),
-        'subtitle': messagesConditions.getResponseStatus(clientMessagesStatusDetails),
+        'subtitle':
+            messagesConditions.getResponseStatus(clientMessagesStatusDetails),
       },
       {
         'title': 'response_time'.tr(),
@@ -64,27 +69,24 @@ class ClientGuestDetailsScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: recordsAppBar(context, fullName,subtitle: phone),
+      backgroundColor: AppColor.primaryDark,
+      appBar: recordsAppBar(context, fullName, subtitle: phone),
       body: Container(
-        decoration: BoxDecoration(gradient: AppColor.greenGradient),
+        decoration: const BoxDecoration(
+          color: AppColor.primaryLight,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(containerRadius),
+            topRight: Radius.circular(containerRadius),
+          ),
+        ),
         child: Column(
           children: [
-
-            // ── Status list ──────────────────────────────────────────────
             Expanded(
-              child: Container(
+              child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: edge),
-                decoration: BoxDecoration(
-                  color: AppColor.whiteColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(containerRadius),
-                    topRight: Radius.circular(containerRadius),
-                  ),
-                ),
                 child: Column(
                   children: [
-                    SizedBox(height: edge ),
+                    SizedBox(height: edge),
                     Expanded(
                       child: ListView.separated(
                         itemCount: details.length,
@@ -111,8 +113,6 @@ class ClientGuestDetailsScreen extends StatelessWidget {
   }
 }
 
-// ── Single detail row ────────────────────────────────────────────────────────
-
 class _DetailRow extends StatelessWidget {
   const _DetailRow({required this.title, required this.subtitle});
 
@@ -127,25 +127,25 @@ class _DetailRow extends StatelessWidget {
         vertical: edge * 0.6,
       ),
       decoration: BoxDecoration(
-        color: AppColor.gray50,
+        color: AppColor.whiteColor,
         borderRadius: BorderRadius.circular(radiusInput),
+        border: Border.all(color: AppColor.gray100),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TitleText(
-            text: title,
-            color: AppColor.primaryColor,
-            fontSize: 16,
+          Text(
+            title,
+            style: AppTextStyles.titleSmall,
           ),
           SizedBox(width: edge * 0.5),
           Flexible(
-            child: NormalText(
-              text: subtitle ?? "",
-              color: AppColor.gray500,
-              fontSize: 16,
-              align: TextAlign.end,
+            child: Text(
+              subtitle ?? '',
+              style:
+                  AppTextStyles.bodySmall.copyWith(color: AppColor.gray500),
+              textAlign: TextAlign.end,
             ),
           ),
         ],

@@ -1,10 +1,7 @@
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/empty_widget.dart';
 import 'package:app/core/widgets/loader.dart';
-import 'package:app/core/widgets/normal_text.dart';
 import 'package:app/core/widgets/text_field_with_icon.dart';
-import 'package:app/core/widgets/title_text.dart';
-import 'package:app/generated/assets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -84,10 +81,10 @@ class ClientMessagesList extends StatelessWidget {
                   height: 24,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.white,
+                    color: AppColor.primaryDark,
                   ),
                 )
-                    : const Icon(Icons.search, color: AppColor.primaryColor),
+                    : const Icon(Icons.search, color: AppColor.primaryDark),
                 hint: "name/phone number".tr(),
                 controller: searchController,
               ),
@@ -121,7 +118,7 @@ class ClientMessagesList extends StatelessWidget {
                   return Center(
                     child: Padding(
                       padding: EdgeInsets.all(edge * 0.5),
-                      child: Loader(color: AppColor.primaryColor),
+                      child: Loader(color: AppColor.primaryDark),
                     ),
                   );
                 }

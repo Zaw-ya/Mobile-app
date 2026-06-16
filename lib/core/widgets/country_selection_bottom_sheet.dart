@@ -1,23 +1,17 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:app/core/helpers/extensions.dart';
-import 'package:app/core/widgets/normal_text.dart';
+import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/colors.dart';
+import 'package:app/core/widgets/drag_handle.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/drag_handle.dart';
-import '../../../../core/widgets/title_text.dart';
-
-// ── Contact mode ─────────────────────────────────────────────────────────────
 
 enum ContactMode { phone, whatsapp }
 
-// ── Country model ─────────────────────────────────────────────────────────────
-
 class _Country {
-  final String labelKey; // translation key
-  final String phone;    // full international number (digits only)
-
+  final String labelKey;
+  final String phone;
   const _Country({required this.labelKey, required this.phone});
 }
 
@@ -30,14 +24,10 @@ const List<_Country> _countries = [
   _Country(labelKey: 'bahrain',      phone: '97333120226'),
 ];
 
-// ── Widget ────────────────────────────────────────────────────────────────────
-
 class CountrySelectionBottomSheet extends StatelessWidget {
   const CountrySelectionBottomSheet({super.key, required this.mode});
 
   final ContactMode mode;
-
-  // ── Launch handlers ────────────────────────────────────────────────────────
 
   Future<void> _launch(BuildContext context, _Country country) async {
     final Uri uri = mode == ContactMode.phone
@@ -56,43 +46,37 @@ class CountrySelectionBottomSheet extends StatelessWidget {
     }
   }
 
-  // ── Item builder ───────────────────────────────────────────────────────────
-
   Widget _buildItem(BuildContext context, _Country country) {
     return GestureDetector(
       onTap: () => _launch(context, country),
       child: Container(
         margin: EdgeInsets.only(top: edge * 0.5),
         padding: EdgeInsets.symmetric(
-          horizontal: edge * 0.5,
-          vertical: edge * 0.4,
+          horizontal: edge,
+          vertical: edge * 0.6,
         ),
         decoration: BoxDecoration(
-          color: AppColor.gray50,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(radiusInput),
+          border: Border.all(color: AppColor.gray100),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: NormalText(
-                text: country.labelKey.tr(),
-                color: AppColor.gray900,
-                fontSize: 18,
-                align: TextAlign.start,
-              ),
+            Text(
+              country.labelKey.tr(),
+              style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray700),
             ),
-            // Icon(
-            //   mode == ContactMode.phone ? Icons.phone : Icons.chat,
-            //   color: AppColor.primaryColor,
-            //   size: 20,
-            // ),
+            Icon(
+              mode == ContactMode.phone ? Icons.phone : Icons.chat,
+              color: AppColor.gray400,
+              size: 18,
+            ),
           ],
         ),
       ),
     );
   }
-
-  // ── Build ──────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +86,7 @@ class CountrySelectionBottomSheet extends StatelessWidget {
       maxChildSize: 0.7,
       builder: (context, scrollController) => Container(
         decoration: BoxDecoration(
-          color: AppColor.whiteColor,
+          color: AppColor.primaryLight,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(containerRadius),
             topRight: Radius.circular(containerRadius),
@@ -121,13 +105,12 @@ class CountrySelectionBottomSheet extends StatelessWidget {
           children: [
             const DragHandle(),
             SizedBox(height: edge * 0.5),
-            TitleText(
-              text: mode == ContactMode.phone
+            Text(
+              mode == ContactMode.phone
                   ? 'contact_by_phone'.tr()
                   : 'contact_by_whatsapp'.tr(),
-              color: AppColor.gray900,
-              fontSize: 20,
-              align: TextAlign.start,
+              style: AppTextStyles.titleLarge
+                  .copyWith(color: AppColor.primaryDark),
             ),
             SizedBox(height: edge * 0.5),
             Expanded(

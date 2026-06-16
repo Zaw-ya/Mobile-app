@@ -1,4 +1,5 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
+import 'package:app/core/theming/app_typography.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/empty_widget.dart';
@@ -13,8 +14,6 @@ import '../../../core/helpers/extensions.dart';
 import '../../../core/routing/routes.dart';
 import '../../../core/widgets/client_header.dart';
 import '../../../core/widgets/main_card.dart';
-import '../../../core/widgets/normal_text.dart';
-import '../../../core/widgets/title_text.dart';
 import '../../client_events/data/models/client_event_response.dart';
 import '../../client_statistics/logic/client_statistics_cubit.dart';
 import '../../client_statistics/logic/client_statistics_states.dart';
@@ -76,33 +75,26 @@ class _NewClientStatisticsScreenState extends State<NewClientStatisticsScreen> {
           opacity: 0.5,
           child: Scaffold(
             key: ValueKey(currentLocale.languageCode),
-            backgroundColor: AppColor.whiteColor,
+            backgroundColor: AppColor.primaryLight,
             body: SingleChildScrollView(
               controller: _scrollController,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ── Header ────────────────────────────────────────────
                   ClientHeader(
                     title: 'statistics'.tr(),
                     subTitle: 'welcome'.tr(),
                   ),
-
-                  // ── Promo card ────────────────────────────────────────
                   MainCard(
                     title: 'detailed_statistics'.tr(),
                     image: Assets.imagesEventStatistics,
                     subtitle: 'follow_events_statistics'.tr(),
                   ),
-
                   SizedBox(height: edge),
                   UpcomingEventsBadge(eventsNumber: events.length),
-
-                  // ── States ────────────────────────────────────────────
                   state.maybeWhen(
                     emptyInput: () => const EmptyWidget(),
-                    error: (message) =>
-                        _StatisticsErrorWidget(message: message),
+                    error: (message) => _StatisticsErrorWidget(message: message),
                     orElse: () => _StatisticsEventsList(
                       events: events,
                       isLoadingMore: isLoadingMore,
@@ -117,8 +109,6 @@ class _NewClientStatisticsScreenState extends State<NewClientStatisticsScreen> {
     );
   }
 }
-
-// ── Sub-Widgets ──────────────────────────────────────────────────────────────
 
 class _StatisticsEventsList extends StatelessWidget {
   const _StatisticsEventsList({
@@ -144,8 +134,7 @@ class _StatisticsEventsList extends StatelessWidget {
         ),
         if (isLoadingMore) ...[
           SizedBox(height: edge),
-          Center(
-              child: CircularProgressIndicator(color: AppColor.primaryColor)),
+          const Center(child: CircularProgressIndicator(color: AppColor.primaryDark)),
           SizedBox(height: edge),
         ],
       ],
@@ -165,50 +154,41 @@ class _StatisticsEventCard extends StatelessWidget {
       onTap: () {
         context.pushNamed(
           Routes.clientStatisticsDetailScreen,
-          arguments:{
-                  'eventId': event.id,
-                  'eventTitle':event.eventTitle,
-                },
+          arguments: {
+            'eventId': event.id,
+            'eventTitle': event.eventTitle,
+          },
         );
       },
       child: Container(
         padding: EdgeInsets.all(edge * 0.8),
         margin: EdgeInsets.symmetric(horizontal: edge),
         decoration: BoxDecoration(
-          color: AppColor.gray50,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(radiusInput),
+          border: Border.all(color: AppColor.gray100),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TitleText(
-              text: event.eventTitle ?? '',
-              color: AppColor.gray800,
-              fontSize: 18,
+            Text(
+              event.eventTitle ?? '',
+              style: AppTextStyles.headlineSmall.copyWith(color: AppColor.primaryDark),
             ),
             SizedBox(height: edge * 0.1),
-            NormalText(
-              text: DateTimeHelper.formatDateLabel(
-                event.eventFrom,
-                isArabic: isArabic,
-              ),
-              color: AppColor.primaryColor,
-              fontSize: 16,
+            Text(
+              DateTimeHelper.formatDateLabel(event.eventFrom, isArabic: isArabic),
+              style: AppTextStyles.bodySmall.copyWith(color: AppColor.primaryDark),
             ),
             SizedBox(height: edge),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                NormalText(
-                  text: 'more_statistics'.tr(),
-                  color: AppColor.primaryColor,
-                  fontSize: 16,
+                Text(
+                  'more_statistics'.tr(),
+                  style: AppTextStyles.bodySmall.copyWith(color: AppColor.primaryDark),
                 ),
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppColor.primaryColor,
-                  size: 16,
-                ),
+                const Icon(Icons.arrow_forward_ios, color: AppColor.primaryDark, size: 16),
               ],
             ),
           ],
@@ -230,12 +210,12 @@ class _StatisticsErrorWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: edge * 3, horizontal: edge),
         child: Column(
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.red),
+            const Icon(Icons.error_outline, size: 64, color: AppColor.semanticError),
             SizedBox(height: edge),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.red, fontSize: 14),
+              style: AppTextStyles.bodyMedium.copyWith(color: AppColor.semanticError),
             ),
             SizedBox(height: edge),
             ElevatedButton(

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/helpers/app_utilities.dart';
+import '../../../../core/theming/app_typography.dart';
 import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/normal_text.dart';
-import '../../../../core/widgets/title_text.dart';
 
 class InviteCard extends StatelessWidget {
   const InviteCard({super.key});
@@ -14,7 +13,7 @@ class InviteCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(edge * 0.7),
       decoration: BoxDecoration(
-        color: AppColor.whiteColor.withValues(alpha: 0.2),
+        color: AppColor.primaryLight.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(radiusInner),
       ),
       child: Row(
@@ -24,17 +23,16 @@ class InviteCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                TitleText(
-                  text: '${AppUtilities().loginData.firstName}',
-                  fontSize: 18,
-                  color: AppColor.gray50,
+                Text(
+                  '${AppUtilities().loginData.firstName}',
+                  style: AppTextStyles.titleSmall
+                      .copyWith(color: AppColor.primaryLight),
                 ),
-                NormalText(
-                  text: "",
-                  //UserService.instance.currentUser?.email ?? '',
-                  fontSize: 18,
-                  color: AppColor.gray50,
-                  align: TextAlign.start,
+                Text(
+                  '',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: AppColor.primaryLight.withValues(alpha: 0.7),
+                  ),
                 ),
               ],
             ),

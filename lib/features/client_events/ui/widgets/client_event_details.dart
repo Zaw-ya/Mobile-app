@@ -1,3 +1,4 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +7,6 @@ import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/loader.dart';
 import '../../../../core/widgets/public_appbar.dart';
-import '../../../../core/widgets/title_text.dart';
 import '../../data/models/client_event_response.dart';
 import '../../logic/client_events_cubit.dart';
 import '../../logic/client_events_states.dart';
@@ -44,10 +44,9 @@ class _ClientEventDetailsScreenState extends State<ClientEventDetailsScreen> {
         _scrollController.position.maxScrollExtent - 100) {
       final cubit = context.read<ClientEventsCubit>();
       if (cubit.hasMoreDetails) {
-        // Changed from hasMoreEvents to hasMoreDetails
-        cubit.getEventDetails(widget.clientEventDetailsItem.id.toString(),
-            isNextPage:
-                true); // Changed from getClientEvents to getEventDetails
+        cubit.getEventDetails(
+            widget.clientEventDetailsItem.id.toString(),
+            isNextPage: true);
       }
     }
   }
@@ -55,8 +54,8 @@ class _ClientEventDetailsScreenState extends State<ClientEventDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColorOverlay,
-      appBar: publicAppBar(context, "attendance_info".tr()),
+      backgroundColor: AppColor.primaryLight,
+      appBar: publicAppBar(context, 'attendance_info'.tr()),
       body: BlocBuilder<ClientEventsCubit, ClientEventsStates>(
         buildWhen: (previous, current) => current != previous,
         bloc: context.read<ClientEventsCubit>()
@@ -64,34 +63,30 @@ class _ClientEventDetailsScreenState extends State<ClientEventDetailsScreen> {
         builder: (context, state) {
           return state.when(
             initial: () => const SizedBox.shrink(),
-            emptyInput: () => _buildCenteredMessage("no_available_events".tr()),
+            emptyInput: () =>
+                _buildCenteredMessage('no_available_events'.tr()),
             error: (error) => _buildCenteredMessage(error),
-            loading: () => Center(child: Loader(color: whiteTextColor)),
+            loading: () =>
+                Center(child: Loader(color: AppColor.primaryDark)),
             success: (response, isLoadingMore) {
               final events = response.eventDetailsList ?? [];
               if (events.isEmpty) {
-                return _buildCenteredMessage("no_available_events".tr());
+                return _buildCenteredMessage('no_available_events'.tr());
               }
-
               return ListView.builder(
                 controller: _scrollController,
                 padding: EdgeInsets.symmetric(vertical: edge),
                 itemCount: events.length + (isLoadingMore ? 1 : 0),
                 itemBuilder: (context, index) {
-                  // Show loading indicator at the bottom
                   if (isLoadingMore && index == events.length) {
-                    return const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    return Padding(
+                      padding: const EdgeInsets.all(8),
                       child: Center(
-                        child: Loader(color: whiteTextColor),
-                      ),
+                          child: Loader(color: AppColor.primaryDark)),
                     );
                   }
-
-                  // Show event items
                   return ClientEventDetailsItem(
-                    clientEventDetailsList: events[index],
-                  );
+                      clientEventDetailsList: events[index]);
                 },
               );
             },
@@ -103,10 +98,10 @@ class _ClientEventDetailsScreenState extends State<ClientEventDetailsScreen> {
 
   Widget _buildCenteredMessage(String message) {
     return Center(
-      child: TitleText(
-        text: message,
-        color: Colors.white,
-        align: TextAlign.center,
+      child: Text(
+        message,
+        style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray500),
+        textAlign: TextAlign.center,
       ),
     );
   }

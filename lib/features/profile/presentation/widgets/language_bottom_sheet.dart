@@ -1,13 +1,11 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/widgets/normal_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/extensions.dart';
+import '../../../../core/theming/app_typography.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/drag_handle.dart';
-import '../../../../core/widgets/title_text.dart';
-
 
 class LanguageBottomSheet extends StatefulWidget {
   const LanguageBottomSheet({super.key});
@@ -38,9 +36,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
 
     if (mounted) {
       context.setLocale(Locale(langCode));
-      setState(() {
-        _isAnimating = false;
-      });
+      setState(() => _isAnimating = false);
       context.pop();
     }
   }
@@ -59,7 +55,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
           duration: const Duration(milliseconds: 400),
           child: Container(
             decoration: BoxDecoration(
-              color: AppColor.whiteColor,
+              color: AppColor.primaryLight,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(containerRadius),
                 topRight: Radius.circular(containerRadius),
@@ -77,94 +73,32 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
               children: [
                 const DragHandle(),
                 SizedBox(height: edge * 0.5),
-                Row(
-                  children: [
-                    TitleText(
-                      text: "app_language".tr(),
-                      color: AppColor.gray900,
-                      fontSize: 20,
-                      align: TextAlign.start,
-                    ),
-                  ],
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    'app_language'.tr(),
+                    style: AppTextStyles.titleLarge
+                        .copyWith(color: AppColor.primaryDark),
+                  ),
                 ),
                 SizedBox(height: edge * 0.5),
-
-                // RadioGroup wraps both radio options
                 RadioGroup<String>(
                   groupValue: _selectedLang,
                   onChanged: (value) => _changeLanguage(value ?? ''),
                   child: Column(
                     children: [
-                      // Arabic Option
-                      GestureDetector(
-                        onTap: () => _changeLanguage('ar'),
-                        child: Container(
-                          margin: EdgeInsets.only(top: edge * 0.5),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: edge * 0.5,
-                            vertical: edge * 0.3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColor.gray50,
-                            borderRadius: BorderRadius.circular(radiusInput),
-                          ),
-                          child: Row(
-                            children: [
-                              Radio<String>(
-                                value: 'ar',
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                visualDensity: VisualDensity.compact,
-                                activeColor: AppColor.primaryColor,
-                              ),
-                              SizedBox(width: edge * 0.3),
-                              Expanded(
-                                child: NormalText(
-                                  text: "arabic".tr(),
-                                  color: AppColor.gray900,
-                                  fontSize: 18,
-                                  align: TextAlign.start,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      _LangOption(
+                        langCode: 'ar',
+                        label: 'arabic'.tr(),
+                        selectedLang: _selectedLang,
+                        onTap: _changeLanguage,
                       ),
-
-                      // English Option
-                      GestureDetector(
-                        onTap: () => _changeLanguage('en'),
-                        child: Container(
-                          margin: EdgeInsets.only(top: edge * 0.5),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: edge * 0.5,
-                            vertical: edge * 0.3,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColor.gray50,
-                            borderRadius: BorderRadius.circular(radiusInput),
-                          ),
-                          child: Row(
-                            children: [
-                              Radio<String>(
-                                value: 'en',
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                visualDensity: VisualDensity.compact,
-                                activeColor: AppColor.primaryColor,
-                              ),
-                              SizedBox(width: edge * 0.3),
-                              Expanded(
-                                child: NormalText(
-                                  text: "english".tr(),
-                                  color: AppColor.gray900,
-                                  fontSize: 18,
-                                  align: TextAlign.start,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      SizedBox(height: edge * 0.4),
+                      _LangOption(
+                        langCode: 'en',
+                        label: 'english'.tr(),
+                        selectedLang: _selectedLang,
+                        onTap: _changeLanguage,
                       ),
                     ],
                   ),
@@ -172,6 +106,59 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LangOption extends StatelessWidget {
+  const _LangOption({
+    required this.langCode,
+    required this.label,
+    required this.selectedLang,
+    required this.onTap,
+  });
+
+  final String langCode;
+  final String label;
+  final String selectedLang;
+  final void Function(String) onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isSelected = selectedLang == langCode;
+    return GestureDetector(
+      onTap: () => onTap(langCode),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: edge * 0.5,
+          vertical: edge * 0.3,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(radiusInput),
+          border: Border.all(
+            color: isSelected ? AppColor.primaryDark : AppColor.gray100,
+          ),
+        ),
+        child: Row(
+          children: [
+            Radio<String>(
+              value: langCode,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              visualDensity: VisualDensity.compact,
+              activeColor: AppColor.primaryDark,
+            ),
+            SizedBox(width: edge * 0.3),
+            Expanded(
+              child: Text(
+                label,
+                style: AppTextStyles.bodyMedium
+                    .copyWith(color: AppColor.primaryDark),
+              ),
+            ),
+          ],
         ),
       ),
     );

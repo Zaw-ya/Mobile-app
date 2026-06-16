@@ -1,8 +1,9 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:app/features/event_calender/ui/widgets/reserve_event_dialog_box.dart';
-import 'package:app/generated/fonts.gen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
@@ -12,11 +13,6 @@ import '../../logic/event_calender_cubit.dart';
 import 'events_bottom_sheet.dart';
 import 'events_color.dart';
 
-/// Builds the main calendar widget with events
-/// [events] - List of calendar events to display
-/// [selectedDay] - Currently selected day
-/// [focusedDay] - Day that calendar is focused on
-/// [selectedEvents] - Events for the selected day
 class CalenderView extends StatelessWidget {
   final List<CalenderEventsResponse> events;
   final DateTime selectedDay;
@@ -35,101 +31,116 @@ class CalenderView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Divider(height: 2, color: navBarBackground),
-        _buildInstructions(context),
-        Material(
-          elevation: 8,
-          color: Colors.transparent,
-          child: Container(
-            margin: EdgeInsets.all(edge),
-            padding: EdgeInsets.all(edge),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(edge * 1.5),
+        const Divider(height: 1, color: AppColor.gray200),
+        _buildInstructionBanner(context),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: edge, vertical: edge * 0.8),
+          padding: EdgeInsets.all(edge * 0.8),
+          decoration: BoxDecoration(
+            color: AppColor.whiteColor,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColor.gray100),
+          ),
+          child: TableCalendar(
+            firstDay: DateTime.utc(2010, 10, 16),
+            lastDay: DateTime.utc(2040, 3, 14),
+            focusedDay: focusedDay ?? DateTime.now(),
+            selectedDayPredicate: (day) => isSameDay(selectedDay, day),
+            eventLoader: (day) => _getEventsForDay(events, day),
+            onDaySelected: (selectedDay, focusedDay) async {
+              if (events.isNotEmpty) {
+                context
+                    .read<EventCalenderCubit>()
+                    .onDaySelected(selectedDay, focusedDay);
+                CalenderEventsResponse selectedEvent =
+                    await _showDayEventsBottomSheet(
+                  context,
+                  selectedDay,
+                  _getEventsForDay(events, selectedDay),
+                );
+                if (!context.mounted) return;
+                context.read<EventCalenderCubit>().calenderEventsResponse =
+                    selectedEvent;
+                showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return BlocProvider.value(
+                      value: context.read<EventCalenderCubit>(),
+                      child: ReservationDialogBox(event: selectedEvent),
+                    );
+                  },
+                );
+              }
+            },
+            headerStyle: HeaderStyle(
+              formatButtonVisible: false,
+              titleCentered: true,
+              titleTextStyle: AppTextStyles.titleLarge,
+              leftChevronIcon: const Icon(Icons.chevron_left,
+                  color: AppColor.primaryDark),
+              rightChevronIcon: const Icon(Icons.chevron_right,
+                  color: AppColor.primaryDark),
             ),
-            // TableCalendar widget configuration
-            child: TableCalendar(
-              firstDay: DateTime.utc(2010, 10, 16),
-              lastDay: DateTime.utc(2040, 3, 14),
-              focusedDay: focusedDay ?? DateTime.now(),
-              selectedDayPredicate: (day) => isSameDay(selectedDay, day),
-              eventLoader: (day) => _getEventsForDay(events, day),
-              onDaySelected: (selectedDay, focusedDay) async {
-                if (events.isNotEmpty) {
-                  // Update selected day in state
-                  context
-                      .read<EventCalenderCubit>()
-                      .onDaySelected(selectedDay, focusedDay);
-                  // Show bottom sheet with day's events
-                  CalenderEventsResponse selectedEvent =
-                      await _showDayEventsInModalSheet(
-                    context,
-                    selectedDay,
-                    _getEventsForDay(events, selectedDay),
-                  );
-                  if(!context.mounted) return;
-                  context.read<EventCalenderCubit>().calenderEventsResponse =
-                      selectedEvent;
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext dialogContext) {
-                      return BlocProvider.value(
-                        value: context.read<EventCalenderCubit>(),
-                        child: ReservationDialogBox(
-                          event: selectedEvent,
-                        ),
-                      );
-                    },
-                  );
-                }
-              },
-              headerStyle: const HeaderStyle(
-                formatButtonVisible: false,
-                titleCentered: true,
+            calendarStyle: CalendarStyle(
+              selectedDecoration: const BoxDecoration(
+                color: AppColor.primaryDark,
+                shape: BoxShape.circle,
               ),
-              // Calendar styling configuration
-              calendarStyle: CalendarStyle(
-                selectedDecoration: const BoxDecoration(
-                  color: primaryColor,
-                  shape: BoxShape.rectangle,
-                ),
-                todayDecoration: BoxDecoration(
-                  color: primaryColor.withAlpha(128),
-                  shape: BoxShape.rectangle,
-                ),
-                markersMaxCount: 5,
-                canMarkersOverflow: true,
+              selectedTextStyle: AppTextStyles.numericMedium.copyWith(
+                color: AppColor.primaryLight,
+                fontSize: 14.sp,
               ),
-              // Custom builder for event markers
-              calendarBuilders: CalendarBuilders(
-                markerBuilder: (context, date, events) {
-                  if (events.isEmpty) return const SizedBox();
-
-                  // Build colored lines for events
-                  return Positioned(
-                    bottom: 1,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        events.length.clamp(0, 5), // Limit to 5 events
-                        (index) => Expanded(
-                          child: Container(
-                            height: 3,
-                            margin: const EdgeInsets.symmetric(horizontal: 0.5),
-                            decoration: BoxDecoration(
-                              color: getEventColor(index),
-                              borderRadius: BorderRadius.circular(1),
-                            ),
+              todayDecoration: BoxDecoration(
+                color: Colors.transparent,
+                shape: BoxShape.circle,
+                border: Border.all(color: AppColor.primaryDark, width: 1.5),
+              ),
+              todayTextStyle: AppTextStyles.numericMedium.copyWith(
+                color: AppColor.primaryDark,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.bold,
+              ),
+              defaultTextStyle: AppTextStyles.numericMedium.copyWith(
+                color: AppColor.gray700,
+                fontSize: 14.sp,
+              ),
+              weekendTextStyle: AppTextStyles.numericMedium.copyWith(
+                color: AppColor.gray500,
+                fontSize: 14.sp,
+              ),
+              outsideTextStyle: AppTextStyles.numericMedium.copyWith(
+                color: AppColor.gray300,
+                fontSize: 14.sp,
+              ),
+              markersMaxCount: 5,
+              canMarkersOverflow: true,
+            ),
+            calendarBuilders: CalendarBuilders(
+              markerBuilder: (context, date, events) {
+                if (events.isEmpty) return const SizedBox();
+                return Positioned(
+                  bottom: 1,
+                  left: 0,
+                  right: 0,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      events.length.clamp(0, 5),
+                      (index) => Expanded(
+                        child: Container(
+                          height: 3,
+                          margin: const EdgeInsets.symmetric(horizontal: 0.5),
+                          decoration: BoxDecoration(
+                            color: getEventColor(index),
+                            borderRadius: BorderRadius.circular(1),
                           ),
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -137,20 +148,22 @@ class CalenderView extends StatelessWidget {
     );
   }
 
-  /// Builds the instructions section above the calendar
-  Widget _buildInstructions(BuildContext context) {
+  Widget _buildInstructionBanner(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: edge * 2, horizontal: edge),
-      color: bgColor,
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+          vertical: edge * 0.8, horizontal: edge),
+      color: AppColor.primaryDark,
       child: Row(
         children: [
-          const Icon(Icons.info, color: Colors.white, size: 22),
-          const SizedBox(width: 6),
+          const Icon(Icons.info_outline,
+              color: AppColor.primaryLight, size: 18),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              "event_calendar_instructions".tr(),
-              style: TextStyle(fontFamily: FontFamily.manchetteFine, color: Colors.white),
+              'event_calendar_instructions'.tr(),
+              style: AppTextStyles.bodySmall
+                  .copyWith(color: AppColor.primaryLight),
             ),
           ),
         ],
@@ -158,49 +171,41 @@ class CalenderView extends StatelessWidget {
     );
   }
 
-  /// Returns a list of events for a specific day
   List<CalenderEventsResponse> _getEventsForDay(
     List<CalenderEventsResponse> events,
     DateTime day,
   ) {
     return events.where((event) {
-      final eventFrom = DateTime.parse(event.eventFrom ?? "");
-      final eventTo = DateTime.parse(event.eventTo ?? "");
-
-      // Convert day to start of day for comparison
+      final eventFrom = DateTime.parse(event.eventFrom ?? '');
+      final eventTo = DateTime.parse(event.eventTo ?? '');
       final compareDay = DateTime(day.year, day.month, day.day);
-      final compareEventFrom =
+      final compareFrom =
           DateTime(eventFrom.year, eventFrom.month, eventFrom.day);
-      final compareEventTo = DateTime(eventTo.year, eventTo.month, eventTo.day);
-
-      // Check if day is equal to event date (for single-day events) or falls within range
-      return compareDay.isAtSameMomentAs(compareEventFrom) ||
-          compareDay.isAtSameMomentAs(compareEventTo) ||
-          (compareDay.isAfter(compareEventFrom) &&
-              compareDay.isBefore(compareEventTo));
+      final compareTo = DateTime(eventTo.year, eventTo.month, eventTo.day);
+      return compareDay.isAtSameMomentAs(compareFrom) ||
+          compareDay.isAtSameMomentAs(compareTo) ||
+          (compareDay.isAfter(compareFrom) &&
+              compareDay.isBefore(compareTo));
     }).toList();
   }
 
-  /// Shows bottom sheet with events for selected day
-  Future<CalenderEventsResponse> _showDayEventsInModalSheet(
+  Future<CalenderEventsResponse> _showDayEventsBottomSheet(
     BuildContext context,
     DateTime selectedDate,
     List<CalenderEventsResponse> events,
   ) async {
-    var selectedEvent = await showModalBottomSheet(
+    final selectedEvent = await showModalBottomSheet<CalenderEventsResponse>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: bgColor,
+      backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) {
-        return EventsBottomSheet(
-          selectedDate: selectedDate,
-          events: events,
-        );
-      },
+      builder: (context) => EventsBottomSheet(
+        selectedDate: selectedDate,
+        events: events,
+      ),
     );
-    return selectedEvent;
+    return selectedEvent!;
   }
 }

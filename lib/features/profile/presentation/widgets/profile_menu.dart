@@ -1,14 +1,13 @@
 import 'dart:io';
 
 import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/widgets/normal_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/app_utilities.dart';
+import '../../../../core/theming/app_typography.dart';
 import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/title_text.dart';
 import 'contact_cs_bottom_sheet.dart';
 import 'language_bottom_sheet.dart';
 import 'logout_bottom_sheet.dart';
@@ -22,7 +21,7 @@ class ProfileMenu extends StatelessWidget {
     return Container(
       key: ValueKey(currentLocale.languageCode),
       decoration: BoxDecoration(
-        color: AppColor.whiteColor,
+        color: AppColor.primaryLight,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(containerRadius),
           topRight: Radius.circular(containerRadius),
@@ -33,174 +32,111 @@ class ProfileMenu extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: edge * 0.2),
-          TitleText(
-            text: "menu".tr(),
-            color: AppColor.primaryColor,
-            fontSize: 20,
+          Text(
+            'menu'.tr(),
+            style: AppTextStyles.titleMedium
+                .copyWith(color: AppColor.primaryDark),
           ),
           SizedBox(height: edge * 0.8),
-          GestureDetector(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                isDismissible: true,
-                enableDrag: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  behavior: HitTestBehavior.opaque,
-                  child: Container(
-                    color: Colors.transparent,
-                    child: GestureDetector(
-                      onTap: () {},
-                      // Absorb taps on the bottom sheet itself
-                      child: const LanguageBottomSheet(),
-                    ),
+
+          // ── Language ─────────────────────────────────────────────────────
+          _MenuItem(
+            onTap: () => _showSheet(context, const LanguageBottomSheet()),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'language'.tr(),
+                    style: AppTextStyles.bodyMedium
+                        .copyWith(color: AppColor.gray700),
                   ),
                 ),
-              );
-            },
-            child: Container(
-              margin: EdgeInsets.only(top: edge * 0.5),
-              padding: EdgeInsets.all(edge * 0.8),
-              decoration: BoxDecoration(
-                color: AppColor.gray50,
-                borderRadius: BorderRadius.circular(radiusInput),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: NormalText(
-                      text: "language".tr(),
-                      color: AppColor.gray900,
-                      fontSize: 16,
-                      align: TextAlign.start,
-                    ),
-                  ),
-                  TitleText(
-                    text: Localizations.localeOf(context).languageCode == 'ar'
-                        ? "arabic".tr()
-                        : "english".tr(),
-                    color: AppColor.primaryColor,
-                    fontSize: 18,
-                    align: TextAlign.start,
-                  ),
-                ],
-              ),
+                Text(
+                  Localizations.localeOf(context).languageCode == 'ar'
+                      ? 'arabic'.tr()
+                      : 'english'.tr(),
+                  style: AppTextStyles.titleSmall
+                      .copyWith(color: AppColor.primaryDark),
+                ),
+              ],
             ),
           ),
           SizedBox(height: edge * 0.4),
-          GestureDetector(
+
+          // ── Rate App ─────────────────────────────────────────────────────
+          _MenuItem(
             onTap: () => _launchStore(),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColor.gray50,
-                borderRadius: BorderRadius.circular(radiusInput),
-              ),
-              padding:
-                  EdgeInsets.symmetric(vertical: edge * 0.8, horizontal: edge),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'rate_app'.tr(),
+                  style: AppTextStyles.bodyMedium
+                      .copyWith(color: AppColor.gray700),
+                ),
+                Icon(Icons.arrow_forward_ios,
+                    color: AppColor.gray500, size: 16),
+              ],
+            ),
+          ),
+
+          // ── Contact CS (Client only) ──────────────────────────────────
+          if (AppUtilities().loginData.roleName == 'Client') ...[
+            SizedBox(height: edge * 0.4),
+            _MenuItem(
+              onTap: () =>
+                  _showSheet(context, const CustomerServiceBottomSheet()),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  NormalText(
-                      text: "rate_app".tr(),
-                      color: AppColor.gray900,
-                      fontSize: 18),
-                  Icon(Icons.arrow_forward_ios,
-                      color: AppColor.gray700, size: 20),
-                ],
-              ),
-            ),
-          ),
-          if (AppUtilities().loginData.roleName == "Client") ...[
-            SizedBox(height: edge * 0.4),
-            GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  isDismissible: true,
-                  enableDrag: true,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) => GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    behavior: HitTestBehavior.opaque,
-                    child: Container(
-                      color: Colors.transparent,
-                      child: GestureDetector(
-                        onTap: () {},
-                        // Absorb taps on the bottom sheet itself
-                        child: const CustomerServiceBottomSheet(),
-                      ),
-                    ),
+                  Text(
+                    'contact_customer_service'.tr(),
+                    style: AppTextStyles.bodyMedium
+                        .copyWith(color: AppColor.gray700),
                   ),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColor.gray50,
-                  borderRadius: BorderRadius.circular(radiusInput),
-                ),
-                padding: EdgeInsets.symmetric(
-                    vertical: edge * 0.8, horizontal: edge),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    NormalText(
-                        text: "contact_customer_service".tr(),
-                        color: AppColor.gray900,
-                        fontSize: 18),
-                    Icon(Icons.arrow_forward_ios,
-                        color: AppColor.gray700, size: 20),
-                  ],
-                ),
+                  Icon(Icons.arrow_forward_ios,
+                      color: AppColor.gray500, size: 16),
+                ],
               ),
             ),
           ],
           SizedBox(height: edge * 0.4),
-          GestureDetector(
-            onTap: () async {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                isDismissible: true,
-                enableDrag: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  behavior: HitTestBehavior.opaque,
-                  child: Container(
-                    color: Colors.transparent,
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: const LogoutBottomSheet(),
-                    ),
-                  ),
+
+          // ── Logout ────────────────────────────────────────────────────
+          _MenuItem(
+            onTap: () => _showSheet(context, const LogoutBottomSheet()),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'logout'.tr(),
+                  style: AppTextStyles.bodyMedium
+                      .copyWith(color: AppColor.semanticError),
                 ),
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColor.gray50,
-                borderRadius: BorderRadius.circular(radiusInput),
-              ),
-              padding:
-                  EdgeInsets.symmetric(vertical: edge * 0.8, horizontal: edge),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  NormalText(
-                      text: "logout".tr(),
-                      color: AppColor.mainRed,
-                      fontSize: 18),
-                  Icon(Icons.arrow_forward_ios,
-                      color: AppColor.mainRed, size: 20),
-                ],
-              ),
+                Icon(Icons.arrow_forward_ios,
+                    color: AppColor.semanticError, size: 16),
+              ],
             ),
-          )
+          ),
         ],
+      ),
+    );
+  }
+
+  void _showSheet(BuildContext context, Widget sheet) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => GestureDetector(
+        onTap: () => Navigator.pop(context),
+        behavior: HitTestBehavior.opaque,
+        child: GestureDetector(
+          onTap: () {},
+          child: sheet,
+        ),
       ),
     );
   }
@@ -209,10 +145,37 @@ class ProfileMenu extends StatelessWidget {
     final Uri url = Platform.isAndroid
         ? Uri.parse(
             'https://play.google.com/store/apps/details?id=com.specialCards.app')
-        : Uri.parse('https://apps.apple.com/sa/app/com.specialCards.app/id6476280272');
+        : Uri.parse(
+            'https://apps.apple.com/sa/app/com.specialCards.app/id6476280272');
 
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       debugPrint('Could not launch store');
     }
+  }
+}
+
+class _MenuItem extends StatelessWidget {
+  const _MenuItem({required this.onTap, required this.child});
+
+  final VoidCallback onTap;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          vertical: edge * 0.8,
+          horizontal: edge,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(radiusInput),
+          border: Border.all(color: AppColor.gray100),
+        ),
+        child: child,
+      ),
+    );
   }
 }

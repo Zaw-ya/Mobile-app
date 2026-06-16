@@ -1,4 +1,4 @@
-import 'package:app/generated/fonts.gen.dart';
+import 'package:app/core/theming/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,17 +22,6 @@ class DayCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color? bgColor;
-    Color textColor = AppColor.gray800;
-
-    if (isSelected) {
-      bgColor = AppColor.secondaryColor;
-      textColor = AppColor.whiteColor;
-    } else if (isToday) {
-      bgColor = AppColor.primaryColor.withValues(alpha: 0.15);
-      textColor = AppColor.primaryColor;
-    }
-
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -43,13 +32,22 @@ class DayCell extends StatelessWidget {
             duration: const Duration(milliseconds: 200),
             width: 34,
             height: 34,
-            decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
+            decoration: BoxDecoration(
+              color: isSelected ? AppColor.primaryDark : Colors.transparent,
+              shape: BoxShape.circle,
+              border: isToday && !isSelected
+                  ? Border.all(color: AppColor.primaryDark, width: 1.5)
+                  : null,
+            ),
             child: Center(
               child: Text(
                 '${day.day}',
-                style: TextStyle(
-                  fontFamily: FontFamily.manchetteFine,
-                  color: textColor,
+                style: AppTextStyles.numericMedium.copyWith(
+                  color: isSelected
+                      ? AppColor.primaryLight
+                      : isToday
+                          ? AppColor.primaryDark
+                          : AppColor.gray700,
                   fontSize: 14.sp,
                   fontWeight: isSelected || isToday
                       ? FontWeight.bold
@@ -59,7 +57,6 @@ class DayCell extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 3),
-          // Dot indicator — visible only when the day has events
           AnimatedOpacity(
             duration: const Duration(milliseconds: 200),
             opacity: hasEvents ? 1.0 : 0.0,
@@ -67,7 +64,7 @@ class DayCell extends StatelessWidget {
               width: 6,
               height: 6,
               decoration: const BoxDecoration(
-                color: AppColor.primaryColor,
+                color: AppColor.primaryDark,
                 shape: BoxShape.circle,
               ),
             ),

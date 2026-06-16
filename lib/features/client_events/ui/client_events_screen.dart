@@ -1,5 +1,6 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:app/core/routing/routes.dart';
+import 'package:app/core/theming/app_typography.dart';
 import '../../../core/dimensions/dimensions_constants.dart';
 import '../../../core/widgets/loader.dart';
 import 'widgets/client_event_item.dart';
@@ -10,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/theming/colors.dart';
 import '../../../core/widgets/public_appbar.dart';
-import '../../../core/widgets/title_text.dart';
 import '../data/models/client_event_response.dart';
 import '../logic/client_events_cubit.dart';
 import '../logic/client_events_states.dart';
@@ -51,24 +51,23 @@ class _ClientEventsScreenState extends State<ClientEventsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColorOverlay,
-      appBar: publicAppBar(
-        context,
-        "events".tr(),
-      ),
+      backgroundColor: AppColor.primaryLight,
+      appBar: publicAppBar(context, 'events'.tr()),
       body: BlocBuilder<ClientEventsCubit, ClientEventsStates>(
         buildWhen: (previous, current) => current != previous,
         bloc: context.read<ClientEventsCubit>()..getClientEvents(),
         builder: (context, current) {
           return current.when(
             initial: () => const SizedBox.shrink(),
-            emptyInput: () => _buildCenteredMessage("no_available_events".tr()),
+            emptyInput: () =>
+                _buildCenteredMessage('no_available_events'.tr()),
             error: (error) => _buildCenteredMessage(error),
-            loading: () => Center(child: Loader(color: whiteTextColor)),
+            loading: () =>
+                Center(child: Loader(color: AppColor.primaryDark)),
             success: (response, isLoadingMore) {
               final events = response.eventDetailsList ?? [];
               if (events.isEmpty) {
-                return _buildCenteredMessage("no_available_events".tr());
+                return _buildCenteredMessage('no_available_events'.tr());
               }
               return Column(
                 children: [
@@ -79,20 +78,16 @@ class _ClientEventsScreenState extends State<ClientEventsScreen> {
                       itemCount: events.length + (isLoadingMore ? 1 : 0),
                       itemBuilder: (context, index) {
                         if (index == events.length && isLoadingMore) {
-                          return const Padding(
-                            padding: EdgeInsets.all(16.0),
+                          return Padding(
+                            padding: const EdgeInsets.all(16),
                             child: Center(
-                              child: Loader(color: whiteTextColor),
+                              child: Loader(color: AppColor.primaryDark),
                             ),
                           );
                         }
                         return GestureDetector(
-                          onTap: () {
-                            showEventBottomSheet(events[index]);
-                          },
-                          child: ClientEventItem(
-                            event: events[index],
-                          ),
+                          onTap: () => _showEventBottomSheet(events[index]),
+                          child: ClientEventItem(event: events[index]),
                         );
                       },
                     ),
@@ -106,26 +101,35 @@ class _ClientEventsScreenState extends State<ClientEventsScreen> {
     );
   }
 
-  void showEventBottomSheet(ClientEventDetails? event) {
+  void _showEventBottomSheet(ClientEventDetails? event) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: bgColor,
+      backgroundColor: AppColor.primaryLight,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return Container(
-          padding: const EdgeInsets.all(16),
-          constraints: BoxConstraints(
-            maxHeight: height * 0.75,
-          ),
+          padding: EdgeInsets.fromLTRB(edge, edge * 0.6, edge, edge),
+          constraints: BoxConstraints(maxHeight: height * 0.75),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              buildBottomSheetOption(
-                text: "attendance_info".tr(),
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: EdgeInsets.only(bottom: edge * 0.8),
+                  decoration: BoxDecoration(
+                    color: AppColor.gray300,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              _buildSheetOption(
+                text: 'attendance_info'.tr(),
                 onTap: () {
                   context.pop();
                   context.pushNamed(Routes.clientEventsDetailsScreen,
@@ -133,8 +137,8 @@ class _ClientEventsScreenState extends State<ClientEventsScreen> {
                 },
               ),
               SizedBox(height: edge * 0.5),
-              buildBottomSheetOption(
-                text: "show_message_status".tr(),
+              _buildSheetOption(
+                text: 'show_message_status'.tr(),
                 onTap: () {
                   context.pop();
                   context.pushNamed(Routes.clientMessagesStatusScreen,
@@ -142,13 +146,11 @@ class _ClientEventsScreenState extends State<ClientEventsScreen> {
                 },
               ),
               SizedBox(height: edge * 0.5),
-              buildBottomSheetOption(
-                  text: "cancel".tr(),
-                  onTap: () {
-                    context.pop();
-                  },
-                  color: Colors.red),
-              SizedBox(height: edge),
+              _buildSheetOption(
+                text: 'cancel'.tr(),
+                onTap: () => context.pop(),
+                isDestructive: true,
+              ),
             ],
           ),
         );
@@ -156,26 +158,34 @@ class _ClientEventsScreenState extends State<ClientEventsScreen> {
     );
   }
 
-  Widget buildBottomSheetOption({
+  Widget _buildSheetOption({
     required String text,
     required VoidCallback onTap,
-    Color? color, // Optional color parameter
+    bool isDestructive = false,
   }) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: edge * 0.5, horizontal: edge),
+        padding:
+            EdgeInsets.symmetric(vertical: edge * 0.6, horizontal: edge),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: color ??
-              navBarBackground, // Use the passed color or fallback to bgColor
+          color: isDestructive
+              ? AppColor.semanticError.withValues(alpha: 0.08)
+              : AppColor.whiteColor,
           borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isDestructive ? AppColor.semanticError : AppColor.gray100,
+          ),
         ),
-        child: TitleText(
-          text: text,
-          color: Colors.white,
-          fontSize: 18,
+        child: Text(
+          text,
+          style: AppTextStyles.titleSmall.copyWith(
+            color: isDestructive
+                ? AppColor.semanticError
+                : AppColor.primaryDark,
+          ),
         ),
       ),
     );
@@ -183,10 +193,10 @@ class _ClientEventsScreenState extends State<ClientEventsScreen> {
 
   Widget _buildCenteredMessage(String message) {
     return Center(
-      child: TitleText(
-        text: message,
-        color: Colors.white,
-        align: TextAlign.center,
+      child: Text(
+        message,
+        style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray500),
+        textAlign: TextAlign.center,
       ),
     );
   }

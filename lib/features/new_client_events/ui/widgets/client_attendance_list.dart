@@ -32,7 +32,7 @@ class ClientAttendanceList extends StatelessWidget {
           return Center(
             child: Padding(
               padding: EdgeInsets.all(edge * 0.5),
-              child: Loader(color: AppColor.primaryColor),
+              child: Loader(color: AppColor.primaryDark),
             ),
           );
         }

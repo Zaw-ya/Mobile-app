@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:app/core/theming/app_typography.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/drag_handle.dart';
 import 'package:app/core/widgets/empty_widget.dart';
 import 'package:app/core/widgets/loader.dart';
-import 'package:app/core/widgets/title_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -155,13 +155,13 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
         return ModalProgressHUD(
           inAsyncCall: isLoading,
           progressIndicator: const CustomLoadingIndicator(),
-          color: Colors.black,
-          opacity: 0.5,
+          color: AppColor.primaryDark,
+          opacity: 0.4,
           child: Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: AppColor.primaryDark,
             appBar: recordsAppBar(context, widget.event.eventTitle ?? ""),
             body: Container(
-              decoration: BoxDecoration(gradient: AppColor.greenGradient),
+              color: AppColor.primaryDark,
               child: Stack(
                 children: [
                   // ── Event card pinned at the top of the gradient ─────────
@@ -182,7 +182,7 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
 
                       return Container(
                         decoration: BoxDecoration(
-                          color: AppColor.whiteColor,
+                          color: AppColor.primaryLight,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(containerRadius),
                             topRight: Radius.circular(containerRadius),
@@ -199,10 +199,9 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
                               EdgeInsets.symmetric(horizontal: edge),
                               child: Row(
                                 children: [
-                                  TitleText(
-                                    text: "invited".tr(),
-                                    color: AppColor.primaryColor,
-                                    fontSize: 24,
+                                  Text(
+                                    'invited'.tr(),
+                                    style: AppTextStyles.titleLarge,
                                   ),
                                 ],
                               ),
@@ -259,7 +258,11 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
       initial: () => const SizedBox.shrink(),
       loading: () => const SizedBox.shrink(), // ModalProgressHUD handles this
       emptyInput: () => const EmptyWidget(),
-      error: (msg) => Center(child: TitleText(text: msg, color: Colors.red)),
+      error: (msg) => Center(
+        child: Text(msg,
+            style: AppTextStyles.bodyMedium
+                .copyWith(color: AppColor.semanticError)),
+      ),
       success: (response, isLoadingMore) {
         if (_selectedTab == 0 && response is ClientEventDetailsResponse) {
           return ClientAttendanceList(
@@ -279,7 +282,7 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
           );
         }
         // Brief type mismatch during tab switch
-        return Center(child: Loader(color: AppColor.primaryColor));
+        return Center(child: Loader(color: AppColor.primaryDark));
       },
     );
   }

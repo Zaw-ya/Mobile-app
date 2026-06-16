@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/widgets/title_text.dart';
+import '../../../../../core/theming/app_typography.dart';
 import '../../../client_statistics/data/models/client_messages_statistics_response.dart';
 import 'normal_message_section.dart';
 
@@ -37,16 +36,11 @@ class _UrgentTabSectionState extends State<UrgentTabSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        /// Title
-        TitleText(
-          text: 'urgent_messages'.tr(),
-          color: AppColor.primaryColor,
-          fontSize: 18,
+        Text(
+          'urgent_messages'.tr(),
+          style: AppTextStyles.titleLarge,
         ),
-
         SizedBox(height: edge * 0.6),
-
-        /// Tabs
         Row(
           children: [
             UrgentTabItem(
@@ -54,7 +48,7 @@ class _UrgentTabSectionState extends State<UrgentTabSection> {
               isSelected: selectedIndex == 0,
               onTap: () => setState(() => selectedIndex = 0),
             ),
-            SizedBox(width: 5.w,),
+            SizedBox(width: 5.w),
             UrgentTabItem(
               title: 'postponement'.tr(),
               isSelected: selectedIndex == 1,
@@ -62,8 +56,6 @@ class _UrgentTabSectionState extends State<UrgentTabSection> {
             ),
           ],
         ),
-
-        /// Content
         IndexedStack(
           index: selectedIndex,
           children: [
@@ -73,7 +65,6 @@ class _UrgentTabSectionState extends State<UrgentTabSection> {
                     details: widget.cancellationDetails!,
                   )
                 : const SizedBox.shrink(),
-
             widget.postponementDetails != null
                 ? NormalMessageSection(
                     title: '',
@@ -86,4 +77,3 @@ class _UrgentTabSectionState extends State<UrgentTabSection> {
     );
   }
 }
-

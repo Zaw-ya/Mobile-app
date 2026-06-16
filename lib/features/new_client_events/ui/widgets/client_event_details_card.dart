@@ -1,13 +1,13 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/event_detail_card.dart';
-import '../../../../core/widgets/normal_text.dart';
-import '../../../../core/widgets/title_text.dart';
 import '../../../../generated/assets.dart';
 import '../../../client_events/data/models/client_event_response.dart';
 
@@ -19,133 +19,122 @@ class ClientEventDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isArabic = context.locale.languageCode == 'ar';
+
     return Container(
-      padding:
-          EdgeInsets.symmetric(horizontal: edge * 0.8, vertical: edge * 0.8),
-      margin: EdgeInsets.all(edge),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+      margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
       decoration: BoxDecoration(
-          color: AppColor.whiteColor.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(radius)),
+        color: kCream.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(radius),
+        border: Border.all(color: kCream.withValues(alpha: 0.18)),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (event.eventVenue != null && event.eventVenue!.isNotEmpty) ...[
-            SizedBox(height: edge * 0.4),
-
-            // ── Location row ───────────────────────────────────────────────
+            // ── Location row ──────────────────────────────────────────────
             Row(
               children: [
-                GestureDetector(
-                  onTap: () => () {},
-                  child: Container(
-                    padding: EdgeInsets.all(edge * 0.7),
-                    decoration: BoxDecoration(
-                      color: AppColor.locationBackground,
-                      shape: BoxShape.circle,
-                    ),
-                    child: SvgPicture.asset(Assets.imagesLocation),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: kCream.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: SvgPicture.asset(
+                    Assets.imagesLocation,
+                    colorFilter: const ColorFilter.mode(
+                        AppColor.primaryLight, BlendMode.srcIn),
+                    width: 16,
+                    height: 16,
                   ),
                 ),
-                SizedBox(width: edge * 0.4),
+                SizedBox(width: 10.w),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      NormalText(
-                        text: event.eventVenue!,
-                        color: AppColor.whiteColor,
-                        fontSize: 16,
-                      ),
-                    ],
+                  child: Text(
+                    event.eventVenue!,
+                    style: AppTextStyles.titleSmall
+                        .copyWith(color: AppColor.primaryLight),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: edge),
+            SizedBox(height: 14.h),
 
-            // ── From / To dashed line ──────────────────────────────────────
+            // ── From / To dashed line ─────────────────────────────────────
             Row(
               children: [
-                TitleText(
-                  text: "from".tr(),
-                  fontSize: 16,
-                  color: AppColor.whiteColor,
-                ),
-                SizedBox(width: edge * 0.3),
+                Text('from'.tr(),
+                    style: AppTextStyles.labelSmall
+                        .copyWith(color: kCream.withValues(alpha: 0.7))),
+                SizedBox(width: 6.w),
                 Container(
-                  width: 15,
-                  height: 15,
+                  width: 8,
+                  height: 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      color: AppColor.whiteColor,
-                      width: 2,
-                    ),
+                    border: Border.all(color: AppColor.primaryLight, width: 1.5),
                   ),
                 ),
-                SizedBox(width: edge * 0.3),
+                SizedBox(width: 6.w),
                 Expanded(
                   child: CustomPaint(
-                    painter: DashedLinePainter(color: AppColor.gray200),
+                    painter: DashedLinePainter(
+                        color: kCream.withValues(alpha: 0.3)),
                   ),
                 ),
-                SizedBox(width: edge * 0.3),
+                SizedBox(width: 6.w),
                 Container(
-                  width: 15,
-                  height: 15,
+                  width: 8,
+                  height: 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      color: AppColor.whiteColor,
-                      width: 2,
-                    ),
+                    border: Border.all(color: AppColor.primaryLight, width: 1.5),
                   ),
                 ),
-                SizedBox(width: edge * 0.3),
-                TitleText(
-                  text: "to".tr(),
-                  fontSize: 16,
-                  color: AppColor.whiteColor,
-                ),
+                SizedBox(width: 6.w),
+                Text('to'.tr(),
+                    style: AppTextStyles.labelSmall
+                        .copyWith(color: kCream.withValues(alpha: 0.7))),
               ],
             ),
-            SizedBox(height: edge * 0.6),
+            SizedBox(height: 8.h),
 
-            // ── Dates ──────────────────────────────────────────────────────
+            // ── Dates ─────────────────────────────────────────────────────
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                NormalText(
-                  text: DateTimeHelper.formatDate(event.eventFrom,
+                Text(
+                  DateTimeHelper.formatDate(event.eventFrom,
                       isArabic: isArabic),
-                  fontSize: 16,
-                  color: AppColor.whiteColor,
+                  style: AppTextStyles.bodySmall
+                      .copyWith(color: kCream.withValues(alpha: 0.8)),
                 ),
-                NormalText(
-                  text: DateTimeHelper.formatDate(event.eventTo,
+                Text(
+                  DateTimeHelper.formatDate(event.eventTo,
                       isArabic: isArabic),
-                  fontSize: 16,
-                  color: AppColor.whiteColor,
+                  style: AppTextStyles.bodySmall
+                      .copyWith(color: kCream.withValues(alpha: 0.8)),
                 ),
               ],
             ),
-            SizedBox(height: edge * 0.6),
+            SizedBox(height: 4.h),
 
-            // ── Times ──────────────────────────────────────────────────────
+            // ── Times ─────────────────────────────────────────────────────
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TitleText(
-                  text: DateTimeHelper.formatTime(event.eventFrom,
+                Text(
+                  DateTimeHelper.formatTime(event.eventFrom,
                       isArabic: isArabic),
-                  fontSize: 24,
-                  color: AppColor.whiteColor,
+                  style: AppTextStyles.numericMedium
+                      .copyWith(color: AppColor.primaryLight),
                 ),
-                TitleText(
-                  text: DateTimeHelper.formatTime(event.eventTo,
+                Text(
+                  DateTimeHelper.formatTime(event.eventTo,
                       isArabic: isArabic),
-                  fontSize: 24,
-                  color: AppColor.whiteColor,
+                  style: AppTextStyles.numericMedium
+                      .copyWith(color: AppColor.primaryLight),
                 ),
               ],
             ),

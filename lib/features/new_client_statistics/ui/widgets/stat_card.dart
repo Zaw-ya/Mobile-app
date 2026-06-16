@@ -1,10 +1,9 @@
+import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/normal_text.dart';
-import '../../../../core/widgets/title_text.dart';
 
 class StatCard extends StatelessWidget {
   final String title;
@@ -31,53 +30,54 @@ class StatCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(edge * 0.7),
         decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.08),
+          color: AppColor.primaryDark,
           borderRadius: BorderRadius.circular(radiusInput),
-        //  border: Border.all(color: color.withValues(alpha: 0.25)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TitleText(
-              text: title,
-              color: color,
-              fontSize: 13,
-              align: TextAlign.start,
+            Text(
+              title,
+              style: AppTextStyles.labelSmall
+                  .copyWith(color: AppColor.primaryLight.withValues(alpha: 0.75)),
             ),
             SizedBox(height: edge * 0.3),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                TitleText(
-                  text: value.toString(),
-                  color: AppColor.gray800,
-                  fontSize: 22,
+                Text(
+                  value.toString(),
+                  style: AppTextStyles.numericMedium
+                      .copyWith(color: AppColor.primaryLight, fontSize: 22),
                 ),
                 const SizedBox(width: 4),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 2),
-                  child: NormalText(
-                    text: 'guest'.tr(),
-                    color: AppColor.gray400,
-                    fontSize: 12,
+                  child: Text(
+                    'guest'.tr(),
+                    style: AppTextStyles.labelSmall.copyWith(
+                        color: AppColor.primaryLight.withValues(alpha: 0.6)),
                   ),
                 ),
               ],
             ),
             SizedBox(height: edge * 0.35),
-            NormalText(
-              text: '${(pct * 100).round()}%',
-              color: AppColor.gray500,
-              fontSize: 12,
+            Text(
+              '${(pct * 100).round()}%',
+              style: AppTextStyles.numericMedium.copyWith(
+                  color: AppColor.primaryLight.withValues(alpha: 0.7),
+                  fontSize: 12),
             ),
             SizedBox(height: edge * 0.2),
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: LinearProgressIndicator(
                 value: pct,
-                backgroundColor: AppColor.gray100,
-                valueColor: AlwaysStoppedAnimation<Color>(color),
-                minHeight: 6,
+                backgroundColor:
+                    AppColor.primaryLight.withValues(alpha: 0.15),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    AppColor.primaryLight.withValues(alpha: 0.7)),
+                minHeight: 5,
               ),
             ),
           ],
@@ -87,7 +87,6 @@ class StatCard extends StatelessWidget {
   }
 }
 
-/// Builds a 2-column grid of [StatCard]s from a list of [StatCardData].
 class StatCardsGrid extends StatelessWidget {
   final List<StatCardData> items;
   final int total;
@@ -118,12 +117,12 @@ class StatCardsGrid extends StatelessWidget {
             Expanded(
               child: i + 1 < items.length
                   ? StatCard(
-                title: items[i + 1].title,
-                value: items[i + 1].value,
-                total: total,
-                color: items[i + 1].color,
-                onTap: items[i + 1].onTap,
-              )
+                      title: items[i + 1].title,
+                      value: items[i + 1].value,
+                      total: total,
+                      color: items[i + 1].color,
+                      onTap: items[i + 1].onTap,
+                    )
                   : const SizedBox.shrink(),
             ),
           ],

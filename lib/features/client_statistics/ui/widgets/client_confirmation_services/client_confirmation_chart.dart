@@ -1,3 +1,4 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/generated/fonts.gen.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -5,9 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../../../../core/constants/constants.dart';
-import '../../../../../core/widgets/title_text.dart';
 import '../../../data/models/bar_chart_model.dart';
 import '../../../data/models/client_confirmation_service_response.dart';
+
+// Navy opacity tiers for chart palette
+const _c0 = AppColor.primaryDark;
+const _c1 = Color(0xCC262938);
+const _c2 = Color(0x99262938);
+const _c3 = Color(0x66262938);
+const _c4 = Color(0x4D262938);
+const _c5 = Color(0x40262938); // 25% — above grid-line threshold (15%)
+const _c6 = Color(0x2E262938); // 18% — minimum distinguishable from bg
 
 class ClientConfirmationChart extends StatelessWidget {
   final ClientConfirmationServiceResponse details;
@@ -20,22 +29,19 @@ class ClientConfirmationChart extends StatelessWidget {
       padding: chartPadding,
       child: Container(
         decoration: BoxDecoration(
-          color: navBarBackground,
+          color: AppColor.whiteColor,
           borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColor.gray100),
         ),
         padding: containerPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TitleText(
-                  text: "statistics".tr(),
-                  fontSize: titleFontSize,
-                  color: whiteTextColor,
-                ),
-              ],
+            Center(
+              child: Text(
+                'statistics'.tr(),
+                style: AppTextStyles.titleLarge,
+              ),
             ),
             const SizedBox(height: spacing),
             _buildBarChart(),
@@ -59,7 +65,14 @@ class ClientConfirmationChart extends StatelessWidget {
       barTouchData: _buildBarTouchData(),
       barGroups: _buildBarGroups(),
       titlesData: _buildTitlesData(),
-      gridData: FlGridData(show: false),
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: false,
+        getDrawingHorizontalLine: (_) => FlLine(
+          color: const Color(0x26262938),
+          strokeWidth: 1,
+        ),
+      ),
       borderData: FlBorderData(show: false),
     );
   }
@@ -68,11 +81,18 @@ class ClientConfirmationChart extends StatelessWidget {
     return BarTouchData(
       enabled: true,
       touchTooltipData: BarTouchTooltipData(
-        getTooltipColor: (_) => Colors.transparent,
-        tooltipPadding: EdgeInsets.zero,
+        getTooltipColor: (_) => AppColor.primaryDark,
+        tooltipRoundedRadius: 6,
+        tooltipPadding:
+            const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         getTooltipItem: (group, _, rod, __) => BarTooltipItem(
           rod.toY.round().toString(),
-          const TextStyle(fontFamily: FontFamily.manchetteFine, color: whiteTextColor, fontWeight: FontWeight.bold),
+          TextStyle(
+            fontFamily: FontFamily.thmanyahSans,
+            color: AppColor.primaryLight,
+            fontWeight: FontWeight.w600,
+            fontSize: 12,
+          ),
         ),
       ),
     );
@@ -81,15 +101,14 @@ class ClientConfirmationChart extends StatelessWidget {
   List<BarChartGroupData> _buildBarGroups() {
     final chartData = _generateChartData();
     return chartData.asMap().entries.map((entry) {
-      final index = entry.key;
-      final data = entry.value;
       return BarChartGroupData(
-        x: index,
+        x: entry.key,
         barRods: [
           BarChartRodData(
-            toY: data.value,
-            color: data.color,
+            toY: entry.value.value,
+            color: entry.value.color,
             width: barWidth,
+            borderRadius: BorderRadius.circular(4),
           ),
         ],
       );
@@ -98,44 +117,35 @@ class ClientConfirmationChart extends StatelessWidget {
 
   List<BarChartModel> _generateChartData() {
     return [
-      _createBarChartModel(
-          details.totalGuestsNumber, "total_guests".tr(), primaryColor),
-      _createBarChartModel(details.acceptedGuestsNumber,
-          "total_accepted_guests".tr(), secondaryColor),
-      _createBarChartModel(details.declienedGuestsNumber,
-          "total_declined_guests".tr(), errorColor),
-      _createBarChartModel(details.noAnswerGuestsNumber,
-          "total_not_answered_guests".tr(), AppColor.chartYellow),
-      _createBarChartModel(details.failedGuestsNumber,
-          "total_failed_guests".tr(), AppColor.chartPurple),
-      _createBarChartModel(details.notSentGuestsNumber,
-          "total_not_sent_guests".tr(), AppColor.chartGreen),
-      _createBarChartModel(details.attendedGuestsNumber,
-          "total_attended_guests".tr(), AppColor.chartCyan),
+      BarChartModel(value: details.totalGuestsNumber?.toDouble() ?? 0, title: 'total_guests'.tr(), color: _c0),
+      BarChartModel(value: details.acceptedGuestsNumber?.toDouble() ?? 0, title: 'total_accepted_guests'.tr(), color: _c1),
+      BarChartModel(value: details.declienedGuestsNumber?.toDouble() ?? 0, title: 'total_declined_guests'.tr(), color: _c2),
+      BarChartModel(value: details.noAnswerGuestsNumber?.toDouble() ?? 0, title: 'total_not_answered_guests'.tr(), color: _c3),
+      BarChartModel(value: details.failedGuestsNumber?.toDouble() ?? 0, title: 'total_failed_guests'.tr(), color: _c4),
+      BarChartModel(value: details.notSentGuestsNumber?.toDouble() ?? 0, title: 'total_not_sent_guests'.tr(), color: _c5),
+      BarChartModel(value: details.attendedGuestsNumber?.toDouble() ?? 0, title: 'total_attended_guests'.tr(), color: _c6),
     ];
-  }
-
-  BarChartModel _createBarChartModel(int? value, String title, Color color) {
-    return BarChartModel(
-      value: value?.toDouble() ?? 0.0,
-      title: title,
-      color: color,
-    );
   }
 
   FlTitlesData _buildTitlesData() {
     return FlTitlesData(
       show: true,
-      bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      bottomTitles:
+          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      topTitles:
+          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      rightTitles:
+          AxisTitles(sideTitles: SideTitles(showTitles: false)),
       leftTitles: AxisTitles(
         sideTitles: SideTitles(
           showTitles: true,
           getTitlesWidget: (value, meta) => Text(
             value.toInt().toString(),
-            style: const TextStyle(
-                fontFamily: FontFamily.manchetteFine, color: whiteTextColor, fontSize: axisTitleFontSize),
+            style: TextStyle(
+              fontFamily: FontFamily.thmanyahSans,
+              color: AppColor.gray500,
+              fontSize: axisTitleFontSize,
+            ),
           ),
           reservedSize: 40,
         ),
@@ -144,26 +154,22 @@ class ClientConfirmationChart extends StatelessWidget {
   }
 
   Widget _buildChartLegends() {
-    final legendData = _generateLegendData();
+    final items = [
+      _LegendItem('total_guests'.tr(), _c0),
+      _LegendItem('total_accepted_guests'.tr(), _c1),
+      _LegendItem('total_declined_guests'.tr(), _c2),
+      _LegendItem('total_not_answered_guests'.tr(), _c3),
+      _LegendItem('total_failed_guests'.tr(), _c4),
+      _LegendItem('total_not_sent_guests'.tr(), _c5),
+      _LegendItem('total_attended_guests'.tr(), _c6),
+    ];
     return Wrap(
       spacing: spacing,
       runSpacing: 8,
-      children: legendData
-          .map((legend) => _buildLegendItem(legend.name, legend.color))
+      children: items
+          .map((e) => _buildLegendItem(e.name, e.color))
           .toList(),
     );
-  }
-
-  List<Legend> _generateLegendData() {
-    return [
-      Legend("total_guests".tr(), primaryColor),
-      Legend("total_accepted_guests".tr(), secondaryColor),
-      Legend("total_declined_guests".tr(), errorColor),
-      Legend("total_not_answered_guests".tr(), AppColor.chartYellow),
-      Legend("total_failed_guests".tr(), AppColor.chartPurple),
-      Legend("total_not_sent_guests".tr(), AppColor.chartGreen),
-      Legend("total_attended_guests".tr(), AppColor.chartCyan),
-    ];
   }
 
   Widget _buildLegendItem(String name, Color color) {
@@ -173,28 +179,22 @@ class ClientConfirmationChart extends StatelessWidget {
         Container(
           width: legendCircleSize,
           height: legendCircleSize,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color,
-          ),
+          decoration:
+              BoxDecoration(shape: BoxShape.circle, color: color),
         ),
         const SizedBox(width: 6),
         Text(
           name,
-          style: const TextStyle(
-            fontFamily: FontFamily.manchetteFine,
-            color: whiteTextColor,
-            fontSize: legendTextFontSize,
-          ),
+          style: AppTextStyles.labelSmall
+              .copyWith(color: AppColor.gray700),
         ),
       ],
     );
   }
 }
 
-class Legend {
-  Legend(this.name, this.color);
-
+class _LegendItem {
+  const _LegendItem(this.name, this.color);
   final String name;
   final Color color;
 }

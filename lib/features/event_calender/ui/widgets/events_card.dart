@@ -1,13 +1,10 @@
-import 'package:app/core/widgets/normal_text.dart';
-import 'package:app/core/widgets/title_text.dart';
-import 'package:app/generated/fonts.gen.dart';
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theming/colors.dart';
 import '../../data/models/calender_events.dart';
 
-/// Card widget to display individual event details
 class EventCard extends StatelessWidget {
   final CalenderEventsResponse event;
   final Color color;
@@ -21,37 +18,36 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: bgColorOverlay,
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(12),
       child: Container(
         decoration: BoxDecoration(
+          color: AppColor.whiteColor,
           borderRadius: BorderRadius.circular(12),
           border: Border(
-            left: BorderSide(
-              color: color,
-              width: 4,
-            ),
+            left: BorderSide(color: AppColor.primaryDark, width: 4),
+            top: BorderSide(color: AppColor.gray100),
+            right: BorderSide(color: AppColor.gray100),
+            bottom: BorderSide(color: AppColor.gray100),
           ),
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: () {
-            Navigator.pop(context, event);
-          },
+          onTap: () => Navigator.pop(context, event),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TitleText(
-                  text: event.eventTitle ?? "",
-                  color: Colors.white,
-                  fontSize: 16,
+                Text(
+                  event.eventTitle ?? '',
+                  style: AppTextStyles.titleSmall,
                 ),
-                const SizedBox(height: 8),
-                NormalText(
-                  text: event.eventVenue ?? "",
-                  color: Colors.white70,
+                const SizedBox(height: 6),
+                Text(
+                  event.eventVenue ?? '',
+                  style: AppTextStyles.bodySmall
+                      .copyWith(color: AppColor.gray600),
                 ),
                 const SizedBox(height: 8),
                 _buildEventTimes(),
@@ -71,22 +67,24 @@ class EventCard extends StatelessWidget {
     final eventFrom = DateTime.parse(event.eventFrom!);
     final eventTo = DateTime.parse(event.eventTo!);
 
-    // Check if both times are midnight (00:00:00)
     final bothMidnight = eventFrom.hour == 0 &&
         eventFrom.minute == 0 &&
         eventTo.hour == 0 &&
         eventTo.minute == 0;
 
-    // If both times are midnight, don't show the time row
     if (bothMidnight) return const SizedBox.shrink();
 
     return Row(
       children: [
-        Icon(Icons.access_time, color: color, size: 16),
-        const SizedBox(width: 8),
+        const Icon(Icons.access_time,
+            color: AppColor.primaryDark, size: 14),
+        const SizedBox(width: 6),
         Text(
-          "${DateFormat('HH:mm').format(eventFrom)} - ${DateFormat('HH:mm').format(eventTo)}",
-          style: TextStyle(fontFamily: FontFamily.manchetteFine, color: color),
+          '${DateFormat('HH:mm').format(eventFrom)} - ${DateFormat('HH:mm').format(eventTo)}',
+          style: AppTextStyles.numericMedium.copyWith(
+            color: AppColor.primaryDark,
+            fontSize: 13,
+          ),
         ),
       ],
     );

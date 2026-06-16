@@ -1,13 +1,13 @@
-import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/helpers/extensions.dart';
+import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/normal_text.dart';
-import '../../../../core/widgets/title_text.dart';
+import '../../../../core/dimensions/dimensions_constants.dart';
+import '../../../../core/helpers/extensions.dart';
 import '../../../../generated/assets.gen.dart';
 import '../../data/models/gatekeeper_events_response.dart';
 
@@ -30,35 +30,33 @@ class ScanDetailsHeader extends StatelessWidget {
         Container(
           margin: EdgeInsets.fromLTRB(edge, edge, edge, 0),
           decoration: BoxDecoration(
-            color: AppColor.gray50,
+            color: AppColor.whiteColor,
             borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColor.gray100),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: edge * 0.5,
             children: [
               Padding(
                 padding: EdgeInsets.all(edge),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    eventCodeAndTitle(),
+                    _buildCodeAndTitle(),
                     SizedBox(height: edge * 0.5),
-                    eventLocation(context),
+                    _buildLocation(context),
                   ],
                 ),
               ),
-              eventStatistics(),
+              _buildStatisticsFooter(),
             ],
           ),
         ),
         SizedBox(height: edge),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-
           padding: EdgeInsets.symmetric(horizontal: edge),
           child: Row(
-            spacing: edge * 0.4,
             children: [
               _TabChip(
                 label: 'all_attending'
@@ -66,14 +64,16 @@ class ScanDetailsHeader extends StatelessWidget {
                 isSelected: selectedTabIndex == 0,
                 onTap: () => onTabChanged(0),
               ),
+              SizedBox(width: edge * 0.4),
               _TabChip(
                 label: 'attendant'
                     .tr(args: [(event?.scanned ?? 0).toString()]),
                 isSelected: selectedTabIndex == 1,
                 onTap: () => onTabChanged(1),
               ),
+              SizedBox(width: edge * 0.4),
               _TabChip(
-                label: 'not_attending'.tr(args: [getPending(event!)]),
+                label: 'not_attending'.tr(args: [_getPending()]),
                 isSelected: selectedTabIndex == 2,
                 onTap: () => onTabChanged(2),
               ),
@@ -84,11 +84,71 @@ class ScanDetailsHeader extends StatelessWidget {
     );
   }
 
-  Widget eventStatistics() {
+  Widget _buildCodeAndTitle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(
+            event?.eventTitle ?? '',
+            style: AppTextStyles.headlineSmall,
+          ),
+        ),
+        Text(
+          event?.eventCode ?? '',
+          style: AppTextStyles.labelMedium.copyWith(color: AppColor.gray500),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLocation(BuildContext context) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => _viewMap(context),
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(
+              color: AppColor.gray50,
+              shape: BoxShape.circle,
+            ),
+            child: SvgPicture.asset(
+              Assets.images.location,
+              colorFilter: const ColorFilter.mode(
+                  AppColor.primaryDark, BlendMode.srcIn),
+              width: 16,
+              height: 16,
+            ),
+          ),
+        ),
+        SizedBox(width: edge * 0.4),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                event?.eventVenue ?? '',
+                style: AppTextStyles.titleSmall,
+              ),
+              if ((event?.eventlocation ?? '').isNotEmpty)
+                Text(
+                  event!.eventlocation!,
+                  style: AppTextStyles.bodySmall
+                      .copyWith(color: AppColor.gray500),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatisticsFooter() {
     return Container(
       padding: EdgeInsets.all(edge),
-      decoration: BoxDecoration(
-        gradient: AppColor.greenGradient,
+      decoration: const BoxDecoration(
+        color: AppColor.primaryDark,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(12),
           bottomRight: Radius.circular(12),
@@ -98,114 +158,60 @@ class ScanDetailsHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              NormalText(
-                text: event?.contactName ?? "",
-                color: AppColor.whiteColor,
-                fontSize: 14,
+              Text(
+                event?.contactName ?? '',
+                style: AppTextStyles.labelSmall
+                    .copyWith(color: AppColor.primaryLight),
               ),
-              TitleText(
-                text: event?.contactPhone ?? "",
-                color: AppColor.whiteColor,
-                fontSize: 24,
+              Text(
+                event?.contactPhone ?? '',
+                style: AppTextStyles.numericMedium.copyWith(
+                    color: AppColor.primaryLight,
+                    fontSize: 18.sp),
               ),
             ],
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              NormalText(
-                text: "attendees_count".tr(),
-                color: AppColor.whiteColor,
-                fontSize: 14,
+              Text(
+                'attendees_count'.tr(),
+                style: AppTextStyles.labelSmall
+                    .copyWith(color: AppColor.primaryLight),
               ),
-              TitleText(
-                text: (event?.totalAllocated ?? 0).toString(),
-                color: AppColor.whiteColor,
-                fontSize: 24,
+              Text(
+                (event?.totalAllocated ?? 0).toString(),
+                style: AppTextStyles.numericMedium.copyWith(
+                    color: AppColor.primaryLight,
+                    fontSize: 22.sp),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
   }
 
-  String getPending(EventsList event) {
-    int allocated = event.totalAllocated ?? 0;
-    int scanned = event.scanned ?? 0;
+  String _getPending() {
+    final allocated = event?.totalAllocated ?? 0;
+    final scanned = event?.scanned ?? 0;
     return (allocated - scanned).toString();
   }
 
-  Widget eventLocation(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () => viewMap(context),
-          child: Container(
-            padding: EdgeInsets.all(edge * 0.7),
-            decoration: BoxDecoration(
-              color: AppColor.locationBackground,
-              shape: BoxShape.circle,
-            ),
-            child: SvgPicture.asset(Assets.images.location),
-          ),
-        ),
-        SizedBox(width: edge * 0.4),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TitleText(
-              text: event?.eventVenue ?? "",
-              color: AppColor.gray800,
-              fontSize: 16,
-            ),
-            NormalText(
-              text: event?.eventlocation ?? "",
-              color: AppColor.gray500,
-              fontSize: 16,
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Future viewMap(BuildContext context) async {
+  Future<void> _viewMap(BuildContext context) async {
     if (event?.gmapCode == null) {
-      context.showErrorToast("location_not_available".tr());
+      context.showErrorToast('location_not_available'.tr());
       return;
     }
-    final googleUrl = event?.gmapCode ?? "https://maps.google.com";
     try {
-      await launchUrl(Uri.parse(googleUrl), mode: LaunchMode.platformDefault);
-    } catch (e) {
-      // Handle exceptions appropriately
-    }
-  }
-
-  Widget eventCodeAndTitle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: TitleText(
-            text: event?.eventTitle ?? "",
-            color: AppColor.gray900,
-            fontSize: 16,
-            align: TextAlign.start,
-          ),
-        ),
-        TitleText(
-          text: event?.eventCode ?? "",
-          color: AppColor.gray900,
-          fontSize: 16,
-        ),
-      ],
-    );
+      await launchUrl(Uri.parse(event!.gmapCode!),
+          mode: LaunchMode.platformDefault);
+    } catch (_) {}
   }
 }
 
-/// Private reusable tab chip widget
 class _TabChip extends StatelessWidget {
   final String label;
   final bool isSelected;
@@ -228,14 +234,20 @@ class _TabChip extends StatelessWidget {
           vertical: edge * 0.5,
         ),
         decoration: BoxDecoration(
-          gradient: isSelected ? AppColor.greenGradient : null,
-          color: isSelected ? null : AppColor.gray50,
+          color: isSelected ? AppColor.primaryDark : Colors.transparent,
           borderRadius: BorderRadius.circular(radiusInput),
+          border: Border.all(
+            color:
+                isSelected ? AppColor.primaryDark : AppColor.gray200,
+          ),
         ),
-        child: TitleText(
-          text: label,
-          color: isSelected ? Colors.white : AppColor.gray400,
-          fontSize: 16,
+        child: Text(
+          label,
+          style: isSelected
+              ? AppTextStyles.titleSmall
+                  .copyWith(color: AppColor.primaryLight)
+              : AppTextStyles.titleSmall
+                  .copyWith(color: AppColor.gray400),
         ),
       ),
     );

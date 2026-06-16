@@ -148,7 +148,7 @@ class _ClientEventsList extends StatelessWidget {
         ),
         if (isLoadingMore) ...[
           SizedBox(height: edge),
-          Center(child: Loader(color: AppColor.primaryColor)),
+          Center(child: Loader(color: AppColor.primaryDark)),
           SizedBox(height: edge),
         ],
       ],
@@ -168,12 +168,12 @@ class _ClientErrorWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: edge * 3, horizontal: edge),
         child: Column(
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.red),
+            const Icon(Icons.error_outline, size: 64, color: AppColor.semanticError),
             SizedBox(height: edge),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: FontFamily.manchetteFine, color: Colors.red, fontSize: 14.sp),
+              style: TextStyle(fontFamily: FontFamily.manchetteFine, color: AppColor.semanticError, fontSize: 14.sp),
             ),
             SizedBox(height: edge),
             ElevatedButton(

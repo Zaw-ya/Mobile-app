@@ -1,7 +1,7 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/empty_widget.dart';
-import 'package:app/core/widgets/title_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +24,11 @@ class ClientStatisticsDetailScreen extends StatefulWidget {
   final int eventId;
   final String eventTitle;
 
-  const ClientStatisticsDetailScreen({super.key, required this.eventId,required this.eventTitle});
+  const ClientStatisticsDetailScreen({
+    super.key,
+    required this.eventId,
+    required this.eventTitle,
+  });
 
   @override
   State<ClientStatisticsDetailScreen> createState() =>
@@ -35,29 +39,18 @@ class _ClientStatisticsDetailScreenState
     extends State<ClientStatisticsDetailScreen> {
   int _selectedTab = 0;
 
-  // Per-tab cached responses — avoids re-fetching on tab switch
   ClientConfirmationServiceResponse? _confirmationData;
   SentCardsServicesResponse? _sentCardsData;
   ClientMessagesStatisticsResponse? _messagesData;
 
-  // Per-tab error messages
   String? _tabError;
-
-  ScrollController? _sheetScrollController;
 
   @override
   void initState() {
     super.initState();
-    // Load tab 0 immediately
     context
         .read<ClientStatisticsCubit>()
         .getClientMessageStatistics(widget.eventId.toString());
-  }
-
-  @override
-  void dispose() {
-    _sheetScrollController?.dispose();
-    super.dispose();
   }
 
   void _switchTab(int tab) {
@@ -72,24 +65,16 @@ class _ClientStatisticsDetailScreenState
 
     switch (tab) {
       case 0:
-        if (_messagesData == null) {
-          cubit.getClientMessageStatistics(eventId);
-        }
+        if (_messagesData == null) cubit.getClientMessageStatistics(eventId);
         break;
       case 1:
-        if (_sentCardsData == null) {
-          cubit.getSentCardsServices(eventId);
-        }
+        if (_sentCardsData == null) cubit.getSentCardsServices(eventId);
         break;
       case 2:
-        if (_confirmationData == null) {
-          cubit.getClientConfirmationService(eventId);
-        }
+        if (_confirmationData == null) cubit.getClientConfirmationService(eventId);
         break;
     }
   }
-
-  // ── Build ────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -121,70 +106,66 @@ class _ClientStatisticsDetailScreenState
           color: Colors.black,
           opacity: 0.5,
           child: Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: AppColor.primaryDark,
             appBar: recordsAppBar(context, widget.eventTitle),
             body: Container(
-                decoration: BoxDecoration(gradient: AppColor.greenGradient),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColor.whiteColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(containerRadius),
-                      topRight: Radius.circular(containerRadius),
+              decoration: BoxDecoration(
+                color: AppColor.primaryLight,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(containerRadius),
+                  topRight: Radius.circular(containerRadius),
+                ),
+              ),
+              child: Column(
+                children: [
+                  SizedBox(height: edge * 1.4),
+
+                  // ── Tab buttons ──────────────────────────────────────
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: edge),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          ClientStatisticsTabButton(
+                            label: 'messages_statistics'.tr(),
+                            isSelected: _selectedTab == 0,
+                            onTap: () => _switchTab(0),
+                            image: Image.asset(Assets.imagesMessages,
+                                fit: BoxFit.contain),
+                          ),
+                          SizedBox(width: edge * 0.4),
+                          ClientStatisticsTabButton(
+                            label: 'invitations_statistics'.tr(),
+                            isSelected: _selectedTab == 1,
+                            onTap: () => _switchTab(1),
+                            image: Image.asset(Assets.imagesInviteStatistics,
+                                fit: BoxFit.contain),
+                          ),
+                          SizedBox(width: edge * 0.4),
+                          ClientStatisticsTabButton(
+                            label: 'confirmations_statistics'.tr(),
+                            isSelected: _selectedTab == 2,
+                            onTap: () => _switchTab(2),
+                            image: Image.asset(Assets.imagesAcceptStatistics,
+                                fit: BoxFit.contain),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: edge * 1.4),
+                  SizedBox(height: edge * 0.5),
 
-                      // ── Tab buttons ──────────────────────────────
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: edge),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              ClientStatisticsTabButton(
-                                label: 'messages_statistics'.tr(),
-                                isSelected: _selectedTab == 0,
-                                onTap: () => _switchTab(0),
-                                image: Image.asset(Assets.imagesMessages,
-                                    fit: BoxFit.contain),
-                              ),
-                              SizedBox(width: edge * 0.4),
-                              ClientStatisticsTabButton(
-                                label: 'invitations_statistics'.tr(),
-                                isSelected: _selectedTab == 1,
-                                onTap: () => _switchTab(1),
-                                image: Image.asset(
-                                    Assets.imagesInviteStatistics,
-                                    fit: BoxFit.contain),
-                              ),
-                              SizedBox(width: edge * 0.4),
-                              ClientStatisticsTabButton(
-                                label: 'confirmations_statistics'.tr(),
-                                isSelected: _selectedTab == 2,
-                                onTap: () => _switchTab(2),
-                                image: Image.asset(
-                                    Assets.imagesAcceptStatistics,
-                                    fit: BoxFit.contain),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: edge * 0.5),
-
-                      // // ── Tab content ──────────────────────────────
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: edge),
-                          child: _buildTabContent(),
-                        ),
-                      ),
-                    ],
+                  // ── Tab content ──────────────────────────────────────
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: edge),
+                      child: _buildTabContent(),
+                    ),
                   ),
-                )),
+                ],
+              ),
+            ),
           ),
         );
       },
@@ -192,24 +173,21 @@ class _ClientStatisticsDetailScreenState
   }
 
   Widget _buildTabContent() {
-    // Error state
     if (_tabError != null) {
-      return Center(child: TitleText(text: _tabError!, color: Colors.red));
+      return Center(
+        child: Text(
+          _tabError!,
+          style: AppTextStyles.bodyMedium.copyWith(color: AppColor.semanticError),
+          textAlign: TextAlign.center,
+        ),
+      );
     }
 
-    // Waiting for first load (cached data not yet available)
-    final hasCachedData = _currentTabHasData();
-    if (!hasCachedData) {
-      // ModalProgressHUD is already showing — return empty while loading
-      return const SizedBox.shrink();
-    }
+    if (!_currentTabHasData()) return const SizedBox.shrink();
 
     switch (_selectedTab) {
       case 0:
-        return MessagesStatisticsTab(
-          data: _messagesData!,
-        );
-
+        return MessagesStatisticsTab(data: _messagesData!);
       case 1:
         return SentCardsStatisticsTab(
           data: _sentCardsData!,
@@ -228,11 +206,11 @@ class _ClientStatisticsDetailScreenState
   bool _currentTabHasData() {
     switch (_selectedTab) {
       case 0:
-        return _messagesData != null; // was _confirmationData
+        return _messagesData != null;
       case 1:
-        return _sentCardsData != null; // correct
+        return _sentCardsData != null;
       case 2:
-        return _confirmationData != null; // was _messagesData
+        return _confirmationData != null;
       default:
         return false;
     }

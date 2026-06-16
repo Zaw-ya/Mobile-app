@@ -1,9 +1,9 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../dimensions/dimensions_constants.dart';
 import '../theming/colors.dart';
-import '../widgets/title_text.dart';
 
 class ConnectionBannerWrapper extends StatefulWidget {
   final bool isConnected;
@@ -38,7 +38,7 @@ class _ConnectionBannerWrapperState extends State<ConnectionBannerWrapper>
         });
       } else {
         // Back online — show green briefly then hide
-        setState(() => bannerColor = kOnlineGreen);
+        setState(() => bannerColor = AppColor.primaryDark);
         Future.delayed(const Duration(seconds: 1), () {
           if (mounted) setState(() => showBanner = false);
         });
@@ -78,12 +78,13 @@ class _ConnectionBannerWrapperState extends State<ConnectionBannerWrapper>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    TitleText(
-                      text: widget.isConnected
+                    Text(
+                      widget.isConnected
                           ? 'connected'.tr()
                           : 'no_internet'.tr(),
-                      color: whiteSmokeColor,
-                      fontSize: 14,
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColor.primaryLight,
+                      ),
                     ),
                     if (!widget.isConnected) ...[
                       const SizedBox(width: 8),

@@ -1,12 +1,11 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:app/core/widgets/custom_button.dart';
-import 'package:app/core/widgets/normal_text.dart';
-import 'package:app/core/widgets/title_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 
 import '../../../../core/helpers/extensions.dart';
+import '../../../../core/theming/app_typography.dart';
 import '../../../../core/theming/colors.dart';
 
 class RateAppBottomSheet extends StatefulWidget {
@@ -22,7 +21,6 @@ class _RateAppBottomSheetState extends State<RateAppBottomSheet> {
   Future<void> _requestReview() async {
     if (_isRequesting) return;
     setState(() => _isRequesting = true);
-
     try {
       final inAppReview = InAppReview.instance;
       if (await inAppReview.isAvailable()) {
@@ -52,7 +50,7 @@ class _RateAppBottomSheetState extends State<RateAppBottomSheet> {
           duration: const Duration(milliseconds: 400),
           child: Container(
             decoration: BoxDecoration(
-              color: AppColor.whiteColor,
+              color: AppColor.primaryLight,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(containerRadius),
                 topRight: Radius.circular(containerRadius),
@@ -69,7 +67,6 @@ class _RateAppBottomSheetState extends State<RateAppBottomSheet> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ── Header ───────────────────────────────────────────────
                 Row(
                   children: [
                     GestureDetector(
@@ -77,37 +74,32 @@ class _RateAppBottomSheetState extends State<RateAppBottomSheet> {
                       child: Container(
                         padding: EdgeInsets.all(edge * 0.6),
                         decoration: BoxDecoration(
-                          color: AppColor.gray50,
+                          color: AppColor.gray100,
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.close, color: AppColor.gray900),
+                        child: Icon(Icons.close,
+                            color: AppColor.gray700, size: 20),
                       ),
                     ),
                     SizedBox(width: edge * 0.6),
-                    TitleText(
-                      text: "rate_app".tr(),
-                      color: AppColor.primaryColor,
-                      fontSize: 20,
-                      align: TextAlign.start,
+                    Text(
+                      'rate_app'.tr(),
+                      style: AppTextStyles.titleLarge
+                          .copyWith(color: AppColor.primaryDark),
                     ),
                   ],
                 ),
                 SizedBox(height: edge * 0.9),
-
-                // ── Hint ─────────────────────────────────────────────────
-                NormalText(
-                  text: "rate_app_hint".tr(),
-                  fontSize: 16,
-                  color: AppColor.gray600,
-                  align: TextAlign.start,
+                Text(
+                  'rate_app_hint'.tr(),
+                  style: AppTextStyles.bodyMedium
+                      .copyWith(color: AppColor.gray600),
                 ),
                 SizedBox(height: edge * 1.5),
-
-                // ── Button — triggers native store popup ──────────────────
                 CustomButton.normal(
-                  text: "rate_now".tr(),
-                  color: AppColor.primaryColor,
-                  textColor: AppColor.whiteColor,
+                  text: 'rate_now'.tr(),
+                  color: AppColor.primaryDark,
+                  textColor: AppColor.primaryLight,
                   onPressed: _isRequesting ? null : _requestReview,
                 ),
               ],

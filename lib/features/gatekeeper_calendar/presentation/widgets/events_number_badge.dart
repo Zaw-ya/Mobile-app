@@ -1,8 +1,6 @@
-import 'package:app/core/widgets/normal_text.dart';
-import 'package:app/generated/fonts.gen.dart';
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/theming/colors.dart';
@@ -18,39 +16,30 @@ class EventsNumberBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: edge),
-      child: Column(
+      child: Row(
         children: [
-          Row(
-            children: [
-              NormalText(
-                text: "day_events".tr(),
-                fontSize: 16,
-                color: AppColor.gray400,
-              ),
-              SizedBox(width: edge * 0.3),
-              NormalText(
-                text: dayName,
-                fontSize: 18,
-                color: AppColor.primaryColor,
-              ),
-              SizedBox(width: edge * 0.3),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: AppColor.secondaryColor,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  '$eventsNumber',
-                  style: TextStyle(
-                    fontFamily: FontFamily.manchetteFine,
-                    color: AppColor.whiteColor,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
+          Text(
+            'day_events'.tr(),
+            style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray500),
+          ),
+          SizedBox(width: edge * 0.3),
+          Text(
+            dayName,
+            style: AppTextStyles.titleSmall,
+          ),
+          SizedBox(width: edge * 0.3),
+          Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            decoration: BoxDecoration(
+              color: AppColor.primaryDark,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              '$eventsNumber',
+              style: AppTextStyles.labelSmall
+                  .copyWith(color: AppColor.primaryLight),
+            ),
           ),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/generated/fonts.gen.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -5,9 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../../../../core/constants/constants.dart';
-import '../../../../../core/widgets/title_text.dart';
 import '../../../data/models/bar_chart_model.dart';
 import '../../../data/models/client_messages_statistics_response.dart';
+
+// Navy opacity tiers for chart palette
+const _c0 = AppColor.primaryDark;
+const _c1 = Color(0xCC262938);
+const _c2 = Color(0x99262938);
+const _c3 = Color(0x66262938);
+const _c4 = Color(0x4D262938);
 
 class MessagesStatisticsChart extends StatelessWidget {
   final String title;
@@ -22,22 +29,19 @@ class MessagesStatisticsChart extends StatelessWidget {
       padding: chartPadding,
       child: Container(
         decoration: BoxDecoration(
-          color: navBarBackground,
+          color: AppColor.whiteColor,
           borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColor.gray100),
         ),
         padding: containerPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TitleText(
-                  text: title,
-                  fontSize: titleFontSize,
-                  color: whiteTextColor,
-                ),
-              ],
+            Center(
+              child: Text(
+                title,
+                style: AppTextStyles.titleLarge,
+              ),
             ),
             const SizedBox(height: spacing),
             _buildBarChart(),
@@ -61,7 +65,14 @@ class MessagesStatisticsChart extends StatelessWidget {
       barTouchData: _buildBarTouchData(),
       barGroups: _buildBarGroups(),
       titlesData: _buildTitlesData(),
-      gridData: FlGridData(show: false),
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: false,
+        getDrawingHorizontalLine: (_) => FlLine(
+          color: const Color(0x26262938),
+          strokeWidth: 1,
+        ),
+      ),
       borderData: FlBorderData(show: false),
     );
   }
@@ -70,11 +81,18 @@ class MessagesStatisticsChart extends StatelessWidget {
     return BarTouchData(
       enabled: true,
       touchTooltipData: BarTouchTooltipData(
-        getTooltipColor: (_) => Colors.transparent,
-        tooltipPadding: EdgeInsets.zero,
+        getTooltipColor: (_) => AppColor.primaryDark,
+        tooltipRoundedRadius: 6,
+        tooltipPadding:
+            const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         getTooltipItem: (group, _, rod, __) => BarTooltipItem(
           rod.toY.round().toString(),
-          const TextStyle(fontFamily: FontFamily.manchetteFine, color: whiteTextColor, fontWeight: FontWeight.bold),
+          TextStyle(
+            fontFamily: FontFamily.thmanyahSans,
+            color: AppColor.primaryLight,
+            fontWeight: FontWeight.w600,
+            fontSize: 12,
+          ),
         ),
       ),
     );
@@ -83,15 +101,14 @@ class MessagesStatisticsChart extends StatelessWidget {
   List<BarChartGroupData> _buildBarGroups() {
     final chartData = _generateChartData();
     return chartData.asMap().entries.map((entry) {
-      final index = entry.key;
-      final data = entry.value;
       return BarChartGroupData(
-        x: index,
+        x: entry.key,
         barRods: [
           BarChartRodData(
-            toY: data.value,
-            color: data.color,
+            toY: entry.value.value,
+            color: entry.value.color,
             width: barWidth,
+            borderRadius: BorderRadius.circular(4),
           ),
         ],
       );
@@ -100,39 +117,33 @@ class MessagesStatisticsChart extends StatelessWidget {
 
   List<BarChartModel> _generateChartData() {
     return [
-      _createBarChartModel(
-          details.readNumber, "read_number".tr(), primaryColor),
-      _createBarChartModel(
-          details.deliverdNumber, "delivered_number".tr(), secondaryColor),
-      _createBarChartModel(details.sentNumber, "sent_number".tr(), errorColor),
-      _createBarChartModel(
-          details.failedNumber, "failed_number".tr(), AppColor.chartYellow),
-      _createBarChartModel(
-          details.notSentNumber, "not_sent_number".tr(), AppColor.chartPurple),
+      BarChartModel(value: details.readNumber?.toDouble() ?? 0, title: 'read_number'.tr(), color: _c0),
+      BarChartModel(value: details.deliverdNumber?.toDouble() ?? 0, title: 'delivered_number'.tr(), color: _c1),
+      BarChartModel(value: details.sentNumber?.toDouble() ?? 0, title: 'sent_number'.tr(), color: _c2),
+      BarChartModel(value: details.failedNumber?.toDouble() ?? 0, title: 'failed_number'.tr(), color: _c3),
+      BarChartModel(value: details.notSentNumber?.toDouble() ?? 0, title: 'not_sent_number'.tr(), color: _c4),
     ];
-  }
-
-  BarChartModel _createBarChartModel(int? value, String title, Color color) {
-    return BarChartModel(
-      value: value?.toDouble() ?? 0.0,
-      title: title,
-      color: color,
-    );
   }
 
   FlTitlesData _buildTitlesData() {
     return FlTitlesData(
       show: true,
-      bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      bottomTitles:
+          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      topTitles:
+          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      rightTitles:
+          AxisTitles(sideTitles: SideTitles(showTitles: false)),
       leftTitles: AxisTitles(
         sideTitles: SideTitles(
           showTitles: true,
           getTitlesWidget: (value, meta) => Text(
             value.toInt().toString(),
-            style: const TextStyle(
-                fontFamily: FontFamily.manchetteFine, color: whiteTextColor, fontSize: axisTitleFontSize),
+            style: TextStyle(
+              fontFamily: FontFamily.thmanyahSans,
+              color: AppColor.gray500,
+              fontSize: axisTitleFontSize,
+            ),
           ),
           reservedSize: 40,
         ),
@@ -141,24 +152,20 @@ class MessagesStatisticsChart extends StatelessWidget {
   }
 
   Widget _buildChartLegends() {
-    final legendData = _generateLegendData();
+    final items = [
+      _LegendItem('read_number'.tr(), _c0),
+      _LegendItem('delivered_number'.tr(), _c1),
+      _LegendItem('sent_number'.tr(), _c2),
+      _LegendItem('failed_number'.tr(), _c3),
+      _LegendItem('not_sent_number'.tr(), _c4),
+    ];
     return Wrap(
       spacing: spacing,
       runSpacing: 8,
-      children: legendData
-          .map((legend) => _buildLegendItem(legend.name, legend.color))
+      children: items
+          .map((e) => _buildLegendItem(e.name, e.color))
           .toList(),
     );
-  }
-
-  List<Legend> _generateLegendData() {
-    return [
-      Legend("read_number".tr(), primaryColor),
-      Legend("delivered_number".tr(), secondaryColor),
-      Legend("sent_number".tr(), errorColor),
-      Legend("failed_number".tr(), AppColor.chartYellow),
-      Legend("not_sent_number".tr(), AppColor.chartPurple),
-    ];
   }
 
   Widget _buildLegendItem(String name, Color color) {
@@ -168,28 +175,22 @@ class MessagesStatisticsChart extends StatelessWidget {
         Container(
           width: legendCircleSize,
           height: legendCircleSize,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color,
-          ),
+          decoration:
+              BoxDecoration(shape: BoxShape.circle, color: color),
         ),
         const SizedBox(width: 6),
         Text(
           name,
-          style: const TextStyle(
-            fontFamily: FontFamily.manchetteFine,
-            color: whiteTextColor,
-            fontSize: legendTextFontSize,
-          ),
+          style: AppTextStyles.labelSmall
+              .copyWith(color: AppColor.gray700),
         ),
       ],
     );
   }
 }
 
-class Legend {
-  Legend(this.name, this.color);
-
+class _LegendItem {
+  const _LegendItem(this.name, this.color);
   final String name;
   final Color color;
 }

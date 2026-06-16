@@ -1,9 +1,9 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/dimensions/dimensions_constants.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/normal_text.dart';
-import '../../../../core/widgets/title_text.dart';
 
 class CalendarHeader extends StatelessWidget {
   const CalendarHeader({super.key});
@@ -11,45 +11,17 @@ class CalendarHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-          top: edge * 2.5, bottom: edge * 1.5, left: edge, right: edge),
-      decoration: BoxDecoration(color: AppColor.homeBackground),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      padding: EdgeInsets.only(top: 52.h, bottom: 20.h, left: 24.w, right: 24.w),
+      color: AppColor.primaryLight,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TitleText(
-                text: "calendar".tr(),
-                color: AppColor.primaryColor,
-                fontSize: 24,
-              ),
-              NormalText(
-                text: "calendar_hint".tr(),
-                color: AppColor.gray700,
-                fontSize: 14,
-              )
-            ],
+          Text('calendar'.tr(), style: AppTextStyles.headlineLarge),
+          const SizedBox(height: 2),
+          Text(
+            'calendar_hint'.tr(),
+            style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray500),
           ),
-          // GestureDetector(
-          //   onTap: () => {context.pushNamed(Routes.qrCodeScreen)},
-          //   child: Container(
-          //     width: 54,
-          //     height: 54,
-          //     decoration: BoxDecoration(
-          //       color: AppColor.primaryColor.withValues(alpha: .2),
-          //       borderRadius: BorderRadius.circular(15),
-          //     ),
-          //     child: Center(
-          //       child: SvgPicture.asset(
-          //         Assets.images.qrcode,
-          //         width: 28,
-          //         height: 28,
-          //       ),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

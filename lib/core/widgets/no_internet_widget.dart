@@ -1,4 +1,4 @@
-import 'package:app/core/widgets/title_text.dart';
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -11,18 +11,19 @@ class NoInternetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: bgColorOverlay),
+      color: AppColor.primaryLight,
       padding: EdgeInsets.all(edge),
       child: Column(
         children: [
           SizedBox(height: 150),
           Image.asset('assets/images/no_internet.png'),
           SizedBox(height: 50),
-          TitleText(
-            text: 'no_internet'.tr(),
-            color: AppColor.primaryLight,
-            fontSize: 16,
-            align: TextAlign.center,
+          Text(
+            'no_internet'.tr(),
+            style: AppTextStyles.titleMedium.copyWith(
+              color: AppColor.primaryDark,
+            ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

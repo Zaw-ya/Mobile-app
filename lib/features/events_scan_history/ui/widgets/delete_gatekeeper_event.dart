@@ -1,12 +1,11 @@
 import 'package:app/core/helpers/extensions.dart';
+import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/go_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/normal_text.dart';
-import '../../../../core/widgets/title_text.dart';
 import '../../data/models/gatekeeper_events_response.dart';
 import '../../logic/gatekeeper_events_cubit.dart';
 import '../../logic/scan_history_states.dart';
@@ -21,7 +20,8 @@ class DeleteGatekeeperEventDialogBox extends StatefulWidget {
       _EventCheckDialogBoxState();
 }
 
-class _EventCheckDialogBoxState extends State<DeleteGatekeeperEventDialogBox> {
+class _EventCheckDialogBoxState
+    extends State<DeleteGatekeeperEventDialogBox> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GatekeeperEventsCubit, ScanHistoryStates>(
@@ -34,10 +34,10 @@ class _EventCheckDialogBoxState extends State<DeleteGatekeeperEventDialogBox> {
       listener: (context, current) {
         if (current is SuccessDeleteEvent) {
           context.pop();
-          context.showSuccessToast("delete_event_successfully".tr());
+          context.showSuccessToast('delete_event_successfully'.tr());
         } else if (current is ErrorDeleteEvent) {
           context.pop();
-          context.showErrorToast("delete_event_failed".tr());
+          context.showErrorToast('delete_event_failed'.tr());
         }
       },
     );
@@ -45,33 +45,36 @@ class _EventCheckDialogBoxState extends State<DeleteGatekeeperEventDialogBox> {
 
   Widget _buildDialog(BuildContext context, ScanHistoryStates state) {
     return AlertDialog(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: AppColor.primaryLight,
+      shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       title: _buildDialogTitle(),
-      content: _buildDialogContent(widget.event.eventTitle ?? ""),
-      actions: [
-        _buildActionButtons(context, state),
-      ],
+      content: _buildDialogContent(widget.event.eventTitle ?? ''),
+      actions: [_buildActionButtons(context, state)],
     );
   }
 
   Widget _buildDialogTitle() {
     return Column(
       children: [
+        const SizedBox(height: 4),
+        const Icon(Icons.delete_outline,
+            color: AppColor.semanticError, size: 48),
         const SizedBox(height: 12),
-        TitleText(
-          text: "delete_gatekeeper_event_title".tr(),
-          color: AppColor.gray800,
-          fontSize: 20,
+        Text(
+          'delete_gatekeeper_event_title'.tr(),
+          style: AppTextStyles.headlineSmall,
+          textAlign: TextAlign.center,
         ),
       ],
     );
   }
 
   Widget _buildDialogContent(String eventName) {
-    return NormalText(
-      text: "delete_gatekeeper_event_message".tr(args: [eventName]),
-      fontSize: 16,
-      color: AppColor.gray800,
+    return Text(
+      'delete_gatekeeper_event_message'.tr(args: [eventName]),
+      style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray700),
+      textAlign: TextAlign.center,
     );
   }
 
@@ -85,24 +88,21 @@ class _EventCheckDialogBoxState extends State<DeleteGatekeeperEventDialogBox> {
               context
                   .read<GatekeeperEventsCubit>()
                   .deleteEvent(widget.event.id.toString());
-              // cancelScheduledNotifications(id: widget.event.id.toString());
             },
-            titleKey: "delete".tr(),
-            textColor: Colors.white,
-            btColor: AppColor.primaryColor,
+            titleKey: 'delete'.tr(),
+            textColor: AppColor.primaryLight,
+            btColor: AppColor.semanticError,
             loading: state is LoadingDeleteEvent,
-            loaderColor: Colors.white,
+            loaderColor: AppColor.primaryLight,
           ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Expanded(
           child: GoButton(
-            fun: () {
-              context.pop();
-            },
-            titleKey: "cancel".tr(),
-            textColor: Colors.white,
-            btColor: AppColor.mainRed,
+            fun: () => context.pop(),
+            titleKey: 'cancel'.tr(),
+            textColor: AppColor.primaryLight,
+            btColor: AppColor.primaryDark,
           ),
         ),
       ],

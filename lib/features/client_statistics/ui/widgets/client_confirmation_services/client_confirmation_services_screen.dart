@@ -1,5 +1,6 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:app/core/routing/routes.dart';
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,9 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/widgets/loader.dart';
-import '../../../../../core/widgets/normal_text.dart';
 import '../../../../../core/widgets/public_appbar.dart';
-import '../../../../../core/widgets/title_text.dart';
 import '../../../data/models/client_confirmation_service_response.dart';
 import '../../../data/models/guest_type_list.dart';
 import '../../../logic/client_statistics_cubit.dart';
@@ -24,8 +23,8 @@ class ClientConfirmationServicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
-      appBar: publicAppBar(context, "confirmation_service".tr()),
+      backgroundColor: AppColor.primaryLight,
+      appBar: publicAppBar(context, 'confirmation_service'.tr()),
       body: BlocBuilder<ClientStatisticsCubit, ClientStatisticsStates>(
         buildWhen: (previous, current) => current != previous,
         bloc: context.read<ClientStatisticsCubit>()
@@ -33,42 +32,48 @@ class ClientConfirmationServicesScreen extends StatelessWidget {
         builder: (context, current) {
           return current.when(
             initial: () => const SizedBox.shrink(),
-            emptyInput: () => _buildCenteredMessage("no_available_events".tr()),
+            emptyInput: () =>
+                _buildCenteredMessage('no_available_events'.tr()),
             error: (error) => _buildCenteredMessage(error),
-            loading: () => Center(child: Loader(color: whiteTextColor)),
+            loading: () =>
+                Center(child: Loader(color: AppColor.primaryDark)),
             successFetchData: (success) {
               final ClientConfirmationServiceResponse events = success;
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: ListView(
+                      padding: EdgeInsets.symmetric(vertical: edge * 0.5),
                       children: [
-                        _buildItemRow(context, "type".tr(), "number".tr(),
+                        _buildRow(context, 'type'.tr(), 'number'.tr(),
                             isHeader: false),
-                        _buildItemRow(context, "total_guests".tr(),
+                        _buildRow(context, 'total_guests'.tr(),
                             events.totalGuestsNumber.toString(),
-                            type: GuestListType.allGuests, eventId: eventId),
-                        _buildItemRow(context, "total_accepted_guests".tr(),
+                            type: GuestListType.allGuests,
+                            eventId: eventId),
+                        _buildRow(context, 'total_accepted_guests'.tr(),
                             events.acceptedGuestsNumber.toString(),
                             type: GuestListType.acceptedGuests,
                             eventId: eventId),
-                        _buildItemRow(context, "total_declined_guests".tr(),
+                        _buildRow(context, 'total_declined_guests'.tr(),
                             events.declienedGuestsNumber.toString(),
                             type: GuestListType.declinedGuests,
                             eventId: eventId),
-                        _buildItemRow(context, "total_not_answered_guests".tr(),
+                        _buildRow(
+                            context,
+                            'total_not_answered_guests'.tr(),
                             events.noAnswerGuestsNumber.toString(),
                             type: GuestListType.notAnsweredGuests,
                             eventId: eventId),
-                        _buildItemRow(context, "total_failed_guests".tr(),
+                        _buildRow(context, 'total_failed_guests'.tr(),
                             events.failedGuestsNumber.toString(),
-                            type: GuestListType.failedGuests, eventId: eventId),
-                        _buildItemRow(context, "total_not_sent_guests".tr(),
+                            type: GuestListType.failedGuests,
+                            eventId: eventId),
+                        _buildRow(context, 'total_not_sent_guests'.tr(),
                             events.notSentGuestsNumber.toString(),
                             type: GuestListType.notSentGuests,
                             eventId: eventId),
-                        _buildItemRow(context, "total_attended_guests".tr(),
+                        _buildRow(context, 'total_attended_guests'.tr(),
                             events.attendedGuestsNumber.toString(),
                             type: GuestListType.guestsReadCards,
                             eventId: eventId),
@@ -79,16 +84,21 @@ class ClientConfirmationServicesScreen extends StatelessWidget {
                 ],
               );
             },
-            success: (success, loading) => Container(),
+            success: (_, __) => const SizedBox.shrink(),
           );
         },
       ),
     );
   }
 
-  Widget _buildItemRow(BuildContext context, String title, String number,
-      {bool isHeader = true, GuestListType? type, String eventId = ""}) {
-    // Ensure the number is parsed safely
+  Widget _buildRow(
+    BuildContext context,
+    String title,
+    String number, {
+    bool isHeader = true,
+    GuestListType? type,
+    String eventId = '',
+  }) {
     final int parsedNumber = int.tryParse(number) ?? 0;
     return GestureDetector(
       onTap: isHeader
@@ -108,48 +118,46 @@ class ClientConfirmationServicesScreen extends StatelessWidget {
             }
           : null,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: edge, vertical: edge),
+        padding: EdgeInsets.symmetric(horizontal: edge, vertical: edge * 0.8),
         margin: EdgeInsets.symmetric(vertical: 4, horizontal: edge * 0.5),
         decoration: BoxDecoration(
-            color: navBarBackground.withAlpha(128),
-            borderRadius: BorderRadius.circular(12)),
+          color: AppColor.whiteColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColor.gray100),
+        ),
         child: Row(
           children: [
-            _buildRowItem(title, flex: 3),
-            _buildRowItem(number),
-            if (isHeader)
-              Icon(
-                Icons.chevron_right,
-                color: whiteTextColor,
-              )
-            else
-              Icon(
-                Icons.chevron_right,
-                color: Colors.transparent,
-              )
+            Expanded(
+              flex: 3,
+              child: Text(
+                title,
+                style: AppTextStyles.bodySmall
+                    .copyWith(color: AppColor.gray700),
+              ),
+            ),
+            Text(
+              number,
+              style: AppTextStyles.numericMedium
+                  .copyWith(color: AppColor.primaryDark),
+            ),
+            const SizedBox(width: 8),
+            Icon(
+              Icons.chevron_right,
+              color: isHeader ? AppColor.primaryDark : Colors.transparent,
+              size: 20,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Expanded _buildRowItem(String text, {int flex = 1}) {
-    return Expanded(
-      flex: flex,
-      child: NormalText(
-        text: text,
-        color: whiteTextColor,
-        align: TextAlign.start,
-      ),
-    );
-  }
-
   Widget _buildCenteredMessage(String message) {
     return Center(
-      child: TitleText(
-        text: message,
-        color: Colors.white,
-        align: TextAlign.center,
+      child: Text(
+        message,
+        style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray500),
+        textAlign: TextAlign.center,
       ),
     );
   }

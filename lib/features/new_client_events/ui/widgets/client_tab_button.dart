@@ -1,9 +1,7 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:app/core/theming/colors.dart';
-import 'package:app/core/widgets/normal_text.dart';
-import 'package:app/core/widgets/title_text.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../core/dimensions/dimensions_constants.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ClientTabButton extends StatelessWidget {
   const ClientTabButton({
@@ -21,26 +19,23 @@ class ClientTabButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: edge * 0.7,
-          vertical: edge * 0.5,
-        ),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
         decoration: BoxDecoration(
-          gradient: isSelected ? AppColor.greenGradient : null,
-          color: isSelected ? null : AppColor.gray50,
-          borderRadius: BorderRadius.circular(radiusInput),
+          color: isSelected ? AppColor.primaryDark : Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: isSelected ? AppColor.primaryDark : AppColor.gray200,
+          ),
         ),
-        child: isSelected
-            ? TitleText(
-          text: label,
-          color: AppColor.whiteColor,
-          fontSize: 18,
-        )
-            : NormalText(
-          text: label,
-          color: AppColor.gray400,
-          fontSize: 18,
+        child: Text(
+          label,
+          style: isSelected
+              ? AppTextStyles.titleSmall
+                  .copyWith(color: AppColor.primaryLight)
+              : AppTextStyles.titleSmall
+                  .copyWith(color: AppColor.gray400),
         ),
       ),
     );

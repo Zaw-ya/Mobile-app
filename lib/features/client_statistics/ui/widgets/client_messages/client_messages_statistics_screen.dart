@@ -1,11 +1,12 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/widgets/loader.dart';
 import '../../../../../core/widgets/public_appbar.dart';
-import '../../../../../core/widgets/title_text.dart';
 import '../../../data/models/client_messages_statistics_response.dart';
 import '../../../logic/client_statistics_cubit.dart';
 import '../../../logic/client_statistics_states.dart';
@@ -19,8 +20,8 @@ class ClientMessagesStatisticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
-      appBar: publicAppBar(context, "all_message_statistics".tr()),
+      backgroundColor: AppColor.primaryLight,
+      appBar: publicAppBar(context, 'all_message_statistics'.tr()),
       body: BlocBuilder<ClientStatisticsCubit, ClientStatisticsStates>(
         buildWhen: (previous, current) => current != previous,
         bloc: context.read<ClientStatisticsCubit>()
@@ -28,12 +29,13 @@ class ClientMessagesStatisticsScreen extends StatelessWidget {
         builder: (context, current) {
           return current.when(
             initial: () => const SizedBox.shrink(),
-            emptyInput: () => _buildCenteredMessage("no_available_events".tr()),
+            emptyInput: () =>
+                _buildCenteredMessage('no_available_events'.tr()),
             error: (error) => _buildCenteredMessage(error),
-            loading: () => const Center(child: Loader(color: whiteTextColor)),
+            loading: () =>
+                Center(child: Loader(color: AppColor.primaryDark)),
             successFetchData: (success) {
               final ClientMessagesStatisticsResponse events = success;
-
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -46,50 +48,40 @@ class ClientMessagesStatisticsScreen extends StatelessWidget {
                               events.confirmationMessages!,
                         ),
                         const Divider(
-                          height: 46,
-                          color: bgColorOverlay,
-                        ),
+                            height: 46, color: AppColor.gray100),
                         MessagesStatisticsItem(
                           title: 'card_messages'.tr(),
                           messagesStatisticsDetails: events.cardMessages!,
                         ),
                         const Divider(
-                          height: 46,
-                          color: bgColorOverlay,
-                        ),
+                            height: 46, color: AppColor.gray100),
                         MessagesStatisticsItem(
                           title: 'event_location_messages'.tr(),
                           messagesStatisticsDetails:
                               events.eventLocationMessages!,
                         ),
                         const Divider(
-                          height: 46,
-                          color: bgColorOverlay,
-                        ),
+                            height: 46, color: AppColor.gray100),
                         MessagesStatisticsItem(
                           title: 'reminder_messages'.tr(),
-                          messagesStatisticsDetails: events.reminderMessages!,
+                          messagesStatisticsDetails:
+                              events.reminderMessages!,
                         ),
                         const Divider(
-                          height: 46,
-                          color: bgColorOverlay,
-                        ),
+                            height: 46, color: AppColor.gray100),
                         MessagesStatisticsItem(
                           title: 'congratulation_messages'.tr(),
                           messagesStatisticsDetails:
                               events.congratulationMessages!,
                         ),
-                        const Divider(
-                          height: 46,
-                          color: bgColorOverlay,
-                        ),
+                        SizedBox(height: edge),
                       ],
                     ),
                   ),
                 ],
               );
             },
-            success: (success, loading) => Container(),
+            success: (_, __) => const SizedBox.shrink(),
           );
         },
       ),
@@ -98,10 +90,10 @@ class ClientMessagesStatisticsScreen extends StatelessWidget {
 
   Widget _buildCenteredMessage(String message) {
     return Center(
-      child: TitleText(
-        text: message,
-        color: Colors.white,
-        align: TextAlign.center,
+      child: Text(
+        message,
+        style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray500),
+        textAlign: TextAlign.center,
       ),
     );
   }

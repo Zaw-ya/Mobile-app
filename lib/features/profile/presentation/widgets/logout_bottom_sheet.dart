@@ -1,15 +1,13 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/widgets/normal_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/app_utilities.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
+import '../../../../core/theming/app_typography.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/custom_button.dart';
-import '../../../../core/widgets/title_text.dart';
-
 
 class LogoutBottomSheet extends StatefulWidget {
   const LogoutBottomSheet({super.key});
@@ -23,13 +21,8 @@ class _LogoutBottomSheetState extends State<LogoutBottomSheet> {
 
   Future<void> _handleLogout() async {
     if (_isAnimating) return;
-
-    setState(() {
-      _isAnimating = true;
-    });
-
+    setState(() => _isAnimating = true);
     await Future.delayed(const Duration(milliseconds: 400));
-
     if (mounted) {
       context.pushNamedAndRemoveUntil(Routes.loginScreen, predicate: false);
       await AppUtilities().clearData();
@@ -50,7 +43,7 @@ class _LogoutBottomSheetState extends State<LogoutBottomSheet> {
           duration: const Duration(milliseconds: 400),
           child: Container(
             decoration: BoxDecoration(
-              color: AppColor.whiteColor,
+              color: AppColor.primaryLight,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(containerRadius),
                 topRight: Radius.circular(containerRadius),
@@ -74,33 +67,32 @@ class _LogoutBottomSheetState extends State<LogoutBottomSheet> {
                       child: Container(
                         padding: EdgeInsets.all(edge * 0.6),
                         decoration: BoxDecoration(
-                          color: AppColor.gray50,
+                          color: AppColor.gray100,
                           shape: BoxShape.circle,
                         ),
-                        child:  Icon(Icons.close, color: AppColor.gray900),
+                        child: Icon(Icons.close,
+                            color: AppColor.gray700, size: 20),
                       ),
                     ),
                     SizedBox(width: edge * 0.6),
-                    TitleText(
-                      text: "logout".tr(),
-                      color: AppColor.mainRed,
-                      fontSize: 20,
-                      align: TextAlign.start,
+                    Text(
+                      'logout'.tr(),
+                      style: AppTextStyles.titleLarge
+                          .copyWith(color: AppColor.semanticError),
                     ),
                   ],
                 ),
                 SizedBox(height: edge * 0.9),
-                NormalText(
-                  text: "logout_hint".tr(),
-                  fontSize: 18,
-                  color: AppColor.gray600,
-                  align: TextAlign.start,
+                Text(
+                  'logout_hint'.tr(),
+                  style: AppTextStyles.bodyMedium
+                      .copyWith(color: AppColor.gray600),
                 ),
                 SizedBox(height: edge * 1.5),
                 CustomButton.normal(
-                  text: "logout".tr(),
-                  color: AppColor.mainRed,
-                  textColor: AppColor.whiteColor,
+                  text: 'logout'.tr(),
+                  color: AppColor.semanticError,
+                  textColor: Colors.white,
                   onPressed: _isAnimating ? null : _handleLogout,
                 ),
               ],

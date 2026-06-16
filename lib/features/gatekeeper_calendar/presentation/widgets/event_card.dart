@@ -1,3 +1,4 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:app/features/gatekeeper_calendar/presentation/widgets/reserve_event_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,6 @@ import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/normal_text.dart';
-import '../../../../core/widgets/title_text.dart';
 import '../../../../generated/assets.dart';
 import '../../../event_calender/data/models/calender_events.dart';
 import '../../../event_calender/logic/event_calender_cubit.dart';
@@ -18,25 +17,18 @@ import '../../../event_calender/logic/event_calender_cubit.dart';
 class EventCard extends StatelessWidget {
   final CalenderEventsResponse event;
 
-
-  const EventCard({
-    super.key,
-    required this.event,
-
-  });
+  const EventCard({super.key, required this.event});
 
   Future<void> _viewMap(BuildContext context, String? location) async {
     if (location == null) {
-      context.showErrorToast("location_not_available".tr());
+      context.showErrorToast('location_not_available'.tr());
       return;
     }
-
     try {
       await launchUrl(Uri.parse(location), mode: LaunchMode.platformDefault);
-    } catch (e) {
-      // Handle exceptions appropriately
-    }
+    } catch (_) {}
   }
+
   @override
   Widget build(BuildContext context) {
     final isArabic = context.locale.languageCode == 'ar';
@@ -59,39 +51,46 @@ class EventCard extends StatelessWidget {
         );
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: edge * 0.6, vertical: edge),
+        padding: EdgeInsets.symmetric(
+            horizontal: edge * 0.8, vertical: edge * 0.7),
         decoration: BoxDecoration(
-          color: AppColor.gray50,
+          color: AppColor.whiteColor,
           borderRadius: BorderRadius.circular(radiusInput),
+          border: Border.all(color: AppColor.gray100),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TitleText(
-              text: event.eventTitle ?? '',
-              fontSize: 20,
-              color: AppColor.gray800,
+            Text(
+              event.eventTitle ?? '',
+              style: AppTextStyles.headlineSmall,
             ),
             SizedBox(height: edge * 0.2),
-            NormalText(
-              text: dateLabel,
-              color: AppColor.primaryColor,
-              fontSize: 16,
+            Text(
+              dateLabel,
+              style: AppTextStyles.bodySmall
+                  .copyWith(color: AppColor.gray600),
             ),
-            if (event.eventVenue != null && event.eventVenue!.isNotEmpty) ...[
-              SizedBox(height: edge * 0.4),
+            if (event.eventVenue != null &&
+                event.eventVenue!.isNotEmpty) ...[
+              SizedBox(height: edge * 0.5),
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () => _viewMap(context,event.eventLocation),
-                    // swap for real URL when ready
+                    onTap: () => _viewMap(context, event.eventLocation),
                     child: Container(
-                      padding: EdgeInsets.all(edge * 0.7),
-                      decoration: BoxDecoration(
-                        color: AppColor.locationBackground,
+                      padding: EdgeInsets.all(edge * 0.6),
+                      decoration: const BoxDecoration(
+                        color: AppColor.gray50,
                         shape: BoxShape.circle,
                       ),
-                      child: SvgPicture.asset(Assets.imagesLocation),
+                      child: SvgPicture.asset(
+                        Assets.imagesLocation,
+                        colorFilter: const ColorFilter.mode(
+                            AppColor.primaryDark, BlendMode.srcIn),
+                        width: 16,
+                        height: 16,
+                      ),
                     ),
                   ),
                   SizedBox(width: edge * 0.4),
@@ -101,15 +100,14 @@ class EventCard extends StatelessWidget {
                       children: [
                         if (event.parentTitle != null &&
                             event.parentTitle!.isNotEmpty)
-                          TitleText(
-                            text: event.parentTitle!,
-                            color: AppColor.gray800,
-                            fontSize: 16,
+                          Text(
+                            event.parentTitle!,
+                            style: AppTextStyles.titleSmall,
                           ),
-                        NormalText(
-                          text: event.eventVenue!,
-                          color: AppColor.gray500,
-                          fontSize: 16,
+                        Text(
+                          event.eventVenue!,
+                          style: AppTextStyles.bodySmall
+                              .copyWith(color: AppColor.gray500),
                         ),
                       ],
                     ),

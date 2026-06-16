@@ -1,11 +1,12 @@
-import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/theming/colors.dart' ;
-import 'package:app/core/widgets/normal_text.dart';
-import 'package:app/core/widgets/title_text.dart';
+import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/dimensions/dimensions_constants.dart';
+
 class LegendRow extends StatelessWidget {
-  const LegendRow({super.key, 
+  const LegendRow({
+    super.key,
     required this.color,
     required this.label,
     required this.value,
@@ -28,16 +29,16 @@ class LegendRow extends StatelessWidget {
           ),
           const SizedBox(width: 6),
           Expanded(
-            child: NormalText(
-              text: label,
-              color: AppColor.gray600,
-              fontSize: 13,
+            child: Text(
+              label,
+              style: AppTextStyles.labelSmall
+                  .copyWith(color: AppColor.gray600),
             ),
           ),
-          TitleText(
-            text: value.toString(),
-            color: AppColor.gray800,
-            fontSize: 13,
+          Text(
+            value.toString(),
+            style: AppTextStyles.numericMedium
+                .copyWith(color: AppColor.primaryDark, fontSize: 13),
           ),
         ],
       ),

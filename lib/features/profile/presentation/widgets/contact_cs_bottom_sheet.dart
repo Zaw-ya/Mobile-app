@@ -1,19 +1,16 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/widgets/normal_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/extensions.dart';
+import '../../../../core/theming/app_typography.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/country_selection_bottom_sheet.dart';
 import '../../../../core/widgets/drag_handle.dart';
-import '../../../../core/widgets/title_text.dart';
 
 class CustomerServiceBottomSheet extends StatelessWidget {
   const CustomerServiceBottomSheet({super.key});
-
-  // ── Show country selection sheet ───────────────────────────────────────────
 
   void _showCountrySheet(BuildContext context, ContactMode mode) {
     showModalBottomSheet(
@@ -25,58 +22,45 @@ class CustomerServiceBottomSheet extends StatelessWidget {
       builder: (context) => GestureDetector(
         onTap: () => Navigator.pop(context),
         behavior: HitTestBehavior.opaque,
-        child: Container(
-          color: Colors.transparent,
-          child: GestureDetector(
-            onTap: () {},
-            child: CountrySelectionBottomSheet(mode: mode),
-          ),
+        child: GestureDetector(
+          onTap: () {},
+          child: CountrySelectionBottomSheet(mode: mode),
         ),
       ),
     );
   }
 
-  // ── Item builder ───────────────────────────────────────────────────────────
-
   Widget _buildItem({
     required String text,
     required VoidCallback onTap,
-    required IconData icon,
   }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: EdgeInsets.only(top: edge * 0.5),
         padding: EdgeInsets.symmetric(
-          horizontal: edge * 0.5,
-          vertical: edge * 0.4,
+          horizontal: edge,
+          vertical: edge * 0.7,
         ),
         decoration: BoxDecoration(
-          color: AppColor.gray50,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(radiusInput),
+          border: Border.all(color: AppColor.gray100),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: NormalText(
-                text: text.tr(),
-                color: AppColor.gray900,
-                fontSize: 18,
-                align: TextAlign.start,
-              ),
+            Text(
+              text.tr(),
+              style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray700),
             ),
-            // Icon(
-            //   icon,
-            //   color: AppColor.primaryColor,
-            //   size: 20,
-            // ),
+            Icon(Icons.arrow_forward_ios,
+                color: AppColor.gray500, size: 16),
           ],
         ),
       ),
     );
   }
-
-  // ── Build ──────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +70,7 @@ class CustomerServiceBottomSheet extends StatelessWidget {
       maxChildSize: 0.4,
       builder: (context, scrollController) => Container(
         decoration: BoxDecoration(
-          color: AppColor.whiteColor,
+          color: AppColor.primaryLight,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(containerRadius),
             topRight: Radius.circular(containerRadius),
@@ -105,21 +89,17 @@ class CustomerServiceBottomSheet extends StatelessWidget {
           children: [
             const DragHandle(),
             SizedBox(height: edge * 0.5),
-            TitleText(
-              text: 'contact_customer_service'.tr(),
-              color: AppColor.gray900,
-              fontSize: 20,
-              align: TextAlign.start,
+            Text(
+              'contact_customer_service'.tr(),
+              style: AppTextStyles.titleLarge
+                  .copyWith(color: AppColor.primaryDark),
             ),
-            SizedBox(height: edge * 0.5),
             _buildItem(
               text: 'contact_by_phone',
-              icon: Icons.phone,
               onTap: () => _launch(context),
             ),
             _buildItem(
               text: 'contact_by_whatsapp',
-              icon: Icons.chat,
               onTap: () => _showCountrySheet(context, ContactMode.whatsapp),
             ),
           ],
@@ -128,12 +108,8 @@ class CustomerServiceBottomSheet extends StatelessWidget {
     );
   }
 
-  Future<void> _launch(
-    BuildContext context,
-  ) async {
-    final Uri uri =Uri(scheme: 'tel', path: "920031036");
-
-
+  Future<void> _launch(BuildContext context) async {
+    final Uri uri = Uri(scheme: 'tel', path: '920031036');
     try {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } catch (e) {

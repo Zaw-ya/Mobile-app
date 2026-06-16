@@ -1,7 +1,7 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/event_detail_card.dart';
 import '../../../client_events/data/models/client_event_response.dart';
@@ -23,11 +23,13 @@ class ClientEventDetailCardWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.symmetric(horizontal: edge),
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: GestureDetector(
-            onTap: (){
-              context.pushNamed(Routes.clientEventsDetailsScreen,arguments: event);
-            },
-            child: EventDetailCard(event: _mapped)),
+          onTap: () => context.pushNamed(
+            Routes.clientEventsDetailsScreen,
+            arguments: event,
+          ),
+          child: EventDetailCard(event: _mapped),
+        ),
       );
 }

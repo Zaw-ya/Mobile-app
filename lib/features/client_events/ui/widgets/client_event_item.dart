@@ -1,10 +1,10 @@
-import 'package:app/core/widgets/normal_text.dart';
+import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/title_text.dart';
 import '../../data/models/client_event_response.dart';
 
 class ClientEventItem extends StatelessWidget {
@@ -17,154 +17,62 @@ class ClientEventItem extends StatelessWidget {
     return Container(
       margin: EdgeInsets.fromLTRB(edge, edge, edge, 0),
       decoration: BoxDecoration(
-        color: bgColor,
+        color: AppColor.whiteColor,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade800),
+        border: Border.all(color: AppColor.gray100),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: edge * 0.5,
         children: [
           Padding(
             padding: EdgeInsets.all(edge),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                eventCodeAndTitle(),
-                NormalText(
-                  text: event?.eventVenue ?? "",
-                  color: Colors.white,
-                  fontSize: 16,
+                _buildCodeAndTitle(),
+                SizedBox(height: edge * 0.4),
+                Text(
+                  event?.eventVenue ?? '',
+                  style:
+                      AppTextStyles.bodySmall.copyWith(color: AppColor.gray600),
                 ),
               ],
             ),
           ),
-          eventDateAndTime(context),
+          _buildDateAndTimeFooter(),
         ],
       ),
     );
   }
 
-  Column eventCodeAndTitle() {
-    String eventId = "";
-    String targetId = "E000000";
-
-    String idString = event?.id.toString() ?? "";
-    if (idString.length >= 6) {
-      //6 zeros
-      eventId = 'E$idString';
-    } else {
-      int length = idString.length;
-      targetId = targetId.substring(0, 7 - length);
-      eventId = '$targetId$idString';
-    }
+  Widget _buildCodeAndTitle() {
+    final eventId = _formatEventId(event?.id);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: edge * 0.5,
       children: [
-        TitleText(
-          text: eventId,
-          color: Colors.white,
-          fontSize: 16,
+        Text(
+          eventId,
+          style: AppTextStyles.labelMedium.copyWith(color: AppColor.gray500),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              child: TitleText(
-                text: event?.eventTitle ?? "",
-                color: Colors.white,
-                fontSize: 16,
-                align: TextAlign.start,
-              ),
-            ),
-          ],
+        SizedBox(height: 4.h),
+        Text(
+          event?.eventTitle ?? '',
+          style: AppTextStyles.headlineSmall,
         ),
       ],
     );
   }
 
-  Widget eventDateAndTime(BuildContext context) {
-    // Use direct formatting for dates - fallback approach
-    String eventFromDisplay = "N/A";
-    String eventToDisplay = "N/A";
-    String eventFromTimeDisplay = "";
-    String eventToTimeDisplay = "";
-
-    if (event?.eventFrom != null && event!.eventFrom!.isNotEmpty) {
-      String dateStr = event!.eventFrom!;
-      // Direct string manipulation approach as fallback
-      if (dateStr.length >= 10) {
-        String datePart = dateStr.substring(0, 10);
-        List<String> parts = datePart.split('-');
-        if (parts.length == 3) {
-          int month = int.tryParse(parts[1]) ?? 0;
-          List<String> monthNames = [
-            "",
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-          ];
-          eventFromDisplay = "${monthNames[month]} ${parts[2]}, ${parts[0]}";
-        }
-      }
-
-      // Handle time part for AM/PM
-      try {
-        eventFromTimeDisplay = getTimeInAMPM(dateStr);
-      } catch (e) {
-        debugPrint("Error formatting event from time: $e");
-      }
-    }
-
-    if (event?.eventTo != null && event!.eventTo!.isNotEmpty) {
-      String dateStr = event!.eventTo!;
-      // Direct string manipulation approach as fallback
-      if (dateStr.length >= 10) {
-        String datePart = dateStr.substring(0, 10);
-        List<String> parts = datePart.split('-');
-        if (parts.length == 3) {
-          int month = int.tryParse(parts[1]) ?? 0;
-          List<String> monthNames = [
-            "",
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-          ];
-          eventToDisplay = "${monthNames[month]} ${parts[2]}, ${parts[0]}";
-        }
-      }
-
-      // Handle time part for AM/PM
-      try {
-        eventToTimeDisplay = getTimeInAMPM(dateStr);
-      } catch (e) {
-        debugPrint("Error formatting event to time: $e");
-      }
-    }
+  Widget _buildDateAndTimeFooter() {
+    final fromDisplay = _formatDate(event?.eventFrom);
+    final toDisplay = _formatDate(event?.eventTo);
+    final fromTime = _getTimeInAMPM(event?.eventFrom ?? '');
+    final toTime = _getTimeInAMPM(event?.eventTo ?? '');
 
     return Container(
       padding: EdgeInsets.all(edge),
-      decoration: BoxDecoration(
-        color: navBarBackground,
+      decoration: const BoxDecoration(
+        color: AppColor.primaryDark,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(12),
           bottomRight: Radius.circular(12),
@@ -176,111 +84,98 @@ class ClientEventItem extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              NormalText(
-                text: 'start_time'.tr(),
-                color: Colors.white,
-                align: TextAlign.center,
-              ),
-              NormalText(
-                text: 'end_time'.tr(),
-                color: Colors.white,
-                align: TextAlign.center,
-              ),
+              Text('start_time'.tr(),
+                  style: AppTextStyles.labelSmall
+                      .copyWith(color: AppColor.primaryLight)),
+              Text('end_time'.tr(),
+                  style: AppTextStyles.labelSmall
+                      .copyWith(color: AppColor.primaryLight)),
             ],
           ),
-          SizedBox(height: edge * 0.5),
+          SizedBox(height: edge * 0.4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              NormalText(
-                text: eventFromDisplay,
-                color: Colors.white,
-              ),
-              Expanded(
-                child: Center(
-                  child: Icon(
-                    Icons.arrow_right_alt,
-                    color: Colors.white,
-                  ),
+              Text(fromDisplay,
+                  style: AppTextStyles.bodySmall
+                      .copyWith(color: AppColor.primaryLight)),
+              const Icon(Icons.arrow_right_alt,
+                  color: AppColor.primaryLight, size: 18),
+              Text(toDisplay,
+                  style: AppTextStyles.bodySmall
+                      .copyWith(color: AppColor.primaryLight)),
+            ],
+          ),
+          if (fromTime.isNotEmpty || toTime.isNotEmpty) ...[
+            SizedBox(height: edge * 0.4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.access_time,
+                        color: AppColor.semanticSuccess, size: 14),
+                    const SizedBox(width: 4),
+                    Text(fromTime,
+                        style: AppTextStyles.numericMedium
+                            .copyWith(color: AppColor.primaryLight,
+                                fontSize: 13.sp)),
+                  ],
                 ),
-              ),
-              NormalText(
-                text: eventToDisplay,
-                color: Colors.white,
-              ),
-            ],
-          ),
-          SizedBox(height: edge * 0.5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.access_time,
-                    color: Colors.blue,
-                    size: 16,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  NormalText(
-                    text: eventFromTimeDisplay,
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.access_time,
-                    color: Colors.red,
-                    size: 16,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  NormalText(
-                    text: eventToTimeDisplay,
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-            ],
-          ),
+                Row(
+                  children: [
+                    const Icon(Icons.access_time,
+                        color: AppColor.semanticError, size: 14),
+                    const SizedBox(width: 4),
+                    Text(toTime,
+                        style: AppTextStyles.numericMedium
+                            .copyWith(color: AppColor.primaryLight,
+                                fontSize: 13.sp)),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ],
       ),
     );
   }
 
-// Helper function for time formatting
-  String getTimeInAMPM(String dateTimeString) {
-    if (dateTimeString.isEmpty) {
-      return "";
-    }
+  String _formatEventId(int? id) {
+    if (id == null) return '';
+    final idStr = id.toString();
+    if (idStr.length >= 6) return 'E$idStr';
+    final padding = 'E000000'.substring(0, 7 - idStr.length);
+    return '$padding$idStr';
+  }
 
+  String _formatDate(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty || dateStr.length < 10) return 'N/A';
+    final datePart = dateStr.substring(0, 10);
+    final parts = datePart.split('-');
+    if (parts.length != 3) return 'N/A';
+    final month = int.tryParse(parts[1]) ?? 0;
+    const monthNames = [
+      '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    if (month < 1 || month > 12) return 'N/A';
+    return '${monthNames[month]} ${parts[2]}, ${parts[0]}';
+  }
+
+  String _getTimeInAMPM(String dateTimeString) {
+    if (!dateTimeString.contains('T') || dateTimeString.length <= 11) return '';
     try {
-      // Check if the string contains a time part
-      if (dateTimeString.contains('T') && dateTimeString.length > 11) {
-        String timePart = dateTimeString.split('T')[1];
-        List<String> timeComponents = timePart.split(':');
-
-        if (timeComponents.length >= 2) {
-          int hour = int.parse(timeComponents[0]);
-          int minute = int.parse(timeComponents[1]);
-
-          String period = hour >= 12 ? "PM" : "AM";
-          int displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
-
-          // Format as HH:MM AM/PM
-          return "${displayHour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period";
-        }
-      }
-
-      return "";
-    } catch (e) {
-      debugPrint("Error in getTimeInAMPM: $e");
-      return "";
+      final timePart = dateTimeString.split('T')[1];
+      final components = timePart.split(':');
+      if (components.length < 2) return '';
+      final hour = int.parse(components[0]);
+      final minute = int.parse(components[1]);
+      final period = hour >= 12 ? 'PM' : 'AM';
+      final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
+      return '${displayHour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period';
+    } catch (_) {
+      return '';
     }
   }
 }

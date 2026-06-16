@@ -1,14 +1,13 @@
 import 'package:app/core/helpers/app_utilities.dart';
 import 'package:app/core/helpers/extensions.dart';
-import 'package:app/core/widgets/go_button.dart';
-import 'package:app/core/widgets/normal_text.dart';
-import 'package:app/core/widgets/title_text.dart';
+import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/colors.dart';
+import 'package:app/core/widgets/custom_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/routing/routes.dart';
-import '../../../../core/theming/colors.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -45,57 +44,48 @@ class _SettingsScreenState extends State<SettingsScreen>
   }
 
   Future<void> _animateLanguageChange(BuildContext context) async {
-    final String newCode = context.locale.languageCode == 'en' ? 'ar' : 'en';
-
+    final String newCode =
+        context.locale.languageCode == 'en' ? 'ar' : 'en';
     await _controller.forward();
     if (!mounted) return;
-
     AppUtilities().setLocality(newCode);
     if (!mounted) return;
-
     await _controller.reverse();
   }
 
   Future<void> _handleLogout() async {
     await showDialog<bool>(
       context: context,
-      builder: (BuildContext context) => AlertDialog(
-        backgroundColor: whiteTextColor,
-        title: NormalText(
-          text: 'logout_confirmation_title'.tr(),
-          color: navBarBackground,
-          fontSize: 20,
-          align: TextAlign.start,
+      builder: (BuildContext ctx) => AlertDialog(
+        backgroundColor: AppColor.primaryLight,
+        title: Text(
+          'logout_confirmation_title'.tr(),
+          style: AppTextStyles.titleMedium.copyWith(color: AppColor.primaryDark),
         ),
-        content: NormalText(
-          text: 'logout_confirmation_message'.tr(),
-          color: navBarBackground,
-          fontSize: 16,
-          align: TextAlign.start,
+        content: Text(
+          'logout_confirmation_message'.tr(),
+          style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray700),
         ),
         actions: [
-          GoButton(
-            fun: () => context.pop(),
-            titleKey: 'cancel'.tr(),
-            textColor: whiteTextColor,
-            fontSize: 16,
-            btColor: Colors.red,
-            w: 100,
+          CustomButton.normal(
+            text: 'cancel'.tr(),
+            color: AppColor.gray200,
+            textColor: AppColor.primaryDark,
+            onPressed: () => ctx.pop(),
           ),
-          GoButton(
-            fun: () async {
+          CustomButton.normal(
+            text: 'logout'.tr(),
+            color: AppColor.semanticError,
+            textColor: Colors.white,
+            onPressed: () async {
               try {
-                context.pushNamedAndRemoveUntil(Routes.loginScreen,
+                ctx.pushNamedAndRemoveUntil(Routes.loginScreen,
                     predicate: false);
                 await AppUtilities().clearData();
               } catch (e) {
                 debugPrint('Logout error: $e');
               }
             },
-            titleKey: 'logout'.tr(),
-            textColor: whiteTextColor,
-            fontSize: 16,
-            w: 120,
           ),
         ],
       ),
@@ -105,7 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: AppColor.primaryDark,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(edge),
@@ -113,17 +103,14 @@ class _SettingsScreenState extends State<SettingsScreen>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeader(),
-              const Divider(height: 24, color: bgColorOverlay),
-              SizedBox(height: edge),
-              _buildSettingsOption(
-                context: context,
-                child: _buildLanguageButton(context),
+              Divider(
+                height: 24,
+                color: AppColor.primaryLight.withValues(alpha: 0.2),
               ),
               SizedBox(height: edge),
-              _buildSettingsOption(
-                context: context,
-                child: _buildLogoutButton(),
-              ),
+              _buildSettingsOption(child: _buildLanguageButton(context)),
+              SizedBox(height: edge),
+              _buildSettingsOption(child: _buildLogoutButton()),
             ],
           ),
         ),
@@ -132,20 +119,18 @@ class _SettingsScreenState extends State<SettingsScreen>
   }
 
   Widget _buildHeader() {
-    return TitleText(
-      text: 'settings'.tr(),
-      color: Colors.white,
-      fontSize: 24,
+    return Text(
+      'settings'.tr(),
+      style: AppTextStyles.titleLarge.copyWith(color: AppColor.primaryLight),
     );
   }
 
-  Widget _buildSettingsOption(
-      {required BuildContext context, required Widget child}) {
+  Widget _buildSettingsOption({required Widget child}) {
     return Container(
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: bgColorOverlay,
+        color: AppColor.primaryLight.withValues(alpha: 0.1),
       ),
       child: child,
     );
@@ -163,18 +148,18 @@ class _SettingsScreenState extends State<SettingsScreen>
             children: [
               FadeTransition(
                 opacity: _fadeAnimation,
-                child: NormalText(
-                  text: 'changeLanguage'.tr(),
-                  color: Colors.white,
-                  fontSize: 18,
+                child: Text(
+                  'changeLanguage'.tr(),
+                  style: AppTextStyles.bodyMedium
+                      .copyWith(color: AppColor.primaryLight),
                 ),
               ),
               FadeTransition(
                 opacity: _fadeAnimation,
-                child: TitleText(
-                  text: context.locale.languageCode == 'en' ? 'AR' : 'En',
-                  color: Colors.white,
-                  fontSize: 20,
+                child: Text(
+                  context.locale.languageCode == 'en' ? 'AR' : 'En',
+                  style: AppTextStyles.titleSmall
+                      .copyWith(color: AppColor.primaryLight),
                 ),
               ),
             ],
@@ -196,20 +181,17 @@ class _SettingsScreenState extends State<SettingsScreen>
               Expanded(
                 child: FadeTransition(
                   opacity: _fadeAnimation,
-                  child: NormalText(
-                    text: 'logout'.tr(),
-                    color: Colors.white,
-                    fontSize: 18,
-                    align: TextAlign.start,
+                  child: Text(
+                    'logout'.tr(),
+                    style: AppTextStyles.bodyMedium
+                        .copyWith(color: AppColor.semanticError),
                   ),
                 ),
               ),
               Transform.rotate(
-                angle: context.locale.languageCode == 'en' ? 0 : 3.14,
-                child: Icon(
-                  Icons.logout,
-                  color: Colors.white,
-                ),
+                angle:
+                    context.locale.languageCode == 'en' ? 0 : 3.14,
+                child: const Icon(Icons.logout, color: AppColor.semanticError),
               ),
             ],
           ),

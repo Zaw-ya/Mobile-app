@@ -27,8 +27,8 @@ class CircleNavButton extends StatelessWidget {
         width: size,
         height: size,
         padding: EdgeInsets.all(padding),
-        decoration: const BoxDecoration(
-          color: AppColor.primaryColor,
+        decoration: BoxDecoration(
+          color: AppColor.primaryDark,
           shape: BoxShape.circle,
         ),
         child: Transform.rotate(
@@ -36,7 +36,7 @@ class CircleNavButton extends StatelessWidget {
           child: SvgPicture.asset(
             Assets.svgsArrowLeft,
             colorFilter:
-                const ColorFilter.mode(AppColor.whiteColor, BlendMode.srcIn),
+                const ColorFilter.mode(AppColor.primaryLight, BlendMode.srcIn),
           ),
         ),
       ),

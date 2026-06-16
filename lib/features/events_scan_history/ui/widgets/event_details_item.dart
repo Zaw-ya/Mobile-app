@@ -1,11 +1,10 @@
-import 'package:app/core/widgets/normal_text.dart';
-import 'package:app/core/widgets/title_text.dart';
+import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/public_methods.dart';
 import '../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../core/theming/colors.dart';
 import '../../data/models/event_details_response.dart';
 
 class EventDetailsItem extends StatelessWidget {
@@ -16,97 +15,82 @@ class EventDetailsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(edge * 0.5),
+      padding: EdgeInsets.all(edge * 0.7),
       margin: EdgeInsets.fromLTRB(edge, edge * 0.4, edge, 0),
       decoration: BoxDecoration(
-        color: AppColor.gray50,
+        color: AppColor.whiteColor,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColor.gray100),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: edge * 0.5,
         children: [
-          nameAndTime(),
-          scanStatus(),
-          NormalText(
-            text: "${'no_of_members'.tr()}: ${eventDetails.noOfMembers}",
-            color: AppColor.gray700,
-            fontSize: 16,
-            align: TextAlign.start,
+          _buildNameAndTime(),
+          SizedBox(height: edge * 0.4),
+          _buildScanStatus(),
+          SizedBox(height: edge * 0.3),
+          Text(
+            '${"no_of_members".tr()}: ${eventDetails.noOfMembers}',
+            style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray600),
           ),
         ],
       ),
     );
   }
 
-  Widget scanStatus() {
-    return Row(
-      children: [
-        responseCode(eventDetails.responseCode ?? ""),
-        Expanded(
-          child: NormalText(
-            text: eventDetails.response?.contains('Maximum') == true
-                ? "scanned_before".tr()
-                : eventDetails.response ?? "",
-            color: AppColor.gray700,
-            fontSize: 16,
-            align: TextAlign.end,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget nameAndTime() {
+  Widget _buildNameAndTime() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: TitleText(
-            text: eventDetails.guestFullName ?? "",
-            color: AppColor.primaryColor,
-            fontSize: 16,
-            align: TextAlign.start,
+          child: Text(
+            eventDetails.guestFullName ?? '',
+            style: AppTextStyles.titleSmall,
           ),
         ),
-        NormalText(
-          text: getDateAndTime(eventDetails.scannedOn ?? ""),
-          color: AppColor.gray500,
-          fontSize: 14,
-          align: TextAlign.end,
+        Text(
+          getDateAndTime(eventDetails.scannedOn ?? ''),
+          style:
+              AppTextStyles.labelSmall.copyWith(color: AppColor.gray500),
+          textAlign: TextAlign.end,
         ),
       ],
     );
   }
 
-  Widget responseCode(String responseCode) {
-    Color clr = Colors.red;
-    IconData icon = Icons.cancel;
-    String text = "declined".tr();
+  Widget _buildScanStatus() {
+    return Row(
+      children: [
+        _buildResponseCode(eventDetails.responseCode ?? ''),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            eventDetails.response?.contains('Maximum') == true
+                ? 'scanned_before'.tr()
+                : eventDetails.response ?? '',
+            style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray600),
+            textAlign: TextAlign.end,
+          ),
+        ),
+      ],
+    );
+  }
 
-    if (responseCode.toLowerCase() == "allowed") {
-      clr = Colors.green;
-      icon = Icons.check_circle;
-      text = "allowed".tr();
-    }
+  Widget _buildResponseCode(String responseCode) {
+    final bool isAllowed = responseCode.toLowerCase() == 'allowed';
+    final color =
+        isAllowed ? AppColor.semanticSuccess : AppColor.semanticError;
+    final icon =
+        isAllowed ? Icons.check_circle_outline : Icons.cancel_outlined;
+    final label = isAllowed ? 'allowed'.tr() : 'declined'.tr();
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        NormalText(
-          text: text,
-          fontSize: 16,
-          color: clr,
-          align: TextAlign.start,
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Icon(
-          icon,
-          color: clr,
-          size: 18,
-        ),
+        Text(label,
+            style: AppTextStyles.labelMedium.copyWith(color: color)),
+        const SizedBox(width: 4),
+        Icon(icon, color: color, size: 16),
       ],
     );
   }

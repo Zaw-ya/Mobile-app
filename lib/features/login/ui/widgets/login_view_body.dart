@@ -50,8 +50,8 @@ class _LoginViewBodyState extends State<LoginViewBody> {
             Padding(
               padding: EdgeInsets.only(top: 48.h, bottom: 4.h),
               child: Image.asset(
-                Assets.images.logoPrimaryVerticalDark.path,
-                height: 88.h,
+                Assets.images.logoSecondaryVerticalLight.path,
+                height: 102.h,
                 fit: BoxFit.contain,
               ),
             ),
