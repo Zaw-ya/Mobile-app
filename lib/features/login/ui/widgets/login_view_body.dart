@@ -48,10 +48,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
           children: [
             // ── Brand logo ──
             Padding(
-              padding: EdgeInsets.only(top: 48.h, bottom: 4.h),
-              child: Image.asset(
+              padding: EdgeInsets.only(top: 10.h, bottom: 2.h),
+              child: SvgPicture.asset(
                 Assets.images.logoSecondaryVerticalLight.path,
-                height: 102.h,
+                height: 215.h,
                 fit: BoxFit.contain,
               ),
             ),
@@ -69,7 +69,6 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       padding: EdgeInsets.symmetric(horizontal: 24.w),
                       sliver: SliverList(
                         delegate: SliverChildListDelegate([
-                          SizedBox(height: 28.h),
 
                           // Screen heading
                           Text(
@@ -165,7 +164,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                                     ),
                                     SizedBox(width: 8.w),
                                     Text(
-                                      'biometric_login'.tr(),
+                                      'enable_biometric'.tr(),
                                       style: AppTextStyles.labelLarge.copyWith(
                                         color: AppColor.primaryDark,
                                       ),

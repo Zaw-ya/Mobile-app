@@ -206,7 +206,7 @@ class _CalendarViewState extends State<CalendarView> {
         ).format(_selectedDay);
 
         return Scaffold(
-          backgroundColor: AppColor.whiteColor,
+          backgroundColor: AppColor.primaryLight,
           body: Column(
             children: [
               // App header — hidden when the events panel is fully expanded

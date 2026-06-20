@@ -5,6 +5,7 @@ import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/helpers/app_utilities.dart';
 import '../../../../generated/assets.gen.dart';
@@ -134,11 +135,11 @@ class _DashboardScreenState extends State<DashboardScreen>
                       ),
                     ],
                   ),
-                  Image.asset(
-                    Assets.images.logoSymbolDark.path,
-                    height: 44.h,
-                    fit: BoxFit.contain,
-                  ),
+                  // SvgPicture.asset(
+                  //   Assets.images.logoSymbolDark.path,
+                  //   height: 44.h,
+                  //   fit: BoxFit.contain,
+                  // ),
                 ],
               ),
             ),

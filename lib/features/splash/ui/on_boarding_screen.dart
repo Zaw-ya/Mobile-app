@@ -4,6 +4,7 @@ import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/theming/colors.dart';
 import '../../../generated/assets.gen.dart';
@@ -37,7 +38,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.primaryDark,
+      backgroundColor: AppColor.primaryLight,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 28.w),
@@ -46,12 +47,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
             children: [
               const Spacer(flex: 2),
 
+
               // Brand logo
-              Image.asset(
-                Assets.images.logoPrimaryVerticalLight.path,
-                width: 180.w,
-                fit: BoxFit.contain,
-              ),
+              SvgPicture.asset(
+                Assets.images.logoVerticalLightMonochrome.path,
+                width: 300.w,
+              colorFilter: const ColorFilter.mode(
+    AppColor.primaryDark,
+    BlendMode.srcIn,
+  ),
+                        ),
 
               const Spacer(flex: 1),
 
@@ -59,7 +64,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
               Text(
                 'welcome_title'.tr(),
                 style: AppTextStyles.displaySmall.copyWith(
-                  color: AppColor.primaryLight,
+                  color: AppColor.primaryDark,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -70,7 +75,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
               Text(
                 'welcome_subtitle'.tr(),
                 style: AppTextStyles.bodyMedium.copyWith(
-                  color: kCream.withValues(alpha: 0.7),
+                  color: kDarkSurface.withValues(alpha: 0.7),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -122,9 +127,9 @@ class _OnboardingButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            color: isPrimary ? AppColor.primaryLight : Colors.transparent,
+            color: isPrimary ? AppColor.primaryDark : Colors.white,
             border: Border.all(
-              color: AppColor.primaryLight,
+              color: AppColor.primaryDark,
               width: 1.5,
             ),
             borderRadius: BorderRadius.circular(14),
@@ -133,7 +138,7 @@ class _OnboardingButton extends StatelessWidget {
           child: Text(
             label,
             style: AppTextStyles.buttonLarge.copyWith(
-              color: isPrimary ? AppColor.primaryDark : AppColor.primaryLight,
+              color: isPrimary ? Colors.white : AppColor.primaryDark,
             ),
           ),
         ),

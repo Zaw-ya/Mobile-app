@@ -33,7 +33,7 @@ class LocationCubit extends Cubit<LocationStates> {
         },
         failure: (_) {
           emit(state.copyWith(
-            error: 'connection_error',
+            error: 'connection_error',    
             isCountryLoading: false,
           ));
         },

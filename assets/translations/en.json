@@ -335,6 +335,7 @@
   "enable_biometric": "Enable Biometric Login",
   "enable_biometric_message": "Would you like to enable fingerprint or Face ID for faster and more secure login next time?",
   "enable": "Enable",
+  "skip": "Skip",
   "biometric_not_setup": "Please login first to enable biometric",
   "biometric_enabled": "Biometric login enabled successfully",
   "biometric_authentication_failed": "Biometric authentication failed",

@@ -12,7 +12,7 @@ AppBar recordsAppBar(BuildContext context, String title,
   final isArabic = Localizations.localeOf(context).languageCode == 'ar';
 
   return AppBar(
-    toolbarHeight: 70,
+    toolbarHeight: 90,
     backgroundColor: Colors.transparent,
     elevation: 0,
     centerTitle: false,
@@ -36,16 +36,20 @@ AppBar recordsAppBar(BuildContext context, String title,
           ),
       ],
     ),
-    actions: [
-      Padding(
-        padding: const EdgeInsets.only(right: 16),
-        child: Image.asset(
-          Assets.images.logoSymbolLight.path,
-          height: 40,
-          fit: BoxFit.contain,
-        ),
-      ),
-    ],
+    // I Commented it cause i can not handle the logo scale or size
+    // actions: [
+    //   Padding(
+    //     padding: const EdgeInsets.only(right: 4),
+    //     child: SizedBox(
+    //       width: 100,
+    //       height: 100,
+    //       child: SvgPicture.asset(
+    //         Assets.images.logoSymbolLight.path,
+    //         fit: BoxFit.contain,
+    //       ),
+    //     ),
+    //   ),
+    // ],
     leading: GestureDetector(
       onTap: () => context.pop(),
       child: Container(

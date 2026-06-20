@@ -1,10 +1,10 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:app/core/theming/app_typography.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../routing/direction_routing.dart';
-import '../widgets/normal_text.dart';
 
 extension Navigation on BuildContext {
   Future<dynamic> pushNamed(String routeName, {Object? arguments}) {
@@ -97,79 +97,72 @@ extension Navigation on BuildContext {
 
   void pop() => Navigator.of(this).pop();
 
-  showErrorToast(String msg) {
+  void showErrorToast(String msg) {
     Flushbar(
       messageText: Row(
         children: [
+          const Icon(
+            Icons.error_outline_rounded,
+            color: AppColor.primaryLight,
+            size: 20,
+          ),
+          const SizedBox(width: 10),
           Expanded(
-              child: NormalText(
-            text: msg,
-            align: TextAlign.start,
-            color: Colors.white,
-          )),
+            child: Text(
+              msg,
+              style: AppTextStyles.bodySmall
+                  .copyWith(color: AppColor.primaryLight),
+              textAlign: TextAlign.start,
+            ),
+          ),
           const Icon(
             Icons.close,
-            color: Colors.white,
-          )
+            color: AppColor.primaryLight,
+            size: 18,
+          ),
         ],
       ),
-      messageColor: Colors.white,
-      messageSize: 18,
-      // titleColor: AppUI.mainColor,
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-      // maxWidth: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       isDismissible: true,
       duration: const Duration(milliseconds: 2500),
       flushbarPosition: FlushbarPosition.BOTTOM,
-      barBlur: .1,
-      backgroundColor: navBarBackground,
-      borderColor: navBarBackground,
-      margin: const EdgeInsets.all(8),
-      borderRadius: BorderRadius.circular(10),
+      barBlur: 0,
+      backgroundColor: AppColor.semanticError,
+      borderColor: AppColor.semanticError,
+      margin: const EdgeInsets.all(12),
+      borderRadius: BorderRadius.circular(12),
     ).show(this);
   }
 
-//
-  showSuccessToast(message) {
+  void showSuccessToast(String message) {
     Flushbar(
       messageText: Row(
         children: [
+          const Icon(
+            Icons.check_circle_outline_rounded,
+            color: AppColor.primaryLight,
+            size: 20,
+          ),
+          const SizedBox(width: 10),
           Expanded(
-              child: NormalText(
-            text: message,
-            align: TextAlign.start,
-            color: Colors.white,
-          )),
+            child: Text(
+              message,
+              style: AppTextStyles.bodySmall
+                  .copyWith(color: AppColor.primaryLight),
+              textAlign: TextAlign.start,
+            ),
+          ),
         ],
       ),
-      messageColor: Colors.white,
-      messageSize: 18,
-      // titleColor: AppUI.mainColor,
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-      // maxWidth: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       isDismissible: true,
       duration: const Duration(milliseconds: 2500),
       flushbarPosition: FlushbarPosition.BOTTOM,
-      barBlur: .1,
-      backgroundColor: greenColor,
-      borderColor: greenColor,
-      margin: const EdgeInsets.all(8),
-      borderRadius: BorderRadius.circular(10),
+      barBlur: 0,
+      backgroundColor: AppColor.semanticSuccess,
+      borderColor: AppColor.semanticSuccess,
+      margin: const EdgeInsets.all(12),
+      borderRadius: BorderRadius.circular(12),
     ).show(this);
   }
 }
-
-// extension NameExtension on Name {
-//   String? getNameByLanguageCode() {
-//     switch (AppUtilities().languageCode) {
-//       case 'ar':
-//         return ar;
-//       case 'en':
-//         return en;
-//       case 'fr':
-//         return fr;
-//       default:
-//         return null;
-//     }
-//   }
-// }

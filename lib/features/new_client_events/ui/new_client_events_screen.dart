@@ -91,16 +91,19 @@ void initState() {
                     subTitle: 'welcome'.tr(),
                   ),
 
+                  // We use in this card 
+                  // UpcomingEventsBadge to show the number of upcoming events, and we pass the events list length to it, so it can update the badge count accordingly.
+                  // we commented it
                   // ── Promo card ────────────────────────────────────────
-                  MainCard(
-                    title: 'book_upcoming_events'.tr(),
-                    image: Assets.imagesReserveNewEvent,
-                    subtitle: 'contact_us'.tr(),
-                    whatsappLabel: 'whatsapp',
-                    whatsappIcon: Assets.svgsWhatsapp,
-                  ),
+                  // MainCard(
+                  //   title: 'book_upcoming_events'.tr(),
+                  //   image: Assets.imagesReserveNewEvent,
+                  //   subtitle: 'contact_us'.tr(),
+                  //   whatsappLabel: 'whatsapp',
+                  //   whatsappIcon: Assets.svgsWhatsapp,
+                  // ),
 
-                  SizedBox(height: edge),
+                  // SizedBox(height: edge),
                   UpcomingEventsBadge(eventsNumber: events.length),
 
                   // ── States ────────────────────────────────────────────

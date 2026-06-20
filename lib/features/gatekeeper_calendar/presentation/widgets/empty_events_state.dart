@@ -1,9 +1,9 @@
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/normal_text.dart';
 
 class EmptyEventsState extends StatelessWidget {
   const EmptyEventsState({super.key});
@@ -14,12 +14,13 @@ class EmptyEventsState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.event_busy_outlined, size: 64, color: AppColor.gray400),
+          Icon(Icons.event_busy_outlined, size: 64, color: AppColor.gray300),
           SizedBox(height: edge),
-          NormalText(
-            text: 'no_available_events'.tr(),
-            color: AppColor.gray400,
-            fontSize: 16,
+          Text(
+            'no_available_events'.tr(),
+            style: AppTextStyles.bodyMedium
+                .copyWith(color: AppColor.gray400),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

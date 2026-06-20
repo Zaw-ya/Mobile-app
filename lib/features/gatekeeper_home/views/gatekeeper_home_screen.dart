@@ -4,12 +4,10 @@ import 'package:app/generated/fonts.gen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:app/features/gatekeeper_home/views/widgets/event_card.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-import '../../../core/services/notification_service.dart';
 import '../../../core/widgets/custom_loading_indicator.dart';
 import '../../../core/widgets/empty_widget.dart';
 import '../../../core/widgets/loader.dart';
@@ -189,7 +187,7 @@ class _EventsList extends StatelessWidget {
         ),
         if (isLoadingMore) ...[
           SizedBox(height: edge),
-          Center(child: Loader(color: AppColor.primaryColor)),
+          Center(child: Loader(color: AppColor.primaryDark)),
           SizedBox(height: edge),
         ],
       ],
@@ -209,12 +207,12 @@ class _ErrorWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: edge * 3, horizontal: edge),
         child: Column(
           children: [
-            Icon(Icons.error_outline, size: 64, color: Colors.red),
+            const Icon(Icons.error_outline, size: 64, color: AppColor.semanticError),
             SizedBox(height: edge),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: FontFamily.manchetteFine, color: Colors.red, fontSize: 14.sp),
+              style: TextStyle(fontFamily: FontFamily.manchetteFine, color: AppColor.semanticError, fontSize: 14.sp),
             ),
             SizedBox(height: edge),
             ElevatedButton(

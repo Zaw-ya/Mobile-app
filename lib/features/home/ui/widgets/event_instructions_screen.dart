@@ -1,7 +1,5 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/widgets/normal_text.dart';
-import 'package:app/core/widgets/title_text.dart';
-import 'package:app/generated/fonts.gen.dart';
+import 'package:app/core/theming/app_typography.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -14,60 +12,59 @@ class EventInstructionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.primaryColor,
-      appBar: recordsAppBar(context, 'events_guidelines_title'.tr(),color: AppColor.primaryColor),
+      backgroundColor: AppColor.primaryDark,
+      appBar: recordsAppBar(context, 'events_guidelines_title'.tr()),
       body: Container(
-          decoration: const BoxDecoration(
-            color: AppColor.whiteColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(containerRadius),
-              topRight: Radius.circular(containerRadius),
-            ),
+        decoration: const BoxDecoration(
+          color: AppColor.primaryLight,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(containerRadius),
+            topRight: Radius.circular(containerRadius),
           ),
+        ),
         child: ListView(
           padding: EdgeInsets.all(edge * 1.5),
           children: [
             // Heading
-            TitleText(
-              text: 'event_instructions_heading'.tr(),
-              color: AppColor.gray900,
-              align: TextAlign.center,
-              fontSize: 18,
+            Text(
+              'event_instructions_heading'.tr(),
+              style: AppTextStyles.headlineSmall
+                  .copyWith(color: AppColor.primaryDark),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: edge),
 
-            // Intro Paragraph
-            NormalText(
-              text: 'event_instructions_para1'.tr(),
-              fontSize: 16,
-              fontFamily: FontFamily.thmanyahSerifDisplay,
-              color: AppColor.gray900,
-              align: TextAlign.start,
+            // Intro paragraph
+            Text(
+              'event_instructions_para1'.tr(),
+              style: AppTextStyles.bodyMedium
+                  .copyWith(color: AppColor.gray700),
+              textAlign: TextAlign.start,
             ),
             SizedBox(height: edge),
 
-            // Instructions List
+            // Numbered steps
             ..._buildSteps(),
 
-            // Notes Section
-            TitleText(
-              text: 'event_instructions_notes'.tr(),
-              fontSize: 18,
-              color: AppColor.gray900,
-              align: TextAlign.start,
+            // Notes section
+            Text(
+              'event_instructions_notes'.tr(),
+              style: AppTextStyles.titleMedium
+                  .copyWith(color: AppColor.primaryDark),
+              textAlign: TextAlign.start,
             ),
             SizedBox(height: edge),
-            _buildBullet('*', 'event_instructions_note1'.tr()),
-            SizedBox(height: 12),
-            _buildBullet('*', 'event_instructions_note2'.tr()),
+            _buildBullet('•', 'event_instructions_note1'.tr()),
+            const SizedBox(height: 12),
+            _buildBullet('•', 'event_instructions_note2'.tr()),
             SizedBox(height: edge),
 
-            // End Text
-            TitleText(
-              text: 'event_instructions_end'.tr(),
-              color: AppColor.gray900,
-              align: TextAlign.start,
-              fontSize: 20,
+            // Closing text
+            Text(
+              'event_instructions_end'.tr(),
+              style: AppTextStyles.titleSmall
+                  .copyWith(color: AppColor.primaryDark),
+              textAlign: TextAlign.start,
             ),
           ],
         ),
@@ -75,38 +72,38 @@ class EventInstructionsScreen extends StatelessWidget {
     );
   }
 
-  // Generates a list of steps dynamically
   List<Widget> _buildSteps() {
-    const stepCount = 6; // Total number of steps
+    const stepCount = 6;
     return List<Widget>.generate(stepCount, (index) {
-      final stepKey = 'event_instructions_step_${index + 1}'.tr();
       return Padding(
-        padding: EdgeInsets.symmetric(vertical:6),
-        child: _buildBullet('${index + 1}', stepKey),
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: _buildBullet(
+          '${index + 1}.',
+          'event_instructions_step_${index + 1}'.tr(),
+        ),
       );
     });
   }
 
-  // A reusable widget for numbered or bulleted items
-  Widget _buildBullet(String num, String text) {
+  Widget _buildBullet(String marker, String text) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 20,
-          child: NormalText(
-            text: num,
-            color: AppColor.gray600,
-            fontSize: 16,
+          width: 24,
+          child: Text(
+            marker,
+            style: AppTextStyles.bodyMedium
+                .copyWith(color: AppColor.primaryDark),
           ),
         ),
-        SizedBox(width: edge),
+        SizedBox(width: edge * 0.5),
         Expanded(
-          child: NormalText(
-            text: text,
-            color: AppColor.gray600,
-            fontSize: 16,
-            align: TextAlign.start,
+          child: Text(
+            text,
+            style: AppTextStyles.bodyMedium
+                .copyWith(color: AppColor.gray700),
+            textAlign: TextAlign.start,
           ),
         ),
       ],

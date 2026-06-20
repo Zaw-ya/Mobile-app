@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../generated/assets.gen.dart';
 import '../theming/colors.dart';
@@ -45,11 +47,11 @@ class _CustomLoadingIndicatorState extends State<CustomLoadingIndicator>
           color: AppColor.primaryLight,
           borderRadius: BorderRadius.circular(20),
         ),
-        padding: const EdgeInsets.all(16),
         child: FadeTransition(
           opacity: _fadeAnimation,
-          child: Image.asset(
+          child: SvgPicture.asset(
             Assets.images.logoSymbolDark.path,
+            height: 150.h,
             fit: BoxFit.contain,
           ),
         ),

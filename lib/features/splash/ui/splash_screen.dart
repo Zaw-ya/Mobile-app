@@ -1,5 +1,7 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../core/routing/routes.dart';
 import '../../../core/helpers/app_utilities.dart';
 import '../../../core/theming/colors.dart';
@@ -87,14 +89,20 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.primaryDark,
+      backgroundColor: AppColor.primaryLight,
       body: FadeTransition(
         opacity: _fade,
         child: Center(
-          child: Image.asset(
-            Assets.images.logoPrimaryVerticalLight.path,
-            width: 160,
-            fit: BoxFit.contain,
+          child: ScaleTransition(
+            scale: _fade,
+            child: SvgPicture.asset(
+              Assets.images.logoVerticalLightMonochrome.path,
+              width: 300.w,
+              colorFilter: ColorFilter.mode(
+                AppColor.primaryDark,
+                BlendMode.srcIn,
+              ),
+            ),
           ),
         ),
       ),

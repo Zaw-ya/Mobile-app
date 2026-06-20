@@ -85,12 +85,12 @@ class _NewClientStatisticsScreenState extends State<NewClientStatisticsScreen> {
                     title: 'statistics'.tr(),
                     subTitle: 'welcome'.tr(),
                   ),
-                  MainCard(
-                    title: 'detailed_statistics'.tr(),
-                    image: Assets.imagesEventStatistics,
-                    subtitle: 'follow_events_statistics'.tr(),
-                  ),
-                  SizedBox(height: edge),
+                  // MainCard(
+                  //   title: 'detailed_statistics'.tr(),
+                  //   image: Assets.imagesEventStatistics,
+                  //   subtitle: 'follow_events_statistics'.tr(),
+                  // ),
+                  // SizedBox(height: edge),
                   UpcomingEventsBadge(eventsNumber: events.length),
                   state.maybeWhen(
                     emptyInput: () => const EmptyWidget(),

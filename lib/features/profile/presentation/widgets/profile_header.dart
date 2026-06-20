@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/svg.dart';
 import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/theming/app_typography.dart';
 import '../../../../core/theming/colors.dart';
-import '../../../../generated/assets.dart';
+import '../../../../generated/assets.gen.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
@@ -20,11 +20,7 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        top: edge * 2.5,
-        bottom: edge,
-        left: edge,
-        right: edge,
-      ),
+          top: edge * 2.5, bottom: edge, left: edge, right: edge),
       decoration: const BoxDecoration(color: AppColor.primaryDark),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,18 +31,23 @@ class ProfileHeader extends StatelessWidget {
             children: [
               Text(
                 'welcome'.tr(),
-                style: AppTextStyles.bodyMedium
-                    .copyWith(color: AppColor.primaryLight.withValues(alpha: 0.7)),
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColor.primaryLight.withValues(alpha: 0.7),
+                ),
               ),
-              SizedBox(height: edge * 0.2),
               Text(
                 '$firstName $lastName',
-                style: AppTextStyles.headlineLarge
-                    .copyWith(color: AppColor.primaryLight),
+                style: AppTextStyles.headlineLarge.copyWith(
+                  color: AppColor.primaryLight,
+                ),
               ),
             ],
           ),
-          Image.asset(Assets.imagesNyInvite, height: 100),
+          // SvgPicture.asset(
+          //   Assets.images.logoSymbolLight.path,
+          //   height: 56,
+          //   fit: BoxFit.contain,
+          // ),
         ],
       ),
     );

@@ -74,43 +74,43 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/logo_horizontal_dark.png
   AssetGenImage get logoHorizontalDark =>
-      const AssetGenImage('assets/images/logo_horizontal_dark.png');
+      const AssetGenImage('assets/images/logo_horizontal_dark.svg');
 
   /// File path: assets/images/logo_horizontal_light.png
   AssetGenImage get logoHorizontalLight =>
-      const AssetGenImage('assets/images/logo_horizontal_light.png');
+      const AssetGenImage('assets/images/logo_horizontal_light.svg');
 
   /// File path: assets/images/logo_horizontal_light_monochrome.png
   AssetGenImage get logoHorizontalLightMonochrome =>
-      const AssetGenImage('assets/images/logo_horizontal_light_monochrome.png');
+      const AssetGenImage('assets/images/logo_horizontal_light_monochrome.svg');
 
   /// File path: assets/images/logo_primary_vertical_dark.png
   AssetGenImage get logoPrimaryVerticalDark =>
-      const AssetGenImage('assets/images/logo_primary_vertical_dark.png');
+      const AssetGenImage('assets/images/logo_primary_vertical_dark.svg');
 
   /// File path: assets/images/logo_primary_vertical_light.png
   AssetGenImage get logoPrimaryVerticalLight =>
-      const AssetGenImage('assets/images/logo_primary_vertical_light.png');
+      const AssetGenImage('assets/images/logo_primary_vertical_light.svg');
 
   /// File path: assets/images/logo_secondary_horizontal_light.png
   AssetGenImage get logoSecondaryHorizontalLight =>
-      const AssetGenImage('assets/images/logo_secondary_horizontal_light.png');
+      const AssetGenImage('assets/images/logo_secondary_horizontal_light.svg');
 
   /// File path: assets/images/logo_secondary_vertical_light.png
   AssetGenImage get logoSecondaryVerticalLight =>
-      const AssetGenImage('assets/images/logo_secondary_vertical_light.png');
+      const AssetGenImage('assets/images/logo_secondary_vertical_light.svg');
 
   /// File path: assets/images/logo_symbol_dark.png
   AssetGenImage get logoSymbolDark =>
-      const AssetGenImage('assets/images/logo_symbol_dark.png');
+      const AssetGenImage('assets/images/logo_symbol_dark.svg');
 
   /// File path: assets/images/logo_symbol_light.png
   AssetGenImage get logoSymbolLight =>
-      const AssetGenImage('assets/images/logo_symbol_light.png');
+      const AssetGenImage('assets/images/logo_symbol_light.svg');
 
   /// File path: assets/images/logo_vertical_light_monochrome.png
   AssetGenImage get logoVerticalLightMonochrome =>
-      const AssetGenImage('assets/images/logo_vertical_light_monochrome.png');
+      const AssetGenImage('assets/images/logo_vertical_light_monochrome.svg');
 
   /// File path: assets/images/new_logo.png
   AssetGenImage get newLogo =>
