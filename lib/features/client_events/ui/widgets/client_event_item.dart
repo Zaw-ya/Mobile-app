@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -29,41 +29,41 @@ class ClientEventItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildCodeAndTitle(),
+                _buildCodeAndTitle(context),
                 SizedBox(height: edge * 0.4),
                 Text(
                   event?.eventVenue ?? '',
                   style:
-                      AppTextStyles.bodySmall.copyWith(color: AppColor.gray600),
+                      context.typography.bodySmall.copyWith(color: AppColor.gray600),
                 ),
               ],
             ),
           ),
-          _buildDateAndTimeFooter(),
+          _buildDateAndTimeFooter(context),
         ],
       ),
     );
   }
 
-  Widget _buildCodeAndTitle() {
+  Widget _buildCodeAndTitle(BuildContext context) {
     final eventId = _formatEventId(event?.id);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           eventId,
-          style: AppTextStyles.labelMedium.copyWith(color: AppColor.gray500),
+          style: context.typography.labelMedium.copyWith(color: AppColor.gray500),
         ),
         SizedBox(height: 4.h),
         Text(
           event?.eventTitle ?? '',
-          style: AppTextStyles.headlineSmall,
+          style: context.typography.headlineSmall,
         ),
       ],
     );
   }
 
-  Widget _buildDateAndTimeFooter() {
+  Widget _buildDateAndTimeFooter(BuildContext context) {
     final fromDisplay = _formatDate(event?.eventFrom);
     final toDisplay = _formatDate(event?.eventTo);
     final fromTime = _getTimeInAMPM(event?.eventFrom ?? '');
@@ -85,10 +85,10 @@ class ClientEventItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('start_time'.tr(),
-                  style: AppTextStyles.labelSmall
+                  style: context.typography.labelSmall
                       .copyWith(color: AppColor.primaryLight)),
               Text('end_time'.tr(),
-                  style: AppTextStyles.labelSmall
+                  style: context.typography.labelSmall
                       .copyWith(color: AppColor.primaryLight)),
             ],
           ),
@@ -97,12 +97,12 @@ class ClientEventItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(fromDisplay,
-                  style: AppTextStyles.bodySmall
+                  style: context.typography.bodySmall
                       .copyWith(color: AppColor.primaryLight)),
               const Icon(Icons.arrow_right_alt,
                   color: AppColor.primaryLight, size: 18),
               Text(toDisplay,
-                  style: AppTextStyles.bodySmall
+                  style: context.typography.bodySmall
                       .copyWith(color: AppColor.primaryLight)),
             ],
           ),
@@ -117,7 +117,7 @@ class ClientEventItem extends StatelessWidget {
                         color: AppColor.semanticSuccess, size: 14),
                     const SizedBox(width: 4),
                     Text(fromTime,
-                        style: AppTextStyles.numericMedium
+                        style: context.typography.numericMedium
                             .copyWith(color: AppColor.primaryLight,
                                 fontSize: 13.sp)),
                   ],
@@ -128,7 +128,7 @@ class ClientEventItem extends StatelessWidget {
                         color: AppColor.semanticError, size: 14),
                     const SizedBox(width: 4),
                     Text(toTime,
-                        style: AppTextStyles.numericMedium
+                        style: context.typography.numericMedium
                             .copyWith(color: AppColor.primaryLight,
                                 fontSize: 13.sp)),
                   ],

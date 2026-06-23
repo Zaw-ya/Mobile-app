@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -43,9 +43,9 @@ class ScanHistoryItem extends StatelessWidget {
                 SizedBox(height: edge * 0.6),
                 const Divider(height: 1, color: AppColor.gray100),
                 SizedBox(height: edge * 0.6),
-                _buildDateAndTime(),
+                _buildDateAndTime(context),
                 SizedBox(height: edge * 0.6),
-                _buildContact(),
+                _buildContact(context),
               ],
             ),
           ),
@@ -64,13 +64,13 @@ class ScanHistoryItem extends StatelessWidget {
             children: [
               Text(
                 event?.eventCode ?? '',
-                style: AppTextStyles.labelMedium
+                style: context.typography.labelMedium
                     .copyWith(color: AppColor.gray500),
               ),
               SizedBox(height: 4.h),
               Text(
                 event?.eventTitle ?? '',
-                style: AppTextStyles.headlineSmall,
+                style: context.typography.headlineSmall,
               ),
             ],
           ),
@@ -135,12 +135,12 @@ class ScanHistoryItem extends StatelessWidget {
               children: [
                 Text(
                   event?.eventVenue ?? '',
-                  style: AppTextStyles.titleSmall,
+                  style: context.typography.titleSmall,
                 ),
                 if ((event?.eventlocation ?? '').isNotEmpty)
                   Text(
                     event!.eventlocation!,
-                    style: AppTextStyles.bodySmall
+                    style: context.typography.bodySmall
                         .copyWith(color: AppColor.gray500),
                   ),
               ],
@@ -151,7 +151,7 @@ class ScanHistoryItem extends StatelessWidget {
     );
   }
 
-  Widget _buildDateAndTime() {
+  Widget _buildDateAndTime(BuildContext context) {
     final fromDisplay =
         DateTimeHelper.formatDate(event?.eventFrom, isArabic: false);
     final toDisplay =
@@ -167,10 +167,10 @@ class ScanHistoryItem extends StatelessWidget {
           children: [
             Text('start_time'.tr(),
                 style:
-                    AppTextStyles.labelSmall.copyWith(color: AppColor.gray500)),
+                    context.typography.labelSmall.copyWith(color: AppColor.gray500)),
             Text('end_time'.tr(),
                 style:
-                    AppTextStyles.labelSmall.copyWith(color: AppColor.gray500)),
+                    context.typography.labelSmall.copyWith(color: AppColor.gray500)),
           ],
         ),
         SizedBox(height: 6.h),
@@ -178,12 +178,12 @@ class ScanHistoryItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(fromDisplay,
-                style: AppTextStyles.bodySmall
+                style: context.typography.bodySmall
                     .copyWith(color: AppColor.gray700)),
             const Icon(Icons.arrow_right_alt,
                 color: AppColor.gray400, size: 18),
             Text(toDisplay,
-                style: AppTextStyles.bodySmall
+                style: context.typography.bodySmall
                     .copyWith(color: AppColor.gray700)),
           ],
         ),
@@ -198,7 +198,7 @@ class ScanHistoryItem extends StatelessWidget {
                       color: AppColor.semanticSuccess, size: 14),
                   const SizedBox(width: 4),
                   Text(attendTime,
-                      style: AppTextStyles.numericMedium.copyWith(
+                      style: context.typography.numericMedium.copyWith(
                           color: AppColor.gray700, fontSize: 13.sp)),
                 ],
               ),
@@ -208,7 +208,7 @@ class ScanHistoryItem extends StatelessWidget {
                       color: AppColor.semanticError, size: 14),
                   const SizedBox(width: 4),
                   Text(leaveTime,
-                      style: AppTextStyles.numericMedium.copyWith(
+                      style: context.typography.numericMedium.copyWith(
                           color: AppColor.gray700, fontSize: 13.sp)),
                 ],
               ),
@@ -219,7 +219,7 @@ class ScanHistoryItem extends StatelessWidget {
     );
   }
 
-  Widget _buildContact() {
+  Widget _buildContact(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -227,7 +227,7 @@ class ScanHistoryItem extends StatelessWidget {
           children: [
             Text('contact'.tr(),
                 style:
-                    AppTextStyles.labelSmall.copyWith(color: AppColor.gray500)),
+                    context.typography.labelSmall.copyWith(color: AppColor.gray500)),
             SizedBox(width: edge * 0.4),
             const Expanded(child: Divider(color: AppColor.gray200)),
           ],
@@ -241,7 +241,7 @@ class ScanHistoryItem extends StatelessWidget {
             Expanded(
               child: Text(
                 event?.contactName ?? '',
-                style: AppTextStyles.bodySmall
+                style: context.typography.bodySmall
                     .copyWith(color: AppColor.gray700),
               ),
             ),
@@ -256,7 +256,7 @@ class ScanHistoryItem extends StatelessWidget {
             Expanded(
               child: Text(
                 event?.contactPhone ?? '',
-                style: AppTextStyles.numericMedium
+                style: context.typography.numericMedium
                     .copyWith(color: AppColor.gray700, fontSize: 13.sp),
               ),
             ),
@@ -326,13 +326,13 @@ class _StatCell extends StatelessWidget {
       children: [
         Text(
           label,
-          style: AppTextStyles.labelSmall
+          style: context.typography.labelSmall
               .copyWith(color: AppColor.primaryLight),
         ),
         const SizedBox(height: 2),
         Text(
           value,
-          style: AppTextStyles.numericMedium
+          style: context.typography.numericMedium
               .copyWith(color: AppColor.primaryLight),
         ),
       ],

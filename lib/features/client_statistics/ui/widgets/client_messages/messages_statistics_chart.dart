@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/generated/fonts.gen.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -40,13 +40,13 @@ class MessagesStatisticsChart extends StatelessWidget {
             Center(
               child: Text(
                 title,
-                style: AppTextStyles.titleLarge,
+                style: context.typography.titleLarge,
               ),
             ),
             const SizedBox(height: spacing),
             _buildBarChart(),
             const SizedBox(height: spacing),
-            _buildChartLegends(),
+            _buildChartLegends(context),
           ],
         ),
       ),
@@ -151,7 +151,7 @@ class MessagesStatisticsChart extends StatelessWidget {
     );
   }
 
-  Widget _buildChartLegends() {
+  Widget _buildChartLegends(BuildContext context) {
     final items = [
       _LegendItem('read_number'.tr(), _c0),
       _LegendItem('delivered_number'.tr(), _c1),
@@ -163,12 +163,12 @@ class MessagesStatisticsChart extends StatelessWidget {
       spacing: spacing,
       runSpacing: 8,
       children: items
-          .map((e) => _buildLegendItem(e.name, e.color))
+          .map((e) => _buildLegendItem(context, e.name, e.color))
           .toList(),
     );
   }
 
-  Widget _buildLegendItem(String name, Color color) {
+  Widget _buildLegendItem(BuildContext context, String name, Color color) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -181,7 +181,7 @@ class MessagesStatisticsChart extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
           name,
-          style: AppTextStyles.labelSmall
+          style: context.typography.labelSmall
               .copyWith(color: AppColor.gray700),
         ),
       ],

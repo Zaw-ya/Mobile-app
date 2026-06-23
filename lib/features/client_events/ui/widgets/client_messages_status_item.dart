@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -37,12 +37,12 @@ class ClientMessagesStatusItem extends StatelessWidget {
               children: [
                 Text(
                   '${clientMessagesStatusDetails.firstName ?? ""} ${clientMessagesStatusDetails.lastName ?? ""}',
-                  style: AppTextStyles.headlineSmall,
+                  style: context.typography.headlineSmall,
                 ),
                 const SizedBox(height: 4),
                 Text(
                   phone,
-                  style: AppTextStyles.numericMedium
+                  style: context.typography.numericMedium
                       .copyWith(color: AppColor.gray700),
                 ),
               ],
@@ -61,7 +61,7 @@ class ClientMessagesStatusItem extends StatelessWidget {
               children: [
                 Text(
                   '${'response'.tr()} :',
-                  style: AppTextStyles.labelSmall
+                  style: context.typography.labelSmall
                       .copyWith(color: AppColor.primaryLight),
                 ),
                 const SizedBox(width: 8),
@@ -69,7 +69,7 @@ class ClientMessagesStatusItem extends StatelessWidget {
                   child: Text(
                     MessagesStatusConditions()
                         .getResponseStatus(clientMessagesStatusDetails),
-                    style: AppTextStyles.titleSmall
+                    style: context.typography.titleSmall
                         .copyWith(color: AppColor.primaryLight),
                     textAlign: TextAlign.start,
                   ),

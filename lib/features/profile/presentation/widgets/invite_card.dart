@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/helpers/app_utilities.dart';
-import '../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 
 class InviteCard extends StatelessWidget {
@@ -25,12 +25,12 @@ class InviteCard extends StatelessWidget {
               children: [
                 Text(
                   '${AppUtilities().loginData.firstName}',
-                  style: AppTextStyles.titleSmall
+                  style: context.typography.titleSmall
                       .copyWith(color: AppColor.primaryLight),
                 ),
                 Text(
                   '',
-                  style: AppTextStyles.bodySmall.copyWith(
+                  style: context.typography.bodySmall.copyWith(
                     color: AppColor.primaryLight.withValues(alpha: 0.7),
                   ),
                 ),

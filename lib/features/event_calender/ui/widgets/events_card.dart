@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -41,16 +41,16 @@ class EventCard extends StatelessWidget {
               children: [
                 Text(
                   event.eventTitle ?? '',
-                  style: AppTextStyles.titleSmall,
+                  style: context.typography.titleSmall,
                 ),
                 const SizedBox(height: 6),
                 Text(
                   event.eventVenue ?? '',
-                  style: AppTextStyles.bodySmall
+                  style: context.typography.bodySmall
                       .copyWith(color: AppColor.gray600),
                 ),
                 const SizedBox(height: 8),
-                _buildEventTimes(),
+                _buildEventTimes(context),
               ],
             ),
           ),
@@ -59,7 +59,7 @@ class EventCard extends StatelessWidget {
     );
   }
 
-  Widget _buildEventTimes() {
+  Widget _buildEventTimes(BuildContext context) {
     if (event.eventFrom == null || event.eventTo == null) {
       return const SizedBox.shrink();
     }
@@ -81,7 +81,7 @@ class EventCard extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
           '${DateFormat('HH:mm').format(eventFrom)} - ${DateFormat('HH:mm').format(eventTo)}',
-          style: AppTextStyles.numericMedium.copyWith(
+          style: context.typography.numericMedium.copyWith(
             color: AppColor.primaryDark,
             fontSize: 13,
           ),

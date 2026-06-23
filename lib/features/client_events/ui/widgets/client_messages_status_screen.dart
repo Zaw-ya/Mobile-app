@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app/core/helpers/extensions.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -187,7 +187,7 @@ class _ClientMessagesStatusScreenState
             },
             child: Text(
               'clear'.tr(),
-              style: AppTextStyles.labelMedium
+              style: context.typography.labelMedium
                   .copyWith(color: AppColor.primaryLight),
             ),
           ),
@@ -200,7 +200,7 @@ class _ClientMessagesStatusScreenState
     return Center(
       child: Text(
         message,
-        style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray500),
+        style: context.typography.bodyMedium.copyWith(color: AppColor.gray500),
         textAlign: TextAlign.center,
       ),
     );

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
-import '../../generated/assets.gen.dart';
 import '../dimensions/dimensions_constants.dart';
 import '../helpers/extensions.dart';
 import '../theming/colors.dart';
-import '../theming/app_typography.dart';
+import '../theming/typography_theme.dart';
 
 AppBar publicAppBar(BuildContext context, String title) {
   return AppBar(
@@ -14,7 +11,7 @@ AppBar publicAppBar(BuildContext context, String title) {
     centerTitle: false,
     title: Text(
       title,
-      style: AppTextStyles.titleLarge.copyWith(color: AppColor.primaryLight),
+      style: context.typography.titleLarge.copyWith(color: AppColor.primaryLight),
     ),
     // actions: [
     //   Padding(

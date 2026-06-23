@@ -1,5 +1,5 @@
 import 'package:app/core/helpers/extensions.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,8 +33,8 @@ class SentCardsServicesScreen extends StatelessWidget {
           return current.when(
             initial: () => const SizedBox.shrink(),
             emptyInput: () =>
-                _buildCenteredMessage('no_available_events'.tr()),
-            error: (error) => _buildCenteredMessage(error),
+                _buildCenteredMessage(context, 'no_available_events'.tr()),
+            error: (error) => _buildCenteredMessage(context, error),
             loading: () =>
                 Center(child: Loader(color: AppColor.primaryDark)),
             successFetchData: (success) {
@@ -125,13 +125,13 @@ class SentCardsServicesScreen extends StatelessWidget {
               flex: 3,
               child: Text(
                 title,
-                style: AppTextStyles.bodySmall
+                style: context.typography.bodySmall
                     .copyWith(color: AppColor.gray700),
               ),
             ),
             Text(
               number,
-              style: AppTextStyles.numericMedium
+              style: context.typography.numericMedium
                   .copyWith(color: AppColor.primaryDark),
             ),
             const SizedBox(width: 8),
@@ -146,11 +146,11 @@ class SentCardsServicesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCenteredMessage(String message) {
+  Widget _buildCenteredMessage(BuildContext context, String message) {
     return Center(
       child: Text(
         message,
-        style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray500),
+        style: context.typography.bodyMedium.copyWith(color: AppColor.gray500),
         textAlign: TextAlign.center,
       ),
     );

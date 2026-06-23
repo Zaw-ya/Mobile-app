@@ -1,5 +1,5 @@
 import 'package:app/core/routing/routes.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/features/notifications/logic/notifications_cubit.dart';
 import 'package:app/features/notifications/logic/notifications_states.dart';
@@ -35,13 +35,13 @@ class HomeHeader extends StatelessWidget {
                 children: [
                   Text(
                     'welcome'.tr(),
-                    style: AppTextStyles.bodyMedium
+                    style: context.typography.bodyMedium
                         .copyWith(color: AppColor.gray500),
                   ),
                   SizedBox(height: 2.h),
                   Text(
                     '${userData.firstName} ${userData.lastName}',
-                    style: AppTextStyles.headlineLarge,
+                    style: context.typography.headlineLarge,
                   ),
                 ],
               ),
@@ -87,7 +87,7 @@ class HomeHeader extends StatelessWidget {
                           child: Center(
                             child: Text(
                               count > 99 ? '99+' : '$count',
-                              style: AppTextStyles.labelSmall
+                              style: context.typography.labelSmall
                                   .copyWith(color: AppColor.primaryLight),
                             ),
                           ),

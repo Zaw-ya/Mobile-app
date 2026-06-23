@@ -1,6 +1,6 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:app/core/helpers/extensions.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/drag_handle.dart';
 import 'package:app/core/widgets/go_button.dart';
@@ -75,13 +75,13 @@ class ReserveEventBottomSheet extends StatelessWidget {
                   ),
                   SizedBox(width: edge * 0.6),
                   Text('reserve_event'.tr(),
-                      style: AppTextStyles.headlineSmall),
+                      style: context.typography.headlineSmall),
                 ],
               ),
               SizedBox(height: edge * 0.5),
               Text(
                 'reserve_event_hint'.tr(),
-                style: AppTextStyles.bodySmall
+                style: context.typography.bodySmall
                     .copyWith(color: AppColor.gray600),
               ),
               SizedBox(height: edge * 0.8),

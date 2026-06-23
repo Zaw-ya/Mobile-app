@@ -1,6 +1,6 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:app/core/helpers/extensions.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/drag_handle.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -65,7 +65,7 @@ class CountrySelectionBottomSheet extends StatelessWidget {
           children: [
             Text(
               country.labelKey.tr(),
-              style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray700),
+              style: context.typography.bodyMedium.copyWith(color: AppColor.gray700),
             ),
             Icon(
               mode == ContactMode.phone ? Icons.phone : Icons.chat,
@@ -109,7 +109,7 @@ class CountrySelectionBottomSheet extends StatelessWidget {
               mode == ContactMode.phone
                   ? 'contact_by_phone'.tr()
                   : 'contact_by_whatsapp'.tr(),
-              style: AppTextStyles.titleLarge
+              style: context.typography.titleLarge
                   .copyWith(color: AppColor.primaryDark),
             ),
             SizedBox(height: edge * 0.5),

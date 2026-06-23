@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -25,50 +25,50 @@ class EventDetailsItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildNameAndTime(),
+          _buildNameAndTime(context),
           SizedBox(height: edge * 0.4),
-          _buildScanStatus(),
+          _buildScanStatus(context),
           SizedBox(height: edge * 0.3),
           Text(
             '${"no_of_members".tr()}: ${eventDetails.noOfMembers}',
-            style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray600),
+            style: context.typography.bodySmall.copyWith(color: AppColor.gray600),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildNameAndTime() {
+  Widget _buildNameAndTime(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Text(
             eventDetails.guestFullName ?? '',
-            style: AppTextStyles.titleSmall,
+            style: context.typography.titleSmall,
           ),
         ),
         Text(
           getDateAndTime(eventDetails.scannedOn ?? ''),
           style:
-              AppTextStyles.labelSmall.copyWith(color: AppColor.gray500),
+              context.typography.labelSmall.copyWith(color: AppColor.gray500),
           textAlign: TextAlign.end,
         ),
       ],
     );
   }
 
-  Widget _buildScanStatus() {
+  Widget _buildScanStatus(BuildContext context) {
     return Row(
       children: [
-        _buildResponseCode(eventDetails.responseCode ?? ''),
+        _buildResponseCode(context, eventDetails.responseCode ?? ''),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
             eventDetails.response?.contains('Maximum') == true
                 ? 'scanned_before'.tr()
                 : eventDetails.response ?? '',
-            style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray600),
+            style: context.typography.bodySmall.copyWith(color: AppColor.gray600),
             textAlign: TextAlign.end,
           ),
         ),
@@ -76,7 +76,7 @@ class EventDetailsItem extends StatelessWidget {
     );
   }
 
-  Widget _buildResponseCode(String responseCode) {
+  Widget _buildResponseCode(BuildContext context, String responseCode) {
     final bool isAllowed = responseCode.toLowerCase() == 'allowed';
     final color =
         isAllowed ? AppColor.semanticSuccess : AppColor.semanticError;
@@ -88,7 +88,7 @@ class EventDetailsItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(label,
-            style: AppTextStyles.labelMedium.copyWith(color: color)),
+            style: context.typography.labelMedium.copyWith(color: color)),
         const SizedBox(width: 4),
         Icon(icon, color: color, size: 16),
       ],

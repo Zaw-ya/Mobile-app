@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../core/theming/colors.dart';
 import '../../../core/dimensions/dimensions_constants.dart';
 import '../../../core/helpers/date_time_helper.dart';
@@ -49,7 +49,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         elevation: 0,
         title: Text(
           'notifications'.tr(),
-          style: AppTextStyles.titleLarge.copyWith(color: AppColor.primaryLight),
+          style: context.typography.titleLarge.copyWith(color: AppColor.primaryLight),
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -68,7 +68,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             return Center(
               child: Text(
                 'Error: ${state.message}',
-                style: AppTextStyles.bodyMedium
+                style: context.typography.bodyMedium
                     .copyWith(color: AppColor.semanticError),
               ),
             );
@@ -88,7 +88,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       child: Center(
                         child: Text(
                           'no_notifications'.tr(),
-                          style: AppTextStyles.bodyMedium
+                          style: context.typography.bodyMedium
                               .copyWith(color: AppColor.gray500),
                         ),
                       ),
@@ -132,7 +132,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           ),
                           title: Text(
                             n.title,
-                            style: AppTextStyles.titleSmall.copyWith(
+                            style: context.typography.titleSmall.copyWith(
                               color: AppColor.primaryDark,
                               fontWeight: n.read
                                   ? FontWeight.normal
@@ -144,7 +144,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             children: [
                               Text(
                                 n.body,
-                                style: AppTextStyles.bodySmall
+                                style: context.typography.bodySmall
                                     .copyWith(color: AppColor.gray700),
                               ),
                               const SizedBox(height: 4),

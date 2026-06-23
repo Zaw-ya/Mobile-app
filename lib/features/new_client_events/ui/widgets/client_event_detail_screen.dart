@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/drag_handle.dart';
@@ -201,7 +201,7 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
                                 children: [
                                   Text(
                                     'invited'.tr(),
-                                    style: AppTextStyles.titleLarge,
+                                    style: context.typography.titleLarge,
                                   ),
                                 ],
                               ),
@@ -260,7 +260,7 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
       emptyInput: () => const EmptyWidget(),
       error: (msg) => Center(
         child: Text(msg,
-            style: AppTextStyles.bodyMedium
+            style: context.typography.bodyMedium
                 .copyWith(color: AppColor.semanticError)),
       ),
       success: (response, isLoadingMore) {

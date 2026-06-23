@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -137,14 +137,14 @@ class _DetailRow extends StatelessWidget {
         children: [
           Text(
             title,
-            style: AppTextStyles.titleSmall,
+            style: context.typography.titleSmall,
           ),
           SizedBox(width: edge * 0.5),
           Flexible(
             child: Text(
               subtitle ?? '',
               style:
-                  AppTextStyles.bodySmall.copyWith(color: AppColor.gray500),
+                  context.typography.bodySmall.copyWith(color: AppColor.gray500),
               textAlign: TextAlign.end,
             ),
           ),

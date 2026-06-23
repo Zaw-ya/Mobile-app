@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../generated/assets.dart';
 import '../../data/models/profile_model.dart';
@@ -48,12 +48,12 @@ class UserCart extends StatelessWidget {
                     children: [
                       Text(
                         '${profileModel?.firstName} ${profileModel?.lastName}',
-                        style: AppTextStyles.titleMedium
+                        style: context.typography.titleMedium
                             .copyWith(color: AppColor.primaryLight),
                       ),
                       Text(
                         profileModel?.email ?? '',
-                        style: AppTextStyles.bodySmall.copyWith(
+                        style: context.typography.bodySmall.copyWith(
                           color: AppColor.primaryLight.withValues(alpha: 0.7),
                         ),
                       ),
@@ -85,7 +85,7 @@ class UserCart extends StatelessWidget {
                         Expanded(
                           child: Text(
                             '${profileModel?.address}',
-                            style: AppTextStyles.bodySmall.copyWith(
+                            style: context.typography.bodySmall.copyWith(
                               color: AppColor.primaryLight,
                             ),
                           ),
@@ -108,7 +108,7 @@ class UserCart extends StatelessWidget {
                         SizedBox(width: edge * 0.4),
                         Text(
                           profileModel?.primaryContactNo ?? '',
-                          style: AppTextStyles.numericMedium.copyWith(
+                          style: context.typography.numericMedium.copyWith(
                             color: AppColor.primaryLight,
                             fontSize: 14,
                           ),

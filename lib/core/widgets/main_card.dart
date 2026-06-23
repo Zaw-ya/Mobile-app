@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -80,7 +80,7 @@ class MainCard extends StatelessWidget {
                           children: [
                             Text(
                               title,
-                              style: AppTextStyles.titleMedium.copyWith(
+                              style: context.typography.titleMedium.copyWith(
                                 color: AppColor.primaryLight,
                               ),
                               textAlign: TextAlign.start,
@@ -88,7 +88,7 @@ class MainCard extends StatelessWidget {
                             const SizedBox(height: 4),
                             Text(
                               subtitle,
-                              style: AppTextStyles.bodySmall.copyWith(
+                              style: context.typography.bodySmall.copyWith(
                                 color: AppColor.primaryLight
                                     .withValues(alpha: 0.75),
                               ),
@@ -118,7 +118,7 @@ class MainCard extends StatelessWidget {
                                       SizedBox(width: edge * 0.5),
                                       Text(
                                         whatsappLabel!.tr(),
-                                        style: AppTextStyles.titleSmall
+                                        style: context.typography.titleSmall
                                             .copyWith(
                                                 color: AppColor.primaryDark),
                                       ),

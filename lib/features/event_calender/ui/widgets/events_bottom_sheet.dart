@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/widgets/drag_handle.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ class EventsBottomSheet extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             '${"events_only".tr()} — ${DateFormat('E dd/M/yyyy').format(selectedDate)}',
-            style: AppTextStyles.titleLarge,
+            style: context.typography.titleLarge,
           ),
           const SizedBox(height: 16),
           Flexible(

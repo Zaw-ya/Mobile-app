@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/features/event_calender/ui/widgets/reserve_event_dialog_box.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +75,7 @@ class CalenderView extends StatelessWidget {
             headerStyle: HeaderStyle(
               formatButtonVisible: false,
               titleCentered: true,
-              titleTextStyle: AppTextStyles.titleLarge,
+              titleTextStyle: context.typography.titleLarge,
               leftChevronIcon: const Icon(Icons.chevron_left,
                   color: AppColor.primaryDark),
               rightChevronIcon: const Icon(Icons.chevron_right,
@@ -86,7 +86,7 @@ class CalenderView extends StatelessWidget {
                 color: AppColor.primaryDark,
                 shape: BoxShape.circle,
               ),
-              selectedTextStyle: AppTextStyles.numericMedium.copyWith(
+              selectedTextStyle: context.typography.numericMedium.copyWith(
                 color: AppColor.primaryLight,
                 fontSize: 14.sp,
               ),
@@ -95,20 +95,20 @@ class CalenderView extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColor.primaryDark, width: 1.5),
               ),
-              todayTextStyle: AppTextStyles.numericMedium.copyWith(
+              todayTextStyle: context.typography.numericMedium.copyWith(
                 color: AppColor.primaryDark,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
               ),
-              defaultTextStyle: AppTextStyles.numericMedium.copyWith(
+              defaultTextStyle: context.typography.numericMedium.copyWith(
                 color: AppColor.gray700,
                 fontSize: 14.sp,
               ),
-              weekendTextStyle: AppTextStyles.numericMedium.copyWith(
+              weekendTextStyle: context.typography.numericMedium.copyWith(
                 color: AppColor.gray500,
                 fontSize: 14.sp,
               ),
-              outsideTextStyle: AppTextStyles.numericMedium.copyWith(
+              outsideTextStyle: context.typography.numericMedium.copyWith(
                 color: AppColor.gray300,
                 fontSize: 14.sp,
               ),
@@ -162,7 +162,7 @@ class CalenderView extends StatelessWidget {
           Expanded(
             child: Text(
               'event_calendar_instructions'.tr(),
-              style: AppTextStyles.bodySmall
+              style: context.typography.bodySmall
                   .copyWith(color: AppColor.primaryLight),
             ),
           ),

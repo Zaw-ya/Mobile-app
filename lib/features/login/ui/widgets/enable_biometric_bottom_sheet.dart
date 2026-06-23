@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +65,7 @@ class EnableBiometricBottomSheet extends StatelessWidget {
               SizedBox(width: 12.w),
               Text(
                 'enable_biometric'.tr(),
-                style: AppTextStyles.headlineSmall,
+                style: context.typography.headlineSmall,
               ),
             ],
           ),
@@ -75,7 +75,7 @@ class EnableBiometricBottomSheet extends StatelessWidget {
           // Message
           Text(
             'enable_biometric_message'.tr(),
-            style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray600),
+            style: context.typography.bodyMedium.copyWith(color: AppColor.gray600),
           ),
 
           SizedBox(height: 32.h),
@@ -97,7 +97,7 @@ class EnableBiometricBottomSheet extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   'enable'.tr(),
-                  style: AppTextStyles.buttonLarge,
+                  style: context.typography.buttonLarge,
                 ),
               ),
             ),
@@ -118,7 +118,7 @@ class EnableBiometricBottomSheet extends StatelessWidget {
               },
               child: Text(
                 'skip'.tr(),
-                style: AppTextStyles.labelLarge.copyWith(
+                style: context.typography.labelLarge.copyWith(
                   color: AppColor.primaryDark,
                 ),
               ),

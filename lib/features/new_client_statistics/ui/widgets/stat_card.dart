@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +38,7 @@ class StatCard extends StatelessWidget {
           children: [
             Text(
               title,
-              style: AppTextStyles.labelSmall
+              style: context.typography.labelSmall
                   .copyWith(color: AppColor.primaryLight.withValues(alpha: 0.75)),
             ),
             SizedBox(height: edge * 0.3),
@@ -47,7 +47,7 @@ class StatCard extends StatelessWidget {
               children: [
                 Text(
                   value.toString(),
-                  style: AppTextStyles.numericMedium
+                  style: context.typography.numericMedium
                       .copyWith(color: AppColor.primaryLight, fontSize: 22),
                 ),
                 const SizedBox(width: 4),
@@ -55,7 +55,7 @@ class StatCard extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 2),
                   child: Text(
                     'guest'.tr(),
-                    style: AppTextStyles.labelSmall.copyWith(
+                    style: context.typography.labelSmall.copyWith(
                         color: AppColor.primaryLight.withValues(alpha: 0.6)),
                   ),
                 ),
@@ -64,7 +64,7 @@ class StatCard extends StatelessWidget {
             SizedBox(height: edge * 0.35),
             Text(
               '${(pct * 100).round()}%',
-              style: AppTextStyles.numericMedium.copyWith(
+              style: context.typography.numericMedium.copyWith(
                   color: AppColor.primaryLight.withValues(alpha: 0.7),
                   fontSize: 12),
             ),

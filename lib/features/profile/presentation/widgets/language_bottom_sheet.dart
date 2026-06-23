@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/extensions.dart';
-import '../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/drag_handle.dart';
 
@@ -77,7 +77,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     'app_language'.tr(),
-                    style: AppTextStyles.titleLarge
+                    style: context.typography.titleLarge
                         .copyWith(color: AppColor.primaryDark),
                   ),
                 ),
@@ -154,7 +154,7 @@ class _LangOption extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                style: AppTextStyles.bodyMedium
+                style: context.typography.bodyMedium
                     .copyWith(color: AppColor.primaryDark),
               ),
             ),

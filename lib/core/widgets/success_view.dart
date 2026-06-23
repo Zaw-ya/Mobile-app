@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/widgets/custom_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ class SuccessView extends StatelessWidget {
             SizedBox(height: edge * 1.2),
             Text(
               'your_data_sent'.tr(),
-              style: AppTextStyles.headlineLarge.copyWith(
+              style: context.typography.headlineLarge.copyWith(
                 color: AppColor.primaryDark,
               ),
               textAlign: TextAlign.center,
@@ -36,7 +36,7 @@ class SuccessView extends StatelessWidget {
             SizedBox(height: edge),
             Text(
               'your_data_sent_hint'.tr(),
-              style: AppTextStyles.bodyMedium.copyWith(
+              style: context.typography.bodyMedium.copyWith(
                 color: AppColor.gray700,
               ),
               textAlign: TextAlign.center,

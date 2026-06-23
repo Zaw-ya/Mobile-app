@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/app_utilities.dart';
-import '../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 import 'contact_cs_bottom_sheet.dart';
 import 'language_bottom_sheet.dart';
@@ -34,7 +34,7 @@ class ProfileMenu extends StatelessWidget {
           SizedBox(height: edge * 0.2),
           Text(
             'menu'.tr(),
-            style: AppTextStyles.titleMedium
+            style: context.typography.titleMedium
                 .copyWith(color: AppColor.primaryDark),
           ),
           SizedBox(height: edge * 0.8),
@@ -47,7 +47,7 @@ class ProfileMenu extends StatelessWidget {
                 Expanded(
                   child: Text(
                     'language'.tr(),
-                    style: AppTextStyles.bodyMedium
+                    style: context.typography.bodyMedium
                         .copyWith(color: AppColor.gray700),
                   ),
                 ),
@@ -55,7 +55,7 @@ class ProfileMenu extends StatelessWidget {
                   Localizations.localeOf(context).languageCode == 'ar'
                       ? 'arabic'.tr()
                       : 'english'.tr(),
-                  style: AppTextStyles.titleSmall
+                  style: context.typography.titleSmall
                       .copyWith(color: AppColor.primaryDark),
                 ),
               ],
@@ -71,7 +71,7 @@ class ProfileMenu extends StatelessWidget {
               children: [
                 Text(
                   'rate_app'.tr(),
-                  style: AppTextStyles.bodyMedium
+                  style: context.typography.bodyMedium
                       .copyWith(color: AppColor.gray700),
                 ),
                 Icon(Icons.arrow_forward_ios,
@@ -91,7 +91,7 @@ class ProfileMenu extends StatelessWidget {
                 children: [
                   Text(
                     'contact_customer_service'.tr(),
-                    style: AppTextStyles.bodyMedium
+                    style: context.typography.bodyMedium
                         .copyWith(color: AppColor.gray700),
                   ),
                   Icon(Icons.arrow_forward_ios,
@@ -110,7 +110,7 @@ class ProfileMenu extends StatelessWidget {
               children: [
                 Text(
                   'logout'.tr(),
-                  style: AppTextStyles.bodyMedium
+                  style: context.typography.bodyMedium
                       .copyWith(color: AppColor.semanticError),
                 ),
                 Icon(Icons.arrow_forward_ios,

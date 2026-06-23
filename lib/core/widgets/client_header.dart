@@ -1,5 +1,5 @@
 import 'package:app/core/routing/routes.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/features/notifications/logic/notifications_cubit.dart';
 import 'package:app/features/notifications/logic/notifications_states.dart';
@@ -37,7 +37,7 @@ class ClientHeader extends StatelessWidget {
                   if (subTitle != null && subTitle!.isNotEmpty)
                     Text(
                       subTitle!,
-                      style: AppTextStyles.bodyMedium
+                      style: context.typography.bodyMedium
                           .copyWith(color: AppColor.gray500),
                     ),
                   if (subTitle != null && subTitle!.isNotEmpty)
@@ -45,7 +45,7 @@ class ClientHeader extends StatelessWidget {
                   if (title != null && title!.isNotEmpty)
                     Text(
                       title!,
-                      style: AppTextStyles.headlineLarge,
+                      style: context.typography.headlineLarge,
                     ),
                 ],
               ),
@@ -91,7 +91,7 @@ class ClientHeader extends StatelessWidget {
                           child: Center(
                             child: Text(
                               count > 99 ? '99+' : '$count',
-                              style: AppTextStyles.labelSmall
+                              style: context.typography.labelSmall
                                   .copyWith(color: AppColor.primaryLight),
                             ),
                           ),

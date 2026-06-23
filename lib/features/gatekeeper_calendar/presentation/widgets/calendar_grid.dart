@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -67,12 +67,12 @@ class CalendarGrid extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Divider(height: 1, color: AppColor.gray200),
-            _buildNavRow(),
-            _buildDayNamesRow(),
+            _buildNavRow(context),
+            _buildDayNamesRow(context),
             SizedBox(height: edge * 0.4),
             ..._buildDayRows(rowCount),
             SizedBox(height: edge * 0.4),
-            _buildToggleRow(),
+            _buildToggleRow(context),
             SizedBox(height: edge * 0.4),
           ],
         ),
@@ -80,7 +80,7 @@ class CalendarGrid extends StatelessWidget {
     );
   }
 
-  Widget _buildNavRow() {
+  Widget _buildNavRow(BuildContext context) {
     return Container(
       key: navKey,
       padding: EdgeInsets.symmetric(horizontal: edge, vertical: edge * 0.5),
@@ -92,7 +92,7 @@ class CalendarGrid extends StatelessWidget {
             onTap: isArabic ? onNext : onPrevious,
             angle: isArabic ? 3.14 : 0,
           ),
-          Text(monthLabel, style: AppTextStyles.titleLarge),
+          Text(monthLabel, style: context.typography.titleLarge),
           CircleNavButton(
             isTablet: false,
             onTap: isArabic ? onPrevious : onNext,
@@ -103,7 +103,7 @@ class CalendarGrid extends StatelessWidget {
     );
   }
 
-  Widget _buildDayNamesRow() {
+  Widget _buildDayNamesRow(BuildContext context) {
     return Container(
       key: dayNamesKey,
       padding: EdgeInsets.symmetric(horizontal: edge, vertical: edge * 0.3),
@@ -113,7 +113,7 @@ class CalendarGrid extends StatelessWidget {
                   child: Center(
                     child: Text(
                       name,
-                      style: AppTextStyles.labelSmall
+                      style: context.typography.labelSmall
                           .copyWith(color: AppColor.gray500),
                     ),
                   ),
@@ -150,7 +150,7 @@ class CalendarGrid extends StatelessWidget {
     });
   }
 
-  Widget _buildToggleRow() {
+  Widget _buildToggleRow(BuildContext context) {
     return GestureDetector(
       key: toggleKey,
       onTap: onToggleView,
@@ -160,7 +160,7 @@ class CalendarGrid extends StatelessWidget {
           Text(
             isWeekView ? 'view_month'.tr() : 'view_week'.tr(),
             style:
-                AppTextStyles.bodySmall.copyWith(color: AppColor.primaryDark),
+                context.typography.bodySmall.copyWith(color: AppColor.primaryDark),
           ),
           SizedBox(width: edge * 0.4),
           SvgPicture.asset(

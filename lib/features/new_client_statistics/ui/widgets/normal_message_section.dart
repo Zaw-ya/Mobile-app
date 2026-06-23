@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../client_statistics/data/models/client_messages_statistics_response.dart';
 import 'donut_chart.dart';
@@ -55,7 +55,7 @@ class NormalMessageSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (title.isNotEmpty)
-          Text(title, style: AppTextStyles.titleLarge),
+          Text(title, style: context.typography.titleLarge),
         if (title.isNotEmpty) SizedBox(height: edge * 0.6),
         Row(
           children: [

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/helpers/app_utilities.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
-import '../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/custom_button.dart';
 
@@ -77,7 +77,7 @@ class _LogoutBottomSheetState extends State<LogoutBottomSheet> {
                     SizedBox(width: edge * 0.6),
                     Text(
                       'logout'.tr(),
-                      style: AppTextStyles.titleLarge
+                      style: context.typography.titleLarge
                           .copyWith(color: AppColor.semanticError),
                     ),
                   ],
@@ -85,7 +85,7 @@ class _LogoutBottomSheetState extends State<LogoutBottomSheet> {
                 SizedBox(height: edge * 0.9),
                 Text(
                   'logout_hint'.tr(),
-                  style: AppTextStyles.bodyMedium
+                  style: context.typography.bodyMedium
                       .copyWith(color: AppColor.gray600),
                 ),
                 SizedBox(height: edge * 1.5),

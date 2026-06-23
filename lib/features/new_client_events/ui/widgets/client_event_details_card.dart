@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,7 +53,7 @@ class ClientEventDetailsCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     event.eventVenue!,
-                    style: AppTextStyles.titleSmall
+                    style: context.typography.titleSmall
                         .copyWith(color: AppColor.primaryLight),
                   ),
                 ),
@@ -65,7 +65,7 @@ class ClientEventDetailsCard extends StatelessWidget {
             Row(
               children: [
                 Text('from'.tr(),
-                    style: AppTextStyles.labelSmall
+                    style: context.typography.labelSmall
                         .copyWith(color: kCream.withValues(alpha: 0.7))),
                 SizedBox(width: 6.w),
                 Container(
@@ -94,7 +94,7 @@ class ClientEventDetailsCard extends StatelessWidget {
                 ),
                 SizedBox(width: 6.w),
                 Text('to'.tr(),
-                    style: AppTextStyles.labelSmall
+                    style: context.typography.labelSmall
                         .copyWith(color: kCream.withValues(alpha: 0.7))),
               ],
             ),
@@ -107,13 +107,13 @@ class ClientEventDetailsCard extends StatelessWidget {
                 Text(
                   DateTimeHelper.formatDate(event.eventFrom,
                       isArabic: isArabic),
-                  style: AppTextStyles.bodySmall
+                  style: context.typography.bodySmall
                       .copyWith(color: kCream.withValues(alpha: 0.8)),
                 ),
                 Text(
                   DateTimeHelper.formatDate(event.eventTo,
                       isArabic: isArabic),
-                  style: AppTextStyles.bodySmall
+                  style: context.typography.bodySmall
                       .copyWith(color: kCream.withValues(alpha: 0.8)),
                 ),
               ],
@@ -127,13 +127,13 @@ class ClientEventDetailsCard extends StatelessWidget {
                 Text(
                   DateTimeHelper.formatTime(event.eventFrom,
                       isArabic: isArabic),
-                  style: AppTextStyles.numericMedium
+                  style: context.typography.numericMedium
                       .copyWith(color: AppColor.primaryLight),
                 ),
                 Text(
                   DateTimeHelper.formatTime(event.eventTo,
                       isArabic: isArabic),
-                  style: AppTextStyles.numericMedium
+                  style: context.typography.numericMedium
                       .copyWith(color: AppColor.primaryLight),
                 ),
               ],

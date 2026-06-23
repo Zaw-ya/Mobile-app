@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/loader.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -127,7 +127,7 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
     return Center(
       child: Text(
         message,
-        style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray500),
+        style: context.typography.bodyMedium.copyWith(color: AppColor.gray500),
         textAlign: TextAlign.center,
       ),
     );

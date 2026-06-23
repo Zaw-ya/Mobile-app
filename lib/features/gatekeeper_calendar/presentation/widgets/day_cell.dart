@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -42,7 +42,7 @@ class DayCell extends StatelessWidget {
             child: Center(
               child: Text(
                 '${day.day}',
-                style: AppTextStyles.numericMedium.copyWith(
+                style: context.typography.numericMedium.copyWith(
                   color: isSelected
                       ? AppColor.primaryLight
                       : isToday

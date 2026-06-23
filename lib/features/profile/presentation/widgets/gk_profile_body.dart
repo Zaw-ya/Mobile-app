@@ -1,5 +1,5 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/features/profile/data/models/profile_model.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -49,12 +49,12 @@ class _InfoRow extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray700),
+              style: context.typography.bodySmall.copyWith(color: AppColor.gray700),
             ),
           ),
           Text(
             value,
-            style: AppTextStyles.titleSmall.copyWith(color: AppColor.primaryDark),
+            style: context.typography.titleSmall.copyWith(color: AppColor.primaryDark),
           ),
         ],
       ),

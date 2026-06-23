@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +20,7 @@ class NoInternetWidget extends StatelessWidget {
           SizedBox(height: 50),
           Text(
             'no_internet'.tr(),
-            style: AppTextStyles.titleMedium.copyWith(
+            style: context.typography.titleMedium.copyWith(
               color: AppColor.primaryDark,
             ),
             textAlign: TextAlign.center,

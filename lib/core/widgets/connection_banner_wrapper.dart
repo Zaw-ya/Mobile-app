@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -82,7 +82,7 @@ class _ConnectionBannerWrapperState extends State<ConnectionBannerWrapper>
                       widget.isConnected
                           ? 'connected'.tr()
                           : 'no_internet'.tr(),
-                      style: AppTextStyles.bodyMedium.copyWith(
+                      style: context.typography.bodyMedium.copyWith(
                         color: AppColor.primaryLight,
                       ),
                     ),

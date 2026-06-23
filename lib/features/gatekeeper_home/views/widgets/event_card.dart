@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,7 +53,7 @@ class EventCard extends StatelessWidget {
                   children: [
                     Text(
                       event.eventCode ?? '',
-                      style: AppTextStyles.labelMedium,
+                      style: context.typography.labelMedium,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -88,7 +88,7 @@ class EventCard extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Text(
                   event.eventTitle ?? '',
-                  style: AppTextStyles.headlineSmall,
+                  style: context.typography.headlineSmall,
                 ),
               ),
 
@@ -135,11 +135,11 @@ class EventCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(event.eventVenue ?? '',
-                                style: AppTextStyles.titleSmall),
+                                style: context.typography.titleSmall),
                             if ((event.eventlocation ?? '').isNotEmpty)
                               Text(
                                 event.eventlocation ?? '',
-                                style: AppTextStyles.bodySmall,
+                                style: context.typography.bodySmall,
                               ),
                           ],
                         ),
@@ -170,18 +170,18 @@ class EventCard extends StatelessWidget {
                       children: [
                         Text(
                           'contact_info'.tr(),
-                          style: AppTextStyles.labelMedium
+                          style: context.typography.labelMedium
                               .copyWith(color: kCream.withValues(alpha: 0.7)),
                         ),
                         SizedBox(height: 2.h),
                         Text(
                           event.contactName ?? '',
-                          style: AppTextStyles.titleSmall
+                          style: context.typography.titleSmall
                               .copyWith(color: AppColor.primaryLight),
                         ),
                         Text(
                           event.contactPhone ?? '',
-                          style: AppTextStyles.bodyMedium
+                          style: context.typography.bodyMedium
                               .copyWith(color: AppColor.primaryLight),
                         ),
                       ],
@@ -240,11 +240,11 @@ class _DateTimeRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('start_time'.tr(),
-                      style: AppTextStyles.labelSmall),
+                      style: context.typography.labelSmall),
                   SizedBox(height: 2.h),
                   Text(
                     DateTimeHelper.formatDate(from, isArabic: isArabic),
-                    style: AppTextStyles.bodySmall
+                    style: context.typography.bodySmall
                         .copyWith(color: AppColor.gray700),
                   ),
                 ],
@@ -257,11 +257,11 @@ class _DateTimeRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text('end_time'.tr(),
-                      style: AppTextStyles.labelSmall),
+                      style: context.typography.labelSmall),
                   SizedBox(height: 2.h),
                   Text(
                     DateTimeHelper.formatDate(to, isArabic: isArabic),
-                    style: AppTextStyles.bodySmall
+                    style: context.typography.bodySmall
                         .copyWith(color: AppColor.gray700),
                   ),
                 ],
@@ -280,7 +280,7 @@ class _DateTimeRow extends StatelessWidget {
               DateTimeHelper.formatTimeOnly(attendanceTime,
                   isArabic: isArabic),
               style:
-                  AppTextStyles.labelSmall.copyWith(color: AppColor.gray600),
+                  context.typography.labelSmall.copyWith(color: AppColor.gray600),
             ),
             const Spacer(),
             const Icon(Icons.access_time,
@@ -289,7 +289,7 @@ class _DateTimeRow extends StatelessWidget {
             Text(
               DateTimeHelper.formatTimeOnly(leaveTime, isArabic: isArabic),
               style:
-                  AppTextStyles.labelSmall.copyWith(color: AppColor.gray600),
+                  context.typography.labelSmall.copyWith(color: AppColor.gray600),
             ),
           ],
         ),

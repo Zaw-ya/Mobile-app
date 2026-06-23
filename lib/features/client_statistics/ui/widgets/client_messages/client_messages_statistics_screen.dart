@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,8 +30,8 @@ class ClientMessagesStatisticsScreen extends StatelessWidget {
           return current.when(
             initial: () => const SizedBox.shrink(),
             emptyInput: () =>
-                _buildCenteredMessage('no_available_events'.tr()),
-            error: (error) => _buildCenteredMessage(error),
+                _buildCenteredMessage(context, 'no_available_events'.tr()),
+            error: (error) => _buildCenteredMessage(context, error),
             loading: () =>
                 Center(child: Loader(color: AppColor.primaryDark)),
             successFetchData: (success) {
@@ -88,11 +88,11 @@ class ClientMessagesStatisticsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCenteredMessage(String message) {
+  Widget _buildCenteredMessage(BuildContext context, String message) {
     return Center(
       child: Text(
         message,
-        style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray500),
+        style: context.typography.bodyMedium.copyWith(color: AppColor.gray500),
         textAlign: TextAlign.center,
       ),
     );

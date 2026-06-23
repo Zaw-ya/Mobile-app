@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../client_statistics/data/models/guest_type_list.dart';
 import '../../../client_statistics/data/models/sent_cards_services_response.dart';
@@ -105,7 +105,7 @@ class SentCardsStatisticsTab extends StatelessWidget {
         SizedBox(height: edge),
         Text(
           'statistics_details'.tr(),
-          style: AppTextStyles.titleSmall.copyWith(color: AppColor.gray700),
+          style: context.typography.titleSmall.copyWith(color: AppColor.gray700),
         ),
         SizedBox(height: edge * 0.6),
         StatCardsGrid(items: cards, total: _total),

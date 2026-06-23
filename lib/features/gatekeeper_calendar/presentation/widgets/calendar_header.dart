@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,11 +16,11 @@ class CalendarHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('calendar'.tr(), style: AppTextStyles.headlineLarge),
+          Text('calendar'.tr(), style: context.typography.headlineLarge),
           const SizedBox(height: 2),
           Text(
             'calendar_hint'.tr(),
-            style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray500),
+            style: context.typography.bodySmall.copyWith(color: AppColor.gray500),
           ),
         ],
       ),

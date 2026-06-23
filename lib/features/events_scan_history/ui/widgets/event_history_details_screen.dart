@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/widgets/custom_button.dart';
 import 'package:camera/camera.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -236,7 +236,7 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
                         padding: EdgeInsets.symmetric(horizontal: edge),
                         child: Text(
                           'no_event_details_yet'.tr(),
-                          style: AppTextStyles.bodyMedium
+                          style: context.typography.bodyMedium
                               .copyWith(color: AppColor.gray500),
                           textAlign: TextAlign.center,
                         ),
@@ -423,7 +423,7 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
     return Center(
       child: Text(
         message,
-        style: AppTextStyles.bodyMedium
+        style: context.typography.bodyMedium
             .copyWith(color: AppColor.primaryLight),
         textAlign: TextAlign.center,
       ),

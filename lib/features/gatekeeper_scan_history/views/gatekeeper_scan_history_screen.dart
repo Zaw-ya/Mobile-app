@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/dimensions/dimensions_constants.dart';
-import '../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../core/theming/colors.dart';
 import '../../../core/widgets/loader.dart';
 import '../../../core/widgets/public_app_bar.dart';
@@ -121,7 +121,7 @@ class _GatekeeperScanHistoryScreenState
         padding: EdgeInsets.all(edge),
         child: Text(
           message,
-          style: AppTextStyles.bodyMedium
+          style: context.typography.bodyMedium
               .copyWith(color: AppColor.primaryLight),
           textAlign: TextAlign.center,
         ),

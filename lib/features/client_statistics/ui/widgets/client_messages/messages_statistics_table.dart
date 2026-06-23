@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -14,13 +14,13 @@ class MessagesStatisticsTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildTableHeader(),
-        ..._buildTableRows(),
+        _buildTableHeader(context),
+        ..._buildTableRows(context),
       ],
     );
   }
 
-  Widget _buildTableHeader() {
+  Widget _buildTableHeader(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
         color: AppColor.primaryDark,
@@ -32,25 +32,25 @@ class MessagesStatisticsTable extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       child: Row(
         children: [
-          _buildHeaderCell('type'.tr()),
-          _buildHeaderCell('number'.tr()),
+          _buildHeaderCell(context, 'type'.tr()),
+          _buildHeaderCell(context, 'number'.tr()),
         ],
       ),
     );
   }
 
-  Expanded _buildHeaderCell(String text) {
+  Expanded _buildHeaderCell(BuildContext context, String text) {
     return Expanded(
       child: Text(
         text,
-        style: AppTextStyles.labelMedium
+        style: context.typography.labelMedium
             .copyWith(color: AppColor.primaryLight),
         textAlign: TextAlign.center,
       ),
     );
   }
 
-  List<Widget> _buildTableRows() {
+  List<Widget> _buildTableRows(BuildContext context) {
     final rows = [
       {'label': 'read_number'.tr(), 'value': details.readNumber},
       {'label': 'delivered_number'.tr(), 'value': details.deliverdNumber},
@@ -60,11 +60,11 @@ class MessagesStatisticsTable extends StatelessWidget {
     ];
     return rows
         .map((row) =>
-            _buildTableRow(row['label'] as String, row['value'] as int?))
+            _buildTableRow(context, row['label'] as String, row['value'] as int?))
         .toList();
   }
 
-  Widget _buildTableRow(String label, int? value) {
+  Widget _buildTableRow(BuildContext context, String label, int? value) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       decoration: const BoxDecoration(
@@ -77,14 +77,14 @@ class MessagesStatisticsTable extends StatelessWidget {
             child: Text(
               label,
               style:
-                  AppTextStyles.bodySmall.copyWith(color: AppColor.gray700),
+                  context.typography.bodySmall.copyWith(color: AppColor.gray700),
               textAlign: TextAlign.center,
             ),
           ),
           Expanded(
             child: Text(
               value?.toString() ?? '0',
-              style: AppTextStyles.numericMedium
+              style: context.typography.numericMedium
                   .copyWith(color: AppColor.primaryDark),
               textAlign: TextAlign.center,
             ),

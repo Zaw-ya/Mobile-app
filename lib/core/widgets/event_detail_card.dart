@@ -1,6 +1,6 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:app/core/helpers/date_time_helper.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -48,7 +48,7 @@ class EventDetailCard extends StatelessWidget {
                 horizontal: edge * 0.8, vertical: edge * 0.6),
             child: Text(
               event.eventTitle ?? '',
-              style: AppTextStyles.headlineSmall,
+              style: context.typography.headlineSmall,
             ),
           ),
 
@@ -88,11 +88,11 @@ class EventDetailCard extends StatelessWidget {
                                   event.parentTitle!.isNotEmpty)
                                 Text(
                                   event.parentTitle!,
-                                  style: AppTextStyles.titleSmall,
+                                  style: context.typography.titleSmall,
                                 ),
                               Text(
                                 event.eventVenue!,
-                                style: AppTextStyles.bodySmall
+                                style: context.typography.bodySmall
                                     .copyWith(color: AppColor.gray600),
                               ),
                             ],
@@ -106,7 +106,7 @@ class EventDetailCard extends StatelessWidget {
                   // ── From / To dashed line ─────────────────────────────────
                   Row(
                     children: [
-                      Text('from'.tr(), style: AppTextStyles.labelSmall),
+                      Text('from'.tr(), style: context.typography.labelSmall),
                       SizedBox(width: edge * 0.3),
                       Container(
                         width: 6,
@@ -132,7 +132,7 @@ class EventDetailCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: edge * 0.3),
-                      Text('to'.tr(), style: AppTextStyles.labelSmall),
+                      Text('to'.tr(), style: context.typography.labelSmall),
                     ],
                   ),
                   SizedBox(height: edge * 0.5),
@@ -144,13 +144,13 @@ class EventDetailCard extends StatelessWidget {
                       Text(
                         DateTimeHelper.formatDate(event.eventFrom,
                             isArabic: isArabic),
-                        style: AppTextStyles.bodySmall
+                        style: context.typography.bodySmall
                             .copyWith(color: AppColor.gray700),
                       ),
                       Text(
                         DateTimeHelper.formatDate(event.eventTo,
                             isArabic: isArabic),
-                        style: AppTextStyles.bodySmall
+                        style: context.typography.bodySmall
                             .copyWith(color: AppColor.gray700),
                       ),
                     ],
@@ -164,12 +164,12 @@ class EventDetailCard extends StatelessWidget {
                       Text(
                         DateTimeHelper.formatTime(event.eventFrom,
                             isArabic: isArabic),
-                        style: AppTextStyles.numericMedium,
+                        style: context.typography.numericMedium,
                       ),
                       Text(
                         DateTimeHelper.formatTime(event.eventTo,
                             isArabic: isArabic),
-                        style: AppTextStyles.numericMedium,
+                        style: context.typography.numericMedium,
                       ),
                     ],
                   ),

@@ -1,10 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import '../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
-import '../../../../generated/assets.gen.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
@@ -31,13 +29,13 @@ class ProfileHeader extends StatelessWidget {
             children: [
               Text(
                 'welcome'.tr(),
-                style: AppTextStyles.bodyMedium.copyWith(
+                style: context.typography.bodyMedium.copyWith(
                   color: AppColor.primaryLight.withValues(alpha: 0.7),
                 ),
               ),
               Text(
                 '$firstName $lastName',
-                style: AppTextStyles.headlineLarge.copyWith(
+                style: context.typography.headlineLarge.copyWith(
                   color: AppColor.primaryLight,
                 ),
               ),

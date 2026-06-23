@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 
 import '../../../../core/helpers/extensions.dart';
-import '../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 
 class RateAppBottomSheet extends StatefulWidget {
@@ -84,7 +84,7 @@ class _RateAppBottomSheetState extends State<RateAppBottomSheet> {
                     SizedBox(width: edge * 0.6),
                     Text(
                       'rate_app'.tr(),
-                      style: AppTextStyles.titleLarge
+                      style: context.typography.titleLarge
                           .copyWith(color: AppColor.primaryDark),
                     ),
                   ],
@@ -92,7 +92,7 @@ class _RateAppBottomSheetState extends State<RateAppBottomSheet> {
                 SizedBox(height: edge * 0.9),
                 Text(
                   'rate_app_hint'.tr(),
-                  style: AppTextStyles.bodyMedium
+                  style: context.typography.bodyMedium
                       .copyWith(color: AppColor.gray600),
                 ),
                 SizedBox(height: edge * 1.5),

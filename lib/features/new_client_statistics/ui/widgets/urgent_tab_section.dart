@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../client_statistics/data/models/client_messages_statistics_response.dart';
 import 'normal_message_section.dart';
 
@@ -38,7 +38,7 @@ class _UrgentTabSectionState extends State<UrgentTabSection> {
       children: [
         Text(
           'urgent_messages'.tr(),
-          style: AppTextStyles.titleLarge,
+          style: context.typography.titleLarge,
         ),
         SizedBox(height: edge * 0.6),
         Row(

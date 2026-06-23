@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/empty_widget.dart';
@@ -131,24 +131,27 @@ class _ClientStatisticsDetailScreenState
                             label: 'messages_statistics'.tr(),
                             isSelected: _selectedTab == 0,
                             onTap: () => _switchTab(0),
-                            image: Image.asset(Assets.imagesMessages,
-                                fit: BoxFit.contain),
+                            image: _TabIcon(
+                              icon: Icons.mark_chat_read_sharp,
+                            ),
                           ),
                           SizedBox(width: edge * 0.4),
                           ClientStatisticsTabButton(
                             label: 'invitations_statistics'.tr(),
                             isSelected: _selectedTab == 1,
                             onTap: () => _switchTab(1),
-                            image: Image.asset(Assets.imagesInviteStatistics,
-                                fit: BoxFit.contain),
+                            image: _TabIcon(
+                              icon: Icons.card_giftcard_sharp,
+                            ),
                           ),
                           SizedBox(width: edge * 0.4),
                           ClientStatisticsTabButton(
                             label: 'confirmations_statistics'.tr(),
                             isSelected: _selectedTab == 2,
                             onTap: () => _switchTab(2),
-                            image: Image.asset(Assets.imagesAcceptStatistics,
-                                fit: BoxFit.contain),
+                            image: _TabIcon(
+                              icon: Icons.message,
+                            ),
                           ),
                         ],
                       ),
@@ -177,7 +180,7 @@ class _ClientStatisticsDetailScreenState
       return Center(
         child: Text(
           _tabError!,
-          style: AppTextStyles.bodyMedium.copyWith(color: AppColor.semanticError),
+          style: context.typography.bodyMedium.copyWith(color: AppColor.semanticError),
           textAlign: TextAlign.center,
         ),
       );
@@ -214,5 +217,29 @@ class _ClientStatisticsDetailScreenState
       default:
         return false;
     }
+  }
+}
+
+class _TabIcon extends StatelessWidget {
+  const _TabIcon({required this.icon});
+
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColor.primaryDark,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.18),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Icon(icon, size: 22, color: AppColor.primaryLight),
+    );
   }
 }

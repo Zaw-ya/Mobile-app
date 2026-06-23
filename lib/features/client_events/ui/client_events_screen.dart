@@ -1,6 +1,6 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:app/core/routing/routes.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../core/dimensions/dimensions_constants.dart';
 import '../../../core/widgets/loader.dart';
 import 'widgets/client_event_item.dart';
@@ -181,7 +181,7 @@ class _ClientEventsScreenState extends State<ClientEventsScreen> {
         ),
         child: Text(
           text,
-          style: AppTextStyles.titleSmall.copyWith(
+          style: context.typography.titleSmall.copyWith(
             color: isDestructive
                 ? AppColor.semanticError
                 : AppColor.primaryDark,
@@ -195,7 +195,7 @@ class _ClientEventsScreenState extends State<ClientEventsScreen> {
     return Center(
       child: Text(
         message,
-        style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray500),
+        style: context.typography.bodyMedium.copyWith(color: AppColor.gray500),
         textAlign: TextAlign.center,
       ),
     );

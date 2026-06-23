@@ -1,6 +1,6 @@
 import 'package:app/core/helpers/app_utilities.dart';
 import 'package:app/core/helpers/extensions.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/custom_button.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -60,11 +60,11 @@ class _SettingsScreenState extends State<SettingsScreen>
         backgroundColor: AppColor.primaryLight,
         title: Text(
           'logout_confirmation_title'.tr(),
-          style: AppTextStyles.titleMedium.copyWith(color: AppColor.primaryDark),
+          style: context.typography.titleMedium.copyWith(color: AppColor.primaryDark),
         ),
         content: Text(
           'logout_confirmation_message'.tr(),
-          style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray700),
+          style: context.typography.bodyMedium.copyWith(color: AppColor.gray700),
         ),
         actions: [
           CustomButton.normal(
@@ -121,7 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen>
   Widget _buildHeader() {
     return Text(
       'settings'.tr(),
-      style: AppTextStyles.titleLarge.copyWith(color: AppColor.primaryLight),
+      style: context.typography.titleLarge.copyWith(color: AppColor.primaryLight),
     );
   }
 
@@ -150,7 +150,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                 opacity: _fadeAnimation,
                 child: Text(
                   'changeLanguage'.tr(),
-                  style: AppTextStyles.bodyMedium
+                  style: context.typography.bodyMedium
                       .copyWith(color: AppColor.primaryLight),
                 ),
               ),
@@ -158,7 +158,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                 opacity: _fadeAnimation,
                 child: Text(
                   context.locale.languageCode == 'en' ? 'AR' : 'En',
-                  style: AppTextStyles.titleSmall
+                  style: context.typography.titleSmall
                       .copyWith(color: AppColor.primaryLight),
                 ),
               ),
@@ -183,7 +183,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                   opacity: _fadeAnimation,
                   child: Text(
                     'logout'.tr(),
-                    style: AppTextStyles.bodyMedium
+                    style: context.typography.bodyMedium
                         .copyWith(color: AppColor.semanticError),
                   ),
                 ),

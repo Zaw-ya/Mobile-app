@@ -1,5 +1,5 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,7 @@ class EventInstructionsScreen extends StatelessWidget {
             // Heading
             Text(
               'event_instructions_heading'.tr(),
-              style: AppTextStyles.headlineSmall
+              style: context.typography.headlineSmall
                   .copyWith(color: AppColor.primaryDark),
               textAlign: TextAlign.center,
             ),
@@ -37,32 +37,32 @@ class EventInstructionsScreen extends StatelessWidget {
             // Intro paragraph
             Text(
               'event_instructions_para1'.tr(),
-              style: AppTextStyles.bodyMedium
+              style: context.typography.bodyMedium
                   .copyWith(color: AppColor.gray700),
               textAlign: TextAlign.start,
             ),
             SizedBox(height: edge),
 
             // Numbered steps
-            ..._buildSteps(),
+            ..._buildSteps(context),
 
             // Notes section
             Text(
               'event_instructions_notes'.tr(),
-              style: AppTextStyles.titleMedium
+              style: context.typography.titleMedium
                   .copyWith(color: AppColor.primaryDark),
               textAlign: TextAlign.start,
             ),
             SizedBox(height: edge),
-            _buildBullet('•', 'event_instructions_note1'.tr()),
+            _buildBullet(context, '•', 'event_instructions_note1'.tr()),
             const SizedBox(height: 12),
-            _buildBullet('•', 'event_instructions_note2'.tr()),
+            _buildBullet(context, '•', 'event_instructions_note2'.tr()),
             SizedBox(height: edge),
 
             // Closing text
             Text(
               'event_instructions_end'.tr(),
-              style: AppTextStyles.titleSmall
+              style: context.typography.titleSmall
                   .copyWith(color: AppColor.primaryDark),
               textAlign: TextAlign.start,
             ),
@@ -72,12 +72,13 @@ class EventInstructionsScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildSteps() {
+  List<Widget> _buildSteps(BuildContext context) {
     const stepCount = 6;
     return List<Widget>.generate(stepCount, (index) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 6),
         child: _buildBullet(
+          context,
           '${index + 1}.',
           'event_instructions_step_${index + 1}'.tr(),
         ),
@@ -85,7 +86,7 @@ class EventInstructionsScreen extends StatelessWidget {
     });
   }
 
-  Widget _buildBullet(String marker, String text) {
+  Widget _buildBullet(BuildContext context, String marker, String text) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -93,7 +94,7 @@ class EventInstructionsScreen extends StatelessWidget {
           width: 24,
           child: Text(
             marker,
-            style: AppTextStyles.bodyMedium
+            style: context.typography.bodyMedium
                 .copyWith(color: AppColor.primaryDark),
           ),
         ),
@@ -101,7 +102,7 @@ class EventInstructionsScreen extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: AppTextStyles.bodyMedium
+            style: context.typography.bodyMedium
                 .copyWith(color: AppColor.gray700),
             textAlign: TextAlign.start,
           ),

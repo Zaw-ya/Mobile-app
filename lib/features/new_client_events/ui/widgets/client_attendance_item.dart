@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -31,14 +31,14 @@ class ClientAttendanceItem extends StatelessWidget {
               Expanded(
                 child: Text(
                   item.guestName ?? "",
-                  style: AppTextStyles.titleSmall
+                  style: context.typography.titleSmall
                       .copyWith(color: AppColor.primaryDark),
                   textAlign: TextAlign.start,
                 ),
               ),
               Text(
                 "ticket".tr(args: [(item.noOfMembers ?? 0).toString()]),
-                style: AppTextStyles.bodySmall
+                style: context.typography.bodySmall
                     .copyWith(color: AppColor.gray500),
               ),
             ],
@@ -51,7 +51,7 @@ class ClientAttendanceItem extends StatelessWidget {
                   "attended": (item.scanned ?? 0).toString(),
                   "total": (item.noOfMembers ?? 0).toString(),
                 }),
-                style: AppTextStyles.bodySmall
+                style: context.typography.bodySmall
                     .copyWith(color: AppColor.gray500),
               ),
             ],

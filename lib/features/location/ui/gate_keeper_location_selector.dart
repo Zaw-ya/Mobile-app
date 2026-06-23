@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../core/theming/colors.dart';
 import '../data/models/city_response.dart';
 import '../data/models/country_response.dart';
@@ -173,7 +173,7 @@ class GatekeeperLocationSelector extends StatelessWidget {
         dropdownColor: Colors.white,
         hint: Text(
           hintText.tr(),
-          style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray400),
+          style: context.typography.bodySmall.copyWith(color: AppColor.gray400),
         ),
         isExpanded: true,
         value: selectedValue,
@@ -192,7 +192,7 @@ class GatekeeperLocationSelector extends StatelessWidget {
             value: null,
             child: Text(
               hintText.tr(),
-              style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray400),
+              style: context.typography.bodySmall.copyWith(color: AppColor.gray400),
             ),
           ),
           ...items.map((item) {
@@ -203,7 +203,7 @@ class GatekeeperLocationSelector extends StatelessWidget {
               value: item,
               child: Text(
                 displayText,
-                style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray700),
+                style: context.typography.bodySmall.copyWith(color: AppColor.gray700),
               ),
             );
           }),

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../core/theming/colors.dart';
 import '../dimensions/dimensions_constants.dart';
 
@@ -83,7 +83,7 @@ class _LocaleDropdownState extends State<LocaleDropdown> {
                       const SizedBox(width: 6),
                       Text(
                         'English',
-                        style: AppTextStyles.bodyMedium
+                        style: context.typography.bodyMedium
                             .copyWith(color: AppColor.primaryDark),
                       ),
                     ],
@@ -112,7 +112,7 @@ class _LocaleDropdownState extends State<LocaleDropdown> {
                       const SizedBox(width: 6),
                       Text(
                         'عربي',
-                        style: AppTextStyles.bodyMedium
+                        style: context.typography.bodyMedium
                             .copyWith(color: AppColor.primaryDark),
                       ),
                     ],

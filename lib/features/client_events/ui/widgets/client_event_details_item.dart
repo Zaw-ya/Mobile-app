@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ class ClientEventDetailsItem extends StatelessWidget {
             padding: EdgeInsets.all(edge),
             child: Text(
               clientEventDetailsList.guestName ?? '',
-              style: AppTextStyles.headlineSmall,
+              style: context.typography.headlineSmall,
             ),
           ),
           Container(
@@ -74,12 +74,12 @@ class _StatCell extends StatelessWidget {
         Text(
           label,
           style:
-              AppTextStyles.labelSmall.copyWith(color: AppColor.primaryLight),
+              context.typography.labelSmall.copyWith(color: AppColor.primaryLight),
         ),
         const SizedBox(height: 2),
         Text(
           value,
-          style: AppTextStyles.numericMedium
+          style: context.typography.numericMedium
               .copyWith(color: AppColor.primaryLight),
         ),
       ],

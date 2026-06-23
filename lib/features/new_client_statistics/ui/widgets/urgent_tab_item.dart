@@ -1,5 +1,5 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,9 +32,9 @@ class UrgentTabItem extends StatelessWidget {
         child: Text(
           title,
           style: isSelected
-              ? AppTextStyles.labelMedium
+              ? context.typography.labelMedium
                   .copyWith(color: AppColor.primaryLight)
-              : AppTextStyles.labelMedium
+              : context.typography.labelMedium
                   .copyWith(color: AppColor.gray600),
         ),
       ),

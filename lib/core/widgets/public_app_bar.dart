@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import '../../generated/assets.gen.dart';
 import '../dimensions/dimensions_constants.dart';
 import '../helpers/extensions.dart';
-import '../theming/app_typography.dart';
 import '../theming/colors.dart';
+import '../theming/typography_theme.dart';
 
 AppBar recordsAppBar(BuildContext context, String title,
     {String? subtitle, Color? color}) {
@@ -27,12 +27,12 @@ AppBar recordsAppBar(BuildContext context, String title,
       children: [
         Text(
           title,
-          style: AppTextStyles.titleLarge.copyWith(color: AppColor.primaryLight),
+          style: context.typography.titleLarge.copyWith(color: AppColor.primaryLight),
         ),
         if (subtitle != null)
           Text(
             subtitle,
-            style: AppTextStyles.bodySmall.copyWith(color: AppColor.primaryLight),
+            style: context.typography.bodySmall.copyWith(color: AppColor.primaryLight),
           ),
       ],
     ),

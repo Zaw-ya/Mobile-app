@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:app/core/helpers/extensions.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/go_button.dart';
 import 'package:camera/camera.dart';
@@ -107,7 +107,7 @@ class _EventCheckDialogBoxState extends State<EventCheckDialogBox> {
         const SizedBox(height: 12),
         Text(
           'event_check'.tr(),
-          style: AppTextStyles.headlineSmall,
+          style: context.typography.headlineSmall,
           textAlign: TextAlign.center,
         ),
       ],
@@ -120,7 +120,7 @@ class _EventCheckDialogBoxState extends State<EventCheckDialogBox> {
         : 'event_check_in_hint'.tr();
     return Text(
       hintText,
-      style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray700),
+      style: context.typography.bodyMedium.copyWith(color: AppColor.gray700),
       textAlign: TextAlign.center,
     );
   }

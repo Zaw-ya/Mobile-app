@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class UpcomingEventsBadge extends StatelessWidget {
         children: [
           Text(
             'upcoming_events'.tr(),
-            style: AppTextStyles.titleLarge,
+            style: context.typography.titleLarge,
           ),
           SizedBox(width: 8.w),
           Container(
@@ -28,7 +28,7 @@ class UpcomingEventsBadge extends StatelessWidget {
             ),
             child: Text(
               '$eventsNumber',
-              style: AppTextStyles.labelSmall
+              style: context.typography.labelSmall
                   .copyWith(color: AppColor.primaryLight),
             ),
           ),

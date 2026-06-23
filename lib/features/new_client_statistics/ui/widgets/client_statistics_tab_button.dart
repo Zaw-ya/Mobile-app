@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -46,9 +46,9 @@ class ClientStatisticsTabButton extends StatelessWidget {
             child: Text(
               label,
               style: isSelected
-                  ? AppTextStyles.titleSmall
+                  ? context.typography.titleSmall
                       .copyWith(color: AppColor.primaryLight)
-                  : AppTextStyles.titleSmall
+                  : context.typography.titleSmall
                       .copyWith(color: AppColor.primaryDark),
             ),
           ),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/extensions.dart';
-import '../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/country_selection_bottom_sheet.dart';
 import '../../../../core/widgets/drag_handle.dart';
@@ -30,7 +30,7 @@ class CustomerServiceBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildItem({
+  Widget _buildItem(BuildContext context, {
     required String text,
     required VoidCallback onTap,
   }) {
@@ -52,7 +52,7 @@ class CustomerServiceBottomSheet extends StatelessWidget {
           children: [
             Text(
               text.tr(),
-              style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray700),
+              style: context.typography.bodyMedium.copyWith(color: AppColor.gray700),
             ),
             Icon(Icons.arrow_forward_ios,
                 color: AppColor.gray500, size: 16),
@@ -91,14 +91,14 @@ class CustomerServiceBottomSheet extends StatelessWidget {
             SizedBox(height: edge * 0.5),
             Text(
               'contact_customer_service'.tr(),
-              style: AppTextStyles.titleLarge
+              style: context.typography.titleLarge
                   .copyWith(color: AppColor.primaryDark),
             ),
-            _buildItem(
+            _buildItem(context,
               text: 'contact_by_phone',
               onTap: () => _launch(context),
             ),
-            _buildItem(
+            _buildItem(context,
               text: 'contact_by_whatsapp',
               onTap: () => _showCountrySheet(context, ContactMode.whatsapp),
             ),

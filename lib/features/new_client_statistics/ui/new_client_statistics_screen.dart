@@ -1,9 +1,8 @@
 import 'package:app/core/dimensions/dimensions_constants.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/empty_widget.dart';
-import 'package:app/generated/assets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +12,6 @@ import '../../../core/helpers/date_time_helper.dart';
 import '../../../core/helpers/extensions.dart';
 import '../../../core/routing/routes.dart';
 import '../../../core/widgets/client_header.dart';
-import '../../../core/widgets/main_card.dart';
 import '../../client_events/data/models/client_event_response.dart';
 import '../../client_statistics/logic/client_statistics_cubit.dart';
 import '../../client_statistics/logic/client_statistics_states.dart';
@@ -173,12 +171,12 @@ class _StatisticsEventCard extends StatelessWidget {
           children: [
             Text(
               event.eventTitle ?? '',
-              style: AppTextStyles.headlineSmall.copyWith(color: AppColor.primaryDark),
+              style: context.typography.headlineSmall.copyWith(color: AppColor.primaryDark),
             ),
             SizedBox(height: edge * 0.1),
             Text(
               DateTimeHelper.formatDateLabel(event.eventFrom, isArabic: isArabic),
-              style: AppTextStyles.bodySmall.copyWith(color: AppColor.primaryDark),
+              style: context.typography.bodySmall.copyWith(color: AppColor.primaryDark),
             ),
             SizedBox(height: edge),
             Row(
@@ -186,7 +184,7 @@ class _StatisticsEventCard extends StatelessWidget {
               children: [
                 Text(
                   'more_statistics'.tr(),
-                  style: AppTextStyles.bodySmall.copyWith(color: AppColor.primaryDark),
+                  style: context.typography.bodySmall.copyWith(color: AppColor.primaryDark),
                 ),
                 const Icon(Icons.arrow_forward_ios, color: AppColor.primaryDark, size: 16),
               ],
@@ -215,7 +213,7 @@ class _StatisticsErrorWidget extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: AppTextStyles.bodyMedium.copyWith(color: AppColor.semanticError),
+              style: context.typography.bodyMedium.copyWith(color: AppColor.semanticError),
             ),
             SizedBox(height: edge),
             ElevatedButton(

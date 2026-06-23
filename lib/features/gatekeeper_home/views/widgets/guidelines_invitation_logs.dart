@@ -1,6 +1,6 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:app/core/routing/routes.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +67,7 @@ class _QuickActionCard extends StatelessWidget {
             Image.asset(imagePath, height: 32.h, fit: BoxFit.contain),
             SizedBox(width: 8.w),
             Expanded(
-              child: Text(label, style: AppTextStyles.titleSmall),
+              child: Text(label, style: context.typography.titleSmall),
             ),
           ],
         ),

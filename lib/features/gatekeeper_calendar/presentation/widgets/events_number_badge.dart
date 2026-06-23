@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -20,12 +20,12 @@ class EventsNumberBadge extends StatelessWidget {
         children: [
           Text(
             'day_events'.tr(),
-            style: AppTextStyles.bodySmall.copyWith(color: AppColor.gray500),
+            style: context.typography.bodySmall.copyWith(color: AppColor.gray500),
           ),
           SizedBox(width: edge * 0.3),
           Text(
             dayName,
-            style: AppTextStyles.titleSmall,
+            style: context.typography.titleSmall,
           ),
           SizedBox(width: edge * 0.3),
           Container(
@@ -37,7 +37,7 @@ class EventsNumberBadge extends StatelessWidget {
             ),
             child: Text(
               '$eventsNumber',
-              style: AppTextStyles.labelSmall
+              style: context.typography.labelSmall
                   .copyWith(color: AppColor.primaryLight),
             ),
           ),

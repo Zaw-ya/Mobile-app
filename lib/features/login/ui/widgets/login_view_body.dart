@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,13 +73,13 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           // Screen heading
                           Text(
                             'login'.tr(),
-                            style: AppTextStyles.headlineLarge,
+                            style: context.typography.headlineLarge,
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: 6.h),
                           Text(
                             'login_dt'.tr(),
-                            style: AppTextStyles.bodyMedium.copyWith(
+                            style: context.typography.bodyMedium.copyWith(
                               color: AppColor.gray500,
                             ),
                             textAlign: TextAlign.center,
@@ -129,7 +129,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                                 child: Text(
                                   'or'.tr(),
-                                  style: AppTextStyles.labelMedium,
+                                  style: context.typography.labelMedium,
                                 ),
                               ),
                               const Expanded(
@@ -165,7 +165,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                                     SizedBox(width: 8.w),
                                     Text(
                                       'enable_biometric'.tr(),
-                                      style: AppTextStyles.labelLarge.copyWith(
+                                      style: context.typography.labelLarge.copyWith(
                                         color: AppColor.primaryDark,
                                       ),
                                     ),
@@ -251,7 +251,7 @@ class _LoginButton extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(
             label,
-            style: AppTextStyles.buttonLarge,
+            style: context.typography.buttonLarge,
           ),
         ),
       ),

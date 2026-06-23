@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/dimensions/dimensions_constants.dart';
 
@@ -13,7 +13,7 @@ class MessagesStatisticsHeader extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: edge, vertical: edge * 0.8),
       child: Text(
         title,
-        style: AppTextStyles.titleLarge,
+        style: context.typography.titleLarge,
       ),
     );
   }

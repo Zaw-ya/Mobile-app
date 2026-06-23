@@ -1,14 +1,11 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:app/core/routing/routes.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../../../../core/helpers/app_utilities.dart';
-import '../../../../generated/assets.gen.dart';
 import '../../data/models/dashboard_action.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -125,13 +122,13 @@ class _DashboardScreenState extends State<DashboardScreen>
                     children: [
                       Text(
                         'welcomeBack'.tr(),
-                        style: AppTextStyles.bodyMedium
+                        style: context.typography.bodyMedium
                             .copyWith(color: AppColor.gray500),
                       ),
                       SizedBox(height: 2.h),
                       Text(
                         '${userData.firstName} ${userData.lastName}',
-                        style: AppTextStyles.headlineLarge,
+                        style: context.typography.headlineLarge,
                       ),
                     ],
                   ),
@@ -154,7 +151,7 @@ class _DashboardScreenState extends State<DashboardScreen>
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Text(
                 'dashboard'.tr(),
-                style: AppTextStyles.titleMedium
+                style: context.typography.titleMedium
                     .copyWith(color: AppColor.gray500),
               ),
             ),
@@ -217,7 +214,7 @@ class _ActionCard extends StatelessWidget {
             SizedBox(height: 12.h),
             Text(
               action.text,
-              style: AppTextStyles.titleSmall,
+              style: context.typography.titleSmall,
               textAlign: TextAlign.center,
             ),
           ],

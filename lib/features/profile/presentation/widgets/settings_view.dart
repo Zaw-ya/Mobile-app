@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/public_app_bar.dart';
 import 'language_bottom_sheet.dart';
@@ -33,7 +33,7 @@ class SettingsView extends StatelessWidget {
             SizedBox(height: edge * 0.5),
             Text(
               'app_settings'.tr(),
-              style: AppTextStyles.titleMedium.copyWith(color: AppColor.gray700),
+              style: context.typography.titleMedium.copyWith(color: AppColor.gray700),
             ),
             SizedBox(height: edge * 0.5),
             GestureDetector(
@@ -68,7 +68,7 @@ class SettingsView extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'language'.tr(),
-                        style: AppTextStyles.bodyMedium
+                        style: context.typography.bodyMedium
                             .copyWith(color: AppColor.gray700),
                       ),
                     ),
@@ -76,7 +76,7 @@ class SettingsView extends StatelessWidget {
                       Localizations.localeOf(context).languageCode == 'ar'
                           ? 'arabic'.tr()
                           : 'english'.tr(),
-                      style: AppTextStyles.titleSmall
+                      style: context.typography.titleSmall
                           .copyWith(color: AppColor.primaryDark),
                     ),
                   ],

@@ -6,7 +6,6 @@ import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/empty_widget.dart';
 import 'package:app/core/widgets/loader.dart';
 import 'package:app/features/notifications/logic/notifications_cubit.dart';
-import 'package:app/generated/assets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +13,6 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../../core/helpers/app_utilities.dart';
 import '../../../core/widgets/client_header.dart';
-import '../../../core/widgets/main_card.dart';
 import '../../client_events/data/models/client_event_response.dart';
 import '../../client_events/logic/client_events_cubit.dart';
 import '../../client_events/logic/client_events_states.dart';

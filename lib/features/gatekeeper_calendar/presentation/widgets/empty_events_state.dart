@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class EmptyEventsState extends StatelessWidget {
           SizedBox(height: edge),
           Text(
             'no_available_events'.tr(),
-            style: AppTextStyles.bodyMedium
+            style: context.typography.bodyMedium
                 .copyWith(color: AppColor.gray400),
             textAlign: TextAlign.center,
           ),

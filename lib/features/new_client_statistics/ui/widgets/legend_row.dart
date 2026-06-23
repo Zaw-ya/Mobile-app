@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -31,13 +31,13 @@ class LegendRow extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: AppTextStyles.labelSmall
+              style: context.typography.labelSmall
                   .copyWith(color: AppColor.gray600),
             ),
           ),
           Text(
             value.toString(),
-            style: AppTextStyles.numericMedium
+            style: context.typography.numericMedium
                 .copyWith(color: AppColor.primaryDark, fontSize: 13),
           ),
         ],

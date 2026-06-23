@@ -1,6 +1,6 @@
 import 'package:app/core/helpers/extensions.dart';
 import 'package:app/core/routing/routes.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -63,7 +63,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
               // Welcome title — Arabic ManchetteFine
               Text(
                 'welcome_title'.tr(),
-                style: AppTextStyles.displaySmall.copyWith(
+                style: context.typography.displaySmall.copyWith(
                   color: AppColor.primaryDark,
                 ),
                 textAlign: TextAlign.center,
@@ -74,7 +74,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
               // Subtitle — muted cream
               Text(
                 'welcome_subtitle'.tr(),
-                style: AppTextStyles.bodyMedium.copyWith(
+                style: context.typography.bodyMedium.copyWith(
                   color: kDarkSurface.withValues(alpha: 0.7),
                 ),
                 textAlign: TextAlign.center,
@@ -137,7 +137,7 @@ class _OnboardingButton extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(
             label,
-            style: AppTextStyles.buttonLarge.copyWith(
+            style: context.typography.buttonLarge.copyWith(
               color: isPrimary ? Colors.white : AppColor.primaryDark,
             ),
           ),

@@ -1,5 +1,5 @@
 import 'package:app/core/helpers/extensions.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +76,7 @@ class ClientMessageItem extends StatelessWidget {
                 Expanded(
                   child: Text(
                     "${item.firstName ?? ""} ${item.lastName ?? ""}".trim(),
-                    style: AppTextStyles.titleSmall
+                    style: context.typography.titleSmall
                         .copyWith(color: AppColor.primaryDark),
                     textAlign: TextAlign.start,
                   ),
@@ -94,7 +94,7 @@ class ClientMessageItem extends StatelessWidget {
                     ),
                     child: Text(
                       responseStatus,
-                      style: AppTextStyles.labelSmall
+                      style: context.typography.labelSmall
                           .copyWith(color: _badgeTextColor()),
                       textAlign: TextAlign.center,
                     ),
@@ -108,12 +108,12 @@ class ClientMessageItem extends StatelessWidget {
               children: [
                 Text(
                   phone,
-                  style: AppTextStyles.bodySmall
+                  style: context.typography.bodySmall
                       .copyWith(color: AppColor.gray500),
                 ),
                 Text(
                   "see_messages".tr(),
-                  style: AppTextStyles.bodySmall.copyWith(
+                  style: context.typography.bodySmall.copyWith(
                     color: AppColor.primaryDark,
                     decoration: TextDecoration.underline,
                   ),

@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -42,13 +42,13 @@ class ScanDetailsHeader extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildCodeAndTitle(),
+                    _buildCodeAndTitle(context),
                     SizedBox(height: edge * 0.5),
                     _buildLocation(context),
                   ],
                 ),
               ),
-              _buildStatisticsFooter(),
+              _buildStatisticsFooter(context),
             ],
           ),
         ),
@@ -84,19 +84,19 @@ class ScanDetailsHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildCodeAndTitle() {
+  Widget _buildCodeAndTitle(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: Text(
             event?.eventTitle ?? '',
-            style: AppTextStyles.headlineSmall,
+            style: context.typography.headlineSmall,
           ),
         ),
         Text(
           event?.eventCode ?? '',
-          style: AppTextStyles.labelMedium.copyWith(color: AppColor.gray500),
+          style: context.typography.labelMedium.copyWith(color: AppColor.gray500),
         ),
       ],
     );
@@ -129,12 +129,12 @@ class ScanDetailsHeader extends StatelessWidget {
             children: [
               Text(
                 event?.eventVenue ?? '',
-                style: AppTextStyles.titleSmall,
+                style: context.typography.titleSmall,
               ),
               if ((event?.eventlocation ?? '').isNotEmpty)
                 Text(
                   event!.eventlocation!,
-                  style: AppTextStyles.bodySmall
+                  style: context.typography.bodySmall
                       .copyWith(color: AppColor.gray500),
                 ),
             ],
@@ -144,7 +144,7 @@ class ScanDetailsHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildStatisticsFooter() {
+  Widget _buildStatisticsFooter(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(edge),
       decoration: const BoxDecoration(
@@ -162,12 +162,12 @@ class ScanDetailsHeader extends StatelessWidget {
             children: [
               Text(
                 event?.contactName ?? '',
-                style: AppTextStyles.labelSmall
+                style: context.typography.labelSmall
                     .copyWith(color: AppColor.primaryLight),
               ),
               Text(
                 event?.contactPhone ?? '',
-                style: AppTextStyles.numericMedium.copyWith(
+                style: context.typography.numericMedium.copyWith(
                     color: AppColor.primaryLight,
                     fontSize: 18.sp),
               ),
@@ -178,12 +178,12 @@ class ScanDetailsHeader extends StatelessWidget {
             children: [
               Text(
                 'attendees_count'.tr(),
-                style: AppTextStyles.labelSmall
+                style: context.typography.labelSmall
                     .copyWith(color: AppColor.primaryLight),
               ),
               Text(
                 (event?.totalAllocated ?? 0).toString(),
-                style: AppTextStyles.numericMedium.copyWith(
+                style: context.typography.numericMedium.copyWith(
                     color: AppColor.primaryLight,
                     fontSize: 22.sp),
               ),
@@ -244,9 +244,9 @@ class _TabChip extends StatelessWidget {
         child: Text(
           label,
           style: isSelected
-              ? AppTextStyles.titleSmall
+              ? context.typography.titleSmall
                   .copyWith(color: AppColor.primaryLight)
-              : AppTextStyles.titleSmall
+              : context.typography.titleSmall
                   .copyWith(color: AppColor.gray400),
         ),
       ),

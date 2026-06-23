@@ -7,7 +7,7 @@ import 'package:app/core/helpers/extensions.dart';
 
 import '../../../core/dimensions/dimensions_constants.dart';
 import '../../../core/services/audio_service.dart';
-import '../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../core/theming/colors.dart';
 import '../../../core/widgets/loader.dart';
 import '../../../core/widgets/public_app_bar.dart';
@@ -199,7 +199,7 @@ class _QrCodeScannerScreenState extends State<QrCodeScannerScreen> {
               const SizedBox(height: 12),
               Text(
                 title,
-                style: AppTextStyles.titleLarge
+                style: context.typography.titleLarge
                     .copyWith(color: AppColor.primaryDark),
                 textAlign: TextAlign.center,
               ),
@@ -207,7 +207,7 @@ class _QrCodeScannerScreenState extends State<QrCodeScannerScreen> {
           ),
           content: Text(
             message,
-            style: AppTextStyles.bodyMedium.copyWith(color: AppColor.gray700),
+            style: context.typography.bodyMedium.copyWith(color: AppColor.gray700),
             textAlign: TextAlign.center,
           ),
           actions: [
@@ -238,7 +238,7 @@ class _QrCodeScannerScreenState extends State<QrCodeScannerScreen> {
                 },
                 child: Text(
                   'continue'.tr(),
-                  style: AppTextStyles.labelLarge
+                  style: context.typography.labelLarge
                       .copyWith(color: AppColor.primaryLight),
                 ),
               ),

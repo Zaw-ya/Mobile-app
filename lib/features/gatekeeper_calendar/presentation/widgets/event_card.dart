@@ -1,4 +1,4 @@
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/features/gatekeeper_calendar/presentation/widgets/reserve_event_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -63,12 +63,12 @@ class EventCard extends StatelessWidget {
           children: [
             Text(
               event.eventTitle ?? '',
-              style: AppTextStyles.headlineSmall,
+              style: context.typography.headlineSmall,
             ),
             SizedBox(height: edge * 0.2),
             Text(
               dateLabel,
-              style: AppTextStyles.bodySmall
+              style: context.typography.bodySmall
                   .copyWith(color: AppColor.gray600),
             ),
             if (event.eventVenue != null &&
@@ -102,11 +102,11 @@ class EventCard extends StatelessWidget {
                             event.parentTitle!.isNotEmpty)
                           Text(
                             event.parentTitle!,
-                            style: AppTextStyles.titleSmall,
+                            style: context.typography.titleSmall,
                           ),
                         Text(
                           event.eventVenue!,
-                          style: AppTextStyles.bodySmall
+                          style: context.typography.bodySmall
                               .copyWith(color: AppColor.gray500),
                         ),
                       ],

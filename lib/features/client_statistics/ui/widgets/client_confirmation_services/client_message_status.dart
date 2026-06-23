@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/drag_handle.dart';
@@ -194,7 +194,7 @@ class _ClientMessageStatusState extends State<ClientMessageStatus> {
                                     onPressed: _clearSearch,
                                     child: Text(
                                       'clear'.tr(),
-                                      style: AppTextStyles.labelMedium
+                                      style: context.typography.labelMedium
                                           .copyWith(
                                               color: AppColor.primaryLight),
                                     ),
@@ -229,7 +229,7 @@ class _ClientMessageStatusState extends State<ClientMessageStatus> {
       emptyInput: () => const EmptyWidget(),
       error: (msg) => Center(
           child: Text(msg,
-              style: AppTextStyles.bodyMedium
+              style: context.typography.bodyMedium
                   .copyWith(color: AppColor.semanticError))),
       success: (response, isLoadingMore) {
         final items = response.clientMessagesDetailsList ?? [];
@@ -290,13 +290,13 @@ class _SummaryCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: AppTextStyles.titleSmall
+                  style: context.typography.titleSmall
                       .copyWith(color: AppColor.primaryLight),
                 ),
                 SizedBox(height: edge * 0.2),
                 Text(
                   'guests_count'.tr(args: [count.toString()]),
-                  style: AppTextStyles.bodySmall.copyWith(
+                  style: context.typography.bodySmall.copyWith(
                       color: AppColor.primaryLight.withValues(alpha: 0.7)),
                 ),
               ],

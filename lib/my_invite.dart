@@ -1,6 +1,7 @@
 import 'package:app/core/di/dependency_injection.dart';
 import 'package:app/core/helpers/extensions.dart';
 import 'package:app/core/services/firebase_messaging_handler.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/features/notifications/logic/notifications_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,18 @@ class _MyInviteState extends State<MyInvite> {
                 locale: context.locale,
                 navigatorKey: NavigationService.navigatorKey,
                 builder: (context, widget) {
-                  return NetworkAwareBuilder(myChild: widget!);
+                  final isArabic =
+                      Localizations.localeOf(context).languageCode == 'ar';
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      extensions: [
+                        isArabic
+                            ? AppTypography.arabic()
+                            : AppTypography.latin(),
+                      ],
+                    ),
+                    child: NetworkAwareBuilder(myChild: widget!),
+                  );
                 },
               ),
           ),        

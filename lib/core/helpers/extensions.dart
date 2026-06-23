@@ -1,5 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:app/core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import 'package:app/core/theming/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +110,7 @@ extension Navigation on BuildContext {
           Expanded(
             child: Text(
               msg,
-              style: AppTextStyles.bodySmall
+              style: typography.bodySmall
                   .copyWith(color: AppColor.primaryLight),
               textAlign: TextAlign.start,
             ),
@@ -147,7 +147,7 @@ extension Navigation on BuildContext {
           Expanded(
             child: Text(
               message,
-              style: AppTextStyles.bodySmall
+              style: typography.bodySmall
                   .copyWith(color: AppColor.primaryLight),
               textAlign: TextAlign.start,
             ),

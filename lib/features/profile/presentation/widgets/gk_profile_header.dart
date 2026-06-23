@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
-import '../../../../core/theming/app_typography.dart';
+import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 
 class GkProfileHeader extends StatelessWidget {
@@ -35,13 +35,13 @@ class GkProfileHeader extends StatelessWidget {
             children: [
               Text(
                 'gk_profile'.tr(),
-                style: AppTextStyles.bodyMedium
+                style: context.typography.bodyMedium
                     .copyWith(color: AppColor.primaryLight.withValues(alpha: 0.7)),
               ),
               SizedBox(height: edge * 0.2),
               Text(
                 '$firstName $lastName',
-                style: AppTextStyles.headlineLarge
+                style: context.typography.headlineLarge
                     .copyWith(color: AppColor.primaryLight),
               ),
             ],
