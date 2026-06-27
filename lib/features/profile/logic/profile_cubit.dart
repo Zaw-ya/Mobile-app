@@ -50,6 +50,20 @@ class ProfileCubit extends Cubit<ProfileStates> {
     );
   }
 
+  Future<void> deleteAccount() async {
+    if (isClosed) return;
+    emit(const ProfileStates.deletingAccount());
+
+    final response = await _profileRepo.deleteAccount();
+    if (isClosed) return;
+
+    response.when(
+      success: (_) => emit(const ProfileStates.deleteAccountSuccess()),
+      failure: (error) =>
+          emit(ProfileStates.deleteAccountError(message: error)),
+    );
+  }
+
   @override
   Future<void> close() async {
     await super.close();

@@ -17,6 +17,7 @@ class CustomButton extends StatelessWidget {
   final bool isIconOnly;
   final double? iconSize;
   final double? buttonSize;
+  final double? fontSize;
 
   const CustomButton._({
     super.key,
@@ -30,6 +31,7 @@ class CustomButton extends StatelessWidget {
     this.isIconOnly = false,
     this.iconSize,
     this.buttonSize,
+    this.fontSize,
   });
 
   /// 🟢 Normal button
@@ -39,6 +41,7 @@ class CustomButton extends StatelessWidget {
     required VoidCallback? onPressed,
     Color color = AppColor.primaryColor,
     Color? textColor,
+    double? fontSize,
   }) {
     return CustomButton._(
       key: key,
@@ -48,6 +51,7 @@ class CustomButton extends StatelessWidget {
       isLoading: false,
       color: color,
       textColor: textColor ?? AppColor.primaryLight,
+      fontSize: fontSize,
     );
   }
 
@@ -244,7 +248,9 @@ class CustomButton extends StatelessWidget {
                               fontFamily: FontFamily.manchetteFine,
                               fontWeight: FontWeight.bold,
                               color: effectiveTextColor,
-                              fontSize: 16.sp)),
+                              fontSize: fontSize ?? 16.sp),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis),
                     ],
                   )
                 : Text(
@@ -253,7 +259,9 @@ class CustomButton extends StatelessWidget {
                         fontFamily: FontFamily.manchetteFine,
                         fontWeight: FontWeight.bold,
                         color: effectiveTextColor,
-                        fontSize: 16.sp),
+                        fontSize: fontSize ?? 16.sp),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
       ),
     );

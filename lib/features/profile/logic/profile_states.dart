@@ -19,6 +19,11 @@ class ProfileStates with _$ProfileStates {
 
   const factory ProfileStates.getGatekeeperError({required String message})
       = GetGatekeeperError;
+
+  const factory ProfileStates.deletingAccount() = DeletingAccount;
+  const factory ProfileStates.deleteAccountSuccess() = DeleteAccountSuccess;
+  const factory ProfileStates.deleteAccountError({required String message})
+      = DeleteAccountError;
 }
 
 // @Freezed()

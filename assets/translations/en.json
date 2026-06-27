@@ -443,6 +443,15 @@
   "rate_now": "Rate Now",
   "role" : "Role",
   "total_events_assigned" : "Total Event Assigned",
-  "gk_profile" : "GateKeeper Profile"
+  "gk_profile" : "GateKeeper Profile",
+
+  "delete_account"              : "Delete Account",
+  "delete_account_subtitle"     : "Permanently remove your account",
+  "delete_account_warning_title": "Delete Account",
+  "delete_account_warning_body" : "This will permanently delete your account and all associated data. This action cannot be undone.",
+  "delete_account_confirm_title": "Are you sure?",
+  "delete_account_confirm_body" : "Your account and all data will be permanently removed within 30 days. You will be logged out immediately.",
+  "delete_account_confirm_btn"  : "Yes, Delete My Account",
+  "account_deleted_success"     : "Your deletion request has been submitted. You have been logged out."
 
 }

@@ -26,6 +26,9 @@ mixin _$ProfileStates {
     required TResult Function() getGatekeeperLoading,
     required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +41,9 @@ mixin _$ProfileStates {
     TResult? Function()? getGatekeeperLoading,
     TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +56,9 @@ mixin _$ProfileStates {
     TResult Function()? getGatekeeperLoading,
     TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -63,6 +72,9 @@ mixin _$ProfileStates {
     required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
     required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
     required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,6 +87,9 @@ mixin _$ProfileStates {
     TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -87,6 +102,9 @@ mixin _$ProfileStates {
     TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -162,6 +180,9 @@ class _$InitialImpl implements _Initial {
     required TResult Function() getGatekeeperLoading,
     required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
   }) {
     return initial();
   }
@@ -177,6 +198,9 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? getGatekeeperLoading,
     TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
   }) {
     return initial?.call();
   }
@@ -192,6 +216,9 @@ class _$InitialImpl implements _Initial {
     TResult Function()? getGatekeeperLoading,
     TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -211,6 +238,9 @@ class _$InitialImpl implements _Initial {
     required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
     required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
     required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
   }) {
     return initial(this);
   }
@@ -226,6 +256,9 @@ class _$InitialImpl implements _Initial {
     TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
   }) {
     return initial?.call(this);
   }
@@ -241,6 +274,9 @@ class _$InitialImpl implements _Initial {
     TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -303,6 +339,9 @@ class _$LoadingImpl implements Loading {
     required TResult Function() getGatekeeperLoading,
     required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
   }) {
     return loading();
   }
@@ -318,6 +357,9 @@ class _$LoadingImpl implements Loading {
     TResult? Function()? getGatekeeperLoading,
     TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
   }) {
     return loading?.call();
   }
@@ -333,6 +375,9 @@ class _$LoadingImpl implements Loading {
     TResult Function()? getGatekeeperLoading,
     TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -352,6 +397,9 @@ class _$LoadingImpl implements Loading {
     required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
     required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
     required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
   }) {
     return loading(this);
   }
@@ -367,6 +415,9 @@ class _$LoadingImpl implements Loading {
     TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
   }) {
     return loading?.call(this);
   }
@@ -382,6 +433,9 @@ class _$LoadingImpl implements Loading {
     TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -444,6 +498,9 @@ class _$EmptyInputImpl implements EmptyInput {
     required TResult Function() getGatekeeperLoading,
     required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
   }) {
     return emptyInput();
   }
@@ -459,6 +516,9 @@ class _$EmptyInputImpl implements EmptyInput {
     TResult? Function()? getGatekeeperLoading,
     TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
   }) {
     return emptyInput?.call();
   }
@@ -474,6 +534,9 @@ class _$EmptyInputImpl implements EmptyInput {
     TResult Function()? getGatekeeperLoading,
     TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (emptyInput != null) {
@@ -493,6 +556,9 @@ class _$EmptyInputImpl implements EmptyInput {
     required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
     required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
     required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
   }) {
     return emptyInput(this);
   }
@@ -508,6 +574,9 @@ class _$EmptyInputImpl implements EmptyInput {
     TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
   }) {
     return emptyInput?.call(this);
   }
@@ -523,6 +592,9 @@ class _$EmptyInputImpl implements EmptyInput {
     TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (emptyInput != null) {
@@ -612,6 +684,9 @@ class _$SuccessImpl implements Success {
     required TResult Function() getGatekeeperLoading,
     required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
   }) {
     return success(data);
   }
@@ -627,6 +702,9 @@ class _$SuccessImpl implements Success {
     TResult? Function()? getGatekeeperLoading,
     TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
   }) {
     return success?.call(data);
   }
@@ -642,6 +720,9 @@ class _$SuccessImpl implements Success {
     TResult Function()? getGatekeeperLoading,
     TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -661,6 +742,9 @@ class _$SuccessImpl implements Success {
     required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
     required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
     required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
   }) {
     return success(this);
   }
@@ -676,6 +760,9 @@ class _$SuccessImpl implements Success {
     TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
   }) {
     return success?.call(this);
   }
@@ -691,6 +778,9 @@ class _$SuccessImpl implements Success {
     TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -788,6 +878,9 @@ class _$ErrorImpl implements Error {
     required TResult Function() getGatekeeperLoading,
     required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
   }) {
     return error(message);
   }
@@ -803,6 +896,9 @@ class _$ErrorImpl implements Error {
     TResult? Function()? getGatekeeperLoading,
     TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
   }) {
     return error?.call(message);
   }
@@ -818,6 +914,9 @@ class _$ErrorImpl implements Error {
     TResult Function()? getGatekeeperLoading,
     TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -837,6 +936,9 @@ class _$ErrorImpl implements Error {
     required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
     required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
     required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
   }) {
     return error(this);
   }
@@ -852,6 +954,9 @@ class _$ErrorImpl implements Error {
     TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
   }) {
     return error?.call(this);
   }
@@ -867,6 +972,9 @@ class _$ErrorImpl implements Error {
     TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -938,6 +1046,9 @@ class _$GetGatekeeperLoadingImpl implements GetGatekeeperLoading {
     required TResult Function() getGatekeeperLoading,
     required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
   }) {
     return getGatekeeperLoading();
   }
@@ -953,6 +1064,9 @@ class _$GetGatekeeperLoadingImpl implements GetGatekeeperLoading {
     TResult? Function()? getGatekeeperLoading,
     TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
   }) {
     return getGatekeeperLoading?.call();
   }
@@ -968,6 +1082,9 @@ class _$GetGatekeeperLoadingImpl implements GetGatekeeperLoading {
     TResult Function()? getGatekeeperLoading,
     TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (getGatekeeperLoading != null) {
@@ -987,6 +1104,9 @@ class _$GetGatekeeperLoadingImpl implements GetGatekeeperLoading {
     required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
     required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
     required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
   }) {
     return getGatekeeperLoading(this);
   }
@@ -1002,6 +1122,9 @@ class _$GetGatekeeperLoadingImpl implements GetGatekeeperLoading {
     TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
   }) {
     return getGatekeeperLoading?.call(this);
   }
@@ -1017,6 +1140,9 @@ class _$GetGatekeeperLoadingImpl implements GetGatekeeperLoading {
     TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (getGatekeeperLoading != null) {
@@ -1108,6 +1234,9 @@ class _$GetGatekeeperSuccessImpl implements GetGatekeeperSuccess {
     required TResult Function() getGatekeeperLoading,
     required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
   }) {
     return getGatekeeperSuccess(data);
   }
@@ -1123,6 +1252,9 @@ class _$GetGatekeeperSuccessImpl implements GetGatekeeperSuccess {
     TResult? Function()? getGatekeeperLoading,
     TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
   }) {
     return getGatekeeperSuccess?.call(data);
   }
@@ -1138,6 +1270,9 @@ class _$GetGatekeeperSuccessImpl implements GetGatekeeperSuccess {
     TResult Function()? getGatekeeperLoading,
     TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (getGatekeeperSuccess != null) {
@@ -1157,6 +1292,9 @@ class _$GetGatekeeperSuccessImpl implements GetGatekeeperSuccess {
     required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
     required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
     required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
   }) {
     return getGatekeeperSuccess(this);
   }
@@ -1172,6 +1310,9 @@ class _$GetGatekeeperSuccessImpl implements GetGatekeeperSuccess {
     TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
   }) {
     return getGatekeeperSuccess?.call(this);
   }
@@ -1187,6 +1328,9 @@ class _$GetGatekeeperSuccessImpl implements GetGatekeeperSuccess {
     TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (getGatekeeperSuccess != null) {
@@ -1286,6 +1430,9 @@ class _$GetGatekeeperErrorImpl implements GetGatekeeperError {
     required TResult Function() getGatekeeperLoading,
     required TResult Function(ProfileModel data) getGatekeeperSuccess,
     required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
   }) {
     return getGatekeeperError(message);
   }
@@ -1301,6 +1448,9 @@ class _$GetGatekeeperErrorImpl implements GetGatekeeperError {
     TResult? Function()? getGatekeeperLoading,
     TResult? Function(ProfileModel data)? getGatekeeperSuccess,
     TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
   }) {
     return getGatekeeperError?.call(message);
   }
@@ -1316,6 +1466,9 @@ class _$GetGatekeeperErrorImpl implements GetGatekeeperError {
     TResult Function()? getGatekeeperLoading,
     TResult Function(ProfileModel data)? getGatekeeperSuccess,
     TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (getGatekeeperError != null) {
@@ -1335,6 +1488,9 @@ class _$GetGatekeeperErrorImpl implements GetGatekeeperError {
     required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
     required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
     required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
   }) {
     return getGatekeeperError(this);
   }
@@ -1350,6 +1506,9 @@ class _$GetGatekeeperErrorImpl implements GetGatekeeperError {
     TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
   }) {
     return getGatekeeperError?.call(this);
   }
@@ -1365,6 +1524,9 @@ class _$GetGatekeeperErrorImpl implements GetGatekeeperError {
     TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
     TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
     TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
     required TResult orElse(),
   }) {
     if (getGatekeeperError != null) {
@@ -1384,5 +1546,520 @@ abstract class GetGatekeeperError implements ProfileStates {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetGatekeeperErrorImplCopyWith<_$GetGatekeeperErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DeletingAccountImplCopyWith<$Res> {
+  factory _$$DeletingAccountImplCopyWith(_$DeletingAccountImpl value,
+          $Res Function(_$DeletingAccountImpl) then) =
+      __$$DeletingAccountImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$DeletingAccountImplCopyWithImpl<$Res>
+    extends _$ProfileStatesCopyWithImpl<$Res, _$DeletingAccountImpl>
+    implements _$$DeletingAccountImplCopyWith<$Res> {
+  __$$DeletingAccountImplCopyWithImpl(
+      _$DeletingAccountImpl _value, $Res Function(_$DeletingAccountImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$DeletingAccountImpl implements DeletingAccount {
+  const _$DeletingAccountImpl();
+
+  @override
+  String toString() {
+    return 'ProfileStates.deletingAccount()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$DeletingAccountImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() emptyInput,
+    required TResult Function(ProfileModel data) success,
+    required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
+  }) {
+    return deletingAccount();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? emptyInput,
+    TResult? Function(ProfileModel data)? success,
+    TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
+  }) {
+    return deletingAccount?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? emptyInput,
+    TResult Function(ProfileModel data)? success,
+    TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
+    required TResult orElse(),
+  }) {
+    if (deletingAccount != null) {
+      return deletingAccount();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
+  }) {
+    return deletingAccount(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
+  }) {
+    return deletingAccount?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
+    required TResult orElse(),
+  }) {
+    if (deletingAccount != null) {
+      return deletingAccount(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DeletingAccount implements ProfileStates {
+  const factory DeletingAccount() = _$DeletingAccountImpl;
+}
+
+/// @nodoc
+abstract class _$$DeleteAccountSuccessImplCopyWith<$Res> {
+  factory _$$DeleteAccountSuccessImplCopyWith(_$DeleteAccountSuccessImpl value,
+          $Res Function(_$DeleteAccountSuccessImpl) then) =
+      __$$DeleteAccountSuccessImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$DeleteAccountSuccessImplCopyWithImpl<$Res>
+    extends _$ProfileStatesCopyWithImpl<$Res, _$DeleteAccountSuccessImpl>
+    implements _$$DeleteAccountSuccessImplCopyWith<$Res> {
+  __$$DeleteAccountSuccessImplCopyWithImpl(_$DeleteAccountSuccessImpl _value,
+      $Res Function(_$DeleteAccountSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$DeleteAccountSuccessImpl implements DeleteAccountSuccess {
+  const _$DeleteAccountSuccessImpl();
+
+  @override
+  String toString() {
+    return 'ProfileStates.deleteAccountSuccess()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DeleteAccountSuccessImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() emptyInput,
+    required TResult Function(ProfileModel data) success,
+    required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
+  }) {
+    return deleteAccountSuccess();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? emptyInput,
+    TResult? Function(ProfileModel data)? success,
+    TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
+  }) {
+    return deleteAccountSuccess?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? emptyInput,
+    TResult Function(ProfileModel data)? success,
+    TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
+    required TResult orElse(),
+  }) {
+    if (deleteAccountSuccess != null) {
+      return deleteAccountSuccess();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
+  }) {
+    return deleteAccountSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
+  }) {
+    return deleteAccountSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
+    required TResult orElse(),
+  }) {
+    if (deleteAccountSuccess != null) {
+      return deleteAccountSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DeleteAccountSuccess implements ProfileStates {
+  const factory DeleteAccountSuccess() = _$DeleteAccountSuccessImpl;
+}
+
+/// @nodoc
+abstract class _$$DeleteAccountErrorImplCopyWith<$Res> {
+  factory _$$DeleteAccountErrorImplCopyWith(_$DeleteAccountErrorImpl value,
+          $Res Function(_$DeleteAccountErrorImpl) then) =
+      __$$DeleteAccountErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$DeleteAccountErrorImplCopyWithImpl<$Res>
+    extends _$ProfileStatesCopyWithImpl<$Res, _$DeleteAccountErrorImpl>
+    implements _$$DeleteAccountErrorImplCopyWith<$Res> {
+  __$$DeleteAccountErrorImplCopyWithImpl(_$DeleteAccountErrorImpl _value,
+      $Res Function(_$DeleteAccountErrorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$DeleteAccountErrorImpl(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DeleteAccountErrorImpl implements DeleteAccountError {
+  const _$DeleteAccountErrorImpl({required this.message});
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'ProfileStates.deleteAccountError(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DeleteAccountErrorImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeleteAccountErrorImplCopyWith<_$DeleteAccountErrorImpl> get copyWith =>
+      __$$DeleteAccountErrorImplCopyWithImpl<_$DeleteAccountErrorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() emptyInput,
+    required TResult Function(ProfileModel data) success,
+    required TResult Function(String message) error,
+    required TResult Function() getGatekeeperLoading,
+    required TResult Function(ProfileModel data) getGatekeeperSuccess,
+    required TResult Function(String message) getGatekeeperError,
+    required TResult Function() deletingAccount,
+    required TResult Function() deleteAccountSuccess,
+    required TResult Function(String message) deleteAccountError,
+  }) {
+    return deleteAccountError(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? emptyInput,
+    TResult? Function(ProfileModel data)? success,
+    TResult? Function(String message)? error,
+    TResult? Function()? getGatekeeperLoading,
+    TResult? Function(ProfileModel data)? getGatekeeperSuccess,
+    TResult? Function(String message)? getGatekeeperError,
+    TResult? Function()? deletingAccount,
+    TResult? Function()? deleteAccountSuccess,
+    TResult? Function(String message)? deleteAccountError,
+  }) {
+    return deleteAccountError?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? emptyInput,
+    TResult Function(ProfileModel data)? success,
+    TResult Function(String message)? error,
+    TResult Function()? getGatekeeperLoading,
+    TResult Function(ProfileModel data)? getGatekeeperSuccess,
+    TResult Function(String message)? getGatekeeperError,
+    TResult Function()? deletingAccount,
+    TResult Function()? deleteAccountSuccess,
+    TResult Function(String message)? deleteAccountError,
+    required TResult orElse(),
+  }) {
+    if (deleteAccountError != null) {
+      return deleteAccountError(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(EmptyInput value) emptyInput,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(GetGatekeeperLoading value) getGatekeeperLoading,
+    required TResult Function(GetGatekeeperSuccess value) getGatekeeperSuccess,
+    required TResult Function(GetGatekeeperError value) getGatekeeperError,
+    required TResult Function(DeletingAccount value) deletingAccount,
+    required TResult Function(DeleteAccountSuccess value) deleteAccountSuccess,
+    required TResult Function(DeleteAccountError value) deleteAccountError,
+  }) {
+    return deleteAccountError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(EmptyInput value)? emptyInput,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult? Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult? Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult? Function(DeletingAccount value)? deletingAccount,
+    TResult? Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult? Function(DeleteAccountError value)? deleteAccountError,
+  }) {
+    return deleteAccountError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(EmptyInput value)? emptyInput,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(GetGatekeeperLoading value)? getGatekeeperLoading,
+    TResult Function(GetGatekeeperSuccess value)? getGatekeeperSuccess,
+    TResult Function(GetGatekeeperError value)? getGatekeeperError,
+    TResult Function(DeletingAccount value)? deletingAccount,
+    TResult Function(DeleteAccountSuccess value)? deleteAccountSuccess,
+    TResult Function(DeleteAccountError value)? deleteAccountError,
+    required TResult orElse(),
+  }) {
+    if (deleteAccountError != null) {
+      return deleteAccountError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DeleteAccountError implements ProfileStates {
+  const factory DeleteAccountError({required final String message}) =
+      _$DeleteAccountErrorImpl;
+
+  String get message;
+
+  /// Create a copy of ProfileStates
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DeleteAccountErrorImplCopyWith<_$DeleteAccountErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

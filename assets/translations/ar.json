@@ -442,7 +442,16 @@
   "rate_now": "قيّم الآن",
     "role" : "الدور",
   "total_events_assigned" : "إجمالي الأحداث المخصصة",
-  "gk_profile" : "ملف الحارس"
+  "gk_profile" : "ملف الحارس",
+
+  "delete_account"              : "حذف الحساب",
+  "delete_account_subtitle"     : "إزالة حسابك بشكل دائم",
+  "delete_account_warning_title": "حذف الحساب",
+  "delete_account_warning_body" : "سيؤدي هذا إلى حذف حسابك وجميع بياناتك المرتبطة به نهائيًا. لا يمكن التراجع عن هذا الإجراء.",
+  "delete_account_confirm_title": "هل أنت متأكد؟",
+  "delete_account_confirm_body" : "سيتم حذف حسابك وجميع بياناتك نهائيًا خلال 30 يومًا. سيتم تسجيل خروجك فورًا.",
+  "delete_account_confirm_btn"  : "نعم، احذف حسابي",
+  "account_deleted_success"     : "تم إرسال طلب الحذف. تم تسجيل خروجك."
 
 }
 

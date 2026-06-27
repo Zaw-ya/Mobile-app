@@ -265,7 +265,12 @@ abstract class ApiService {
   @GET('/Gatekeeper/{gatekeeperId}/profile')
   Future<ProfileModel> getGkProfile(
     @Path("gatekeeperId") int gatekeeperId,
-    @Header('Authorization') String token,  
+    @Header('Authorization') String token,
+  );
+
+  @DELETE(ApiConstants.deleteAccountEndpoint)
+  Future<void> deleteAccount(
+    @Header('Authorization') String token,
   );
 
 }
