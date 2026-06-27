@@ -70,46 +70,40 @@ class _DeleteAccountBottomSheetState extends State<DeleteAccountBottomSheet> {
           orElse: () => false,
         );
 
-        return DraggableScrollableSheet(
-          initialChildSize: 0.45,
-          minChildSize: 0.35,
-          maxChildSize: 0.65,
-          builder: (_, scrollController) => AnimatedOpacity(
-            opacity: isLoading ? 0.6 : 1.0,
-            duration: const Duration(milliseconds: 250),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColor.primaryLight,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(containerRadius),
-                  topRight: Radius.circular(containerRadius),
+        return AnimatedOpacity(
+          opacity: isLoading ? 0.6 : 1.0,
+          duration: const Duration(milliseconds: 250),
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColor.primaryLight,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(containerRadius),
+                topRight: Radius.circular(containerRadius),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.15),
+                  blurRadius: 10,
+                  offset: const Offset(0, -3),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.15),
-                    blurRadius: 10,
-                    offset: const Offset(0, -3),
-                  ),
-                ],
-              ),
-              padding: EdgeInsets.all(edge),
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 220),
-                child: _step == 0
-                    ? _WarningStep(
-                        key: const ValueKey(0),
-                        isLoading: isLoading,
-                        onContinue: () => setState(() => _step = 1),
-                        onCancel: () => Navigator.pop(context),
-                      )
-                    : _ConfirmStep(
-                        key: const ValueKey(1),
-                        isLoading: isLoading,
-                        onConfirm: _onConfirmDelete,
-                        onBack: () => setState(() => _step = 0),
-                        onCancel: () => Navigator.pop(context),
-                      ),
-              ),
+              ],
+            ),
+            padding: EdgeInsets.fromLTRB(edge, edge, edge, edge + MediaQuery.of(context).padding.bottom),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 220),
+              child: _step == 0
+                  ? _WarningStep(
+                      key: const ValueKey(0),
+                      isLoading: isLoading,
+                      onContinue: () => setState(() => _step = 1),
+                      onCancel: () => Navigator.pop(context),
+                    )
+                  : _ConfirmStep(
+                      key: const ValueKey(1),
+                      isLoading: isLoading,
+                      onConfirm: _onConfirmDelete,
+                      onBack: () => setState(() => _step = 0),
+                    ),
             ),
           ),
         );
@@ -164,7 +158,7 @@ class _WarningStep extends StatelessWidget {
           'delete_account_warning_body'.tr(),
           style: context.typography.bodyMedium.copyWith(color: AppColor.gray700),
         ),
-        SizedBox(height: edge * 1.5),
+        SizedBox(height: edge),
         Row(
           children: [
             Expanded(
@@ -200,13 +194,11 @@ class _ConfirmStep extends StatelessWidget {
     required this.isLoading,
     required this.onConfirm,
     required this.onBack,
-    required this.onCancel,
   });
 
   final bool isLoading;
   final VoidCallback onConfirm;
   final VoidCallback onBack;
-  final VoidCallback onCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +232,7 @@ class _ConfirmStep extends StatelessWidget {
           'delete_account_confirm_body'.tr(),
           style: context.typography.bodyMedium.copyWith(color: AppColor.gray700),
         ),
-        SizedBox(height: edge * 1.5),
+        SizedBox(height: edge),
         if (isLoading)
           Center(
             child: CircularProgressIndicator(
@@ -254,17 +246,6 @@ class _ConfirmStep extends StatelessWidget {
             color: AppColor.semanticError,
             textColor: Colors.white,
             onPressed: onConfirm,
-          ),
-          SizedBox(height: edge * 0.6),
-          Center(
-            child: TextButton(
-              onPressed: onCancel,
-              child: Text(
-                'cancel'.tr(),
-                style: context.typography.labelMedium
-                    .copyWith(color: AppColor.gray500),
-              ),
-            ),
           ),
         ],
       ],
