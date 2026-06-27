@@ -30,4 +30,13 @@ class ProfileRepo {
       return ApiResult.failure(error.toString());
     }
   }
+
+  Future<ApiResult<bool>> deleteAccount() async {
+    try {
+      await _apiService.deleteAccount(AppUtilities().serverToken);
+      return const ApiResult.success(true);
+    } catch (error) {
+      return ApiResult.failure(error.toString());
+    }
+  }
 }

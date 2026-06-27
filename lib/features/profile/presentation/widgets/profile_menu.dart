@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/helpers/app_utilities.dart';
 import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
+import '../../logic/profile_cubit.dart';
 import 'contact_cs_bottom_sheet.dart';
+import 'delete_account_bottom_sheet.dart';
 import 'language_bottom_sheet.dart';
 import 'logout_bottom_sheet.dart';
 
@@ -28,8 +31,8 @@ class ProfileMenu extends StatelessWidget {
         ),
       ),
       padding: EdgeInsets.all(edge),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: [
           SizedBox(height: edge * 0.2),
           Text(
@@ -118,6 +121,24 @@ class ProfileMenu extends StatelessWidget {
               ],
             ),
           ),
+
+          // ── Delete Account (Client only — intentionally de-emphasized) ──
+          if (AppUtilities().loginData.roleName == 'Client' || AppUtilities().loginData.roleName == 'GateKeeper') ...[
+            SizedBox(height: edge * 2),
+            const Divider(color: AppColor.gray100),
+            SizedBox(height: edge * 0.4),
+            GestureDetector(
+              onTap: () => _showDeleteAccountSheet(context),
+              child: Center(
+                child: Text(
+                  'delete_account'.tr(),
+                  style: context.typography.labelSmall
+                      .copyWith(color: AppColor.gray400),
+                ),
+              ),
+            ),
+            SizedBox(height: edge),
+          ],
         ],
       ),
     );
@@ -136,6 +157,27 @@ class ProfileMenu extends StatelessWidget {
         child: GestureDetector(
           onTap: () {},
           child: sheet,
+        ),
+      ),
+    );
+  }
+
+  // Separate method so the ProfileCubit is captured before the sheet opens
+  // and re-injected via BlocProvider.value — bottom sheets live outside the
+  // widget tree and lose inherited blocs without this.
+  void _showDeleteAccountSheet(BuildContext context) {
+    final cubit = context.read<ProfileCubit>();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      enableDrag: false,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => BlocProvider.value(
+        value: cubit,
+        child: GestureDetector(
+          onTap: () {},
+          child: const DeleteAccountBottomSheet(),
         ),
       ),
     );

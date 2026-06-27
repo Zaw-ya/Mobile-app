@@ -50,6 +50,8 @@ class ApiConstants {
   static const String cardSendingServiceEndpoint =
       'Client/getguestcardstatisticsinfo';
 
+  static const String deleteAccountEndpoint = 'Auth/DeleteAccount';
+
       // static String gateKeeperProfileEndpoint =
       // '/Gatekeeper/$gatekeeperId/profile';
 }
