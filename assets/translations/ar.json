@@ -451,7 +451,8 @@
   "delete_account_confirm_title": "هل أنت متأكد؟",
   "delete_account_confirm_body" : "سيتم حذف حسابك وجميع بياناتك نهائيًا خلال 30 يومًا. سيتم تسجيل خروجك فورًا.",
   "delete_account_confirm_btn"  : "نعم، احذف حسابي",
-  "account_deleted_success"     : "تم إرسال طلب الحذف. تم تسجيل خروجك."
+  "account_deleted_success"     : "تم إرسال طلب الحذف. تم تسجيل خروجك.",
+  "optional"                    : "اختياري"
 
 }
 

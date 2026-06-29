@@ -6,7 +6,7 @@ import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/title_text.dart';
 
 class GenderSelector extends StatelessWidget {
-  final String selectedGender;
+  final String? selectedGender;
   final ValueChanged<String> onGenderChanged;
 
   const GenderSelector({
@@ -21,7 +21,7 @@ class GenderSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleText(
-          text: 'gender'.tr(),
+          text: '${'gender'.tr()} (${'optional'.tr()})',
           color: AppColor.gray700,
           fontSize: 14,
         ),

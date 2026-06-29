@@ -17,7 +17,11 @@ class GkProfileBody extends StatelessWidget {
         _InfoRow(label: 'role'.tr(), value: profile.role ?? ''),
         _InfoRow(
           label: 'gender'.tr(),
-          value: profile.gender == 'M' ? 'male'.tr() : 'female'.tr(),
+          value: profile.gender == null
+              ? '-'
+              : profile.gender!.toUpperCase() == 'M'
+                  ? 'male'.tr()
+                  : 'female'.tr(),
         ),
         _InfoRow(
           label: 'total_events_assigned'.tr(),

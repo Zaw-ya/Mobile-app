@@ -25,7 +25,7 @@ class SignupFormFields extends StatelessWidget {
   final TextEditingController passwordController;
   final TextEditingController confirmPasswordController;
   final RegisterCubit cubit;
-  final String selectedGender;
+  final String? selectedGender;
   final ValueChanged<String> onGenderChanged;
 
   const SignupFormFields({
@@ -136,7 +136,7 @@ class SignupFormFields extends StatelessWidget {
 
         // Phone
         InputText.normal(
-          title: 'phone'.tr(),
+          title: '${'phone'.tr()} (${'optional'.tr()})',
           hint: 'phone_no_hint'.tr(),
           controller: phoneController,
           keyboardType: TextInputType.phone,

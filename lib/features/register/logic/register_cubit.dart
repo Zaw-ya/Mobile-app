@@ -48,7 +48,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
   }
 
   String? validatePhone(String? value) {
-    if (value == null || value.trim().isEmpty) return 'field_required';
+    if (value == null || value.trim().isEmpty) return null;
     if (!isValidPhoneFormat(value.trim())) return 'phone_number_invalid_format';
     if (value.trim().length < 6) return 'phone_number_too_short';
     return null;

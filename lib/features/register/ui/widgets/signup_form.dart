@@ -31,7 +31,7 @@ class SignupFormState extends State<SignupForm> {
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
 
-  String _selectedGender = 'm';
+  String? _selectedGender;
   bool _agreedToTerms = false;
 
   // Expose for external call from RegisterScreen
@@ -112,7 +112,7 @@ class SignupFormState extends State<SignupForm> {
         userName: _usernameController.text.trim(),
         email: _emailController.text.trim(),
         password: _passwordController.text,
-        phoneNumber: _phoneController.text.trim(),
+        phoneNumber: _phoneController.text.trim().isEmpty ? null : _phoneController.text.trim(),
         gender: _selectedGender,
         role: 'Gatekeeper',
         cityId: cityId, // ✅ from LocationCubit
