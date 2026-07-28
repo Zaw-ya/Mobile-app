@@ -42,6 +42,10 @@ workflows:
           pod install
           cd ..
 
+      - name: Set up code signing
+        script: |
+          xcode-project use-profiles
+
       - name: Read version from pubspec.yaml
         script: |
           VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
