@@ -453,6 +453,7 @@
   "delete_account_confirm_body" : "Your account and all data will be permanently removed within 30 days. You will be logged out immediately.",
   "delete_account_confirm_btn"  : "Yes, Delete My Account",
   "account_deleted_success"     : "Your deletion request has been submitted. You have been logged out.",
-  "optional"                    : "Optional"
+  "optional"                    : "Optional",
+  "no_notifications"             : "No notifications available"
 
 }
