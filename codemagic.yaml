@@ -15,7 +15,7 @@ workflows:
 
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.your.bundleid
+        bundle_identifier: com.specialCards.app
 
     cache:
       cache_paths:
