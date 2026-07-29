@@ -46,19 +46,28 @@ workflows:
         script: |
           xcode-project use-profiles
 
+      - name: Debug provisioning profiles
+        script: |
+          ls -la ~/Library/MobileDevice/Provisioning\ Profiles
+          security find-identity -v -p codesigning
+
       - name: Read version from pubspec.yaml
         script: |
           VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
           BUILD_NAME=${VERSION%%+*}
           BUILD_NUMBER=${VERSION##*+}
 
-          echo "Build Name: $BUILD_NAME"
-          echo "Build Number: $BUILD_NUMBER"
-
-          flutter build ipa \
+          flutter build ios \
             --release \
+            --no-codesign \
             --build-name=$BUILD_NAME \
             --build-number=$BUILD_NUMBER
+
+      - name: Archive IPA
+        script: |
+          xcode-project build-ipa \
+            --workspace ios/Runner.xcworkspace \
+            --scheme Runner
 
     artifacts:
       - build/ios/ipa/*.ipa
