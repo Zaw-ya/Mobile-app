@@ -453,7 +453,11 @@
   "delete_account_confirm_btn"  : "نعم، احذف حسابي",
   "account_deleted_success"     : "تم إرسال طلب الحذف. تم تسجيل خروجك.",
   "optional"                    : "اختياري",
-  "no_notifications"           : "لا توجد إشعارات متاحة"
+  "no_notifications"           : "لا توجد إشعارات متاحة",
+  "retry"                       : "إعادة المحاولة",
+  "exit_app": "الخروج من التطبيق",
+  "exit_app_message": "هل أنت متأكد أنك تريد الخروج من التطبيق؟",
+  "exit": "خروج"
 
 }
 

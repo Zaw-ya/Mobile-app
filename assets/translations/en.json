@@ -454,6 +454,10 @@
   "delete_account_confirm_btn"  : "Yes, Delete My Account",
   "account_deleted_success"     : "Your deletion request has been submitted. You have been logged out.",
   "optional"                    : "Optional",
-  "no_notifications"             : "No notifications available"
+  "no_notifications"             : "No notifications available",
+  "retry"                       : "Retry",
+  "exit_app": "Exit App",
+  "exit_app_message": "Are you sure you want to exit the application?",
+  "exit": "Exit"
 
 }
