@@ -241,7 +241,7 @@
   "cancellation" : "Cancellation",
   "postponement" : "Postponement",
   "read_number": "Read Number",
-  "delivered_number": "Delivered Number",
+  "delivered_number": "Unread Messages (With Companions)",
   "sent_number": "Sent Number",
   "failed_number": "Failed Number",
   "not_sent_number": "Not Sent Number",

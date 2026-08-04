@@ -53,8 +53,8 @@ class MessagesStatisticsTable extends StatelessWidget {
   List<Widget> _buildTableRows(BuildContext context) {
     final rows = [
       {'label': 'read_number'.tr(), 'value': details.readNumber},
-      {'label': 'delivered_number'.tr(), 'value': details.deliverdNumber},
-      {'label': 'sent_number'.tr(), 'value': details.sentNumber},
+      {'label': 'delivered_number'.tr(), 'value': details.deliverdNumber}, // delivered_number (with companions)
+      {'label': 'sent_number'.tr(), 'value': details.sentNumber},         // sent_number (without companions)- invitations sent (without companions)
       {'label': 'failed_number'.tr(), 'value': details.failedNumber},
       {'label': 'not_sent_number'.tr(), 'value': details.notSentNumber},
     ];

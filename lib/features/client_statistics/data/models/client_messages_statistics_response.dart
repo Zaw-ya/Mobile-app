@@ -39,6 +39,7 @@ class ClientMessagesStatisticsDetails {
   int? sentNumber;
   int? failedNumber;
   int? notSentNumber;
+  int? totalNumber;
 
   ClientMessagesStatisticsDetails({
     this.readNumber,
@@ -46,6 +47,7 @@ class ClientMessagesStatisticsDetails {
     this.sentNumber,
     this.failedNumber,
     this.notSentNumber,
+    this.totalNumber,
   });
 
   factory ClientMessagesStatisticsDetails.fromJson(Map<String, dynamic> json) =>

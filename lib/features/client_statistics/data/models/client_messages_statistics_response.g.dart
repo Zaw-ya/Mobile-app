@@ -59,6 +59,7 @@ ClientMessagesStatisticsDetails _$ClientMessagesStatisticsDetailsFromJson(
       sentNumber: (json['sentNumber'] as num?)?.toInt(),
       failedNumber: (json['failedNumber'] as num?)?.toInt(),
       notSentNumber: (json['notSentNumber'] as num?)?.toInt(),
+      totalNumber: (json['totalNumber'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ClientMessagesStatisticsDetailsToJson(
@@ -69,4 +70,5 @@ Map<String, dynamic> _$ClientMessagesStatisticsDetailsToJson(
       'sentNumber': instance.sentNumber,
       'failedNumber': instance.failedNumber,
       'notSentNumber': instance.notSentNumber,
+      'totalNumber': instance.totalNumber,
     };

@@ -33,7 +33,7 @@ class NormalMessageSection extends StatelessWidget {
     final sent = details.sentNumber ?? 0;
     final failed = details.failedNumber ?? 0;
     final notSent = details.notSentNumber ?? 0;
-    final total = read + delivered + sent + failed + notSent;
+    final total = details.totalNumber ?? (read + delivered + sent + failed + notSent);
 
     final segments = [
       DonutSegment(value: read.toDouble(), color: _c0),
