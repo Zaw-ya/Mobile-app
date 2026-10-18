@@ -4,11 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/helpers/app_utilities.dart';
+import '../../../../core/services/firebase_messaging_handler.dart';
 import '../../../event_calender/logic/event_calender_cubit.dart';
 import '../../../events_scan_history/logic/gatekeeper_events_cubit.dart';
 import '../../../gatekeeper_calendar/presentation/calendar_view.dart';
 import '../../../gatekeeper_home/views/gatekeeper_home_screen.dart';
 import '../../../new_client_events/ui/new_client_events_screen.dart';
+import '../../../notifications/logic/notifications_cubit.dart';
 import '../../../new_client_statistics/ui/new_client_statistics_screen.dart';
 import '../../../profile/data/models/profile_model.dart';
 import '../../../profile/data/repo/profile_repo.dart';
@@ -99,6 +101,11 @@ class LandingCubit extends Cubit<LandingStates> {
   // ── Notifications ────────────────────────────────────────────────────────
 
   Future<void> _setupNotificationsInBackground() async {
+    // Re-register on every session start: covers a failed PUT after login and
+    // keeps the backend's DeviceId pointing at this device's current token
+    FirebaseMessagingHandler().syncDeviceToken();
+    // The shared cubit was reset on logout (or loaded before login), so refresh the badge
+    getIt<NotificationsCubit>().loadNotifications();
     if (AppUtilities().loginData.roleName == "Client") return;
     try {
       final response = await _profileRepo.getProfile();
