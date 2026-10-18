@@ -85,16 +85,7 @@ class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
               _totalPagesEvents = data.noOfPages ?? 1;
             }
             _events.addAll(data.entityList!);
-            // for (var event in data.entityList!) {
-            //   // ملحوظة: لازم تتأكدي إن event هو الموديل اللي بياخده الـ Scheduler
-            //   // لو الموديل مختلف، هتحتاجي تحولي البيانات لموديل CalenderEventsResponse
-            //   await NotificationScheduler().scheduleNotifications(
-            //     id: event.id!,
-            //     eventTitle: event.eventTitle!,
-            //     eventFrom: event.eventFrom!,
-            //   );
-            //   log("Scheduled notifications for event >>> ${event.eventTitle} Haneen Test");
-            // }
+            
             if (!isClosed) {
               emit(ScanHistoryStates.success(
                 // ✅ guard
@@ -106,7 +97,7 @@ class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
               ));
             }
             if (_currentPageEvents == 0) {
-              log("--- Starting Notification Sync (Haneen Test) ---");
+              log("--- Starting Notification Sync ---");
               for (var event in data.entityList!) {
                 // بننادي الـ Scheduler لكل حدث، وهو جواه الـ Logic اللي بيقرر (Skip أو Schedule)
                 // بناءً على الـ Key-Value (ID و Date) المتخزنين في الـ AppUtilities
@@ -116,7 +107,7 @@ class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
                   eventFrom: event.eventFrom!,
                 );
               }
-              log("--- Notification Sync Completed (Haneen Test) ---");
+              log("--- Notification Sync Completed ---");
             }
           } else if (_currentPageEvents == 0) {
             if (!isClosed) {

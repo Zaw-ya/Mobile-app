@@ -71,13 +71,7 @@ class NotificationScheduler {
         eventTitle: eventTitle,
         type: NotificationType.today,
       );
-      // debugPrint('Scheduled notifications for event: $eventTitle');
-      // debugPrint('Event day notification at: $eventDay8AM');
-      // log("Scheduled notifications for event >>> $eventTitle Haneen Test N.S.");
-      // } else {
-      //   debugPrint(
-      //       'Skipping event day notification for ${event.eventTitle} - date is in the past: $eventDay8AM');
-      // }
+      
 
       //// Schedule for 5 days before (8 AM) ////
       final fiveDaysBefore = eventDay8AM.subtract(const Duration(days: 5));
