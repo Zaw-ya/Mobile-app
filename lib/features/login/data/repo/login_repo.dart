@@ -22,20 +22,8 @@ class LoginRepo {
       }
 
 //  save device token after login
-      try {
-        final fcmToken = await FirebaseMessagingHandler().getFCMToken();
-
-        if (fcmToken != null) {
-          await _apiService.saveDeviceToken(
-            "Bearer ${response.token}",
-            {
-              "fcmToken": fcmToken,
-            },
-          );
-        }
-      } catch (e) {
-        debugPrint("Error sending device token: $e");
-      }
+      await FirebaseMessagingHandler()
+          .syncDeviceToken(authToken: "Bearer ${response.token}");
 
       // Return success if response is valid
       return ApiResult.success(response);
