@@ -12,9 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/client_events/data/models/client_event_response.dart';
 import '../../features/client_events/data/models/client_messages_status_response.dart';
 import '../../features/client_events/logic/client_events_cubit.dart';
-import '../../features/client_events/ui/client_events_screen.dart';
 import '../../features/client_events/ui/widgets/client_guest_details_screen.dart';
-import '../../features/client_events/ui/widgets/client_messages_status_screen.dart';
 import '../../features/client_statistics/data/models/guest_type_list.dart';
 import '../../features/client_statistics/logic/client_statistics_cubit.dart';
 import '../../features/client_statistics/ui/widgets/client_confirmation_services/client_message_status.dart';
@@ -147,28 +145,12 @@ class AppRouter {
         )
             );
 
-      case Routes.clientEvents:
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientEventsCubit>(),
-            child: const ClientEventsScreen(),
-          ),
-        );
       case Routes.clientEventsDetailsScreen:
         final event = arguments as ClientEventDetails;
         return _buildRoute(
           BlocProvider(
             create: (_) => getIt<ClientEventsCubit>(),
             child: ClientEventDetailScreen(event: event),
-          ),
-        );
-
-      case Routes.clientMessagesStatusScreen:
-        final eventId = arguments as String;
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientEventsCubit>(),
-            child: ClientMessagesStatusScreen(eventId: eventId),
           ),
         );
 
