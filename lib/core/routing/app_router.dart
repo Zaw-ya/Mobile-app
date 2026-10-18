@@ -19,8 +19,6 @@ import '../../features/client_statistics/ui/widgets/client_confirmation_services
 import '../../features/notifications/ui/notifications_screen.dart';
 import '../../features/events_scan_history/data/models/gatekeeper_events_response.dart';
 import '../../features/events_scan_history/logic/gatekeeper_events_cubit.dart';
-import '../../features/events_scan_history/ui/my_events_screen.dart';
-import '../../features/events_scan_history/ui/scan_history_screen.dart';
 import '../../features/events_scan_history/ui/widgets/event_history_details_screen.dart';
 import '../../features/gatekeeper_scan_history/views/gatekeeper_scan_history_screen.dart';
 import '../../features/home/ui/widgets/event_instructions_screen.dart';
@@ -91,13 +89,6 @@ class AppRouter {
             child:  QrCodeScannerScreen(eventId: eventId,),
           ),
         );
-      case Routes.eventsHistory:
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<GatekeeperEventsCubit>(),
-            child: const ScanHistoryScreen(),
-          ),
-        );
       case Routes.gatekeeperScanHistoryScreen:
         return _buildRoute(
           BlocProvider(
@@ -125,14 +116,6 @@ class AppRouter {
             ),
           ),
         );
-      case Routes.myEventsScreen:
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<GatekeeperEventsCubit>(),
-            child: const MyEventsScreen(),
-          ),
-        );
-
       case Routes.notifications:
         return _buildRoute(BlocProvider.value(
           value: getIt<NotificationsCubit>(),
