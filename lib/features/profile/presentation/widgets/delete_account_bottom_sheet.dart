@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/helpers/app_utilities.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
+import '../../../../core/services/firebase_messaging_handler.dart';
 import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -35,6 +36,8 @@ class _DeleteAccountBottomSheetState extends State<DeleteAccountBottomSheet> {
   }
 
   Future<void> _onSuccess() async {
+    // Account is gone on the backend, so only clean up the device side
+    await FirebaseMessagingHandler().unregisterDevice(notifyBackend: false);
     await AppUtilities().clearData();
     if (!mounted) return;
     context.pushNamedAndRemoveUntil(Routes.loginScreen, predicate: false);

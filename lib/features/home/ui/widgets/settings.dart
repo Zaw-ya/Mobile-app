@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/routing/routes.dart';
+import '../../../../core/services/firebase_messaging_handler.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -81,6 +82,7 @@ class _SettingsScreenState extends State<SettingsScreen>
               try {
                 ctx.pushNamedAndRemoveUntil(Routes.loginScreen,
                     predicate: false);
+                await FirebaseMessagingHandler().unregisterDevice();
                 await AppUtilities().clearData();
               } catch (e) {
                 debugPrint('Logout error: $e');
