@@ -26,7 +26,6 @@ import '../../features/event_calender/ui/event_calender_screen.dart';
 import '../../features/notifications/ui/notifications_screen.dart';
 import '../../features/events_scan_history/data/models/gatekeeper_events_response.dart';
 import '../../features/events_scan_history/logic/gatekeeper_events_cubit.dart';
-import '../../features/events_scan_history/ui/my_events_screen.dart';
 import '../../features/events_scan_history/ui/scan_history_screen.dart';
 import '../../features/events_scan_history/ui/widgets/event_history_details_screen.dart';
 import '../../features/gatekeeper_scan_history/views/gatekeeper_scan_history_screen.dart';
@@ -132,14 +131,6 @@ class AppRouter {
             ),
           ),
         );
-      case Routes.myEventsScreen:
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<GatekeeperEventsCubit>(),
-            child: const MyEventsScreen(),
-          ),
-        );
-
       case Routes.eventsCalendar:
         return _buildRoute(
           const EventCalenderScreen(),

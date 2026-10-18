@@ -128,8 +128,6 @@
   "WED": "WED",
   "THU": "THU",
   "FRI": "FRI",
-  "checking_not_validated": "You can only check in on the day of the event.",
-  "checkout_not_validated": "You can only check out on the day of the event.",
   "no_internet": "It looks like you are offline.",
   "connected": "Connected",
   "pending_approval": "Pending Approval",
