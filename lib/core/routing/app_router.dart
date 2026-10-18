@@ -1,6 +1,4 @@
 import 'package:app/core/widgets/success_view.dart';
-import 'package:app/features/event_calender/logic/event_calender_cubit.dart';
-import 'package:app/features/gatekeeper_calendar/presentation/calendar_view.dart';
 import 'package:app/features/profile/logic/profile_cubit.dart';
 import 'package:app/features/profile/presentation/gk_profile.dart';
 import 'package:app/features/qr_code_scanner/logic/qr_code_scanner_cubit.dart';
@@ -163,16 +161,6 @@ class AppRouter {
             child: LandingView(initialIndex: initialIndex),
           ),
         );
-
-        case Routes.gatekeeperCalendarScreen:
-        return _buildRoute(
-        BlocProvider(
-          create: (_) => getIt<EventCalenderCubit>(),
-          child: const CalendarView(),
-        ),
-        );
-
-
 
         case Routes.gatekeeperProfileScreen:
           final args = arguments as int;
