@@ -16,7 +16,6 @@ import '../../features/client_events/ui/widgets/client_guest_details_screen.dart
 import '../../features/client_statistics/data/models/guest_type_list.dart';
 import '../../features/client_statistics/logic/client_statistics_cubit.dart';
 import '../../features/client_statistics/ui/widgets/client_confirmation_services/client_message_status.dart';
-import '../../features/event_calender/ui/event_calender_screen.dart';
 import '../../features/notifications/ui/notifications_screen.dart';
 import '../../features/events_scan_history/data/models/gatekeeper_events_response.dart';
 import '../../features/events_scan_history/logic/gatekeeper_events_cubit.dart';
@@ -134,10 +133,6 @@ class AppRouter {
           ),
         );
 
-      case Routes.eventsCalendar:
-        return _buildRoute(
-          const EventCalenderScreen(),
-        );
       case Routes.notifications:
         return _buildRoute(BlocProvider.value(
           value: getIt<NotificationsCubit>(),
