@@ -31,6 +31,7 @@ class EventsList {
   final String? contactPhone;
   final String? leaveTime;
   final String? attendanceTime;
+  final bool? isCheckedIn;
 
   EventsList({
     this.eventTitle,
@@ -47,6 +48,7 @@ class EventsList {
     this.contactPhone,
     this.leaveTime,
     this.attendanceTime,
+    this.isCheckedIn,
   });
 
   factory EventsList.fromJson(Map<String, dynamic> json) =>
