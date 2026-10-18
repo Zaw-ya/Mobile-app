@@ -17,11 +17,7 @@ import '../../features/client_events/ui/widgets/client_guest_details_screen.dart
 import '../../features/client_events/ui/widgets/client_messages_status_screen.dart';
 import '../../features/client_statistics/data/models/guest_type_list.dart';
 import '../../features/client_statistics/logic/client_statistics_cubit.dart';
-import '../../features/client_statistics/ui/client_statistics_screen.dart';
-import '../../features/client_statistics/ui/widgets/client_confirmation_services/client_confirmation_services_screen.dart';
 import '../../features/client_statistics/ui/widgets/client_confirmation_services/client_message_status.dart';
-import '../../features/client_statistics/ui/widgets/client_messages/client_messages_statistics_screen.dart';
-import '../../features/client_statistics/ui/widgets/sent_cards_services/sent_cards_services_screen.dart';
 import '../../features/event_calender/ui/event_calender_screen.dart';
 import '../../features/notifications/ui/notifications_screen.dart';
 import '../../features/events_scan_history/data/models/gatekeeper_events_response.dart';
@@ -187,30 +183,6 @@ class AppRouter {
           ),
         );
 
-      case Routes.clientStatisticsScreen:
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientStatisticsCubit>(),
-            child: const ClientStatisticsScreen(),
-          ),
-        );
-
-      case Routes.clientMessagesStatisticsScreen:
-        final eventId = arguments as String;
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientStatisticsCubit>(),
-            child: ClientMessagesStatisticsScreen(eventId: eventId),
-          ),
-        );
-      case Routes.clientConfirmationServicesScreen:
-        final eventId = arguments as String;
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientStatisticsCubit>(),
-            child: ClientConfirmationServicesScreen(eventId: eventId),
-          ),
-        );
       case Routes.clientMessageStatus:
         final args = arguments as Map<String, dynamic>;
         final eventId = args['eventId'] as String;
@@ -223,15 +195,6 @@ class AppRouter {
                 ClientMessageStatus(eventId: eventId, type: type, title: title),
           ),
         );
-      case Routes.sentCardsServicesScreen:
-        final eventId = arguments as String;
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientStatisticsCubit>(),
-            child: SentCardsServicesScreen(eventId: eventId),
-          ),
-        );
-
       case Routes.landingView:
       final int initialIndex = (settings.arguments as int?) ?? 0;
         return _buildRoute(
