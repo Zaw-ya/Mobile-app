@@ -146,7 +146,9 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen>
         return;
       }
       if (status.canCheckOut != true) {
-        context.showErrorToast(CheckInReason.message(status.reasonCode));
+        // reasonCode describes check-in; null here means "not checked in yet"
+        context.showErrorToast(CheckInReason.message(
+            status.reasonCode ?? CheckInReason.notCheckedIn));
         return;
       }
       final position = await _getValidatedPosition();
