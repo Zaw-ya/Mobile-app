@@ -15,6 +15,10 @@ class QrCodeScannerCubit extends Cubit<QrCodeScannerStates> {
 
   bool stopScan = false;
 
+  /// True when the last scan was refused for a missing check-in,
+  /// so the screen sends the gatekeeper back to check in.
+  bool requiresCheckIn = false;
+
 
 
   String? _scanStartTime;
@@ -56,8 +60,16 @@ class QrCodeScannerCubit extends Cubit<QrCodeScannerStates> {
         },
         failure: (error) {
           stopScan = false;
+          requiresCheckIn = error == QrCodeScannerRepo.checkInRequiredCode ||
+              error == QrCodeScannerRepo.checkedOutCode;
 
-          if (error == "scan_error_max_limit") {
+          if (error == QrCodeScannerRepo.checkInRequiredCode) {
+            emit(QrCodeScannerStates.error(
+                message: "scan_error_checkin_required".tr()));
+          } else if (error == QrCodeScannerRepo.checkedOutCode) {
+            emit(QrCodeScannerStates.error(
+                message: "scan_error_checked_out".tr()));
+          } else if (error == "scan_error_max_limit") {
             emit(QrCodeScannerStates.error(
                 message: "scan_error_scanned_before".tr()));
           } else if (error == "scan_error_scanned_before") {
