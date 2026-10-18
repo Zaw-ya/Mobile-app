@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../../../../core/constants/public_methods.dart';
+import '../../data/models/check_in_reason.dart';
+import '../../data/models/check_in_status_response.dart';
 import '../../data/models/gatekeeper_events_response.dart';
 import '../../logic/gatekeeper_events_cubit.dart';
 import '../../logic/scan_history_states.dart';
@@ -27,8 +28,11 @@ class EventCheckDialogBox extends StatefulWidget {
 }
 
 class _EventCheckDialogBoxState extends State<EventCheckDialogBox> {
-  bool? _hasCheckedIn;
+  CheckInStatusResponse? _checkInStatus;
   bool _isLoadingStatus = true;
+
+  bool? get _hasCheckedIn =>
+      _checkInStatus?.isCheckedIn ?? widget.event.isCheckedIn;
 
   @override
   void initState() {
@@ -36,25 +40,17 @@ class _EventCheckDialogBoxState extends State<EventCheckDialogBox> {
     _loadCheckInStatus();
   }
 
-  Future<void> _loadCheckInStatus() async {
-    try {
-      final status = await context
-          .read<GatekeeperEventsCubit>()
-          .hasCheckedIn(widget.event.id.toString());
-      if (mounted) {
-        setState(() {
-          _hasCheckedIn = status;
-          _isLoadingStatus = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _hasCheckedIn = false;
-          _isLoadingStatus = false;
-        });
-      }
+  Future<CheckInStatusResponse?> _loadCheckInStatus() async {
+    final status = await context
+        .read<GatekeeperEventsCubit>()
+        .getCheckInStatus(widget.event.id.toString());
+    if (mounted) {
+      setState(() {
+        if (status != null) _checkInStatus = status;
+        _isLoadingStatus = false;
+      });
     }
+    return status;
   }
 
   @override
@@ -163,18 +159,15 @@ class _EventCheckDialogBoxState extends State<EventCheckDialogBox> {
 
   Future<void> _handleCheckIn(BuildContext context) async {
     try {
-      if (_hasCheckedIn == true) {
-        if (mounted) context.showErrorToast('already_checked_in'.tr());
+      final status = await _loadCheckInStatus();
+      if (!context.mounted) return;
+      if (status?.canCheckIn != true) {
+        context.pop();
+        context.showErrorToast(status == null
+            ? 'some_error'.tr()
+            : CheckInReason.message(status.reasonCode));
         return;
       }
-      if (!_isWithinEventTimeWindow(widget.event)) {
-        if (mounted) {
-          context.pop();
-          context.showErrorToast('checking_not_validated'.tr());
-        }
-        return;
-      }
-      if (!mounted) return;
       final position = await _getValidatedPosition(context);
       if (position == null) {
         if (!context.mounted) return;
@@ -197,17 +190,13 @@ class _EventCheckDialogBoxState extends State<EventCheckDialogBox> {
 
   Future<void> _handleCheckOut(BuildContext context) async {
     try {
-      if (_hasCheckedIn != true) {
-        if (context.mounted) {
-          context.showErrorToast('must_check_in_first'.tr());
-        }
-        return;
-      }
-      if (!_isWithinEventTimeWindow(widget.event)) {
-        if (context.mounted) {
-          context.pop();
-          context.showErrorToast('checkout_not_validated'.tr());
-        }
+      final status = await _loadCheckInStatus();
+      if (!context.mounted) return;
+      if (status?.canCheckOut != true) {
+        context.pop();
+        context.showErrorToast(status == null
+            ? 'some_error'.tr()
+            : CheckInReason.message(status.reasonCode));
         return;
       }
       final position = await _getValidatedPosition(context);
@@ -219,21 +208,6 @@ class _EventCheckDialogBoxState extends State<EventCheckDialogBox> {
     } catch (e) {
       if (context.mounted) context.showErrorToast(e.toString());
     }
-  }
-
-  bool _isWithinEventTimeWindow(EventsList event) {
-    final start =
-        getDateTimeFromString(event.eventFrom ?? DateTime.now().toString());
-    final end =
-        getDateTimeFromString(event.eventTo ?? DateTime.now().toString());
-    final startWindow =
-        DateTime(start.year, start.month, start.day, 0, 0, 0);
-    final endWindow =
-        DateTime(end.year, end.month, end.day, 23, 59, 59);
-    final now = DateTime.now();
-    return now.isAfter(startWindow) && now.isBefore(endWindow) ||
-        now.isAtSameMomentAs(startWindow) ||
-        now.isAtSameMomentAs(endWindow);
   }
 
   Future<Position?> _getValidatedPosition(BuildContext context) async {
@@ -255,11 +229,6 @@ class _EventCheckDialogBoxState extends State<EventCheckDialogBox> {
       },
       successCheck: (response) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (response.contains('In')) {
-            setState(() => _hasCheckedIn = true);
-          } else if (response.contains('Out')) {
-            setState(() => _hasCheckedIn = false);
-          }
           context.pop();
           _handleSuccessResponse(context, response);
         });

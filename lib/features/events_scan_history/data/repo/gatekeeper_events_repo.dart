@@ -10,6 +10,8 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../core/helpers/app_utilities.dart';
 import '../../../../core/networking/api_result.dart';
 import '../../../../core/networking/api_service.dart';
+import '../models/check_in_reason.dart';
+import '../models/check_in_status_response.dart';
 import '../models/event_details_response.dart';
 import '../models/gatekeeper_events_response.dart';
 import 'package:path/path.dart';
@@ -46,6 +48,20 @@ class GatekeeperEventsRepo {
     }
   }
 
+  Future<ApiResult<CheckInStatusResponse>> getCheckInStatus(
+      String eventId) async {
+    try {
+      var response = await _apiService.getCheckInStatus(
+          AppUtilities().serverToken, eventId);
+      return ApiResult.success(response);
+    } on DioException catch (dioError) {
+      debugPrint('check-in status error: ${dioError.response?.data}');
+      return ApiResult.failure("some_error".tr());
+    } catch (error) {
+      return ApiResult.failure(error.toString());
+    }
+  }
+
   Future<ApiResult<String>> eventCheckOut(
       String eventId, Position position) async {
     try {
@@ -58,15 +74,9 @@ class GatekeeperEventsRepo {
       );
       return ApiResult.success(response);
     } on DioException catch (dioError) {
-      if (dioError.response != null &&
-          dioError.response?.data != null &&
-          dioError.response!.data
-              .toString()
-              .contains("This gatekeeper didn't check IN yet to this event")) {
-        debugPrint('Invalid response: ${dioError.response!.data}');
-        return ApiResult.failure("not_yet_checked");
-      }
-      debugPrint(' response: ${dioError.response!.data}');
+      debugPrint(' response: ${dioError.response?.data}');
+      final code = CheckInReason.codeFrom(dioError);
+      if (code != null) return ApiResult.failure(CheckInReason.message(code));
 
       return ApiResult.failure("some_error".tr());
     } catch (error) {
@@ -130,7 +140,9 @@ class GatekeeperEventsRepo {
       debugPrint('success response: $response');
       return ApiResult.success(response);
     } on DioException catch (dioError) {
-      debugPrint('dio exception: ${dioError.response!.data}');
+      debugPrint('dio exception: ${dioError.response?.data}');
+      final code = CheckInReason.codeFrom(dioError);
+      if (code != null) return ApiResult.failure(CheckInReason.message(code));
       return ApiResult.failure("some_error".tr());
     } catch (error) {
       debugPrint('catch error: ${error.toString()}');

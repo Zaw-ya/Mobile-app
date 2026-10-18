@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../core/helpers/app_utilities.dart';
+import '../data/models/check_in_status_response.dart';
 import '../data/models/gatekeeper_events_response.dart';
 import '../data/models/event_details_response.dart';
 import '../data/repo/gatekeeper_events_repo.dart';
@@ -14,8 +14,6 @@ import 'scan_history_states.dart';
 
 class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
   final GatekeeperEventsRepo _gatekeeperEventsRepo;
-
-  static const String _checkInStatusKey = 'event_check_in_status_';
 
   // For Gatekeeper Events Pagination
   final List<EventsList> _events = [];
@@ -212,7 +210,6 @@ class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
           await _gatekeeperEventsRepo.eventCheckOut(eventId, position);
       await response.when(
         success: (response) async {
-          await markAsCheckedOut(eventId);
           debugPrint('Check-out success: $response');
           emit(ScanHistoryStates.successCheck(response));
         },
@@ -237,7 +234,6 @@ class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
           eventId, position, profileImage);
       await response.when(
         success: (response) async {
-          await markAsCheckedIn(eventId);
           debugPrint('Check-in success: $response');
           emit(ScanHistoryStates.successCheck(response));
         },
@@ -281,22 +277,17 @@ class GatekeeperEventsCubit extends Cubit<ScanHistoryStates> {
     });
   }
 
-  /// Mark event as checked in (moved from widget)
-  Future<void> markAsCheckedIn(String eventId) async {
-    //await AppUtilities().setString("event_id", eventId);
-    await AppUtilities().setBool(_checkInStatusKey + eventId, true);
-  }
-
-  /// Mark event as checked out (moved from widget)
-  Future<void> markAsCheckedOut(String eventId) async {
-    await AppUtilities().setBool(_checkInStatusKey + eventId, false);
-  }
-
-  /// Check if an event has been checked in
-  Future<bool> hasCheckedIn(String eventId) async {
-    final status =
-        await AppUtilities().getBool(_checkInStatusKey + eventId, false);
-    return status;
+  /// Current check-in state from the backend (it owns the shift rules).
+  /// Returns null when the request fails.
+  Future<CheckInStatusResponse?> getCheckInStatus(String eventId) async {
+    final response = await _gatekeeperEventsRepo.getCheckInStatus(eventId);
+    return response.when(
+      success: (status) => status,
+      failure: (error) {
+        debugPrint('Check-in status failed: $error');
+        return null;
+      },
+    );
   }
 
 // جوه GatekeeperEventsCubit
