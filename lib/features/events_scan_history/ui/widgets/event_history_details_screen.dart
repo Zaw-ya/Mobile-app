@@ -9,13 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../../../../core/constants/public_methods.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/loader.dart';
 import '../../../../core/widgets/public_app_bar.dart';
 import '../../../../generated/assets.dart';
+import '../../data/models/check_in_reason.dart';
+import '../../data/models/check_in_status_response.dart';
 import '../../data/models/event_details_response.dart';
 import '../../data/models/gatekeeper_events_response.dart';
 import '../../logic/gatekeeper_events_cubit.dart';
@@ -37,16 +38,22 @@ class EventHistoryDetailsScreen extends StatefulWidget {
       _EventHistoryDetailsScreenState();
 }
 
-class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
+class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen>
+    with WidgetsBindingObserver {
   final ScrollController _scrollController = ScrollController();
 
   int _selectedTabIndex = 0;
-  bool? _hasCheckedIn;
+  CheckInStatusResponse? _checkInStatus;
   bool _isLoadingStatus = true;
+
+  // The backend decides; until the first status arrives fall back to the list value
+  bool get _hasCheckedIn =>
+      _checkInStatus?.isCheckedIn ?? widget.event?.isCheckedIn ?? false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _scrollController.addListener(_scrollListener);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context
@@ -56,29 +63,28 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
     _loadCheckInStatus();
   }
 
-  Future<void> _loadCheckInStatus() async {
-    try {
-      final status = await context
-          .read<GatekeeperEventsCubit>()
-          .hasCheckedIn(widget.event?.id.toString() ?? '0');
-      if (mounted) {
-        setState(() {
-          _hasCheckedIn = status;
-          _isLoadingStatus = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _hasCheckedIn = false;
-          _isLoadingStatus = false;
-        });
-      }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // The shift may have ended (auto check-out) or the event may have been edited
+    if (state == AppLifecycleState.resumed) _loadCheckInStatus();
+  }
+
+  Future<CheckInStatusResponse?> _loadCheckInStatus() async {
+    final status = await context
+        .read<GatekeeperEventsCubit>()
+        .getCheckInStatus(widget.event?.id.toString() ?? '0');
+    if (mounted) {
+      setState(() {
+        if (status != null) _checkInStatus = status;
+        _isLoadingStatus = false;
+      });
     }
+    return status;
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     super.dispose();
@@ -101,15 +107,17 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
 
   Future<void> _handleCheckIn() async {
     try {
-      if (_hasCheckedIn == true) {
-        context.showErrorToast('already_checked_in'.tr());
-        return;
-      }
-      if (!_isWithinEventTimeWindow(widget.event!)) {
-        context.showErrorToast('checking_not_validated'.tr());
-        return;
-      }
+      // Ask the backend first so the gatekeeper isn't sent to the camera for nothing
+      final status = await _loadCheckInStatus();
       if (!mounted) return;
+      if (status == null) {
+        context.showErrorToast('some_error'.tr());
+        return;
+      }
+      if (status.canCheckIn != true) {
+        context.showErrorToast(CheckInReason.message(status.reasonCode));
+        return;
+      }
       final position = await _getValidatedPosition();
       if (position == null) {
         if (mounted) context.showErrorToast('location_permission_denied_short'.tr());
@@ -131,12 +139,16 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
 
   Future<void> _handleCheckOut() async {
     try {
-      if (_hasCheckedIn != true) {
-        context.showErrorToast('must_check_in_first'.tr());
+      final status = await _loadCheckInStatus();
+      if (!mounted) return;
+      if (status == null) {
+        context.showErrorToast('some_error'.tr());
         return;
       }
-      if (!_isWithinEventTimeWindow(widget.event!)) {
-        context.showErrorToast('checkout_not_validated'.tr());
+      if (status.canCheckOut != true) {
+        // reasonCode describes check-in; null here means "not checked in yet"
+        context.showErrorToast(CheckInReason.message(
+            status.reasonCode ?? CheckInReason.notCheckedIn));
         return;
       }
       final position = await _getValidatedPosition();
@@ -150,21 +162,6 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
     }
   }
 
-  bool _isWithinEventTimeWindow(EventsList event) {
-    final start =
-        getDateTimeFromString(event.eventFrom ?? DateTime.now().toString());
-    final end =
-        getDateTimeFromString(event.eventTo ?? DateTime.now().toString());
-    final startWindow =
-        DateTime(start.year, start.month, start.day, 0, 0, 0);
-    final endWindow =
-        DateTime(end.year, end.month, end.day, 23, 59, 59);
-    final now = DateTime.now();
-    return now.isAfter(startWindow) && now.isBefore(endWindow) ||
-        now.isAtSameMomentAs(startWindow) ||
-        now.isAtSameMomentAs(endWindow);
-  }
-
   Future<Position?> _getValidatedPosition() async {
     final position = await LocationService.getPosition(context);
     if (position.latitude == -1 || position.longitude == -1) return null;
@@ -175,19 +172,19 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
     state.whenOrNull(
       errorCheck: (error) {
         context.showErrorToast(error);
+        _loadCheckInStatus();
       },
       successCheck: (response) {
         final res = response as String;
         if (res.contains('In')) {
-          setState(() => _hasCheckedIn = true);
           if (Platform.isIOS) context.pop();
           context.showSuccessToast('check_in_successful'.tr());
         } else if (res.contains('Out')) {
-          setState(() => _hasCheckedIn = false);
           context.showSuccessToast('check_out_successful'.tr());
         } else {
           context.showSuccessToast(res);
         }
+        _loadCheckInStatus();
       },
     );
   }
@@ -344,7 +341,7 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
       );
     }
 
-    final bool isCheckedIn = _hasCheckedIn == true;
+    final bool isCheckedIn = _hasCheckedIn;
 
     return Container(
       color: AppColor.primaryLight,
@@ -380,11 +377,16 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
             Expanded(
               child: CustomButton.withIcon(
                 text: 'scan_qr'.tr(),
-                color: AppColor.primaryDark,
+                // Scanning requires a check-in for the current shift
+                color: isCheckedIn ? AppColor.primaryDark : AppColor.gray300,
                 textColor: AppColor.primaryLight,
                 onPressed: anyLoading
                     ? null
                     : () async {
+                        if (!isCheckedIn) {
+                          context.showErrorToast('must_check_in_first'.tr());
+                          return;
+                        }
                         await Navigator.pushNamed(
                           context,
                           Routes.qrCodeScreen,
@@ -396,6 +398,7 @@ class _EventHistoryDetailsScreenState extends State<EventHistoryDetailsScreen> {
                             .getEventDetails(
                               widget.event?.id.toString() ?? '0',
                             );
+                        _loadCheckInStatus();
                       },
                 svgIconPath: Assets.imagesQrcode,
               ),

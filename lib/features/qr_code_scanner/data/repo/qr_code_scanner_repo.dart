@@ -8,6 +8,10 @@ import '../models/scan_body_request.dart';
 import '../models/scan_response.dart';
 
 class QrCodeScannerRepo {
+  // Scan refused because the gatekeeper has no check-in for the current shift
+  static const String checkInRequiredCode = 'CHECKIN_REQUIRED';
+  static const String checkedOutCode = 'CHECKED_OUT';
+
   final ApiService _apiService;
 
   QrCodeScannerRepo(this._apiService);
@@ -22,6 +26,15 @@ class QrCodeScannerRepo {
       debugPrint('DioError: ${e.message}');
 
       if (e.response != null) {
+        // Stable codes from the backend take priority over message matching
+        final code = e.response?.data is Map ? e.response?.data['code'] : null;
+        if (code == checkInRequiredCode) {
+          return ApiResult.failure(checkInRequiredCode);
+        }
+        if (code == checkedOutCode) {
+          return ApiResult.failure(checkedOutCode);
+        }
+
         // Extract the `message` field from the response
         final errorMessage = e.response?.data?['message'] ?? "scanned_before";
 

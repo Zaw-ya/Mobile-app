@@ -158,7 +158,13 @@ class _QrCodeScannerScreenState extends State<QrCodeScannerScreen> {
         onClose: () {
           if (!mounted || _isDisposed) return;
           try {
-            context.read<QrCodeScannerCubit>().reloadPage();
+            final cubit = context.read<QrCodeScannerCubit>();
+            // No valid check-in (e.g. auto check-out at shift end): go back to check in
+            if (cubit.requiresCheckIn) {
+              context.pop();
+              return;
+            }
+            cubit.reloadPage();
           } catch (e) {
             debugPrint('Error reloading page: $e');
           }

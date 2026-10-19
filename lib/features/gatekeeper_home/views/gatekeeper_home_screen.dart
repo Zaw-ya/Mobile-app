@@ -133,27 +133,33 @@ class _GatekeeperHomeScreenState extends State<GatekeeperHomeScreen> {
           child: Scaffold(
             key: ValueKey(currentLocale.languageCode),
             backgroundColor: AppColor.primaryLight,
-            body: SingleChildScrollView(
-              controller: _scrollController,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  HomeHeader(),
-                  GuidelinesInvitationLogs(),
-                  SizedBox(height: heightEdge),
-                  UpcomingEventsBadge(eventsNumber: events.length),
-                  // SizedBox(height: edge * 0.1),
+            body: RefreshIndicator(
+              color: AppColor.primaryDark,
+              onRefresh: () =>
+                  context.read<GatekeeperEventsCubit>().getGatekeeperEvents(),
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    HomeHeader(),
+                    GuidelinesInvitationLogs(),
+                    SizedBox(height: heightEdge),
+                    UpcomingEventsBadge(eventsNumber: events.length),
+                    // SizedBox(height: edge * 0.1),
 
-                  // ── States ──────────────────────────────────────────────
-                  state.maybeWhen(
-                    emptyInput: () => EmptyWidget(),
-                    error: (message) => _ErrorWidget(message: message),
-                    orElse: () => _EventsList(
-                      events: events,
-                      isLoadingMore: isLoadingMore,
+                    // ── States ──────────────────────────────────────────────
+                    state.maybeWhen(
+                      emptyInput: () => EmptyWidget(),
+                      error: (message) => _ErrorWidget(message: message),
+                      orElse: () => _EventsList(
+                        events: events,
+                        isLoadingMore: isLoadingMore,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

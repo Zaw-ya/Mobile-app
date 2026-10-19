@@ -26,12 +26,15 @@ class EventCard extends StatelessWidget {
     final bool isArabic = context.locale.languageCode == 'ar';
 
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         debugPrint("index: ${event.id}");
-        context.pushNamed(
+        await context.pushNamed(
           Routes.eventDetailScreen,
           arguments: {'event': event, 'showBottomBar': showNavBar},
         );
+        // Event data or check-in state may have changed while the details were open
+        if (!context.mounted) return;
+        context.read<GatekeeperEventsCubit>().getGatekeeperEvents();
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
