@@ -146,22 +146,61 @@ class FirebaseMessagingHandler {
   void _listenToTokenRefresh() {
     FirebaseMessaging.instance.onTokenRefresh.listen((newToken) async {
       debugPrint("FCM refreshed token: $newToken");
-
-      try {
-        final userToken = AppUtilities().serverToken; // auth token
-        if (userToken.isEmpty) return;
-        // if (userToken != null) {
-        await getIt<ApiService>().saveDeviceToken(
-          "Bearer $userToken",
-          {
-            "token": newToken,
-          },
-        );
-        // }
-      } catch (e) {
-        debugPrint("Error updating refreshed token: $e");
-      }
+      await syncDeviceToken(fcmToken: newToken);
     });
+  }
+
+  /// Register this device's FCM token for the logged-in user.
+  /// [authToken] must include the "Bearer " prefix (as stored in AppUtilities);
+  /// defaults to the current session token. Skipped when nobody is logged in.
+  Future<void> syncDeviceToken({String? authToken, String? fcmToken}) async {
+    try {
+      final userToken = authToken ?? AppUtilities().serverToken;
+      if (userToken.isEmpty) return;
+
+      final token = fcmToken ?? await getFCMToken();
+      if (token == null || token.isEmpty) return;
+
+      await getIt<ApiService>().saveDeviceToken(
+        userToken,
+        {
+          "fcmToken": token,
+        },
+      );
+      debugPrint("Device token synced with backend");
+    } catch (e) {
+      debugPrint("Error syncing device token: $e");
+    }
+  }
+
+  /// Stop this device from receiving the current user's pushes.
+  /// Call BEFORE AppUtilities().clearData() so the session token is still available.
+  /// [notifyBackend] = false when the session is already invalid (401 / deleted account).
+  Future<void> unregisterDevice({bool notifyBackend = true}) async {
+    final userToken = AppUtilities().serverToken;
+
+    if (notifyBackend && userToken.isNotEmpty) {
+      try {
+        await getIt<ApiService>().deleteDeviceToken(userToken);
+      } catch (e) {
+        debugPrint("Error removing device token from backend: $e");
+      }
+    }
+
+    try {
+      final topic = AppUtilities().subscriptionTopic;
+      if (topic.isNotEmpty) {
+        await _messaging.unsubscribeFromTopic(topic);
+      }
+      // Invalidates the token (and its topic subscriptions); the next login gets a fresh one
+      await _messaging.deleteToken();
+    } catch (e) {
+      debugPrint("Error deleting FCM token: $e");
+    }
+
+    try {
+      getIt<NotificationsCubit>().reset();
+    } catch (_) {}
   }
 
   /// Set up message handlers for different app states

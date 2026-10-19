@@ -4,6 +4,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../helpers/app_utilities.dart';
 import '../routing/routes.dart';
+import '../services/firebase_messaging_handler.dart';
 import '../services/navigation_service.dart';
 
 class DioFactory {
@@ -51,6 +52,9 @@ class DioFactory {
             debugPrint('🔒 Token expired — logging out globally.');
 
             try {
+              // Session is already invalid, so a backend call would 401 again
+              await FirebaseMessagingHandler()
+                  .unregisterDevice(notifyBackend: false);
               await AppUtilities().clearData();
 
               final navigatorState =

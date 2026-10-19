@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/helpers/app_utilities.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
+import '../../../../core/services/firebase_messaging_handler.dart';
 import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -25,6 +26,7 @@ class _LogoutBottomSheetState extends State<LogoutBottomSheet> {
     await Future.delayed(const Duration(milliseconds: 400));
     if (mounted) {
       context.pushNamedAndRemoveUntil(Routes.loginScreen, predicate: false);
+      await FirebaseMessagingHandler().unregisterDevice();
       await AppUtilities().clearData();
     }
   }

@@ -78,8 +78,12 @@ class AppUtilities {
   }
 
   Future<void> clearData() async {
+    // Reset in-memory values too, otherwise the old session token stays usable until restart
+    _serverToken = null;
+    _subscriptionTopic = null;
     _storage.delete(key: "serverToken");
     _storage.delete(key: "userData");
+    _storage.delete(key: "subscriptionTopic");
 
     _storage.delete(key: "notification_userId");
     _storage.delete(key: "notification_userName");

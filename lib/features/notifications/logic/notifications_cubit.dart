@@ -122,11 +122,19 @@ class NotificationsCubit extends Cubit<NotificationsStates> {
 
       emit(NotificationsSuccess(
         notifications: _cachedNotifications,
-        unreadCount: state.unreadCount,
+        unreadCount: _backendUnreadCount,
         hasMore: state.hasMore,
         currentPage: state.currentPage,
       ));
     } catch (_) {}
+  }
+
+  // ── Reset on logout (cubit is a singleton shared across sessions) ──
+  void reset() {
+    _backendUnreadCount = 0;
+    _cachedNotifications = [];
+    if (isClosed) return;
+    emit(const NotificationsInitial());
   }
 }
 

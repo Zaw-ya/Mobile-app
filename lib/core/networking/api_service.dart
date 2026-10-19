@@ -125,6 +125,11 @@ abstract class ApiService {
     @Body() Map<String, dynamic> body,
   );
 
+  @DELETE(ApiConstants.saveDeviceTokenEndpoint)
+  Future<void> deleteDeviceToken(
+    @Header('Authorization') String token,
+  );
+
   @GET(ApiConstants.unreadNotificationsCountEndpoint)
   Future<dynamic> getUnreadNotificationsCount(
     @Header('Authorization') String token,
