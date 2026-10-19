@@ -37,6 +37,7 @@ EventsList _$EventsListFromJson(Map<String, dynamic> json) => EventsList(
       contactPhone: json['contactPhone'] as String?,
       leaveTime: json['leaveTime'] as String?,
       attendanceTime: json['attendanceTime'] as String?,
+      isCheckedIn: json['isCheckedIn'] as bool?,
     );
 
 Map<String, dynamic> _$EventsListToJson(EventsList instance) =>
@@ -55,4 +56,5 @@ Map<String, dynamic> _$EventsListToJson(EventsList instance) =>
       'contactPhone': instance.contactPhone,
       'leaveTime': instance.leaveTime,
       'attendanceTime': instance.attendanceTime,
+      'isCheckedIn': instance.isCheckedIn,
     };

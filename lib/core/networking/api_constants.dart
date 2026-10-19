@@ -22,6 +22,7 @@ class ApiConstants {
   static const String checkinEndpoint = 'events/checkin';
   static const String deleteEventEndpoint = 'events/UnassignFromEvent';
   static const String checkoutEndpoint = 'events/checkout';
+  static const String checkInStatusEndpoint = 'events/CheckInStatus';
   static const String locationsEndpoint = 'Events/Locations';
   static const String countriesEndpoint = 'Events/GetCountries';
   static const String citiesEndpoint = 'Events/GetCities';

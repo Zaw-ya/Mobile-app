@@ -9,6 +9,7 @@ import '../../features/client_statistics/data/models/client_confirmation_service
 import '../../features/client_statistics/data/models/client_messages_statistics_response.dart';
 import '../../features/client_statistics/data/models/sent_cards_services_response.dart';
 import '../../features/event_calender/data/models/calender_events.dart';
+import '../../features/events_scan_history/data/models/check_in_status_response.dart';
 import '../../features/events_scan_history/data/models/event_details_response.dart';
 import '../../features/events_scan_history/data/models/gatekeeper_events_response.dart';
 import '../../features/location/data/models/city_response.dart';
@@ -82,6 +83,12 @@ abstract class ApiService {
     @Header('latitude') String latitude,
     @Header('longitude') String longitude,
     @Query('eventid') String eventId,
+  );
+
+  @GET(ApiConstants.checkInStatusEndpoint)
+  Future<CheckInStatusResponse> getCheckInStatus(
+    @Header('Authorization') String token,
+    @Query('eventId') String eventId,
   );
 
   @POST(ApiConstants.checkinEndpoint)
