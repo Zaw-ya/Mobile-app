@@ -1,6 +1,4 @@
 import 'package:app/core/widgets/success_view.dart';
-import 'package:app/features/event_calender/logic/event_calender_cubit.dart';
-import 'package:app/features/gatekeeper_calendar/presentation/calendar_view.dart';
 import 'package:app/features/profile/logic/profile_cubit.dart';
 import 'package:app/features/profile/presentation/gk_profile.dart';
 import 'package:app/features/qr_code_scanner/logic/qr_code_scanner_cubit.dart';
@@ -12,17 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/client_events/data/models/client_event_response.dart';
 import '../../features/client_events/data/models/client_messages_status_response.dart';
 import '../../features/client_events/logic/client_events_cubit.dart';
-import '../../features/client_events/ui/client_events_screen.dart';
 import '../../features/client_events/ui/widgets/client_guest_details_screen.dart';
-import '../../features/client_events/ui/widgets/client_messages_status_screen.dart';
 import '../../features/client_statistics/data/models/guest_type_list.dart';
 import '../../features/client_statistics/logic/client_statistics_cubit.dart';
-import '../../features/client_statistics/ui/client_statistics_screen.dart';
-import '../../features/client_statistics/ui/widgets/client_confirmation_services/client_confirmation_services_screen.dart';
 import '../../features/client_statistics/ui/widgets/client_confirmation_services/client_message_status.dart';
-import '../../features/client_statistics/ui/widgets/client_messages/client_messages_statistics_screen.dart';
-import '../../features/client_statistics/ui/widgets/sent_cards_services/sent_cards_services_screen.dart';
-import '../../features/event_calender/ui/event_calender_screen.dart';
 import '../../features/notifications/ui/notifications_screen.dart';
 import '../../features/events_scan_history/data/models/gatekeeper_events_response.dart';
 import '../../features/events_scan_history/logic/gatekeeper_events_cubit.dart';
@@ -97,13 +88,6 @@ class AppRouter {
             child:  QrCodeScannerScreen(eventId: eventId,),
           ),
         );
-      case Routes.eventsHistory:
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<GatekeeperEventsCubit>(),
-            child: const ScanHistoryScreen(),
-          ),
-        );
       case Routes.gatekeeperScanHistoryScreen:
         return _buildRoute(
           BlocProvider(
@@ -142,28 +126,12 @@ class AppRouter {
         )
             );
 
-      case Routes.clientEvents:
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientEventsCubit>(),
-            child: const ClientEventsScreen(),
-          ),
-        );
       case Routes.clientEventsDetailsScreen:
         final event = arguments as ClientEventDetails;
         return _buildRoute(
           BlocProvider(
             create: (_) => getIt<ClientEventsCubit>(),
             child: ClientEventDetailScreen(event: event),
-          ),
-        );
-
-      case Routes.clientMessagesStatusScreen:
-        final eventId = arguments as String;
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientEventsCubit>(),
-            child: ClientMessagesStatusScreen(eventId: eventId),
           ),
         );
 
@@ -178,30 +146,6 @@ class AppRouter {
           ),
         );
 
-      case Routes.clientStatisticsScreen:
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientStatisticsCubit>(),
-            child: const ClientStatisticsScreen(),
-          ),
-        );
-
-      case Routes.clientMessagesStatisticsScreen:
-        final eventId = arguments as String;
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientStatisticsCubit>(),
-            child: ClientMessagesStatisticsScreen(eventId: eventId),
-          ),
-        );
-      case Routes.clientConfirmationServicesScreen:
-        final eventId = arguments as String;
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientStatisticsCubit>(),
-            child: ClientConfirmationServicesScreen(eventId: eventId),
-          ),
-        );
       case Routes.clientMessageStatus:
         final args = arguments as Map<String, dynamic>;
         final eventId = args['eventId'] as String;
@@ -214,15 +158,6 @@ class AppRouter {
                 ClientMessageStatus(eventId: eventId, type: type, title: title),
           ),
         );
-      case Routes.sentCardsServicesScreen:
-        final eventId = arguments as String;
-        return _buildRoute(
-          BlocProvider(
-            create: (_) => getIt<ClientStatisticsCubit>(),
-            child: SentCardsServicesScreen(eventId: eventId),
-          ),
-        );
-
       case Routes.landingView:
       final int initialIndex = (settings.arguments as int?) ?? 0;
         return _buildRoute(
@@ -231,16 +166,6 @@ class AppRouter {
             child: LandingView(initialIndex: initialIndex),
           ),
         );
-
-        case Routes.gatekeeperCalendarScreen:
-        return _buildRoute(
-        BlocProvider(
-          create: (_) => getIt<EventCalenderCubit>(),
-          child: const CalendarView(),
-        ),
-        );
-
-
 
         case Routes.gatekeeperProfileScreen:
           final args = arguments as int;
