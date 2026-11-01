@@ -11,13 +11,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/dimensions/dimensions_constants.dart';
+import '../../../../core/helpers/extensions.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/public_app_bar.dart';
 import '../../../client_events/data/models/client_event_details_response.dart';
 import '../../../client_events/data/models/client_event_response.dart';
 import '../../../client_events/data/models/client_messages_status_response.dart';
 import '../../../client_events/logic/client_events_cubit.dart';
 import '../../../client_events/logic/client_events_states.dart';
+import '../../../client_guests/data/local/guest_draft_storage.dart';
 import 'client_attendance_list.dart';
 import 'client_event_details_card.dart';
 import 'client_messages_list.dart';
@@ -121,6 +125,81 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
     }
   }
 
+  // ── Manage guests ────────────────────────────────────────────────────────
+
+  late Future<int> _draftCount = _loadDraftCount();
+
+  Future<int> _loadDraftCount() =>
+      getIt<GuestDraftStorage>().count(widget.event.id ?? 0);
+
+  Future<void> _openManageGuests() async {
+    await context.pushNamed(Routes.manageGuestsScreen, arguments: widget.event);
+    if (!mounted) return;
+    // Guests may have been added or changed there
+    setState(() => _draftCount = _loadDraftCount());
+    final cubit = context.read<ClientEventsCubit>();
+    if (_selectedTab == 0) {
+      cubit.getEventDetails(widget.event.id.toString());
+    } else {
+      cubit.getClientMessagesStatus(widget.event.id.toString());
+    }
+  }
+
+  Widget _manageGuestsButton() {
+    final button = Container(
+      padding:
+          EdgeInsets.symmetric(horizontal: edge * 0.6, vertical: edge * 0.3),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(radius),
+        border: Border.all(color: AppColor.primaryDark),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.person_add_alt_1_rounded,
+              size: 16, color: AppColor.primaryDark),
+          SizedBox(width: edge * 0.25),
+          Text('guests_manage'.tr(), style: context.typography.labelLarge),
+        ],
+      ),
+    );
+
+    return GestureDetector(
+      onTap: _openManageGuests,
+      // Badge for a local draft waiting to be added to the list
+      child: FutureBuilder<int>(
+        future: _draftCount,
+        builder: (context, snapshot) {
+          final count = snapshot.data ?? 0;
+          if (count == 0) return button;
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              button,
+              PositionedDirectional(
+                top: -8,
+                end: -6,
+                child: Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: edge * 0.3, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: AppColor.primaryDark,
+                    borderRadius: BorderRadius.circular(radius),
+                    border: Border.all(color: AppColor.primaryLight, width: 2),
+                  ),
+                  child: Text('guests_badge_draft'.tr(args: ['$count']),
+                      style: context.typography.labelSmall
+                          .copyWith(color: AppColor.primaryLight)),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   // ── Tab switching ────────────────────────────────────────────────────────
 
   void _switchTab(int tab) {
@@ -203,6 +282,8 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
                                     'invited'.tr(),
                                     style: context.typography.titleLarge,
                                   ),
+                                  const Spacer(),
+                                  _manageGuestsButton(),
                                 ],
                               ),
                             ),
