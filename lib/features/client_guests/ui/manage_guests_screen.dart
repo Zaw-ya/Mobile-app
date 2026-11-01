@@ -172,8 +172,10 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
             opacity: 0.4,
             child: Scaffold(
               backgroundColor: AppColor.primaryDark,
+              // maybePop so the app bar back goes through PopScope too
               appBar: recordsAppBar(context, 'guests_manage'.tr(),
-                  subtitle: widget.event.eventTitle),
+                  subtitle: widget.event.eventTitle,
+                  onBack: () => Navigator.of(context).maybePop()),
               floatingActionButton: cubit.canEdit && cubit.hasLoaded
                   ? FloatingActionButton.extended(
                       backgroundColor: AppColor.primaryDark,
