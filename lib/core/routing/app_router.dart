@@ -11,6 +11,10 @@ import '../../features/client_events/data/models/client_event_response.dart';
 import '../../features/client_events/data/models/client_messages_status_response.dart';
 import '../../features/client_events/logic/client_events_cubit.dart';
 import '../../features/client_events/ui/widgets/client_guest_details_screen.dart';
+import '../../features/client_guests/logic/contacts_picker_cubit.dart';
+import '../../features/client_guests/logic/manage_guests_cubit.dart';
+import '../../features/client_guests/ui/contacts_picker_screen.dart';
+import '../../features/client_guests/ui/manage_guests_screen.dart';
 import '../../features/client_statistics/data/models/guest_type_list.dart';
 import '../../features/client_statistics/logic/client_statistics_cubit.dart';
 import '../../features/client_statistics/ui/widgets/client_confirmation_services/client_message_status.dart';
@@ -80,11 +84,13 @@ class AppRouter {
           const EventInstructionsScreen(),
         );
       case Routes.qrCodeScreen:
-      final eventId = arguments as int;
+        final eventId = arguments as int;
         return _buildRoute(
           BlocProvider(
             create: (_) => getIt<QrCodeScannerCubit>(),
-            child:  QrCodeScannerScreen(eventId: eventId,),
+            child: QrCodeScannerScreen(
+              eventId: eventId,
+            ),
           ),
         );
       case Routes.gatekeeperScanHistoryScreen:
@@ -118,8 +124,7 @@ class AppRouter {
         return _buildRoute(BlocProvider.value(
           value: getIt<NotificationsCubit>(),
           child: const NotificationsScreen(),
-        )
-            );
+        ));
 
       case Routes.clientEventsDetailsScreen:
         final event = arguments as ClientEventDetails;
@@ -127,6 +132,24 @@ class AppRouter {
           BlocProvider(
             create: (_) => getIt<ClientEventsCubit>(),
             child: ClientEventDetailScreen(event: event),
+          ),
+        );
+
+      case Routes.manageGuestsScreen:
+        final event = arguments as ClientEventDetails;
+        return _buildRoute(
+          BlocProvider(
+            create: (_) => getIt<ManageGuestsCubit>(),
+            child: ManageGuestsScreen(event: event),
+          ),
+        );
+
+      case Routes.contactsPickerScreen:
+        final takenPhones = arguments as Set<String>;
+        return _buildRoute(
+          BlocProvider(
+            create: (_) => getIt<ContactsPickerCubit>(),
+            child: ContactsPickerScreen(takenPhones: takenPhones),
           ),
         );
 
@@ -154,7 +177,7 @@ class AppRouter {
           ),
         );
       case Routes.landingView:
-      final int initialIndex = (settings.arguments as int?) ?? 0;
+        final int initialIndex = (settings.arguments as int?) ?? 0;
         return _buildRoute(
           BlocProvider(
             create: (_) => getIt<LandingCubit>(param1: initialIndex),
@@ -162,12 +185,14 @@ class AppRouter {
           ),
         );
 
-        case Routes.gatekeeperProfileScreen:
-          final args = arguments as int;
+      case Routes.gatekeeperProfileScreen:
+        final args = arguments as int;
         return _buildRoute(
           BlocProvider(
             create: (_) => getIt<ProfileCubit>(),
-            child:  GkProfile(gkId: args,),
+            child: GkProfile(
+              gkId: args,
+            ),
           ),
         );
 

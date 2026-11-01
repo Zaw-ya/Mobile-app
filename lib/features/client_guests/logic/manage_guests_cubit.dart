@@ -39,6 +39,9 @@ class ManageGuestsCubit extends Cubit<ManageGuestsStates> {
   bool get isDraftDirty => _draftDirty;
   String get query => _query;
 
+  /// Deadline as sent (event-local wall time), for DateTimeHelper.
+  String? get deadlineLocalText => _view?.editDeadlineLocal;
+
   /// Deadline as event-local wall time: shown as-is, never converted.
   DateTime? get deadlineLocal =>
       DateTime.tryParse(_view?.editDeadlineLocal ?? '');
