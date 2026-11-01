@@ -1,20 +1,30 @@
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-/// Phone parsing shared by every screen that takes a guest number.
+/// Phone validation for guest numbers.
 ///
-/// [normalizeForImport] is a step-by-step port of the backend's
-/// `PhoneNumberHelper.NormalizeForImport` (EventPro.Business/Helpers), which the
-/// dashboard's contacts importer also uses, so the app and the dashboard read a
-/// number the same way. Keep the two in sync: the test vectors in
+/// [validateAndNormalize] mirrors the backend's strict
+/// `PhoneNumberHelper.ValidateAndNormalize` (EventPro.Business/Helpers): the
+/// number must already contain its country calling code. A local number
+/// (0547111436, 01012345678) is never turned into an international one; the
+/// client has to add the code or pick a country, so nothing is guessed.
+/// Keep the two in sync: the vectors in
 /// `test/core/helpers/phone_number_helper_test.dart` are meant to be reused there.
 class PhoneNumberHelper {
   PhoneNumberHelper._();
 
-  /// Region used when the event's time zone doesn't tell us the country.
-  /// Pending the owner's decision (EG like the dashboard, or SA).
-  static const String fallbackRegion = 'SA';
+  /// Countries offered by the country selector, in display order.
+  static const List<PhoneCountry> countries = [
+    PhoneCountry(region: 'SA', callingCode: '966', labelKey: 'saudi_arabia'),
+    PhoneCountry(region: 'EG', callingCode: '20', labelKey: 'egypt'),
+    PhoneCountry(region: 'AE', callingCode: '971', labelKey: 'uae'),
+    PhoneCountry(region: 'KW', callingCode: '965', labelKey: 'kuwait'),
+    PhoneCountry(region: 'QA', callingCode: '974', labelKey: 'qatar'),
+    PhoneCountry(region: 'BH', callingCode: '973', labelKey: 'bahrain'),
+    PhoneCountry(region: 'OM', callingCode: '968', labelKey: 'oman'),
+  ];
 
-  /// Event time zone (from `GET guests`) → ISO region for local numbers.
+  /// Event time zone (from `GET guests`) → region. Only used to preselect the
+  /// country selector; it never changes a number by itself.
   static const Map<String, String> _timeZoneRegions = {
     'Asia/Riyadh': 'SA',
     'Africa/Cairo': 'EG',
@@ -25,63 +35,70 @@ class PhoneNumberHelper {
     'Asia/Muscat': 'OM',
   };
 
-  /// The default region for local numbers of an event, from its time zone id.
-  static String regionForTimeZone(String? timeZoneId) =>
-      _timeZoneRegions[timeZoneId?.trim()] ?? fallbackRegion;
+  /// The selector's initial country for an event, or null when unknown.
+  static PhoneCountry? countryForTimeZone(String? timeZoneId) {
+    final region = _timeZoneRegions[timeZoneId?.trim()];
+    return region == null ? null : countryForRegion(region);
+  }
 
-  static final RegExp _extension =
-      RegExp(r'\s*(ext\.?|extension|x|#)\s*\d+\s*$', caseSensitive: false);
+  static PhoneCountry? countryForRegion(String? region) {
+    for (final country in countries) {
+      if (country.region == region) return country;
+    }
+    return null;
+  }
+
   static final RegExp _nonDigits = RegExp(r'[^\d]');
-  static final RegExp _startsWith00 = RegExp(r'^\s*00');
 
-  /// Normalizes a typed or contact-list number, written internationally
-  /// (+966..., 00966..., 966...) or locally (0547111436, 01012345678).
-  ///
-  /// An explicit "+" / "00" always means international. Anything else is tried
-  /// as international digits first (unless it starts with 0), then as a local
-  /// number of [defaultRegion] (ISO code such as SA, EG, AE).
-  ///
-  /// Returns digits only (country code + national number, no "+"), or null
-  /// when the number isn't valid.
-  static String? normalizeForImport(String? raw, String defaultRegion) =>
-      parseForImport(raw, defaultRegion)?.digits;
+  /// Strict validation: digits with the country code embedded (a leading
+  /// "+" or "00" is optional). Returns the canonical form
+  /// (country code + national number, digits only) or the reason it failed.
+  static PhoneCheck validateAndNormalize(String? raw) {
+    final digits = cleanDigits(raw);
+    if (digits.isEmpty) return const PhoneCheck.failed(PhoneIssue.empty);
+    if (digits.length > 15) return const PhoneCheck.failed(PhoneIssue.tooLong);
 
-  /// Same as [normalizeForImport], also returning the detected region.
-  static NormalizedPhone? parseForImport(String? raw, String defaultRegion) {
-    if (raw == null || raw.trim().isEmpty) return null;
-
-    // Arabic-Indic / Persian digits, so numbers typed on an Arabic keyboard work
-    var text = String.fromCharCodes(raw.runes.map(_latinDigit)).trim();
-
-    // Drop extensions ("x123", "ext 5") so they don't get glued onto the number
-    text = text.replaceFirst(_extension, '');
-
-    final explicitInternational =
-        text.startsWith('+') || _startsWith00.hasMatch(text);
-    var digits = text.replaceAll(_nonDigits, '');
-    if (digits.startsWith('00')) digits = digits.substring(2);
-    if (digits.length < 5) return null;
-
-    final region = _isoCode(defaultRegion);
-
-    PhoneNumber? found;
-    if (explicitInternational) {
-      found = _accept('+$digits') ?? _tryLeadingZeroRetry(digits);
-    } else {
-      // 966547111436 / 201012345678
-      if (!digits.startsWith('0')) found = _accept('+$digits');
-      // 01012345678 / 0547111436 / 547111436
-      found ??= region == null ? null : _accept(digits, region);
-      found ??= _accept('+$digits') ?? _tryLeadingZeroRetry(digits);
+    // The number exactly as entered, then tolerate a stray "0" after the code
+    final parsed = _accept('+$digits') ?? _tryLeadingZeroRetry(digits);
+    if (parsed == null) {
+      return PhoneCheck.failed(digits.startsWith('0')
+          ? PhoneIssue.needsCountryCode
+          : PhoneIssue.invalid);
     }
 
-    if (found == null) return null;
-    return NormalizedPhone(
-      digits: '${found.countryCode}${found.nsn}',
-      region: found.isoCode.name,
-      countryCode: found.countryCode,
-      nationalNumber: found.nsn,
-    );
+    return PhoneCheck.valid(NormalizedPhone(
+      digits: '${parsed.countryCode}${parsed.nsn}',
+      region: parsed.isoCode.name,
+      countryCode: parsed.countryCode,
+      nationalNumber: parsed.nsn,
+    ));
+  }
+
+  /// Validates a number typed next to an explicitly chosen country: the
+  /// calling code is prefixed because the client picked it. A number pasted
+  /// with its own "+" / "00" keeps its code.
+  static PhoneCheck validateWithCountry(String? raw, PhoneCountry country) {
+    final text = _latinDigits(raw ?? '').trim();
+    final hasOwnCode = text.startsWith('+') || text.startsWith('00');
+    final digits = cleanDigits(text);
+    if (digits.isEmpty) return const PhoneCheck.failed(PhoneIssue.empty);
+    if (hasOwnCode) return validateAndNormalize(digits);
+
+    // Already typed with this country's code but without "+" (966547111436)
+    if (digits.startsWith(country.callingCode)) {
+      final asTyped = validateAndNormalize(digits);
+      if (asTyped.phone?.countryCode == country.callingCode) return asTyped;
+    }
+    return validateAndNormalize('${country.callingCode}$digits');
+  }
+
+  /// Harmless clean-ups only: Arabic-Indic / Persian digits become Latin,
+  /// everything but digits is removed, and a leading "00" is dropped.
+  static String cleanDigits(String? raw) {
+    if (raw == null) return '';
+    var digits = _latinDigits(raw).replaceAll(_nonDigits, '');
+    if (digits.startsWith('00')) digits = digits.substring(2);
+    return digits;
   }
 
   /// Readable international form for display, e.g. "+966 54 711 1436".
@@ -111,28 +128,43 @@ class PhoneNumberHelper {
     return null;
   }
 
-  static PhoneNumber? _accept(String candidate, [IsoCode? region]) {
+  static PhoneNumber? _accept(String candidate) {
     try {
-      final parsed = PhoneNumber.parse(candidate, destinationCountry: region);
+      final parsed = PhoneNumber.parse(candidate);
       return parsed.isValid() ? parsed : null;
     } catch (_) {
       return null;
     }
   }
 
-  static IsoCode? _isoCode(String region) {
-    try {
-      return IsoCode.values.byName(region.trim().toUpperCase());
-    } catch (_) {
-      return null;
-    }
-  }
+  static String _latinDigits(String raw) =>
+      String.fromCharCodes(raw.runes.map((c) {
+        if (c >= 0x0660 && c <= 0x0669) return 0x30 + (c - 0x0660); // ٠-٩
+        if (c >= 0x06F0 && c <= 0x06F9) return 0x30 + (c - 0x06F0); // ۰-۹
+        return c;
+      }));
+}
 
-  static int _latinDigit(int c) {
-    if (c >= 0x0660 && c <= 0x0669) return 0x30 + (c - 0x0660); // ٠-٩
-    if (c >= 0x06F0 && c <= 0x06F9) return 0x30 + (c - 0x06F0); // ۰-۹
-    return c;
-  }
+/// Why a number was refused.
+enum PhoneIssue {
+  empty,
+  tooLong,
+
+  /// Written locally (starts with 0) without a country code.
+  needsCountryCode,
+  invalid,
+}
+
+/// Result of a validation: either [phone] or [issue] is set.
+class PhoneCheck {
+  final NormalizedPhone? phone;
+  final PhoneIssue? issue;
+
+  const PhoneCheck.valid(NormalizedPhone this.phone) : issue = null;
+
+  const PhoneCheck.failed(PhoneIssue this.issue) : phone = null;
+
+  bool get isValid => phone != null;
 }
 
 /// A valid number split the way the backend stores it.
@@ -150,5 +182,20 @@ class NormalizedPhone {
     required this.region,
     required this.countryCode,
     required this.nationalNumber,
+  });
+}
+
+/// A country of the selector.
+class PhoneCountry {
+  final String region;
+  final String callingCode;
+
+  /// Translation key of the country name.
+  final String labelKey;
+
+  const PhoneCountry({
+    required this.region,
+    required this.callingCode,
+    required this.labelKey,
   });
 }
