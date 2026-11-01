@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/client_events/data/repo/client_events_repo.dart';
 import '../../features/client_events/logic/client_events_cubit.dart';
+import '../../features/client_guests/data/local/guest_draft_storage.dart';
 import '../../features/client_statistics/data/repo/client_statistics_repo.dart';
 import '../../features/client_statistics/logic/client_statistics_cubit.dart';
 import '../../features/event_calender/data/repo/event_calender_repo.dart';
@@ -74,6 +75,10 @@ Future<void> setupGetIt() async {
   getIt
       .registerLazySingleton<ClientEventsRepo>(() => ClientEventsRepo(getIt()));
   getIt.registerFactory<ClientEventsCubit>(() => ClientEventsCubit(getIt()));
+
+  //Client Guests
+  getIt.registerLazySingleton<GuestDraftStorage>(
+      () => GuestDraftStorage(AppUtilities()));
 
   //Client Statistics
   getIt.registerLazySingleton<ClientStatisticsRepo>(
