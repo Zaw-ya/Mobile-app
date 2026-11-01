@@ -68,8 +68,9 @@ class ClientGuestsRepo {
     final data = e.response?.data;
     if (data is Map && data['code'] is String) return data['code'] as String;
     if (e.response == null) return GuestErrorCodes.network;
-    if ((e.response?.statusCode ?? 0) >= 500)
-      return GuestErrorCodes.serverError;
-    return GuestErrorCodes.unknown;
+    final status = e.response?.statusCode ?? 0;
+    return status >= 500
+        ? GuestErrorCodes.serverError
+        : GuestErrorCodes.unknown;
   }
 }

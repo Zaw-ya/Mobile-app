@@ -10,7 +10,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/client_events/data/repo/client_events_repo.dart';
 import '../../features/client_events/logic/client_events_cubit.dart';
 import '../../features/client_guests/data/local/guest_draft_storage.dart';
+import '../../features/client_guests/data/contacts/device_contacts_service.dart';
 import '../../features/client_guests/data/repo/client_guests_repo.dart';
+import '../../features/client_guests/logic/contacts_picker_cubit.dart';
+import '../../features/client_guests/logic/manage_guests_cubit.dart';
 import '../../features/client_statistics/data/repo/client_statistics_repo.dart';
 import '../../features/client_statistics/logic/client_statistics_cubit.dart';
 import '../../features/event_calender/data/repo/event_calender_repo.dart';
@@ -81,6 +84,12 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<GuestDraftStorage>(
       () => GuestDraftStorage(AppUtilities()));
   getIt.registerLazySingleton<ClientGuestsRepo>(() => ClientGuestsRepo(getIt()));
+  getIt.registerFactory<ManageGuestsCubit>(
+      () => ManageGuestsCubit(getIt(), getIt()));
+  getIt.registerLazySingleton<DeviceContactsService>(
+      () => DeviceContactsService());
+  getIt.registerFactory<ContactsPickerCubit>(
+      () => ContactsPickerCubit(getIt()));
 
   //Client Statistics
   getIt.registerLazySingleton<ClientStatisticsRepo>(
