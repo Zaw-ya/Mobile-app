@@ -13,17 +13,18 @@ void main() {
     test('joins a preset or custom title to the name', () {
       expect(GuestTitles.compose(const GuestTitle.preset('المكرم'), 'أحمد علي'),
           'المكرم أحمد علي');
-      expect(GuestTitles.compose(const GuestTitle.preset('Mr.'), ' John  Smith '),
+      expect(
+          GuestTitles.compose(const GuestTitle.preset('Mr.'), ' John  Smith '),
           'Mr. John Smith');
       expect(GuestTitles.compose(const GuestTitle.custom(' الشيخ '), 'سالم'),
           'الشيخ سالم');
     });
 
     test('no title sends the name as typed', () {
-      expect(GuestTitles.compose(const GuestTitle.none(), ' د. أحمد '),
-          'د. أحمد');
-      expect(GuestTitles.compose(const GuestTitle.custom('  '), 'سالم'),
-          'سالم');
+      expect(
+          GuestTitles.compose(const GuestTitle.none(), ' د. أحمد '), 'د. أحمد');
+      expect(
+          GuestTitles.compose(const GuestTitle.custom('  '), 'سالم'), 'سالم');
     });
   });
 
@@ -85,7 +86,8 @@ void main() {
               const GuestTitle.preset('المكرم'), 'أحمد المكرم'),
           'أحمد المكرم');
       expect(
-          GuestTitles.stripRepeatedTitle(const GuestTitle.none(), 'المكرم أحمد'),
+          GuestTitles.stripRepeatedTitle(
+              const GuestTitle.none(), 'المكرم أحمد'),
           'المكرم أحمد');
     });
   });

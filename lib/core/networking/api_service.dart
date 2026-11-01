@@ -5,6 +5,9 @@ import '../../features/client_events/data/models/client_event_details_response.d
 import '../../features/client_events/data/models/client_event_response.dart';
 import '../../features/client_events/data/models/client_messages_status_response.dart';
 
+import '../../features/client_guests/data/models/event_guests_response.dart';
+import '../../features/client_guests/data/models/guest_op_response.dart';
+import '../../features/client_guests/data/models/guest_requests.dart';
 import '../../features/client_statistics/data/models/client_confirmation_service_response.dart';
 import '../../features/client_statistics/data/models/client_messages_statistics_response.dart';
 import '../../features/client_statistics/data/models/sent_cards_services_response.dart';
@@ -283,6 +286,35 @@ abstract class ApiService {
   @DELETE(ApiConstants.deleteAccountEndpoint)
   Future<void> deleteAccount(
     @Header('Authorization') String token,
+  );
+
+  // Client guest management
+  @GET(ApiConstants.clientEventGuestsEndpoint)
+  Future<EventGuestsResponse> getEventGuests(
+    @Header('Authorization') String token,
+    @Path('eventId') int eventId,
+  );
+
+  @POST(ApiConstants.clientEventGuestsEndpoint)
+  Future<AddGuestsResponse> addGuests(
+    @Header('Authorization') String token,
+    @Path('eventId') int eventId,
+    @Body() AddGuestsRequest request,
+  );
+
+  @PUT(ApiConstants.clientEventGuestEndpoint)
+  Future<GuestOpResult> updateGuest(
+    @Header('Authorization') String token,
+    @Path('eventId') int eventId,
+    @Path('guestId') int guestId,
+    @Body() GuestInput request,
+  );
+
+  @DELETE(ApiConstants.clientEventGuestEndpoint)
+  Future<GuestOpResult> deleteGuest(
+    @Header('Authorization') String token,
+    @Path('eventId') int eventId,
+    @Path('guestId') int guestId,
   );
 
 }

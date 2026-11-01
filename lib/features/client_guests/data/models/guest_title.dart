@@ -22,8 +22,8 @@ class GuestTitle {
   Map<String, dynamic> toJson() => {'kind': kind.name, 'text': text};
 
   factory GuestTitle.fromJson(Map<String, dynamic> json) {
-    final kind = GuestTitleKind.values.asNameMap()[json['kind']] ??
-        GuestTitleKind.none;
+    final kind =
+        GuestTitleKind.values.asNameMap()[json['kind']] ?? GuestTitleKind.none;
     final text = (json['text'] as String?) ?? '';
     return switch (kind) {
       GuestTitleKind.preset => GuestTitle.preset(text),

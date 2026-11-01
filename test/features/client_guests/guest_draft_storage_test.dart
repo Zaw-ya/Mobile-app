@@ -91,8 +91,8 @@ void main() {
     test('a local number needs a country', () {
       final row = _guest('a', phone: '0547111436');
       expect(row.phoneDigits, isNull);
-      expect(row.copyWith(countryRegion: () => 'SA').phoneDigits,
-          '966547111436');
+      expect(
+          row.copyWith(countryRegion: () => 'SA').phoneDigits, '966547111436');
     });
   });
 }
