@@ -11,7 +11,8 @@ import '../../data/models/event_guests_response.dart';
 import '../../data/models/guest_title.dart';
 import '../../logic/manage_guests_cubit.dart';
 
-/// A guest already on the list: editable, or locked once a message was sent.
+/// A guest already on the list: editable, or locked. The backend's isLocked
+/// is the only source (true once anything was ever sent, even after a reset).
 class ServerGuestTile extends StatelessWidget {
   const ServerGuestTile({
     super.key,
