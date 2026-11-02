@@ -79,10 +79,10 @@ class PhoneNumberHelper {
   /// with its own "+" / "00" keeps its code.
   static PhoneCheck validateWithCountry(String? raw, PhoneCountry country) {
     final text = _latinDigits(raw ?? '').trim();
-    final hasOwnCode = text.startsWith('+') || text.startsWith('00');
+    final ownCode = hasOwnCode(text);
     final digits = cleanDigits(text);
     if (digits.isEmpty) return const PhoneCheck.failed(PhoneIssue.empty);
-    if (hasOwnCode) return validateAndNormalize(digits);
+    if (ownCode) return validateAndNormalize(digits);
 
     // Already typed with this country's code but without "+" (966547111436)
     if (digits.startsWith(country.callingCode)) {
@@ -91,6 +91,31 @@ class PhoneNumberHelper {
     }
     return validateAndNormalize('${country.callingCode}$digits');
   }
+
+  /// How a number is shown in a field with a country chip: a valid
+  /// international number of a listed country is split into that country
+  /// and its national number, so the code isn't written twice. Anything
+  /// else (local, invalid, or an unlisted country) stays as typed, with
+  /// Latin digits, and no country, so the client must pick one.
+  static PhoneFieldValue splitForField(String? raw) {
+    final text = _latinDigits(raw ?? '').trim();
+    final phone = validateAndNormalize(text).phone;
+    final country = countryForRegion(phone?.region);
+    if (phone == null || country == null) {
+      return PhoneFieldValue(country: null, text: text);
+    }
+    return PhoneFieldValue(country: country, text: phone.nationalNumber);
+  }
+
+  /// True when [raw] is typed with its own code ("+..." or "00...").
+  static bool hasOwnCode(String raw) {
+    final text = _latinDigits(raw).trim();
+    return text.startsWith('+') || text.startsWith('00');
+  }
+
+  /// Flag emoji of a region, e.g. "SA" → 🇸🇦.
+  static String flagOf(String region) => String.fromCharCodes(
+      region.toUpperCase().codeUnits.map((c) => 0x1F1E6 + c - 0x41));
 
   /// Harmless clean-ups only: Arabic-Indic / Persian digits become Latin,
   /// everything but digits is removed, and a leading "00" is dropped.
@@ -183,6 +208,17 @@ class NormalizedPhone {
     required this.countryCode,
     required this.nationalNumber,
   });
+}
+
+/// A number as shown in a field with a country chip.
+class PhoneFieldValue {
+  /// Null when the number has no (listed) country code yet.
+  final PhoneCountry? country;
+
+  /// National number when [country] is set, otherwise the number as typed.
+  final String text;
+
+  const PhoneFieldValue({required this.country, required this.text});
 }
 
 /// A country of the selector.

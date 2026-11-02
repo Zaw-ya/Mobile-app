@@ -11,7 +11,9 @@ import 'guest_input_decoration.dart';
 
 /// Number field with a country chip. With a country, its calling code is
 /// prefixed (the client chose it); with none ("international"), the number
-/// must carry its own code. Nothing is guessed.
+/// must carry its own code. Nothing is guessed: a number typed or pasted
+/// with its own code of a listed country is split into chip + national
+/// number, so the code is never written twice.
 class PhoneCountryField extends StatelessWidget {
   const PhoneCountryField({
     super.key,
@@ -19,6 +21,7 @@ class PhoneCountryField extends StatelessWidget {
     required this.country,
     required this.onCountryChanged,
     this.onChanged,
+    this.onSplit,
     this.errorText,
     this.isValid = false,
     this.dense = false,
@@ -28,9 +31,33 @@ class PhoneCountryField extends StatelessWidget {
   final PhoneCountry? country;
   final ValueChanged<PhoneCountry?> onCountryChanged;
   final ValueChanged<String>? onChanged;
+
+  /// Called instead of [onCountryChanged] + [onChanged] when a typed
+  /// international number was split, so both change in one update.
+  final ValueChanged<PhoneFieldValue>? onSplit;
   final String? errorText;
   final bool isValid;
   final bool dense;
+
+  void _onChanged(String text) {
+    if (PhoneNumberHelper.hasOwnCode(text)) {
+      final split = PhoneNumberHelper.splitForField(text);
+      if (split.country != null) {
+        controller.value = TextEditingValue(
+          text: split.text,
+          selection: TextSelection.collapsed(offset: split.text.length),
+        );
+        if (onSplit != null) {
+          onSplit!(split);
+        } else {
+          onCountryChanged(split.country);
+          onChanged?.call(split.text);
+        }
+        return;
+      }
+    }
+    onChanged?.call(text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +66,7 @@ class PhoneCountryField extends StatelessWidget {
       keyboardType: TextInputType.phone,
       textDirection: TextDirection.ltr,
       style: context.typography.inputText,
-      onChanged: onChanged,
+      onChanged: _onChanged,
       decoration: guestInputDecoration(
         context,
         hint: country == null ? '+966 5X XXX XXXX' : '5X XXX XXXX',
@@ -79,7 +106,16 @@ class _CountryChip extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          textDirection: TextDirection.ltr,
           children: [
+            // Flag + calling code, or a globe while no country is chosen
+            if (country == null)
+              const Icon(Icons.public_rounded,
+                  size: 16, color: AppColor.gray500)
+            else
+              Text(PhoneNumberHelper.flagOf(country!.region),
+                  style: const TextStyle(fontSize: 15)),
+            SizedBox(width: edge * 0.2),
             Text(
               country == null ? '+' : '+${country!.callingCode}',
               textDirection: TextDirection.ltr,

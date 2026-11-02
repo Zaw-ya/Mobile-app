@@ -183,13 +183,16 @@ class ContactsPickerCubit extends Cubit<ContactsPickerStates> {
 
   DraftGuest _rowFor(PickedContact contact, String localId) {
     final (title, name) = GuestTitles.split(contact.name);
+    // A number with its own code is shown as country + national number
+    final phone = PhoneNumberHelper.splitForField(_selected[contact.id]);
     final hasTitle = title.kind != GuestTitleKind.none;
     if (!hasTitle) _untitled.add(localId);
     return DraftGuest(
       localId: localId,
       title: title,
       name: name,
-      phoneInput: _selected[contact.id]!,
+      phoneInput: phone.text,
+      countryRegion: phone.country?.region,
       source: DraftGuest.sourceContacts,
     );
   }

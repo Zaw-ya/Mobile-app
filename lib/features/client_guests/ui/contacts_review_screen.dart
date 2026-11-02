@@ -211,6 +211,9 @@ class _ReviewRowCardState extends State<_ReviewRowCard> {
             dense: true,
             isValid: row.phoneDigits != null,
             onChanged: (phone) => _update(row.copyWith(phoneInput: phone)),
+            onSplit: (split) => _update(row.copyWith(
+                phoneInput: split.text,
+                countryRegion: () => split.country?.region)),
             onCountryChanged: (picked) =>
                 _update(row.copyWith(countryRegion: () => picked?.region)),
           ),

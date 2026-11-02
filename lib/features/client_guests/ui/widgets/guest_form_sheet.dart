@@ -73,18 +73,22 @@ class _GuestFormSheetState extends State<GuestFormSheet> {
     if (row != null) {
       _title = row.title;
       _nameController.text = row.name;
-      _phoneController.text = row.phoneInput;
       _country = PhoneNumberHelper.countryForRegion(row.countryRegion);
+      // Same display rule as everywhere: an own code goes to the chip
+      final phone = _country == null
+          ? PhoneNumberHelper.splitForField(row.phoneInput)
+          : PhoneFieldValue(country: _country, text: row.phoneInput);
+      _country = phone.country;
+      _phoneController.text = phone.text;
       _members = row.noOfMembers;
     } else if (guest != null) {
       final (title, name) = GuestTitles.split(guest.name ?? '');
       _title = title;
       _nameController.text = name;
-      final phone =
-          PhoneNumberHelper.validateAndNormalize(guest.phoneDigits).phone;
-      _country = PhoneNumberHelper.countryForRegion(phone?.region);
-      _phoneController.text =
-          _country != null ? phone!.nationalNumber : '+${guest.phoneDigits}';
+      // Code in the chip, national number in the field
+      final phone = PhoneNumberHelper.splitForField('+${guest.phoneDigits}');
+      _country = phone.country;
+      _phoneController.text = phone.text;
       _members = guest.noOfMembers ?? 1;
     } else {
       _country = cubit.defaultCountry;

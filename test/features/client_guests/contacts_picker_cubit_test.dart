@@ -86,6 +86,14 @@ void main() {
       final ahmed = rows.firstWhere((r) => r.name == 'أحمد علي');
       final iman = rows.firstWhere((r) => r.name == 'إيمان');
 
+      // An imported number with its code is split into country + national
+      expect(ahmed.countryRegion, 'SA');
+      expect(ahmed.phoneInput, '547111436');
+      expect(ahmed.phoneDigits, '966547111436');
+      // A local number gets no country
+      expect(iman.countryRegion, isNull);
+      expect(iman.phoneInput, '0501234567');
+
       // The known title was taken off the contact name and preselected
       expect(ahmed.title, const GuestTitle.preset('المكرم'));
       expect(cubit.isUntitled(ahmed), isFalse);

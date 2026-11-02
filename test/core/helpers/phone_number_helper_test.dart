@@ -97,6 +97,55 @@ void main() {
     });
   });
 
+  group('PhoneNumberHelper.splitForField', () {
+    (String?, String) split(String? raw) {
+      final value = PhoneNumberHelper.splitForField(raw);
+      return (value.country?.region, value.text);
+    }
+
+    test('an international number becomes country + national number', () {
+      expect(split('+966 54 711 1436'), ('SA', '547111436'));
+      expect(split('00966547111436'), ('SA', '547111436'));
+      expect(split('966547111436'), ('SA', '547111436'));
+      expect(split('+20 01012345678'), ('EG', '1012345678'));
+      expect(split('+971501234567'), ('AE', '501234567'));
+      expect(split('+96899123456'), ('OM', '99123456'));
+    });
+
+    test('Arabic-Indic and Persian digits are split too', () {
+      expect(split('+٩٦٦٥٤٧١١١٤٣٦'), ('SA', '547111436'));
+      expect(split('۰۰۹۶۶۵۴۷۱۱۱۴۳۶'), ('SA', '547111436'));
+    });
+
+    test('a local number keeps no country, digits made Latin', () {
+      expect(split('0547111436'), (null, '0547111436'));
+      expect(split('٠٥٤٧١١١٤٣٦'), (null, '0547111436'));
+      expect(split(' 01012345678 '), (null, '01012345678'));
+    });
+
+    test('invalid or unlisted numbers stay as typed without a country', () {
+      expect(split('+966 12'), (null, '+966 12'));
+      expect(split('+1 202 555 0143'), (null, '+1 202 555 0143'));
+      expect(split(null), (null, ''));
+    });
+
+    test('the split value gives back the canonical digits', () {
+      final value = PhoneNumberHelper.splitForField('+966 54 711 1436');
+      expect(
+          PhoneNumberHelper.validateWithCountry(value.text, value.country!)
+              .phone
+              ?.digits,
+          '966547111436');
+    });
+
+    test('flags come from the region', () {
+      expect(PhoneNumberHelper.flagOf('SA'), '🇸🇦');
+      expect(PhoneNumberHelper.hasOwnCode('+966'), isTrue);
+      expect(PhoneNumberHelper.hasOwnCode('٠٠٩٦٦'), isTrue);
+      expect(PhoneNumberHelper.hasOwnCode('0547'), isFalse);
+    });
+  });
+
   group('PhoneNumberHelper.countryForTimeZone', () {
     test('maps the Gulf and Egypt time zones', () {
       const zones = {
