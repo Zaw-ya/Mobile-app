@@ -6,6 +6,11 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>ar</string>
+	</array>
 	<key>CFBundleDisplayName</key>
 	<string>Special Cards</string>
 	<key>CFBundleExecutable</key>
@@ -30,6 +35,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSContactsUsageDescription</key>
+	<string>Special Cards uses your contacts only to let you pick guests for your event. Only the contacts you choose and add are uploaded.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Special Cards needs camera access to scan QR codes and take your photo to confirm attendance.</string>
 	<key>NSFaceIDUsageDescription</key>

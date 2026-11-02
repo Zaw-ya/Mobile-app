@@ -574,6 +574,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.1.6"
+  flutter_contacts:
+    dependency: "direct main"
+    description:
+      name: flutter_contacts
+      sha256: f668066af6cad0cc1d91719560edc1e552993dcafb12cb687ca8690b858b993d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   flutter_gen:
     dependency: "direct main"
     description:
@@ -1381,6 +1389,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
+  phone_numbers_parser:
+    dependency: "direct main"
+    description:
+      name: phone_numbers_parser
+      sha256: "59ccb71840e41e6ec8e600b4bfd1d37cd171bb5e094b971b70831b7766c1e4a1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.0.29"
   platform:
     dependency: transitive
     description:

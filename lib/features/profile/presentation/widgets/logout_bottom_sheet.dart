@@ -2,6 +2,7 @@ import 'package:app/core/dimensions/dimensions_constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/helpers/app_utilities.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
@@ -9,6 +10,7 @@ import '../../../../core/services/firebase_messaging_handler.dart';
 import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/custom_button.dart';
+import '../../../client_guests/data/local/guest_draft_storage.dart';
 
 class LogoutBottomSheet extends StatefulWidget {
   const LogoutBottomSheet({super.key});
@@ -27,6 +29,8 @@ class _LogoutBottomSheetState extends State<LogoutBottomSheet> {
     if (mounted) {
       context.pushNamedAndRemoveUntil(Routes.loginScreen, predicate: false);
       await FirebaseMessagingHandler().unregisterDevice();
+      // Guest drafts are keyed by the session's user, so clear them first
+      await getIt<GuestDraftStorage>().clearAllForCurrentUser();
       await AppUtilities().clearData();
     }
   }

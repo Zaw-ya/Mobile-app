@@ -9,6 +9,8 @@ class Routes {
   static const String notifications = '/notifications';
   static const String clientEventsDetailsScreen = '/clientEventsDetailsScreen';
   static const String clientGuestDetailsScreen = '/clientGuestDetailsScreen';
+  static const String manageGuestsScreen = '/manageGuestsScreen';
+  static const String contactsPickerScreen = '/contactsPickerScreen';
   static const String clientMessageStatus = '/clientMessageStatus';
   static const String successScreen = '/successScreen';
   static const String clientStatisticsDetailScreen =
@@ -17,6 +19,5 @@ class Routes {
   static const String landingView = "/landingView";
   static const String gatekeeperScanHistoryScreen =
       "/gatekeeperScanHistoryScreen";
-  static const String gatekeeperProfileScreen =
-      "/gatekeeperProfileScreen";
+  static const String gatekeeperProfileScreen = "/gatekeeperProfileScreen";
 }

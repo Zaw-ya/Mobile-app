@@ -53,6 +53,12 @@ class ApiConstants {
 
   static const String deleteAccountEndpoint = 'Auth/DeleteAccount';
 
+  // Client guest management
+  static const String clientEventGuestsEndpoint =
+      'client/events/{eventId}/guests';
+  static const String clientEventGuestEndpoint =
+      'client/events/{eventId}/guests/{guestId}';
+
       // static String gateKeeperProfileEndpoint =
       // '/Gatekeeper/$gatekeeperId/profile';
 }

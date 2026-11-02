@@ -5,19 +5,24 @@ import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/drag_handle.dart';
 import 'package:app/core/widgets/empty_widget.dart';
+import 'package:app/core/widgets/custom_button.dart';
 import 'package:app/core/widgets/loader.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/dimensions/dimensions_constants.dart';
+import '../../../../core/helpers/extensions.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/widgets/public_app_bar.dart';
 import '../../../client_events/data/models/client_event_details_response.dart';
 import '../../../client_events/data/models/client_event_response.dart';
 import '../../../client_events/data/models/client_messages_status_response.dart';
 import '../../../client_events/logic/client_events_cubit.dart';
 import '../../../client_events/logic/client_events_states.dart';
+import '../../../client_guests/data/local/guest_draft_storage.dart';
 import 'client_attendance_list.dart';
 import 'client_event_details_card.dart';
 import 'client_messages_list.dart';
@@ -121,6 +126,81 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
     }
   }
 
+  // ── Manage guests ────────────────────────────────────────────────────────
+
+  late Future<int> _draftCount = _loadDraftCount();
+
+  Future<int> _loadDraftCount() =>
+      getIt<GuestDraftStorage>().count(widget.event.id ?? 0);
+
+  Future<void> _openManageGuests() async {
+    await context.pushNamed(Routes.manageGuestsScreen, arguments: widget.event);
+    if (!mounted) return;
+    // Guests may have been added or changed there
+    setState(() => _draftCount = _loadDraftCount());
+    final cubit = context.read<ClientEventsCubit>();
+    if (_selectedTab == 0) {
+      cubit.getEventDetails(widget.event.id.toString());
+    } else {
+      cubit.getClientMessagesStatus(widget.event.id.toString());
+    }
+  }
+
+  Widget _manageGuestsButton() {
+    final button = Container(
+      padding:
+          EdgeInsets.symmetric(horizontal: edge * 0.6, vertical: edge * 0.3),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(radius),
+        border: Border.all(color: AppColor.primaryDark),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.person_add_alt_1_rounded,
+              size: 16, color: AppColor.primaryDark),
+          SizedBox(width: edge * 0.25),
+          Text('guests_manage'.tr(), style: context.typography.labelLarge),
+        ],
+      ),
+    );
+
+    return GestureDetector(
+      onTap: _openManageGuests,
+      // Badge for a local draft waiting to be added to the list
+      child: FutureBuilder<int>(
+        future: _draftCount,
+        builder: (context, snapshot) {
+          final count = snapshot.data ?? 0;
+          if (count == 0) return button;
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              button,
+              PositionedDirectional(
+                top: -8,
+                end: -6,
+                child: Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: edge * 0.3, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: AppColor.primaryDark,
+                    borderRadius: BorderRadius.circular(radius),
+                    border: Border.all(color: AppColor.primaryLight, width: 2),
+                  ),
+                  child: Text('guests_badge_draft'.tr(args: ['$count']),
+                      style: context.typography.labelSmall
+                          .copyWith(color: AppColor.primaryLight)),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   // ── Tab switching ────────────────────────────────────────────────────────
 
   void _switchTab(int tab) {
@@ -188,57 +268,37 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
                             topRight: Radius.circular(containerRadius),
                           ),
                         ),
-                        child: Column(
-                          children: [
-                            // Drag handle — dragging here moves the sheet
-                            DragHandle(),
-                            SizedBox(height: edge * 0.4),
-
-                            Padding(
-                              padding:
-                              EdgeInsets.symmetric(horizontal: edge),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'invited'.tr(),
-                                    style: context.typography.titleLarge,
+                        // One scroll view for the header, the search and the
+                        // rows: nothing overflows when the sheet is dragged
+                        // down or the keyboard opens, and pull-to-refresh
+                        // reloads the open tab.
+                        child: RefreshIndicator(
+                          color: AppColor.primaryDark,
+                          onRefresh: _reload,
+                          child: CustomScrollView(
+                            controller: scrollController,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            slivers: [
+                              SliverToBoxAdapter(child: _sheetHeader()),
+                              if (_selectedTab == 1)
+                                SliverPadding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: edge),
+                                  sliver: SliverToBoxAdapter(
+                                    child: ClientMessagesSearchField(
+                                      searchController: _searchController,
+                                      isDebouncing: _isDebouncing,
+                                      onClear: _clearSearch,
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: edge * 0.6),
-
-                            // Tab buttons
-                            Padding(
-                              padding:
-                              EdgeInsets.symmetric(horizontal: edge),
-                              child: Row(
-                                children: [
-                                  ClientTabButton(
-                                    label: "attended_count".tr(),
-                                    isSelected: _selectedTab == 0,
-                                    onTap: () => _switchTab(0),
-                                  ),
-                                  SizedBox(width: edge * 0.4),
-                                  ClientTabButton(
-                                    label: "messages".tr(),
-                                    isSelected: _selectedTab == 1,
-                                    onTap: () => _switchTab(1),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: edge * 0.5),
-
-                            // Tab content
-                            Expanded(
-                              child: Padding(
+                                ),
+                              SliverPadding(
                                 padding:
-                                EdgeInsets.symmetric(horizontal: edge),
-                                child: _buildContent(state, scrollController),
+                                    EdgeInsets.fromLTRB(edge, 0, edge, edge),
+                                sliver: _buildContent(state),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -252,37 +312,105 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
     );
   }
 
-  Widget _buildContent(
-      ClientEventsStates state, ScrollController scrollController) {
+  Widget _sheetHeader() {
+    return Column(
+      children: [
+        // Drag handle — dragging here moves the sheet
+        DragHandle(),
+        SizedBox(height: edge * 0.4),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: edge),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'invited'.tr(),
+                  style: context.typography.titleLarge,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              _manageGuestsButton(),
+            ],
+          ),
+        ),
+        SizedBox(height: edge * 0.6),
+
+        // Tab buttons
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: edge),
+          child: Row(
+            children: [
+              ClientTabButton(
+                label: "attended_count".tr(),
+                isSelected: _selectedTab == 0,
+                onTap: () => _switchTab(0),
+              ),
+              SizedBox(width: edge * 0.4),
+              ClientTabButton(
+                label: "messages".tr(),
+                isSelected: _selectedTab == 1,
+                onTap: () => _switchTab(1),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: edge * 0.5),
+      ],
+    );
+  }
+
+  /// Reloads the open tab (pull-to-refresh and the retry button).
+  Future<void> _reload() {
+    final cubit = context.read<ClientEventsCubit>();
+    final eventId = widget.event.id.toString();
+    if (_selectedTab == 0) return cubit.getEventDetails(eventId);
+    final query = _searchController.text.trim();
+    return query.isEmpty
+        ? cubit.getClientMessagesStatus(eventId)
+        : cubit.searchMessageStatus(eventId: eventId, searchQuery: query);
+  }
+
+  Widget _buildContent(ClientEventsStates state) {
     return state.when(
-      initial: () => const SizedBox.shrink(),
-      loading: () => const SizedBox.shrink(), // ModalProgressHUD handles this
-      emptyInput: () => const EmptyWidget(),
-      error: (msg) => Center(
-        child: Text(msg,
-            style: context.typography.bodyMedium
-                .copyWith(color: AppColor.semanticError)),
+      initial: () => const SliverToBoxAdapter(child: SizedBox.shrink()),
+      // ModalProgressHUD handles this
+      loading: () => const SliverToBoxAdapter(child: SizedBox.shrink()),
+      emptyInput: () => const SliverToBoxAdapter(child: EmptyWidget()),
+      error: (msg) => SliverToBoxAdapter(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: edge),
+          child: Column(
+            children: [
+              Text(msg,
+                  textAlign: TextAlign.center,
+                  style: context.typography.bodyMedium
+                      .copyWith(color: AppColor.semanticError)),
+              SizedBox(height: edge * 0.6),
+              CustomButton.normal(
+                text: 'retry'.tr(),
+                color: AppColor.primaryDark,
+                onPressed: _reload,
+              ),
+            ],
+          ),
+        ),
       ),
       success: (response, isLoadingMore) {
         if (_selectedTab == 0 && response is ClientEventDetailsResponse) {
           return ClientAttendanceList(
             items: response.eventDetailsList ?? [],
             isLoadingMore: isLoadingMore,
-            scrollController: scrollController,
           );
         }
         if (_selectedTab == 1 && response is ClientMessagesStatusResponse) {
           return ClientMessagesList(
             items: response.clientMessagesDetailsList ?? [],
             isLoadingMore: isLoadingMore,
-            scrollController: scrollController,
-            searchController: _searchController,
-            isDebouncing: _isDebouncing,
-            onClear: _clearSearch,
           );
         }
         // Brief type mismatch during tab switch
-        return Center(child: Loader(color: AppColor.primaryDark));
+        return SliverToBoxAdapter(
+            child: Center(child: Loader(color: AppColor.primaryDark)));
       },
     );
   }

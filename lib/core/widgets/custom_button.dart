@@ -19,6 +19,10 @@ class CustomButton extends StatelessWidget {
   final double? buttonSize;
   final double? fontSize;
 
+  /// Replaces the default label style (ManchetteFine bold) when set; the
+  /// enabled/disabled text color is still applied on top.
+  final TextStyle? textStyle;
+
   const CustomButton._({
     super.key,
     required this.text,
@@ -32,6 +36,7 @@ class CustomButton extends StatelessWidget {
     this.iconSize,
     this.buttonSize,
     this.fontSize,
+    this.textStyle,
   });
 
   /// 🟢 Normal button
@@ -42,6 +47,7 @@ class CustomButton extends StatelessWidget {
     Color color = AppColor.primaryColor,
     Color? textColor,
     double? fontSize,
+    TextStyle? textStyle,
   }) {
     return CustomButton._(
       key: key,
@@ -52,6 +58,7 @@ class CustomButton extends StatelessWidget {
       color: color,
       textColor: textColor ?? AppColor.primaryLight,
       fontSize: fontSize,
+      textStyle: textStyle,
     );
   }
 
@@ -255,11 +262,12 @@ class CustomButton extends StatelessWidget {
                   )
                 : Text(
                     text,
-                    style: TextStyle(
-                        fontFamily: FontFamily.manchetteFine,
-                        fontWeight: FontWeight.bold,
-                        color: effectiveTextColor,
-                        fontSize: fontSize ?? 16.sp),
+                    style: textStyle?.copyWith(color: effectiveTextColor) ??
+                        TextStyle(
+                            fontFamily: FontFamily.manchetteFine,
+                            fontWeight: FontWeight.bold,
+                            color: effectiveTextColor,
+                            fontSize: fontSize ?? 16.sp),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

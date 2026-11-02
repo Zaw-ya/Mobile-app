@@ -7,8 +7,10 @@ import '../helpers/extensions.dart';
 import '../theming/colors.dart';
 import '../theming/typography_theme.dart';
 
+/// [onBack] replaces the default pop, e.g. with `maybePop` so a screen's
+/// PopScope can ask before leaving.
 AppBar recordsAppBar(BuildContext context, String title,
-    {String? subtitle, Color? color}) {
+    {String? subtitle, Color? color, VoidCallback? onBack}) {
   final isArabic = Localizations.localeOf(context).languageCode == 'ar';
 
   return AppBar(
@@ -51,7 +53,7 @@ AppBar recordsAppBar(BuildContext context, String title,
     //   ),
     // ],
     leading: GestureDetector(
-      onTap: () => context.pop(),
+      onTap: onBack ?? () => context.pop(),
       child: Container(
         width: 40,
         height: 40,
