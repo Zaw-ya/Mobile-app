@@ -36,6 +36,9 @@ class ManageGuestsCubit extends Cubit<ManageGuestsStates> {
   String? get supportWhatsappNumber => _view?.supportWhatsappNumber;
   List<DraftGuest> get draft => List.unmodifiable(_draft);
   bool get hasDraft => _draft.isNotEmpty;
+
+  /// Any guest on the list, whatever the search.
+  bool get hasGuests => (_view?.guests ?? const []).isNotEmpty;
   bool get isDraftDirty => _draftDirty;
   String get query => _query;
 

@@ -35,6 +35,8 @@ class ContactsPickerScreen extends StatefulWidget {
 
 class _ContactsPickerScreenState extends State<ContactsPickerScreen>
     with WidgetsBindingObserver {
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +47,7 @@ class _ContactsPickerScreenState extends State<ContactsPickerScreen>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -178,6 +181,11 @@ class _ContactsPickerScreenState extends State<ContactsPickerScreen>
     );
   }
 
+  void _clearSearch(ContactsPickerCubit cubit) {
+    _searchController.clear();
+    cubit.search('');
+  }
+
   Widget _list(ContactsPickerCubit cubit) {
     if (!cubit.hasContacts) {
       return Center(
@@ -192,6 +200,7 @@ class _ContactsPickerScreenState extends State<ContactsPickerScreen>
         Padding(
           padding: EdgeInsets.fromLTRB(edge, edge * 0.6, edge, 0),
           child: TextField(
+            controller: _searchController,
             onChanged: cubit.search,
             style: context.typography.inputText,
             decoration: InputDecoration(
@@ -199,6 +208,14 @@ class _ContactsPickerScreenState extends State<ContactsPickerScreen>
               hintStyle: context.typography.inputHint,
               prefixIcon:
                   const Icon(Icons.search_rounded, color: AppColor.gray400),
+              suffixIcon: cubit.query.isEmpty
+                  ? null
+                  : IconButton(
+                      icon: const Icon(Icons.close_rounded,
+                          size: 18, color: AppColor.gray500),
+                      tooltip: 'guests_clear_search'.tr(),
+                      onPressed: () => _clearSearch(cubit),
+                    ),
               filled: true,
               fillColor: Colors.white,
               isDense: true,
@@ -245,9 +262,21 @@ class _ContactsPickerScreenState extends State<ContactsPickerScreen>
         Expanded(
           child: contacts.isEmpty
               ? Center(
-                  child: Text('guests_no_results'.tr(),
-                      style: context.typography.bodyMedium
-                          .copyWith(color: AppColor.gray500)))
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('guests_no_results_for'.tr(args: [cubit.query]),
+                          textAlign: TextAlign.center,
+                          style: context.typography.bodyMedium
+                              .copyWith(color: AppColor.gray500)),
+                      TextButton(
+                        onPressed: () => _clearSearch(cubit),
+                        child: Text('guests_clear_search'.tr(),
+                            style: context.typography.titleSmall),
+                      ),
+                    ],
+                  ),
+                )
               : ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: edge),
                   itemCount: contacts.length,

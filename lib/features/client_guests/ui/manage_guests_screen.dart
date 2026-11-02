@@ -212,7 +212,10 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
 
     final guests = cubit.guests;
     final draft = cubit.filteredDraft;
-    final empty = cubit.hasLoaded && guests.isEmpty && !cubit.hasDraft;
+    // Truly nothing yet: decided on the unfiltered data, never on the search
+    final empty = cubit.hasLoaded && !cubit.hasGuests && !cubit.hasDraft;
+    final noResults =
+        cubit.query.isNotEmpty && guests.isEmpty && draft.isEmpty;
 
     return RefreshIndicator(
       color: AppColor.primaryDark,
@@ -236,8 +239,15 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
             ..._emptyView(cubit)
           else ...[
             _searchField(cubit),
-            if (cubit.hasDraft) ..._draftSection(cubit, draft),
-            if (cubit.hasLoaded) ..._guestsSection(cubit, guests),
+            if (noResults)
+              _noResultsView(cubit)
+            else ...[
+              if (draft.isNotEmpty || (cubit.hasDraft && cubit.query.isEmpty))
+                ..._draftSection(cubit, draft),
+              if (cubit.hasLoaded &&
+                  (guests.isNotEmpty || cubit.query.isEmpty))
+                ..._guestsSection(cubit, guests),
+            ],
           ],
         ],
       ),
@@ -255,6 +265,14 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
           hintText: 'guests_search_hint'.tr(),
           hintStyle: context.typography.inputHint,
           prefixIcon: const Icon(Icons.search_rounded, color: AppColor.gray400),
+          suffixIcon: cubit.query.isEmpty
+              ? null
+              : IconButton(
+                  icon: const Icon(Icons.close_rounded,
+                      size: 18, color: AppColor.gray500),
+                  tooltip: 'guests_clear_search'.tr(),
+                  onPressed: () => _clearSearch(cubit),
+                ),
           filled: true,
           fillColor: Colors.white,
           isDense: true,
@@ -267,6 +285,36 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
             borderSide: const BorderSide(color: AppColor.gray100),
           ),
         ),
+      ),
+    );
+  }
+
+  void _clearSearch(ManageGuestsCubit cubit) {
+    _searchController.clear();
+    cubit.search('');
+  }
+
+  /// The search matched nothing; the list itself isn't empty.
+  Widget _noResultsView(ManageGuestsCubit cubit) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: edge * 1.5),
+      child: Column(
+        children: [
+          const Icon(Icons.search_off_rounded,
+              size: 44, color: AppColor.gray300),
+          SizedBox(height: edge * 0.4),
+          Text(
+            'guests_no_results_for'.tr(args: [cubit.query]),
+            textAlign: TextAlign.center,
+            style:
+                context.typography.bodyMedium.copyWith(color: AppColor.gray600),
+          ),
+          TextButton(
+            onPressed: () => _clearSearch(cubit),
+            child: Text('guests_clear_search'.tr(),
+                style: context.typography.titleSmall),
+          ),
+        ],
       ),
     );
   }
@@ -322,11 +370,12 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
     return [
       _SectionHeader(
           title: 'guests_section_added'.tr(args: ['${guests.length}'])),
+      // Only reached without a search: the draft has rows, the list none
       if (guests.isEmpty)
         Padding(
           padding: EdgeInsets.symmetric(vertical: edge),
           child: Center(
-            child: Text('guests_no_results'.tr(),
+            child: Text('guests_empty'.tr(),
                 style: context.typography.bodyMedium
                     .copyWith(color: AppColor.gray500)),
           ),

@@ -573,5 +573,7 @@
   "guests_err_duplicate_phone": "This number is already on the guest list",
   "guests_err_invalid_input": "Invalid guest details",
   "guests_err_event_not_found": "This event isn't available.",
-  "guests_err_concurrent": "The list was changed at the same time. Please try again."
+  "guests_err_concurrent": "The list was changed at the same time. Please try again.",
+  "guests_no_results_for": "No results for \"{}\"",
+  "guests_clear_search": "Clear search"
 }

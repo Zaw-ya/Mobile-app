@@ -576,5 +576,7 @@
   "guests_err_duplicate_phone": "الرقم موجود بالفعل في قائمة الضيوف",
   "guests_err_invalid_input": "بيانات الضيف غير صحيحة",
   "guests_err_event_not_found": "المناسبة غير متاحة.",
-  "guests_err_concurrent": "تم تعديل القائمة في نفس الوقت، يرجى المحاولة مرة أخرى."
+  "guests_err_concurrent": "تم تعديل القائمة في نفس الوقت، يرجى المحاولة مرة أخرى.",
+  "guests_no_results_for": "لا توجد نتائج لـ«{}»",
+  "guests_clear_search": "مسح البحث"
 }
