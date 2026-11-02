@@ -25,6 +25,7 @@ import 'widgets/guest_dialogs.dart';
 import 'widgets/guest_form_sheet.dart';
 import 'widgets/guest_tiles.dart';
 import 'widgets/locked_guest_sheet.dart';
+import 'widgets/submit_bar.dart';
 import 'widgets/submit_result_sheet.dart';
 
 /// "Manage guests" of one event: the list, the local draft, and adding,
@@ -430,49 +431,12 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
     );
   }
 
-  Widget _submitBar(ManageGuestsCubit cubit) {
-    final saved = !cubit.isDraftDirty;
-    return SafeArea(
-      child: Container(
-        padding: EdgeInsets.fromLTRB(edge, edge * 0.6, edge, edge * 0.6),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: AppColor.primaryDark.withValues(alpha: 0.08),
-              blurRadius: 12,
-              offset: const Offset(0, -4),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: CustomButton.normal(
-                text: saved
-                    ? 'guests_draft_saved_state'.tr()
-                    : 'guests_save_draft'.tr(),
-                color: AppColor.gray100,
-                textColor: AppColor.primaryDark,
-                fontSize: 13,
-                onPressed: saved ? null : cubit.saveDraft,
-              ),
-            ),
-            SizedBox(width: edge * 0.5),
-            Expanded(
-              flex: 3,
-              child: CustomButton.normal(
-                text: 'guests_submit_count'.tr(args: ['${cubit.draft.length}']),
-                color: AppColor.primaryDark,
-                fontSize: 13,
-                onPressed: cubit.hasLoaded ? () => _submit(cubit) : null,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  Widget _submitBar(ManageGuestsCubit cubit) => GuestsSubmitBar(
+        draftCount: cubit.draft.length,
+        isSaved: !cubit.isDraftDirty,
+        onSave: cubit.saveDraft,
+        onSubmit: cubit.hasLoaded ? () => _submit(cubit) : null,
+      );
 }
 
 class _SectionHeader extends StatelessWidget {

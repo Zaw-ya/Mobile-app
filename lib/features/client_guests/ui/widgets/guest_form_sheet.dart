@@ -15,6 +15,7 @@ import '../../data/models/guest_title.dart';
 import '../../logic/guest_validation.dart';
 import '../../logic/manage_guests_cubit.dart';
 import '../../logic/manage_guests_states.dart';
+import 'guest_button_pair.dart';
 import 'guest_dialogs.dart';
 import 'guest_input_decoration.dart';
 import 'guest_title_field.dart';
@@ -297,25 +298,12 @@ class _GuestFormSheetState extends State<GuestFormSheet> {
 
   Widget _buttons(bool busy) {
     if (_isNew) {
-      return Row(
-        children: [
-          Expanded(
-            child: CustomButton.normal(
-              text: 'guests_add_another'.tr(),
-              color: Colors.white,
-              textColor: AppColor.primaryDark,
-              onPressed: () => _addToDraft(another: true),
-            ),
-          ),
-          SizedBox(width: edge * 0.5),
-          Expanded(
-            child: CustomButton.normal(
-              text: 'guests_add_btn'.tr(),
-              color: AppColor.primaryDark,
-              onPressed: () => _addToDraft(another: false),
-            ),
-          ),
-        ],
+      return GuestButtonPair(
+        secondaryText: 'guests_add_another'.tr(),
+        secondaryColor: Colors.white,
+        onSecondary: () => _addToDraft(another: true),
+        primaryText: 'guests_add_btn'.tr(),
+        onPrimary: () => _addToDraft(another: false),
       );
     }
     return Column(
@@ -326,6 +314,7 @@ class _GuestFormSheetState extends State<GuestFormSheet> {
             : CustomButton.normal(
                 text: 'guests_save_changes'.tr(),
                 color: AppColor.primaryDark,
+                textStyle: guestButtonTextStyle(context),
                 onPressed: _isServer ? _saveServer : _saveDraftRow,
               ),
         TextButton(
