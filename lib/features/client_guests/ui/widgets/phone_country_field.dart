@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/dimensions/dimensions_constants.dart';
 import '../../../../core/helpers/phone_number_helper.dart';
 import '../../../../core/theming/colors.dart';
-import '../../../../core/widgets/drag_handle.dart';
 import 'guest_input_decoration.dart';
+import 'guest_list_sheet.dart';
 
 /// Number field with a country chip. With a country, its calling code is
 /// prefixed (the client chose it); with none ("international"), the number
@@ -138,51 +138,42 @@ class CountryChoice {
   const CountryChoice(this.country);
 }
 
+/// Country list for the chip; scrolls inside a sheet capped at 80 % of
+/// the screen, also when opened over another sheet.
 Future<CountryChoice?> showCountryPicker(
     BuildContext context, PhoneCountry? current) {
-  return showModalBottomSheet<CountryChoice>(
-    context: context,
-    backgroundColor: AppColor.primaryLight,
-    shape: const RoundedRectangleBorder(
-      borderRadius:
-          BorderRadius.vertical(top: Radius.circular(containerRadius)),
-    ),
-    builder: (context) {
-      Widget item(PhoneCountry? country, String label) => ListTile(
-            title: Text(label, style: context.typography.bodyMedium),
-            trailing: Text(
-              country == null ? '' : '+${country.callingCode}',
-              textDirection: TextDirection.ltr,
-              style: context.typography.numericSmall,
-            ),
-            leading: Icon(
-              country?.region == current?.region
-                  ? Icons.radio_button_checked_rounded
-                  : Icons.radio_button_off_rounded,
-              color: AppColor.primaryDark,
-              size: 20,
-            ),
-            onTap: () => Navigator.of(context).pop(CountryChoice(country)),
-          );
-
-      return SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(edge),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const DragHandle(),
-              Text('guests_select_country'.tr(),
-                  style: context.typography.titleLarge),
-              SizedBox(height: edge * 0.4),
-              for (final country in PhoneNumberHelper.countries)
-                item(country, country.labelKey.tr()),
-              item(null, 'guests_country_international'.tr()),
-            ],
+  Widget item(PhoneCountry? country, String label) => Builder(
+        builder: (context) => ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(
+            country == null
+                ? label
+                : '${PhoneNumberHelper.flagOf(country.region)}  $label',
+            style: context.typography.bodyMedium,
           ),
+          trailing: Text(
+            country == null ? '' : '+${country.callingCode}',
+            textDirection: TextDirection.ltr,
+            style: context.typography.numericSmall,
+          ),
+          leading: Icon(
+            country?.region == current?.region
+                ? Icons.radio_button_checked_rounded
+                : Icons.radio_button_off_rounded,
+            color: AppColor.primaryDark,
+            size: 20,
+          ),
+          onTap: () => Navigator.of(context).pop(CountryChoice(country)),
         ),
       );
-    },
+
+  return showGuestListSheet<CountryChoice>(
+    context,
+    title: 'guests_select_country'.tr(),
+    children: [
+      for (final country in PhoneNumberHelper.countries)
+        item(country, country.labelKey.tr()),
+      item(null, 'guests_country_international'.tr()),
+    ],
   );
 }

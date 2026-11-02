@@ -25,7 +25,8 @@ class AddGuestsOptions extends StatelessWidget {
             BorderRadius.vertical(top: Radius.circular(containerRadius)),
       ),
       builder: (sheetContext) => SafeArea(
-        child: Padding(
+        // Scrolls instead of overflowing on short screens or large text
+        child: SingleChildScrollView(
           padding: EdgeInsets.fromLTRB(edge, 0, edge, edge),
           child: Column(
             mainAxisSize: MainAxisSize.min,

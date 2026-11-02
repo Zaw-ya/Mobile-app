@@ -9,7 +9,6 @@ import '../../../core/helpers/extensions.dart';
 import '../../../core/theming/colors.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_loading_indicator.dart';
-import '../../../core/widgets/drag_handle.dart';
 import '../../../core/widgets/public_app_bar.dart';
 import '../data/contacts/device_contacts_service.dart';
 import '../data/models/draft_guest.dart';
@@ -17,6 +16,7 @@ import '../data/models/guest_requests.dart';
 import '../logic/contacts_picker_cubit.dart';
 import '../logic/contacts_picker_states.dart';
 import 'contacts_review_screen.dart';
+import 'widgets/guest_list_sheet.dart';
 
 /// Picks guests from the device contacts. Pops the reviewed rows (a list of
 /// DraftGuest) for the draft.
@@ -69,40 +69,26 @@ class _ContactsPickerScreenState extends State<ContactsPickerScreen>
       return;
     }
     // One guest is one WhatsApp number: the client picks which one
-    final phone = await showModalBottomSheet<String>(
-      context: context,
-      backgroundColor: AppColor.primaryLight,
-      shape: const RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.vertical(top: Radius.circular(containerRadius)),
-      ),
-      builder: (context) => SafeArea(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(edge, 0, edge, edge),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const DragHandle(),
-              Text('guests_contacts_choose_number'.tr(),
-                  style: context.typography.titleLarge),
-              Text(contact.name, style: context.typography.bodySmall),
-              for (final number in free)
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: const Icon(Icons.phone_outlined,
-                      color: AppColor.primaryDark),
-                  title: Text(number,
-                      textDirection: TextDirection.ltr,
-                      textAlign: TextAlign.start,
-                      style: context.typography.numericSmall
-                          .copyWith(color: AppColor.primaryDark)),
-                  onTap: () => Navigator.of(context).pop(number),
-                ),
-            ],
+    final phone = await showGuestListSheet<String>(
+      context,
+      title: 'guests_contacts_choose_number'.tr(),
+      subtitle: contact.name,
+      children: [
+        for (final number in free)
+          Builder(
+            builder: (context) => ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading:
+                  const Icon(Icons.phone_outlined, color: AppColor.primaryDark),
+              title: Text(number,
+                  textDirection: TextDirection.ltr,
+                  textAlign: TextAlign.start,
+                  style: context.typography.numericSmall
+                      .copyWith(color: AppColor.primaryDark)),
+              onTap: () => Navigator.of(context).pop(number),
+            ),
           ),
-        ),
-      ),
+      ],
     );
     if (phone != null && !cubit.toggle(contact, phone: phone)) _showLimit();
   }

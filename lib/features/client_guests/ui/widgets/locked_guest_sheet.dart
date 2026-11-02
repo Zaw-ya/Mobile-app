@@ -78,7 +78,8 @@ class LockedGuestSheet extends StatelessWidget {
         (supportWhatsappNumber ?? '').isNotEmpty;
 
     return SafeArea(
-      child: Padding(
+      // Scrolls instead of overflowing on short screens or large text
+      child: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(edge, 0, edge, edge),
         child: Column(
           mainAxisSize: MainAxisSize.min,
