@@ -5,6 +5,7 @@ import 'package:app/core/theming/colors.dart';
 import 'package:app/core/widgets/custom_loading_indicator.dart';
 import 'package:app/core/widgets/drag_handle.dart';
 import 'package:app/core/widgets/empty_widget.dart';
+import 'package:app/core/widgets/custom_button.dart';
 import 'package:app/core/widgets/loader.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -267,59 +268,37 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
                             topRight: Radius.circular(containerRadius),
                           ),
                         ),
-                        child: Column(
-                          children: [
-                            // Drag handle — dragging here moves the sheet
-                            DragHandle(),
-                            SizedBox(height: edge * 0.4),
-
-                            Padding(
-                              padding:
-                              EdgeInsets.symmetric(horizontal: edge),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'invited'.tr(),
-                                    style: context.typography.titleLarge,
+                        // One scroll view for the header, the search and the
+                        // rows: nothing overflows when the sheet is dragged
+                        // down or the keyboard opens, and pull-to-refresh
+                        // reloads the open tab.
+                        child: RefreshIndicator(
+                          color: AppColor.primaryDark,
+                          onRefresh: _reload,
+                          child: CustomScrollView(
+                            controller: scrollController,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            slivers: [
+                              SliverToBoxAdapter(child: _sheetHeader()),
+                              if (_selectedTab == 1)
+                                SliverPadding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: edge),
+                                  sliver: SliverToBoxAdapter(
+                                    child: ClientMessagesSearchField(
+                                      searchController: _searchController,
+                                      isDebouncing: _isDebouncing,
+                                      onClear: _clearSearch,
+                                    ),
                                   ),
-                                  const Spacer(),
-                                  _manageGuestsButton(),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: edge * 0.6),
-
-                            // Tab buttons
-                            Padding(
-                              padding:
-                              EdgeInsets.symmetric(horizontal: edge),
-                              child: Row(
-                                children: [
-                                  ClientTabButton(
-                                    label: "attended_count".tr(),
-                                    isSelected: _selectedTab == 0,
-                                    onTap: () => _switchTab(0),
-                                  ),
-                                  SizedBox(width: edge * 0.4),
-                                  ClientTabButton(
-                                    label: "messages".tr(),
-                                    isSelected: _selectedTab == 1,
-                                    onTap: () => _switchTab(1),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: edge * 0.5),
-
-                            // Tab content
-                            Expanded(
-                              child: Padding(
+                                ),
+                              SliverPadding(
                                 padding:
-                                EdgeInsets.symmetric(horizontal: edge),
-                                child: _buildContent(state, scrollController),
+                                    EdgeInsets.fromLTRB(edge, 0, edge, edge),
+                                sliver: _buildContent(state),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -333,37 +312,105 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
     );
   }
 
-  Widget _buildContent(
-      ClientEventsStates state, ScrollController scrollController) {
+  Widget _sheetHeader() {
+    return Column(
+      children: [
+        // Drag handle — dragging here moves the sheet
+        DragHandle(),
+        SizedBox(height: edge * 0.4),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: edge),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'invited'.tr(),
+                  style: context.typography.titleLarge,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              _manageGuestsButton(),
+            ],
+          ),
+        ),
+        SizedBox(height: edge * 0.6),
+
+        // Tab buttons
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: edge),
+          child: Row(
+            children: [
+              ClientTabButton(
+                label: "attended_count".tr(),
+                isSelected: _selectedTab == 0,
+                onTap: () => _switchTab(0),
+              ),
+              SizedBox(width: edge * 0.4),
+              ClientTabButton(
+                label: "messages".tr(),
+                isSelected: _selectedTab == 1,
+                onTap: () => _switchTab(1),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: edge * 0.5),
+      ],
+    );
+  }
+
+  /// Reloads the open tab (pull-to-refresh and the retry button).
+  Future<void> _reload() {
+    final cubit = context.read<ClientEventsCubit>();
+    final eventId = widget.event.id.toString();
+    if (_selectedTab == 0) return cubit.getEventDetails(eventId);
+    final query = _searchController.text.trim();
+    return query.isEmpty
+        ? cubit.getClientMessagesStatus(eventId)
+        : cubit.searchMessageStatus(eventId: eventId, searchQuery: query);
+  }
+
+  Widget _buildContent(ClientEventsStates state) {
     return state.when(
-      initial: () => const SizedBox.shrink(),
-      loading: () => const SizedBox.shrink(), // ModalProgressHUD handles this
-      emptyInput: () => const EmptyWidget(),
-      error: (msg) => Center(
-        child: Text(msg,
-            style: context.typography.bodyMedium
-                .copyWith(color: AppColor.semanticError)),
+      initial: () => const SliverToBoxAdapter(child: SizedBox.shrink()),
+      // ModalProgressHUD handles this
+      loading: () => const SliverToBoxAdapter(child: SizedBox.shrink()),
+      emptyInput: () => const SliverToBoxAdapter(child: EmptyWidget()),
+      error: (msg) => SliverToBoxAdapter(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: edge),
+          child: Column(
+            children: [
+              Text(msg,
+                  textAlign: TextAlign.center,
+                  style: context.typography.bodyMedium
+                      .copyWith(color: AppColor.semanticError)),
+              SizedBox(height: edge * 0.6),
+              CustomButton.normal(
+                text: 'retry'.tr(),
+                color: AppColor.primaryDark,
+                onPressed: _reload,
+              ),
+            ],
+          ),
+        ),
       ),
       success: (response, isLoadingMore) {
         if (_selectedTab == 0 && response is ClientEventDetailsResponse) {
           return ClientAttendanceList(
             items: response.eventDetailsList ?? [],
             isLoadingMore: isLoadingMore,
-            scrollController: scrollController,
           );
         }
         if (_selectedTab == 1 && response is ClientMessagesStatusResponse) {
           return ClientMessagesList(
             items: response.clientMessagesDetailsList ?? [],
             isLoadingMore: isLoadingMore,
-            scrollController: scrollController,
-            searchController: _searchController,
-            isDebouncing: _isDebouncing,
-            onClear: _clearSearch,
           );
         }
         // Brief type mismatch during tab switch
-        return Center(child: Loader(color: AppColor.primaryDark));
+        return SliverToBoxAdapter(
+            child: Center(child: Loader(color: AppColor.primaryDark)));
       },
     );
   }

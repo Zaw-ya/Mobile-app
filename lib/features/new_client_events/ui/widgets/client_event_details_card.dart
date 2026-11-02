@@ -104,37 +104,57 @@ class ClientEventDetailsCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  DateTimeHelper.formatDate(event.eventFrom,
-                      isArabic: isArabic),
-                  style: context.typography.bodySmall
-                      .copyWith(color: kCream.withValues(alpha: 0.8)),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      DateTimeHelper.formatDate(event.eventFrom,
+                          isArabic: isArabic),
+                      style: context.typography.bodySmall
+                          .copyWith(color: kCream.withValues(alpha: 0.8)),
+                    ),
+                  ),
                 ),
-                Text(
-                  DateTimeHelper.formatDate(event.eventTo,
-                      isArabic: isArabic),
-                  style: context.typography.bodySmall
-                      .copyWith(color: kCream.withValues(alpha: 0.8)),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      DateTimeHelper.formatDate(event.eventTo,
+                          isArabic: isArabic),
+                      style: context.typography.bodySmall
+                          .copyWith(color: kCream.withValues(alpha: 0.8)),
+                    ),
+                  ),
                 ),
               ],
             ),
             SizedBox(height: 4.h),
 
-            // ── Times ─────────────────────────────────────────────────────
+            // ── Times: scale down instead of overflowing on narrow screens
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  DateTimeHelper.formatTime(event.eventFrom,
-                      isArabic: isArabic),
-                  style: context.typography.numericMedium
-                      .copyWith(color: AppColor.primaryLight),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      DateTimeHelper.formatTime(event.eventFrom,
+                          isArabic: isArabic),
+                      style: context.typography.numericMedium
+                          .copyWith(color: AppColor.primaryLight),
+                    ),
+                  ),
                 ),
-                Text(
-                  DateTimeHelper.formatTime(event.eventTo,
-                      isArabic: isArabic),
-                  style: context.typography.numericMedium
-                      .copyWith(color: AppColor.primaryLight),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      DateTimeHelper.formatTime(event.eventTo,
+                          isArabic: isArabic),
+                      style: context.typography.numericMedium
+                          .copyWith(color: AppColor.primaryLight),
+                    ),
+                  ),
                 ),
               ],
             ),
