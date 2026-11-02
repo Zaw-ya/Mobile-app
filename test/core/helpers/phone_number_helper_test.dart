@@ -125,7 +125,7 @@ void main() {
 
     test('invalid or unlisted numbers stay as typed without a country', () {
       expect(split('+966 12'), (null, '+966 12'));
-      expect(split('+1 202 555 0143'), (null, '+1 202 555 0143'));
+      expect(split('+56 9 6123 4567'), (null, '+56 9 6123 4567'));
       expect(split(null), (null, ''));
     });
 

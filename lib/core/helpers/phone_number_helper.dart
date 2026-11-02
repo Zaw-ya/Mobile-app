@@ -1,5 +1,9 @@
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
+import 'phone_countries.dart';
+
+export 'phone_countries.dart' show PhoneCountry, PhoneCountryGroup, PhoneCountries;
+
 /// Phone validation for guest numbers.
 ///
 /// [validateAndNormalize] mirrors the backend's strict
@@ -12,16 +16,9 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 class PhoneNumberHelper {
   PhoneNumberHelper._();
 
-  /// Countries offered by the country selector, in display order.
-  static const List<PhoneCountry> countries = [
-    PhoneCountry(region: 'SA', callingCode: '966', labelKey: 'saudi_arabia'),
-    PhoneCountry(region: 'EG', callingCode: '20', labelKey: 'egypt'),
-    PhoneCountry(region: 'AE', callingCode: '971', labelKey: 'uae'),
-    PhoneCountry(region: 'KW', callingCode: '965', labelKey: 'kuwait'),
-    PhoneCountry(region: 'QA', callingCode: '974', labelKey: 'qatar'),
-    PhoneCountry(region: 'BH', callingCode: '973', labelKey: 'bahrain'),
-    PhoneCountry(region: 'OM', callingCode: '968', labelKey: 'oman'),
-  ];
+  /// Countries offered by the country selector, in display order
+  /// (see PhoneCountries for the groups and names).
+  static List<PhoneCountry> get countries => PhoneCountries.all;
 
   /// Event time zone (from `GET guests`) → region. Only used to preselect the
   /// country selector; it never changes a number by itself.
@@ -41,12 +38,8 @@ class PhoneNumberHelper {
     return region == null ? null : countryForRegion(region);
   }
 
-  static PhoneCountry? countryForRegion(String? region) {
-    for (final country in countries) {
-      if (country.region == region) return country;
-    }
-    return null;
-  }
+  static PhoneCountry? countryForRegion(String? region) =>
+      PhoneCountries.byRegion(region);
 
   static final RegExp _nonDigits = RegExp(r'[^\d]');
 
@@ -219,19 +212,4 @@ class PhoneFieldValue {
   final String text;
 
   const PhoneFieldValue({required this.country, required this.text});
-}
-
-/// A country of the selector.
-class PhoneCountry {
-  final String region;
-  final String callingCode;
-
-  /// Translation key of the country name.
-  final String labelKey;
-
-  const PhoneCountry({
-    required this.region,
-    required this.callingCode,
-    required this.labelKey,
-  });
 }

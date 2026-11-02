@@ -466,7 +466,6 @@
   "exit_app_message": "هل تريد الخروج من التطبيق؟",
   "exit": "خروج",
 
-  "oman": "عُمان",
   "guests_manage": "إدارة الضيوف",
   "guests_search_hint": "البحث بالاسم أو الرقم",
   "guests_section_draft": "المسودة ({})",
@@ -578,5 +577,10 @@
   "guests_err_event_not_found": "المناسبة غير متاحة.",
   "guests_err_concurrent": "تم تعديل القائمة في نفس الوقت، يرجى المحاولة مرة أخرى.",
   "guests_no_results_for": "لا توجد نتائج لـ«{}»",
-  "guests_clear_search": "مسح البحث"
+  "guests_clear_search": "مسح البحث",
+  "guests_country_group_arab": "الدول العربية",
+  "guests_country_group_english": "الدول الناطقة بالإنجليزية",
+  "guests_country_group_europe": "أوروبا",
+  "guests_country_group_other": "دول أخرى",
+  "guests_country_search_hint": "البحث باسم الدولة أو الكود"
 }

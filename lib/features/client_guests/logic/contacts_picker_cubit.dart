@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/helpers/phone_number_helper.dart';
+import '../../../core/helpers/search_normalizer.dart' as search_text;
 import '../data/contacts/device_contacts_service.dart';
 import '../data/models/draft_guest.dart';
 import '../data/models/guest_requests.dart';
@@ -268,16 +269,10 @@ class ContactsPickerCubit extends Cubit<ContactsPickerStates> {
 
   // ── Helpers ───────────────────────────────────────────────────────────────
 
-  /// Lower-case text with Arabic letter variants folded (أ/إ/آ → ا,
-  /// ة → ه, ى → ي) and diacritics removed, for forgiving search.
+  /// Kept for the tests; the rule lives in core/helpers/search_normalizer.
   @visibleForTesting
-  static String normalizeForSearch(String text) => text
-      .toLowerCase()
-      .replaceAll(RegExp('[ً-ٰٟـ]'), '')
-      .replaceAll(RegExp('[أإآٱ]'), 'ا')
-      .replaceAll('ة', 'ه')
-      .replaceAll('ى', 'ي')
-      .trim();
+  static String normalizeForSearch(String text) =>
+      search_text.normalizeForSearch(text);
 
   void _emitLoaded() {
     if (!isClosed) emit(ContactsPickerStates.loaded(revision: ++_revision));

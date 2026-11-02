@@ -463,7 +463,6 @@
   "exit_app_message": "Are you sure you want to exit the application?",
   "exit": "Exit",
 
-  "oman": "Oman",
   "guests_manage": "Manage guests",
   "guests_search_hint": "Search by name or number",
   "guests_section_draft": "Draft ({})",
@@ -575,5 +574,10 @@
   "guests_err_event_not_found": "This event isn't available.",
   "guests_err_concurrent": "The list was changed at the same time. Please try again.",
   "guests_no_results_for": "No results for \"{}\"",
-  "guests_clear_search": "Clear search"
+  "guests_clear_search": "Clear search",
+  "guests_country_group_arab": "Arab countries",
+  "guests_country_group_english": "English-speaking countries",
+  "guests_country_group_europe": "Europe",
+  "guests_country_group_other": "Other countries",
+  "guests_country_search_hint": "Search by country or code"
 }
