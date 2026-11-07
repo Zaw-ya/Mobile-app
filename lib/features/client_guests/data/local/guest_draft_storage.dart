@@ -82,14 +82,7 @@ class GuestDraftStorage {
       ? _utilities.remove(_indexKey)
       : _utilities.setString(_indexKey, jsonEncode(index.toList()));
 
-  /// The user id from the token's "sid" claim (the one the backend reads),
-  /// or the saved username when the token can't be read.
-  String get _userKey {
-    final sid = userIdFromToken(_utilities.serverToken);
-    if (sid != null) return sid;
-    final username = _utilities.username.trim().toLowerCase();
-    return username.isEmpty ? 'anonymous' : username;
-  }
+  String get _userKey => guestStorageUserKey(_utilities);
 
   @visibleForTesting
   static String? userIdFromToken(String token) {
@@ -107,4 +100,13 @@ class GuestDraftStorage {
     } catch (_) {}
     return null;
   }
+}
+
+/// The user id from the token's "sid" claim (the one the backend reads), or
+/// the saved username when the token can't be read.
+String guestStorageUserKey(AppUtilities utilities) {
+  final sid = GuestDraftStorage.userIdFromToken(utilities.serverToken);
+  if (sid != null) return sid;
+  final username = utilities.username.trim().toLowerCase();
+  return username.isEmpty ? 'anonymous' : username;
 }

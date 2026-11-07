@@ -32,6 +32,11 @@ class FakeClientGuestsRepo implements ClientGuestsRepo {
       ApiResult.success(GuestOpResult(success: true));
 
   @override
+  Future<ApiResult<GuestsTitleResponse>> updateGuestsTitle(
+          int eventId, List<int> guestIds, String? title) async =>
+      ApiResult.success(GuestsTitleResponse(updated: guestIds));
+
+  @override
   Future<ApiResult<GuestOpResult>> deleteGuest(int eventId, int guestId) async =>
       ApiResult.success(GuestOpResult(success: true));
 }

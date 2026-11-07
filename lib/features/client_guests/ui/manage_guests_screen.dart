@@ -16,13 +16,16 @@ import '../../../core/widgets/public_app_bar.dart';
 import '../../client_events/data/models/client_event_response.dart';
 import '../data/models/draft_guest.dart';
 import '../data/models/event_guests_response.dart';
+import '../data/models/guest_title.dart';
 import '../logic/manage_guests_cubit.dart';
 import '../logic/manage_guests_states.dart';
 import 'contacts_picker_screen.dart';
 import 'widgets/add_guests_options.dart';
 import 'widgets/deadline_banner.dart';
 import 'widgets/guest_dialogs.dart';
+import 'widgets/guest_button_pair.dart';
 import 'widgets/guest_form_sheet.dart';
+import 'widgets/guest_title_sheets.dart';
 import 'widgets/guest_tiles.dart';
 import 'widgets/locked_guest_sheet.dart';
 import 'widgets/submit_bar.dart';
@@ -43,6 +46,11 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
     with WidgetsBindingObserver {
   final TextEditingController _searchController = TextEditingController();
   Timer? _deadlineTimer;
+
+  /// Ticking guests to change their title together.
+  bool _selecting = false;
+  final Set<String> _selectedDraft = {};
+  final Set<int> _selectedGuests = {};
 
   int get _eventId => widget.event.id ?? 0;
 
@@ -116,8 +124,107 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
     );
   }
 
+  // ── Titles ────────────────────────────────────────────────────────────────
+
+  void _endSelection() => setState(() {
+        _selecting = false;
+        _selectedDraft.clear();
+        _selectedGuests.clear();
+      });
+
+  int get _selectedCount => _selectedDraft.length + _selectedGuests.length;
+
+  List<ClientGuest> _selectableGuests(ManageGuestsCubit cubit) =>
+      cubit.titlesOnList ? cubit.guests : const [];
+
+  bool _allSelected(ManageGuestsCubit cubit) {
+    final draft = cubit.filteredDraft;
+    final guests = _selectableGuests(cubit);
+    return draft.length + guests.length > 0 &&
+        draft.every((d) => _selectedDraft.contains(d.localId)) &&
+        guests.every((g) => _selectedGuests.contains(g.guestId));
+  }
+
+  void _toggleAll(ManageGuestsCubit cubit) {
+    final all = _allSelected(cubit);
+    setState(() {
+      _selectedDraft.clear();
+      _selectedGuests.clear();
+      if (all) return;
+      _selectedDraft.addAll(cubit.filteredDraft.map((d) => d.localId));
+      _selectedGuests.addAll(
+          _selectableGuests(cubit).map((g) => g.guestId).nonNulls);
+    });
+  }
+
+  Future<void> _pickTitleForSelection(ManageGuestsCubit cubit) async {
+    final names = [
+      for (final row in cubit.draft)
+        if (_selectedDraft.contains(row.localId)) row.name,
+      for (final guest in cubit.guests)
+        if (_selectedGuests.contains(guest.guestId)) guest.titleAndName.$2,
+    ];
+    final title = await GuestTitlePickerSheet.show(
+      context,
+      count: _selectedCount,
+      recentTitles: cubit.recentTitles,
+      names: names,
+    );
+    if (title != null) {
+      await _changeTitle(cubit, title, {..._selectedDraft}, {..._selectedGuests});
+    }
+  }
+
+  /// Everyone with the filtered title: a new title for all of them. For "no
+  /// title" that's choosing one, for a title it's renaming it.
+  Future<void> _changeFiltered(ManageGuestsCubit cubit, GuestTitle from) async {
+    final draftRows = cubit.draft.where((d) => d.title == from).toList();
+    final guests = cubit.titlesOnList
+        ? cubit.guests.where((g) => g.titleAndName.$1 == from).toList()
+        : const <ClientGuest>[];
+    final count = draftRows.length + guests.length;
+    final names = [
+      for (final d in draftRows) d.name,
+      for (final g in guests) g.titleAndName.$2,
+    ];
+    final title = await (from.kind == GuestTitleKind.none
+        ? GuestTitlePickerSheet.show(context,
+            count: count, recentTitles: cubit.recentTitles, names: names)
+        : RenameTitleSheet.show(context,
+            from: from, count: count, sampleName: names.firstOrNull));
+    if (title == null) return;
+    await _changeTitle(cubit, title, {for (final d in draftRows) d.localId},
+        guests.map((g) => g.guestId).nonNulls.toSet());
+  }
+
+  /// A draft changes on the phone; guests on the list need a confirmation,
+  /// since some of them may have been sent an invitation.
+  Future<void> _changeTitle(ManageGuestsCubit cubit, GuestTitle title,
+      Set<String> draftIds, Set<int> guestIds) async {
+    if (guestIds.isNotEmpty) {
+      final locked = cubit.lockedCount(guestIds);
+      final confirmed = await TitleChangeConfirmSheet.show(
+        context,
+        to: title,
+        updating: draftIds.length + guestIds.length - locked,
+        locked: locked,
+      );
+      if (!confirmed) return;
+    }
+    _endSelection();
+    if (draftIds.isNotEmpty) {
+      cubit.applyTitleToDraft(draftIds, title);
+      await cubit.rememberTitle(title);
+    }
+    if (guestIds.isNotEmpty) await cubit.applyTitleToGuests(guestIds, title);
+  }
+
   Future<void> _onPop(ManageGuestsCubit cubit, bool didPop) async {
     if (didPop) return;
+    if (_selecting) {
+      _endSelection();
+      return;
+    }
     final navigator = Navigator.of(context);
     final choice = await showLeaveDraftDialog(context);
     switch (choice) {
@@ -141,6 +248,8 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
         context.showErrorToast(message);
       case Error(:final message) when cubit.hasLoaded:
         context.showErrorToast(message);
+      case TitleChangeResult(:final outcome):
+        await TitleChangeResultSheet.show(context, outcome);
       case SubmitResult(:final outcome):
         final discard = await SubmitResultSheet.show(context, outcome);
         if (discard) {
@@ -160,11 +269,11 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
       listener: _listener,
       builder: (context, state) {
         final cubit = context.read<ManageGuestsCubit>();
-        final submitting = state is Submitting;
+        final submitting = state is Submitting || state is TitleChanging;
         final showBar = cubit.canEdit && cubit.hasDraft;
 
         return PopScope(
-          canPop: !cubit.isDraftDirty,
+          canPop: !cubit.isDraftDirty && !_selecting,
           onPopInvokedWithResult: (didPop, _) => _onPop(cubit, didPop),
           child: ModalProgressHUD(
             inAsyncCall: submitting,
@@ -177,7 +286,9 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
               appBar: recordsAppBar(context, 'guests_manage'.tr(),
                   subtitle: widget.event.eventTitle,
                   onBack: () => Navigator.of(context).maybePop()),
-              floatingActionButton: cubit.canEdit && cubit.hasLoaded
+              floatingActionButton: cubit.canEdit &&
+                      cubit.hasLoaded &&
+                      !_selecting
                   ? FloatingActionButton.extended(
                       backgroundColor: AppColor.primaryDark,
                       foregroundColor: AppColor.primaryLight,
@@ -187,7 +298,11 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
                           style: context.typography.buttonMedium),
                     )
                   : null,
-              bottomNavigationBar: showBar ? _submitBar(cubit) : null,
+              bottomNavigationBar: _selecting
+                  ? _selectionBar(cubit)
+                  : showBar
+                      ? _submitBar(cubit)
+                      : null,
               body: Container(
                 decoration: BoxDecoration(
                   color: AppColor.primaryLight,
@@ -240,6 +355,7 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
             ..._emptyView(cubit)
           else ...[
             _searchField(cubit),
+            if (cubit.titlesOnList && cubit.canEdit) _titleTools(cubit),
             if (noResults)
               _noResultsView(cubit)
             else ...[
@@ -327,12 +443,23 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
         hint: 'guests_section_draft_hint'.tr(),
       ),
       if (!cubit.canEdit && cubit.hasLoaded) _expiredDraftNotice(cubit),
+      if (!cubit.titlesOnList && cubit.canEdit) _titleTools(cubit),
       for (final row in draft)
-        DraftGuestTile(
-          row: row,
-          onTap: cubit.canEdit
-              ? () => GuestFormSheet.show(context, draftRow: row)
-              : () {},
+        _selectable(
+          cubit,
+          selected: _selectedDraft.contains(row.localId),
+          onToggle: () => setState(() {
+            if (!_selectedDraft.remove(row.localId)) {
+              _selectedDraft.add(row.localId);
+            }
+          }),
+          child: (onToggle) => DraftGuestTile(
+            row: row,
+            onTap: onToggle ??
+                (cubit.canEdit
+                    ? () => GuestFormSheet.show(context, draftRow: row)
+                    : () {}),
+          ),
         ),
       SizedBox(height: edge * 0.6),
     ];
@@ -382,12 +509,216 @@ class _ManageGuestsScreenState extends State<ManageGuestsScreen>
           ),
         ),
       for (final guest in guests)
-        ServerGuestTile(
-          guest: guest,
-          canEdit: cubit.canEdit,
-          onTap: () => _openServerGuest(cubit, guest),
-        ),
+        cubit.titlesOnList
+            ? _selectable(
+                cubit,
+                selected: _selectedGuests.contains(guest.guestId),
+                onToggle: () => setState(() {
+                  if (!_selectedGuests.remove(guest.guestId)) {
+                    _selectedGuests.add(guest.guestId!);
+                  }
+                }),
+                child: (onToggle) => ServerGuestTile(
+                  guest: guest,
+                  canEdit: cubit.canEdit,
+                  onTap: onToggle ?? () => _openServerGuest(cubit, guest),
+                ),
+              )
+            : ServerGuestTile(
+                guest: guest,
+                canEdit: cubit.canEdit,
+                onTap: () => _openServerGuest(cubit, guest),
+              ),
     ];
+  }
+
+  /// Guests whose title can be changed together: the draft, and the list too
+  /// once titles on the list are available.
+  int _groupableCount(ManageGuestsCubit cubit) =>
+      cubit.titleCounts.values.fold<int>(0, (sum, count) => sum + count);
+
+  /// Changing titles together is offered from two guests up; one guest is
+  /// simpler to edit directly.
+  bool _canSelectGroup(ManageGuestsCubit cubit) =>
+      cubit.canEdit && _groupableCount(cubit) >= 2;
+
+  /// While selecting, a tile gets a checkbox and a tap on it ticks it. A long
+  /// press on a tile starts a selection with it ticked, a shortcut to the
+  /// "change titles for a group" button.
+  Widget _selectable(
+    ManageGuestsCubit cubit, {
+    required bool selected,
+    required VoidCallback onToggle,
+    required Widget Function(VoidCallback? onToggle) child,
+  }) {
+    if (!_selecting) {
+      return GestureDetector(
+        onLongPress: _canSelectGroup(cubit)
+            ? () {
+                setState(() => _selecting = true);
+                onToggle();
+              }
+            : null,
+        child: child(null),
+      );
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Checkbox(
+          value: selected,
+          activeColor: AppColor.primaryDark,
+          onChanged: (_) => onToggle(),
+        ),
+        Expanded(child: child(onToggle)),
+      ],
+    );
+  }
+
+  /// The titles in use as filters, a change for everyone with the chosen
+  /// one, and starting a selection.
+  Widget _titleTools(ManageGuestsCubit cubit) {
+    final counts = cubit.titleCounts;
+    if (counts.isEmpty) return const SizedBox.shrink();
+    final filter = cubit.titleFilter;
+    final total = _groupableCount(cubit);
+    final titles = counts.keys.toList()
+      // "No title" goes last
+      ..sort((a, b) => (a.kind == GuestTitleKind.none ? 1 : 0)
+          .compareTo(b.kind == GuestTitleKind.none ? 1 : 0));
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: edge * 0.4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                GuestChoiceChip(
+                  label: 'guests_review_tab_all'.tr(args: ['$total']),
+                  selected: filter == null,
+                  onTap: () => cubit.setTitleFilter(null),
+                ),
+                for (final title in titles)
+                  Padding(
+                    padding: EdgeInsetsDirectional.only(start: edge * 0.3),
+                    child: GuestChoiceChip(
+                      label: '${title.kind == GuestTitleKind.none ? 'guests_title_none'.tr() : title.text} ${counts[title]}',
+                      selected: filter == title,
+                      onTap: () => cubit.setTitleFilter(title),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          if (!_selecting && filter != null && counts[filter] != null)
+            _filterSummary(cubit, filter, counts[filter]!),
+          if (_selecting)
+            CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              controlAffinity: ListTileControlAffinity.leading,
+              activeColor: AppColor.primaryDark,
+              value: _allSelected(cubit),
+              onChanged: (_) => _toggleAll(cubit),
+              title: Text('guests_select_all'.tr(),
+                  style: context.typography.bodySmall),
+            )
+          else if (_canSelectGroup(cubit))
+            Padding(
+              padding: EdgeInsets.only(top: edge * 0.3),
+              child: OutlinedButton.icon(
+                onPressed: () => setState(() => _selecting = true),
+                icon: const Icon(Icons.checklist_rounded, size: 18),
+                label: Text('guests_select_group'.tr(),
+                    style: context.typography.labelLarge),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColor.primaryDark,
+                  side: const BorderSide(color: AppColor.gray300),
+                  minimumSize: const Size(0, 44),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(radiusInput)),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  /// The chosen title with its count, and the change for all of them.
+  Widget _filterSummary(
+      ManageGuestsCubit cubit, GuestTitle filter, int count) {
+    final none = filter.kind == GuestTitleKind.none;
+    return Container(
+      margin: EdgeInsets.only(top: edge * 0.4),
+      padding: EdgeInsetsDirectional.only(start: edge * 0.6),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(radiusInput),
+        border: Border.all(color: AppColor.gray100),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              '${none ? 'guests_title_none'.tr() : filter.text} · ${'guests_count'.tr(args: ['$count'])}',
+              style: context.typography.titleSmall,
+            ),
+          ),
+          if (cubit.canEdit)
+            TextButton(
+              onPressed: () => _changeFiltered(cubit, filter),
+              child: Text(
+                  none
+                      ? 'guests_title_choose_all'.tr()
+                      : 'guests_title_rename_all'.tr(),
+                  style: context.typography.labelLarge),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _selectionBar(ManageGuestsCubit cubit) {
+    final count = _selectedCount;
+    return SafeArea(
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.all(edge * 0.6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                      'guests_contacts_selected'.tr(args: ['$count']),
+                      style: context.typography.titleSmall),
+                ),
+                TextButton(
+                  onPressed: _endSelection,
+                  child: Text('cancel'.tr(),
+                      style: context.typography.labelLarge),
+                ),
+              ],
+            ),
+            GuestButtonPair(
+              primaryText: 'guests_change_title'.tr(),
+              onPrimary:
+                  count == 0 ? null : () => _pickTitleForSelection(cubit),
+              secondaryText: 'guests_title_remove'.tr(),
+              onSecondary: count == 0
+                  ? null
+                  : () => _changeTitle(cubit, const GuestTitle.none(),
+                      {..._selectedDraft}, {..._selectedGuests}),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   List<Widget> _emptyView(ManageGuestsCubit cubit) {

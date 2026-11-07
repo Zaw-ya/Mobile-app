@@ -3,29 +3,44 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/helpers/phone_number_helper.dart';
 import '../../../core/networking/api_result.dart';
+import '../client_guests_flags.dart';
 import '../data/local/guest_draft_storage.dart';
+import '../data/local/recent_titles_storage.dart';
 import '../data/models/draft_guest.dart';
 import '../data/models/event_guests_response.dart';
 import '../data/models/guest_op_response.dart';
 import '../data/models/guest_requests.dart';
+import '../data/models/guest_title.dart';
 import '../data/repo/client_guests_repo.dart';
 import 'manage_guests_states.dart';
 import 'submit_outcome.dart';
+import 'title_change_outcome.dart';
 
 /// Guest list of one event: the server list, the local draft, the edit
 /// deadline, adding the draft to the list and editing / deleting guests.
 class ManageGuestsCubit extends Cubit<ManageGuestsStates> {
   final ClientGuestsRepo _repo;
   final GuestDraftStorage _drafts;
+  final RecentTitlesStorage _recentTitles;
 
-  ManageGuestsCubit(this._repo, this._drafts)
-      : super(const ManageGuestsStates.initial());
+  /// Whether titles of guests already on the list can be used; see
+  /// [ClientGuestsFlags.titlesOnListEnabled].
+  final bool titlesOnList;
+
+  ManageGuestsCubit(
+    this._repo,
+    this._drafts,
+    this._recentTitles, {
+    this.titlesOnList = ClientGuestsFlags.titlesOnListEnabled,
+  }) : super(const ManageGuestsStates.initial());
 
   int _eventId = 0;
   EventGuestsResponse? _view;
   List<DraftGuest> _draft = [];
   bool _draftDirty = false;
   String _query = '';
+  GuestTitle? _titleFilter;
+  List<String> _recent = [];
   int _revision = 0;
 
   // ── Read ──────────────────────────────────────────────────────────────────
@@ -56,19 +71,45 @@ class ManageGuestsCubit extends Cubit<ManageGuestsStates> {
   PhoneCountry? get defaultCountry =>
       PhoneNumberHelper.countryForTimeZone(_view?.timeZoneId);
 
-  /// Server guests matching the search, newest first.
+  /// Server guests matching the search and the title filter, newest first.
   List<ClientGuest> get guests {
     final all = [...?_view?.guests]
       ..sort((a, b) => (b.guestId ?? 0).compareTo(a.guestId ?? 0));
-    if (_query.isEmpty) return all;
-    return all.where((g) => _matches(g.name ?? '', g.phoneDigits)).toList();
+    return all.where((g) {
+      if (titlesOnList && !_matchesTitle(g.titleAndName.$1)) return false;
+      return _query.isEmpty || _matches(g.name ?? '', g.phoneDigits);
+    }).toList();
   }
 
-  List<DraftGuest> get filteredDraft => _query.isEmpty
-      ? draft
-      : _draft
-          .where((d) => _matches(d.fullName, d.phoneDigits ?? d.phoneInput))
-          .toList();
+  List<DraftGuest> get filteredDraft => _draft.where((d) {
+        if (!_matchesTitle(d.title)) return false;
+        return _query.isEmpty ||
+            _matches(d.fullName, d.phoneDigits ?? d.phoneInput);
+      }).toList();
+
+  GuestTitle? get titleFilter => _titleFilter;
+
+  bool _matchesTitle(GuestTitle title) =>
+      _titleFilter == null || title == _titleFilter;
+
+  /// Every title in use and how many guests have it: the draft, and the list
+  /// too once titles on the list are available.
+  Map<GuestTitle, int> get titleCounts {
+    final counts = <GuestTitle, int>{};
+    void count(GuestTitle title) =>
+        counts[title] = (counts[title] ?? 0) + 1;
+    for (final row in _draft) {
+      count(row.title);
+    }
+    if (titlesOnList) {
+      for (final guest in _view?.guests ?? const <ClientGuest>[]) {
+        count(guest.titleAndName.$1);
+      }
+    }
+    return counts;
+  }
+
+  List<String> get recentTitles => List.unmodifiable(_recent);
 
   bool _matches(String name, String phone) {
     final q = _query.toLowerCase();
@@ -105,6 +146,7 @@ class ManageGuestsCubit extends Cubit<ManageGuestsStates> {
     if (!isClosed) emit(const ManageGuestsStates.loading());
     // The draft shows right away, the list loads under it
     _draft = await _drafts.load(eventId);
+    _recent = await _recentTitles.load();
     await _fetch(reportErrors: true);
   }
 
@@ -149,6 +191,16 @@ class ManageGuestsCubit extends Cubit<ManageGuestsStates> {
     _emitLoaded();
   }
 
+  void setTitleFilter(GuestTitle? title) {
+    _titleFilter = title;
+    _emitLoaded();
+  }
+
+  Future<void> rememberTitle(GuestTitle title) async {
+    _recent = await _recentTitles.remember(title);
+    _emitLoaded();
+  }
+
   // ── Draft ─────────────────────────────────────────────────────────────────
 
   void addToDraft(List<DraftGuest> rows) {
@@ -171,6 +223,25 @@ class ManageGuestsCubit extends Cubit<ManageGuestsStates> {
     _draft = _draft.where((d) => !ids.contains(d.localId)).toList();
     _draftDirty = true;
     _emitLoaded();
+  }
+
+  /// Gives [title] to draft rows; nothing is sent until they are added.
+  void applyTitleToDraft(Set<String> localIds, GuestTitle title) {
+    final normalized = GuestTitles.fromText(title.text);
+    _draft = [
+      for (final d in _draft)
+        localIds.contains(d.localId) ? d.copyWith(title: normalized) : d,
+    ];
+    _draftDirty = true;
+    _clearEmptyFilter();
+    _emitLoaded();
+  }
+
+  // The chosen title may have just lost its last guest
+  void _clearEmptyFilter() {
+    if (_titleFilter != null && !titleCounts.containsKey(_titleFilter)) {
+      _titleFilter = null;
+    }
   }
 
   Future<void> saveDraft({bool notify = true}) async {
@@ -236,6 +307,7 @@ class ManageGuestsCubit extends Cubit<ManageGuestsStates> {
               name: row.fullName,
               phone: row.phoneDigits!,
               noOfMembers: row.noOfMembers,
+              title: GuestTitles.wireText(row.title),
             ),
         ],
       );
@@ -342,6 +414,71 @@ class ManageGuestsCubit extends Cubit<ManageGuestsStates> {
     GuestErrorCodes.windowNotConfigured,
     GuestErrorCodes.concurrentUpdate,
   };
+
+  // ── Titles of guests already on the list ──────────────────────────────────
+
+  /// How many of [guestIds] were sent an invitation, as far as the list knows;
+  /// the backend still decides when the change is applied.
+  int lockedCount(Set<int> guestIds) =>
+      (_view?.guests ?? const <ClientGuest>[])
+          .where((g) => guestIds.contains(g.guestId) && (g.isLocked ?? false))
+          .length;
+
+  /// Sends the change in batches. A refused batch (deadline passed, no answer)
+  /// stops the rest; what was already changed is still reported.
+  Future<void> applyTitleToGuests(Set<int> guestIds, GuestTitle title) async {
+    if (!canEdit || guestIds.isEmpty) return;
+    if (!isClosed) emit(const ManageGuestsStates.titleChanging());
+
+    final ids = guestIds.toList();
+    final names = {
+      for (final g in _view?.guests ?? const <ClientGuest>[])
+        g.guestId: g.name ?? '',
+    };
+    final wireTitle = GuestTitles.wireText(GuestTitles.fromText(title.text));
+    var updated = 0;
+    final skipped = <SkippedTitleChange>[];
+    String? stopCode;
+
+    for (var start = 0;
+        start < ids.length;
+        start += AddGuestsRequest.maxBatchSize) {
+      final batch = ids.sublist(
+          start, (start + AddGuestsRequest.maxBatchSize).clamp(0, ids.length));
+      final result =
+          await _repo.updateGuestsTitle(_eventId, batch, wireTitle);
+      final response = result.when<GuestsTitleResponse?>(
+        success: (response) => response,
+        failure: (code) {
+          stopCode = code;
+          return null;
+        },
+      );
+      if (response == null) break;
+      updated += response.updated?.length ?? 0;
+      for (final row in response.skipped ?? const <GuestOpResult>[]) {
+        skipped.add(SkippedTitleChange(
+          name: names[row.guestId] ?? '',
+          code: row.code ?? GuestErrorCodes.unknown,
+        ));
+      }
+    }
+
+    // Reload in every case: an answer may be lost after the change was saved
+    await _fetch(reportErrors: false);
+    _clearEmptyFilter();
+    if (updated > 0) _recent = await _recentTitles.remember(title);
+
+    if (isClosed) return;
+    if (stopCode != null) {
+      emit(ManageGuestsStates.actionError(message: messageFor(stopCode!)));
+    }
+    if (stopCode == null || updated > 0) {
+      emit(ManageGuestsStates.titleChangeResult(
+          TitleChangeOutcome(updated: updated, skipped: skipped)));
+    }
+    _emitLoaded();
+  }
 
   // ── Helpers ───────────────────────────────────────────────────────────────
 

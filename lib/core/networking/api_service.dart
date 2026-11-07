@@ -310,6 +310,13 @@ abstract class ApiService {
     @Body() GuestInput request,
   );
 
+  @PUT(ApiConstants.clientEventGuestsTitleEndpoint)
+  Future<GuestsTitleResponse> updateGuestsTitle(
+    @Header('Authorization') String token,
+    @Path('eventId') int eventId,
+    @Body() GuestsTitleRequest request,
+  );
+
   @DELETE(ApiConstants.clientEventGuestEndpoint)
   Future<GuestOpResult> deleteGuest(
     @Header('Authorization') String token,

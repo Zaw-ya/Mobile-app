@@ -82,7 +82,7 @@ class _GuestFormSheetState extends State<GuestFormSheet> {
       _phoneController.text = phone.text;
       _members = row.noOfMembers;
     } else if (guest != null) {
-      final (title, name) = GuestTitles.split(guest.name ?? '');
+      final (title, name) = guest.titleAndName;
       _title = title;
       _nameController.text = name;
       // Code in the chip, national number in the field
@@ -153,6 +153,7 @@ class _GuestFormSheetState extends State<GuestFormSheet> {
     final cubit = context.read<ManageGuestsCubit>();
     cubit.addToDraft(
         [_toDraft(DateTime.now().microsecondsSinceEpoch.toString())]);
+    cubit.rememberTitle(_title!);
     if (!another) {
       Navigator.of(context).pop();
       return;
@@ -169,23 +170,26 @@ class _GuestFormSheetState extends State<GuestFormSheet> {
 
   void _saveDraftRow() {
     if (!_validate()) return;
-    context
-        .read<ManageGuestsCubit>()
-        .updateDraft(_toDraft(widget.draftRow!.localId));
+    final cubit = context.read<ManageGuestsCubit>();
+    cubit.updateDraft(_toDraft(widget.draftRow!.localId));
+    cubit.rememberTitle(_title!);
     Navigator.of(context).pop();
   }
 
   Future<void> _saveServer() async {
     if (!_validate()) return;
     final navigator = Navigator.of(context);
-    final ok = await context.read<ManageGuestsCubit>().updateGuest(
-          widget.serverGuest!.guestId!,
-          GuestInput(
-            name: GuestTitles.compose(_title!, _cleanName),
-            phone: _phoneCheck.phone!.digits,
-            noOfMembers: _members,
-          ),
-        );
+    final cubit = context.read<ManageGuestsCubit>();
+    final ok = await cubit.updateGuest(
+      widget.serverGuest!.guestId!,
+      GuestInput(
+        name: GuestTitles.compose(_title!, _cleanName),
+        phone: _phoneCheck.phone!.digits,
+        noOfMembers: _members,
+        title: GuestTitles.wireText(_title!),
+      ),
+    );
+    if (ok) await cubit.rememberTitle(_title!);
     if (ok && mounted) navigator.pop();
   }
 
@@ -238,6 +242,8 @@ class _GuestFormSheetState extends State<GuestFormSheet> {
                       label: 'guests_title'.tr(),
                       child: GuestTitleField(
                         value: _title,
+                        recentTitles:
+                            context.read<ManageGuestsCubit>().recentTitles,
                         errorText: _titleError,
                         onChanged: (title) => setState(() => _title = title),
                       ),

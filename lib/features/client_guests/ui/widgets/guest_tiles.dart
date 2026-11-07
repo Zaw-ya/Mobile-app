@@ -9,6 +9,7 @@ import '../../../../core/theming/colors.dart';
 import '../../data/models/draft_guest.dart';
 import '../../data/models/event_guests_response.dart';
 import '../../data/models/guest_title.dart';
+import '../../logic/guest_validation.dart';
 import '../../logic/manage_guests_cubit.dart';
 
 /// A guest already on the list: editable, or locked. The backend's isLocked
@@ -37,7 +38,10 @@ class ServerGuestTile extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: GuestNameText(fullName: guest.name ?? '')),
+              Expanded(
+                child: GuestNameText(
+                    fullName: guest.name ?? '', title: guest.title),
+              ),
               if (locked)
                 const _SentBadge()
               else if (canEdit)
@@ -67,7 +71,8 @@ class DraftGuestTile extends StatelessWidget {
         ? ManageGuestsCubit.messageFor(row.errorCode!)
         : digits == null
             ? 'guests_phone_needs_code'.tr()
-            : null;
+            : GuestValidation.name(row.title, row.name)
+                ?.tr(args: ['${GuestValidation.maxNameLength}']);
     return _TileFrame(
       onTap: onTap,
       background: Colors.white,
@@ -80,7 +85,10 @@ class DraftGuestTile extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: GuestNameText(fullName: row.fullName)),
+              Expanded(
+                child: GuestNameText(
+                    fullName: row.fullName, title: row.title.text),
+              ),
               if (row.noOfMembers > 1)
                 Text('guests_members_count'.tr(args: ['${row.noOfMembers}']),
                     style: context.typography.labelSmall),
@@ -114,15 +122,17 @@ class DraftGuestTile extends StatelessWidget {
   }
 }
 
-/// Full name with a known title shown lighter than the name.
+/// Full name with a known title shown lighter than the name. [title] is the
+/// title when it's known, which is the only way to tell a custom one.
 class GuestNameText extends StatelessWidget {
-  const GuestNameText({super.key, required this.fullName});
+  const GuestNameText({super.key, required this.fullName, this.title});
 
   final String fullName;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
-    final (title, name) = GuestTitles.split(fullName);
+    final (title, name) = GuestTitles.splitKnown(fullName, this.title);
     final style =
         context.typography.titleSmall.copyWith(color: AppColor.primaryDark);
     if (title.kind == GuestTitleKind.none) return Text(fullName, style: style);

@@ -11,6 +11,7 @@ import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../client_guests/data/local/guest_draft_storage.dart';
+import '../../../client_guests/data/local/recent_titles_storage.dart';
 
 class LogoutBottomSheet extends StatefulWidget {
   const LogoutBottomSheet({super.key});
@@ -31,6 +32,7 @@ class _LogoutBottomSheetState extends State<LogoutBottomSheet> {
       await FirebaseMessagingHandler().unregisterDevice();
       // Guest drafts are keyed by the session's user, so clear them first
       await getIt<GuestDraftStorage>().clearAllForCurrentUser();
+      await getIt<RecentTitlesStorage>().clearForCurrentUser();
       await AppUtilities().clearData();
     }
   }

@@ -1,6 +1,7 @@
 import 'package:app/core/helpers/app_utilities.dart';
 import 'package:app/core/networking/api_result.dart';
 import 'package:app/features/client_guests/data/local/guest_draft_storage.dart';
+import 'package:app/features/client_guests/data/local/recent_titles_storage.dart';
 import 'package:app/features/client_guests/data/models/draft_guest.dart';
 import 'package:app/features/client_guests/data/models/event_guests_response.dart';
 import 'package:app/features/client_guests/data/models/guest_op_response.dart';
@@ -62,6 +63,41 @@ class _FakeRepo implements ClientGuestsRepo {
     return ApiResult.success(GuestOpResult(success: true, guestId: guestId));
   }
 
+  final List<List<int>> titleBatches = [];
+  String? titleFailure;
+
+  /// Follows the contract: a locked guest is skipped, the rest get the title.
+  @override
+  Future<ApiResult<GuestsTitleResponse>> updateGuestsTitle(
+      int eventId, List<int> guestIds, String? title) async {
+    titleBatches.add(guestIds);
+    if (titleFailure != null) return ApiResult.failure(titleFailure!);
+    final updated = <int>[];
+    final skipped = <GuestOpResult>[];
+    for (final id in guestIds) {
+      final index = guests.indexWhere((g) => g.guestId == id);
+      if (index < 0) {
+        skipped.add(GuestOpResult(guestId: id, code: 'GUEST_NOT_FOUND'));
+      } else if (guests[index].isLocked ?? false) {
+        skipped.add(GuestOpResult(guestId: id, code: 'GUEST_LOCKED'));
+      } else {
+        final guest = guests[index];
+        final base = guest.titleAndName.$2;
+        guests[index] = ClientGuest(
+            guestId: id,
+            name: title == null ? base : '$title $base',
+            title: title,
+            countryCode: guest.countryCode,
+            phone: guest.phone,
+            noOfMembers: guest.noOfMembers,
+            isLocked: false);
+        updated.add(id);
+      }
+    }
+    return ApiResult.success(
+        GuestsTitleResponse(updated: updated, skipped: skipped));
+  }
+
   @override
   Future<ApiResult<GuestOpResult>> deleteGuest(int eventId, int guestId) async {
     guests.removeWhere((g) => g.guestId == guestId);
@@ -85,7 +121,7 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     repo = _FakeRepo();
     storage = GuestDraftStorage(AppUtilities());
-    cubit = ManageGuestsCubit(repo, storage);
+    cubit = ManageGuestsCubit(repo, storage, RecentTitlesStorage(AppUtilities()));
   });
 
   tearDown(() => cubit.close());
@@ -218,5 +254,177 @@ void main() {
     expect(cubit.guests.single.guestId, 2);
     cubit.search('5471');
     expect(cubit.guests.single.guestId, 1);
+  });
+
+  group('titles', () {
+    test('the draft sends each title with its full name', () async {
+      await cubit.load(5);
+      cubit.addToDraft([
+        _row('a', '+966547111436'),
+        DraftGuest(
+            localId: 'b',
+            title: const GuestTitle.custom('دكتور'),
+            name: 'سالم',
+            phoneInput: '+971501234567'),
+        DraftGuest(
+            localId: 'c',
+            title: const GuestTitle.none(),
+            name: 'علي',
+            phoneInput: '+201012345678'),
+      ]);
+      await cubit.submitDraft();
+
+      final sent = repo.posts.single;
+      expect(sent[0].title, 'المكرم');
+      expect(sent[1].name, 'دكتور سالم');
+      expect(sent[1].title, 'دكتور');
+      expect(sent[2].title, isNull);
+      expect(sent[2].toJson().containsKey('title'), isFalse);
+    });
+
+    test('a draft group title changes the chosen rows only', () async {
+      await cubit.load(5);
+      cubit.addToDraft([
+        _row('a', '+966547111436'),
+        _row('b', '+971501234567'),
+      ]);
+      await cubit.saveDraft(notify: false);
+
+      cubit.applyTitleToDraft({'a'}, const GuestTitle.custom('دكتور'));
+      expect(cubit.draft.first.title, const GuestTitle.custom('دكتور'));
+      expect(cubit.draft.last.title, const GuestTitle.preset('المكرم'));
+      expect(cubit.isDraftDirty, isTrue);
+      expect(cubit.titleCounts, {
+        const GuestTitle.custom('دكتور'): 1,
+        const GuestTitle.preset('المكرم'): 1,
+      });
+
+      cubit.setTitleFilter(const GuestTitle.custom('دكتور'));
+      expect(cubit.filteredDraft.single.localId, 'a');
+    });
+
+    test('the filter clears once its title has no guests left', () async {
+      await cubit.load(5);
+      cubit.addToDraft([_row('a', '+966547111436')]);
+      cubit.setTitleFilter(const GuestTitle.preset('المكرم'));
+      cubit.applyTitleToDraft({'a'}, const GuestTitle.custom('دكتور'));
+      expect(cubit.titleFilter, isNull);
+    });
+
+    test('recent titles load, and a used custom title joins them', () async {
+      await RecentTitlesStorage(AppUtilities())
+          .remember(const GuestTitle.custom('سعادة'));
+      await cubit.load(5);
+      expect(cubit.recentTitles, ['سعادة']);
+      await cubit.rememberTitle(const GuestTitle.custom('معالي'));
+      expect(cubit.recentTitles, ['معالي', 'سعادة']);
+    });
+
+    group('on the list', () {
+      late ManageGuestsCubit listCubit;
+
+      ClientGuest guest(int id, String name,
+              {String? title, bool locked = false}) =>
+          ClientGuest(
+              guestId: id,
+              name: name,
+              title: title,
+              countryCode: '966',
+              phone: '54711140$id',
+              isLocked: locked);
+
+      setUp(() {
+        listCubit = ManageGuestsCubit(
+            repo, storage, RecentTitlesStorage(AppUtilities()),
+            titlesOnList: true);
+      });
+
+      tearDown(() => listCubit.close());
+
+      test('are ignored while the flag is off', () async {
+        repo.guests.add(guest(1, 'دكتور سالم', title: 'دكتور'));
+        await cubit.load(5);
+        expect(cubit.titleCounts, isEmpty);
+        cubit.setTitleFilter(const GuestTitle.preset('المكرم'));
+        expect(cubit.guests, hasLength(1));
+      });
+
+      test('filter by a stored custom title', () async {
+        repo.guests.addAll([
+          guest(1, 'دكتور سالم', title: 'دكتور'),
+          guest(2, 'المكرم علي'),
+        ]);
+        await listCubit.load(5);
+        expect(listCubit.titleCounts, {
+          const GuestTitle.custom('دكتور'): 1,
+          const GuestTitle.preset('المكرم'): 1,
+        });
+        listCubit.setTitleFilter(const GuestTitle.custom('دكتور'));
+        expect(listCubit.guests.single.guestId, 1);
+      });
+
+      test('reports who changed and who was skipped', () async {
+        repo.guests.addAll([
+          guest(1, 'دكتور سالم', title: 'دكتور'),
+          guest(2, 'دكتور علي', title: 'دكتور', locked: true),
+        ]);
+        await listCubit.load(5);
+        expect(listCubit.lockedCount({1, 2}), 1);
+
+        final states = <ManageGuestsStates>[];
+        final sub = listCubit.stream.listen(states.add);
+        await listCubit.applyTitleToGuests(
+            {1, 2}, const GuestTitle.custom('الدكتور'));
+        await Future<void>.delayed(Duration.zero);
+        await sub.cancel();
+
+        final result = states.whereType<TitleChangeResult>().single.outcome;
+        expect(result.updated, 1);
+        expect(result.skipped.single.name, 'دكتور علي');
+        expect(result.skipped.single.code, 'GUEST_LOCKED');
+        expect(repo.guests.first.name, 'الدكتور سالم');
+        expect(listCubit.recentTitles, ['الدكتور']);
+      });
+
+      test('removing a title sends null', () async {
+        repo.guests.add(guest(1, 'دكتور سالم', title: 'دكتور'));
+        await listCubit.load(5);
+        await listCubit.applyTitleToGuests({1}, const GuestTitle.none());
+        expect(repo.guests.single.name, 'سالم');
+        expect(listCubit.recentTitles, isEmpty);
+      });
+
+      test('splits into batches of 500', () async {
+        repo.guests.addAll([
+          for (var i = 1; i <= 501; i++)
+            ClientGuest(
+                guestId: i,
+                name: 'ضيف $i',
+                countryCode: '966',
+                phone: '5$i'),
+        ]);
+        await listCubit.load(5);
+        await listCubit.applyTitleToGuests(
+            {for (var i = 1; i <= 501; i++) i},
+            const GuestTitle.preset('المكرم'));
+        expect(repo.titleBatches.map((b) => b.length), [500, 1]);
+      });
+
+      test('a refused request shows the error and no result', () async {
+        repo.guests.add(guest(1, 'سالم'));
+        repo.titleFailure = 'EDIT_WINDOW_CLOSED';
+        await listCubit.load(5);
+
+        final states = <ManageGuestsStates>[];
+        final sub = listCubit.stream.listen(states.add);
+        await listCubit.applyTitleToGuests(
+            {1}, const GuestTitle.preset('المكرم'));
+        await Future<void>.delayed(Duration.zero);
+        await sub.cancel();
+
+        expect(states.whereType<ActionError>(), hasLength(1));
+        expect(states.whereType<TitleChangeResult>(), isEmpty);
+      });
+    });
   });
 }

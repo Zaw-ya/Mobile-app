@@ -1,8 +1,11 @@
+import 'package:app/core/helpers/app_utilities.dart';
 import 'package:app/features/client_guests/data/contacts/device_contacts_service.dart';
+import 'package:app/features/client_guests/data/local/recent_titles_storage.dart';
 import 'package:app/features/client_guests/data/models/guest_title.dart';
 import 'package:app/features/client_guests/logic/contacts_picker_cubit.dart';
 import 'package:app/features/client_guests/logic/contacts_picker_states.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class _FakeContacts implements DeviceContactsService {
   ContactsAccess access;
@@ -31,10 +34,14 @@ const _contacts = [
   PickedContact(id: '4', name: 'Fatma', phones: ['+201012345678']),
 ];
 
+ContactsPickerCubit _cubit(ContactsAccess access) => ContactsPickerCubit(
+    _FakeContacts(access, _contacts), RecentTitlesStorage(AppUtilities()));
+
 void main() {
+  setUp(() => SharedPreferences.setMockInitialValues({}));
+
   test('asks for access before loading', () async {
-    final cubit = ContactsPickerCubit(
-        _FakeContacts(ContactsAccess.notDetermined, _contacts));
+    final cubit = _cubit(ContactsAccess.notDetermined);
     await cubit.start({});
     expect(cubit.state, isA<NoAccess>());
     await cubit.requestAccess();
@@ -43,8 +50,7 @@ void main() {
   });
 
   test('permanently denied stays without access', () async {
-    final cubit = ContactsPickerCubit(
-        _FakeContacts(ContactsAccess.permanentlyDenied, _contacts));
+    final cubit = _cubit(ContactsAccess.permanentlyDenied);
     await cubit.start({});
     expect((cubit.state as NoAccess).access, ContactsAccess.permanentlyDenied);
   });
@@ -53,8 +59,7 @@ void main() {
     late ContactsPickerCubit cubit;
 
     setUp(() async {
-      cubit =
-          ContactsPickerCubit(_FakeContacts(ContactsAccess.granted, _contacts));
+      cubit = _cubit(ContactsAccess.granted);
       await cubit.start({'971509999999'});
     });
 
@@ -101,7 +106,7 @@ void main() {
 
       // No title yet, and the local number is not converted
       expect(cubit.reviewIssue(iman), 'guests_title_required');
-      cubit.applyTitleToAll(const GuestTitle.preset('المكرمة'));
+      cubit.applyTitleToUntitled(const GuestTitle.preset('المكرمة'));
       final titled =
           cubit.reviewRows.firstWhere((r) => r.localId == iman.localId);
       expect(titled.title, const GuestTitle.preset('المكرمة'));
@@ -121,10 +126,90 @@ void main() {
     test('ready rows exclude the ones needing a fix', () {
       cubit.selectAllVisible();
       cubit.startReview();
-      cubit.applyTitleToAll(const GuestTitle.none());
+      cubit.applyTitleToUntitled(const GuestTitle.none());
       expect(cubit.reviewIssueCount, 1); // the local number
       expect(cubit.readyRows, hasLength(3));
-      expect(cubit.reviewRowsSorted.first.name, 'إيمان');
+      expect(cubit.reviewRows.first.name, 'إيمان');
+    });
+
+    group('group titles', () {
+      setUp(() {
+        cubit.selectAllVisible();
+        cubit.startReview();
+      });
+
+      test('opens on the rows needing a title', () {
+        expect(cubit.reviewFilter, ReviewFilter.untitled);
+        // "المكرم أحمد علي" came with a known title
+        expect(cubit.reviewVisibleRows, hasLength(3));
+        expect(cubit.untitledCount, 3);
+      });
+
+      test('a title goes to the ticked rows only', () async {
+        final sara = cubit.reviewVisibleRows.firstWhere((r) => r.name == 'سارة');
+        final fatma =
+            cubit.reviewVisibleRows.firstWhere((r) => r.name == 'Fatma');
+        cubit.toggleReviewSelected(sara);
+        cubit.toggleReviewSelected(fatma);
+        await cubit.applyTitleToSelected(const GuestTitle.custom('دكتورة'));
+
+        expect(cubit.reviewSelectedCount, 0);
+        expect(cubit.untitledCount, 1);
+        expect(cubit.reviewVisibleRows.single.name, 'إيمان');
+        expect(cubit.recentTitles, ['دكتورة']);
+
+        cubit.setReviewFilter(ReviewFilter.all);
+        final group = cubit.reviewGroups
+            .firstWhere((g) => g.title == const GuestTitle.custom('دكتورة'));
+        expect(group.rows.map((r) => r.name), containsAll(['سارة', 'Fatma']));
+        expect(group.rows.first.fullName, startsWith('دكتورة '));
+      });
+
+      test('a custom title typed as a preset is that preset', () async {
+        cubit.toggleAllReviewVisible();
+        await cubit.applyTitleToSelected(const GuestTitle.custom('المكرم'));
+        expect(cubit.untitledCount, 0);
+        expect(cubit.reviewFilter, ReviewFilter.all);
+        expect(cubit.reviewGroups.single.title,
+            const GuestTitle.preset('المكرم'));
+        expect(cubit.recentTitles, isEmpty);
+      });
+
+      test('renaming a title changes everyone who has it, only them', () async {
+        cubit.toggleAllReviewVisible();
+        await cubit.applyTitleToSelected(const GuestTitle.custom('دكتور'));
+        await cubit.renameReviewTitle(
+            const GuestTitle.custom('دكتور'), const GuestTitle.custom('الدكتور'));
+
+        final titles = cubit.reviewRows.map((r) => r.title.text).toSet();
+        expect(titles, {'الدكتور', 'المكرم'});
+        expect(cubit.recentTitles.first, 'الدكتور');
+      });
+
+      test('going back to the picker keeps the titles', () async {
+        final sara = cubit.reviewVisibleRows.firstWhere((r) => r.name == 'سارة');
+        cubit.toggleReviewSelected(sara);
+        await cubit.applyTitleToSelected(const GuestTitle.custom('دكتورة'));
+
+        cubit.startReview();
+        expect(
+            cubit.reviewRows.firstWhere((r) => r.name == 'سارة').title.text,
+            'دكتورة');
+        expect(cubit.untitledCount, 2);
+      });
+
+      test('a title pushing the name past the limit is flagged', () async {
+        final sara = cubit.reviewVisibleRows.firstWhere((r) => r.name == 'سارة');
+        cubit.updateReviewRow(sara.copyWith(name: 'س' * 99));
+        final long =
+            cubit.reviewRows.firstWhere((r) => r.localId == sara.localId);
+        cubit.toggleReviewSelected(long);
+        await cubit.applyTitleToSelected(const GuestTitle.custom('دكتورة'));
+
+        final titled =
+            cubit.reviewRows.firstWhere((r) => r.localId == sara.localId);
+        expect(cubit.reviewIssue(titled), 'guests_name_too_long');
+      });
     });
   });
 }

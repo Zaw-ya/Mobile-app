@@ -40,6 +40,7 @@ Map<String, dynamic> _$EventGuestsResponseToJson(
 ClientGuest _$ClientGuestFromJson(Map<String, dynamic> json) => ClientGuest(
       guestId: (json['guestId'] as num?)?.toInt(),
       name: json['name'] as String?,
+      title: json['title'] as String?,
       phone: json['phone'] as String?,
       countryCode: json['countryCode'] as String?,
       noOfMembers: (json['noOfMembers'] as num?)?.toInt(),
@@ -50,6 +51,7 @@ Map<String, dynamic> _$ClientGuestToJson(ClientGuest instance) =>
     <String, dynamic>{
       'guestId': instance.guestId,
       'name': instance.name,
+      'title': instance.title,
       'phone': instance.phone,
       'countryCode': instance.countryCode,
       'noOfMembers': instance.noOfMembers,
