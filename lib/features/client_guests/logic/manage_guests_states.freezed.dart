@@ -24,6 +24,8 @@ mixin _$ManageGuestsStates {
     required TResult Function(String message) error,
     required TResult Function(int done, int total) submitting,
     required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
     required TResult Function() actionLoading,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) actionError,
@@ -37,6 +39,8 @@ mixin _$ManageGuestsStates {
     TResult? Function(String message)? error,
     TResult? Function(int done, int total)? submitting,
     TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult? Function()? actionLoading,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? actionError,
@@ -50,6 +54,8 @@ mixin _$ManageGuestsStates {
     TResult Function(String message)? error,
     TResult Function(int done, int total)? submitting,
     TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult Function()? actionLoading,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? actionError,
@@ -64,6 +70,8 @@ mixin _$ManageGuestsStates {
     required TResult Function(Error value) error,
     required TResult Function(Submitting value) submitting,
     required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
     required TResult Function(ActionLoading value) actionLoading,
     required TResult Function(ActionSuccess value) actionSuccess,
     required TResult Function(ActionError value) actionError,
@@ -77,6 +85,8 @@ mixin _$ManageGuestsStates {
     TResult? Function(Error value)? error,
     TResult? Function(Submitting value)? submitting,
     TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
     TResult? Function(ActionLoading value)? actionLoading,
     TResult? Function(ActionSuccess value)? actionSuccess,
     TResult? Function(ActionError value)? actionError,
@@ -90,6 +100,8 @@ mixin _$ManageGuestsStates {
     TResult Function(Error value)? error,
     TResult Function(Submitting value)? submitting,
     TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
     TResult Function(ActionLoading value)? actionLoading,
     TResult Function(ActionSuccess value)? actionSuccess,
     TResult Function(ActionError value)? actionError,
@@ -166,6 +178,8 @@ class _$InitialImpl implements _Initial {
     required TResult Function(String message) error,
     required TResult Function(int done, int total) submitting,
     required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
     required TResult Function() actionLoading,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) actionError,
@@ -182,6 +196,8 @@ class _$InitialImpl implements _Initial {
     TResult? Function(String message)? error,
     TResult? Function(int done, int total)? submitting,
     TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult? Function()? actionLoading,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? actionError,
@@ -198,6 +214,8 @@ class _$InitialImpl implements _Initial {
     TResult Function(String message)? error,
     TResult Function(int done, int total)? submitting,
     TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult Function()? actionLoading,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? actionError,
@@ -218,6 +236,8 @@ class _$InitialImpl implements _Initial {
     required TResult Function(Error value) error,
     required TResult Function(Submitting value) submitting,
     required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
     required TResult Function(ActionLoading value) actionLoading,
     required TResult Function(ActionSuccess value) actionSuccess,
     required TResult Function(ActionError value) actionError,
@@ -234,6 +254,8 @@ class _$InitialImpl implements _Initial {
     TResult? Function(Error value)? error,
     TResult? Function(Submitting value)? submitting,
     TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
     TResult? Function(ActionLoading value)? actionLoading,
     TResult? Function(ActionSuccess value)? actionSuccess,
     TResult? Function(ActionError value)? actionError,
@@ -250,6 +272,8 @@ class _$InitialImpl implements _Initial {
     TResult Function(Error value)? error,
     TResult Function(Submitting value)? submitting,
     TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
     TResult Function(ActionLoading value)? actionLoading,
     TResult Function(ActionSuccess value)? actionSuccess,
     TResult Function(ActionError value)? actionError,
@@ -313,6 +337,8 @@ class _$LoadingImpl implements Loading {
     required TResult Function(String message) error,
     required TResult Function(int done, int total) submitting,
     required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
     required TResult Function() actionLoading,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) actionError,
@@ -329,6 +355,8 @@ class _$LoadingImpl implements Loading {
     TResult? Function(String message)? error,
     TResult? Function(int done, int total)? submitting,
     TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult? Function()? actionLoading,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? actionError,
@@ -345,6 +373,8 @@ class _$LoadingImpl implements Loading {
     TResult Function(String message)? error,
     TResult Function(int done, int total)? submitting,
     TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult Function()? actionLoading,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? actionError,
@@ -365,6 +395,8 @@ class _$LoadingImpl implements Loading {
     required TResult Function(Error value) error,
     required TResult Function(Submitting value) submitting,
     required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
     required TResult Function(ActionLoading value) actionLoading,
     required TResult Function(ActionSuccess value) actionSuccess,
     required TResult Function(ActionError value) actionError,
@@ -381,6 +413,8 @@ class _$LoadingImpl implements Loading {
     TResult? Function(Error value)? error,
     TResult? Function(Submitting value)? submitting,
     TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
     TResult? Function(ActionLoading value)? actionLoading,
     TResult? Function(ActionSuccess value)? actionSuccess,
     TResult? Function(ActionError value)? actionError,
@@ -397,6 +431,8 @@ class _$LoadingImpl implements Loading {
     TResult Function(Error value)? error,
     TResult Function(Submitting value)? submitting,
     TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
     TResult Function(ActionLoading value)? actionLoading,
     TResult Function(ActionSuccess value)? actionSuccess,
     TResult Function(ActionError value)? actionError,
@@ -488,6 +524,8 @@ class _$LoadedImpl implements Loaded {
     required TResult Function(String message) error,
     required TResult Function(int done, int total) submitting,
     required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
     required TResult Function() actionLoading,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) actionError,
@@ -504,6 +542,8 @@ class _$LoadedImpl implements Loaded {
     TResult? Function(String message)? error,
     TResult? Function(int done, int total)? submitting,
     TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult? Function()? actionLoading,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? actionError,
@@ -520,6 +560,8 @@ class _$LoadedImpl implements Loaded {
     TResult Function(String message)? error,
     TResult Function(int done, int total)? submitting,
     TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult Function()? actionLoading,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? actionError,
@@ -540,6 +582,8 @@ class _$LoadedImpl implements Loaded {
     required TResult Function(Error value) error,
     required TResult Function(Submitting value) submitting,
     required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
     required TResult Function(ActionLoading value) actionLoading,
     required TResult Function(ActionSuccess value) actionSuccess,
     required TResult Function(ActionError value) actionError,
@@ -556,6 +600,8 @@ class _$LoadedImpl implements Loaded {
     TResult? Function(Error value)? error,
     TResult? Function(Submitting value)? submitting,
     TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
     TResult? Function(ActionLoading value)? actionLoading,
     TResult? Function(ActionSuccess value)? actionSuccess,
     TResult? Function(ActionError value)? actionError,
@@ -572,6 +618,8 @@ class _$LoadedImpl implements Loaded {
     TResult Function(Error value)? error,
     TResult Function(Submitting value)? submitting,
     TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
     TResult Function(ActionLoading value)? actionLoading,
     TResult Function(ActionSuccess value)? actionSuccess,
     TResult Function(ActionError value)? actionError,
@@ -670,6 +718,8 @@ class _$ErrorImpl implements Error {
     required TResult Function(String message) error,
     required TResult Function(int done, int total) submitting,
     required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
     required TResult Function() actionLoading,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) actionError,
@@ -686,6 +736,8 @@ class _$ErrorImpl implements Error {
     TResult? Function(String message)? error,
     TResult? Function(int done, int total)? submitting,
     TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult? Function()? actionLoading,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? actionError,
@@ -702,6 +754,8 @@ class _$ErrorImpl implements Error {
     TResult Function(String message)? error,
     TResult Function(int done, int total)? submitting,
     TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult Function()? actionLoading,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? actionError,
@@ -722,6 +776,8 @@ class _$ErrorImpl implements Error {
     required TResult Function(Error value) error,
     required TResult Function(Submitting value) submitting,
     required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
     required TResult Function(ActionLoading value) actionLoading,
     required TResult Function(ActionSuccess value) actionSuccess,
     required TResult Function(ActionError value) actionError,
@@ -738,6 +794,8 @@ class _$ErrorImpl implements Error {
     TResult? Function(Error value)? error,
     TResult? Function(Submitting value)? submitting,
     TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
     TResult? Function(ActionLoading value)? actionLoading,
     TResult? Function(ActionSuccess value)? actionSuccess,
     TResult? Function(ActionError value)? actionError,
@@ -754,6 +812,8 @@ class _$ErrorImpl implements Error {
     TResult Function(Error value)? error,
     TResult Function(Submitting value)? submitting,
     TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
     TResult Function(ActionLoading value)? actionLoading,
     TResult Function(ActionSuccess value)? actionSuccess,
     TResult Function(ActionError value)? actionError,
@@ -860,6 +920,8 @@ class _$SubmittingImpl implements Submitting {
     required TResult Function(String message) error,
     required TResult Function(int done, int total) submitting,
     required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
     required TResult Function() actionLoading,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) actionError,
@@ -876,6 +938,8 @@ class _$SubmittingImpl implements Submitting {
     TResult? Function(String message)? error,
     TResult? Function(int done, int total)? submitting,
     TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult? Function()? actionLoading,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? actionError,
@@ -892,6 +956,8 @@ class _$SubmittingImpl implements Submitting {
     TResult Function(String message)? error,
     TResult Function(int done, int total)? submitting,
     TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult Function()? actionLoading,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? actionError,
@@ -912,6 +978,8 @@ class _$SubmittingImpl implements Submitting {
     required TResult Function(Error value) error,
     required TResult Function(Submitting value) submitting,
     required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
     required TResult Function(ActionLoading value) actionLoading,
     required TResult Function(ActionSuccess value) actionSuccess,
     required TResult Function(ActionError value) actionError,
@@ -928,6 +996,8 @@ class _$SubmittingImpl implements Submitting {
     TResult? Function(Error value)? error,
     TResult? Function(Submitting value)? submitting,
     TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
     TResult? Function(ActionLoading value)? actionLoading,
     TResult? Function(ActionSuccess value)? actionSuccess,
     TResult? Function(ActionError value)? actionError,
@@ -944,6 +1014,8 @@ class _$SubmittingImpl implements Submitting {
     TResult Function(Error value)? error,
     TResult Function(Submitting value)? submitting,
     TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
     TResult Function(ActionLoading value)? actionLoading,
     TResult Function(ActionSuccess value)? actionSuccess,
     TResult Function(ActionError value)? actionError,
@@ -1044,6 +1116,8 @@ class _$SubmitResultImpl implements SubmitResult {
     required TResult Function(String message) error,
     required TResult Function(int done, int total) submitting,
     required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
     required TResult Function() actionLoading,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) actionError,
@@ -1060,6 +1134,8 @@ class _$SubmitResultImpl implements SubmitResult {
     TResult? Function(String message)? error,
     TResult? Function(int done, int total)? submitting,
     TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult? Function()? actionLoading,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? actionError,
@@ -1076,6 +1152,8 @@ class _$SubmitResultImpl implements SubmitResult {
     TResult Function(String message)? error,
     TResult Function(int done, int total)? submitting,
     TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult Function()? actionLoading,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? actionError,
@@ -1096,6 +1174,8 @@ class _$SubmitResultImpl implements SubmitResult {
     required TResult Function(Error value) error,
     required TResult Function(Submitting value) submitting,
     required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
     required TResult Function(ActionLoading value) actionLoading,
     required TResult Function(ActionSuccess value) actionSuccess,
     required TResult Function(ActionError value) actionError,
@@ -1112,6 +1192,8 @@ class _$SubmitResultImpl implements SubmitResult {
     TResult? Function(Error value)? error,
     TResult? Function(Submitting value)? submitting,
     TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
     TResult? Function(ActionLoading value)? actionLoading,
     TResult? Function(ActionSuccess value)? actionSuccess,
     TResult? Function(ActionError value)? actionError,
@@ -1128,6 +1210,8 @@ class _$SubmitResultImpl implements SubmitResult {
     TResult Function(Error value)? error,
     TResult Function(Submitting value)? submitting,
     TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
     TResult Function(ActionLoading value)? actionLoading,
     TResult Function(ActionSuccess value)? actionSuccess,
     TResult Function(ActionError value)? actionError,
@@ -1149,6 +1233,361 @@ abstract class SubmitResult implements ManageGuestsStates {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SubmitResultImplCopyWith<_$SubmitResultImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TitleChangingImplCopyWith<$Res> {
+  factory _$$TitleChangingImplCopyWith(
+          _$TitleChangingImpl value, $Res Function(_$TitleChangingImpl) then) =
+      __$$TitleChangingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TitleChangingImplCopyWithImpl<$Res>
+    extends _$ManageGuestsStatesCopyWithImpl<$Res, _$TitleChangingImpl>
+    implements _$$TitleChangingImplCopyWith<$Res> {
+  __$$TitleChangingImplCopyWithImpl(
+      _$TitleChangingImpl _value, $Res Function(_$TitleChangingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ManageGuestsStates
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TitleChangingImpl implements TitleChanging {
+  const _$TitleChangingImpl();
+
+  @override
+  String toString() {
+    return 'ManageGuestsStates.titleChanging()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$TitleChangingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(int revision) loaded,
+    required TResult Function(String message) error,
+    required TResult Function(int done, int total) submitting,
+    required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
+    required TResult Function() actionLoading,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String message) actionError,
+  }) {
+    return titleChanging();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(int revision)? loaded,
+    TResult? Function(String message)? error,
+    TResult? Function(int done, int total)? submitting,
+    TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
+    TResult? Function()? actionLoading,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String message)? actionError,
+  }) {
+    return titleChanging?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(int revision)? loaded,
+    TResult Function(String message)? error,
+    TResult Function(int done, int total)? submitting,
+    TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
+    TResult Function()? actionLoading,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String message)? actionError,
+    required TResult orElse(),
+  }) {
+    if (titleChanging != null) {
+      return titleChanging();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
+    required TResult Function(Error value) error,
+    required TResult Function(Submitting value) submitting,
+    required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
+    required TResult Function(ActionLoading value) actionLoading,
+    required TResult Function(ActionSuccess value) actionSuccess,
+    required TResult Function(ActionError value) actionError,
+  }) {
+    return titleChanging(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
+    TResult? Function(Error value)? error,
+    TResult? Function(Submitting value)? submitting,
+    TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
+    TResult? Function(ActionLoading value)? actionLoading,
+    TResult? Function(ActionSuccess value)? actionSuccess,
+    TResult? Function(ActionError value)? actionError,
+  }) {
+    return titleChanging?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
+    TResult Function(Error value)? error,
+    TResult Function(Submitting value)? submitting,
+    TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
+    TResult Function(ActionLoading value)? actionLoading,
+    TResult Function(ActionSuccess value)? actionSuccess,
+    TResult Function(ActionError value)? actionError,
+    required TResult orElse(),
+  }) {
+    if (titleChanging != null) {
+      return titleChanging(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class TitleChanging implements ManageGuestsStates {
+  const factory TitleChanging() = _$TitleChangingImpl;
+}
+
+/// @nodoc
+abstract class _$$TitleChangeResultImplCopyWith<$Res> {
+  factory _$$TitleChangeResultImplCopyWith(_$TitleChangeResultImpl value,
+          $Res Function(_$TitleChangeResultImpl) then) =
+      __$$TitleChangeResultImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({TitleChangeOutcome outcome});
+}
+
+/// @nodoc
+class __$$TitleChangeResultImplCopyWithImpl<$Res>
+    extends _$ManageGuestsStatesCopyWithImpl<$Res, _$TitleChangeResultImpl>
+    implements _$$TitleChangeResultImplCopyWith<$Res> {
+  __$$TitleChangeResultImplCopyWithImpl(_$TitleChangeResultImpl _value,
+      $Res Function(_$TitleChangeResultImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ManageGuestsStates
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? outcome = null,
+  }) {
+    return _then(_$TitleChangeResultImpl(
+      null == outcome
+          ? _value.outcome
+          : outcome // ignore: cast_nullable_to_non_nullable
+              as TitleChangeOutcome,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TitleChangeResultImpl implements TitleChangeResult {
+  const _$TitleChangeResultImpl(this.outcome);
+
+  @override
+  final TitleChangeOutcome outcome;
+
+  @override
+  String toString() {
+    return 'ManageGuestsStates.titleChangeResult(outcome: $outcome)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TitleChangeResultImpl &&
+            (identical(other.outcome, outcome) || other.outcome == outcome));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, outcome);
+
+  /// Create a copy of ManageGuestsStates
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TitleChangeResultImplCopyWith<_$TitleChangeResultImpl> get copyWith =>
+      __$$TitleChangeResultImplCopyWithImpl<_$TitleChangeResultImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(int revision) loaded,
+    required TResult Function(String message) error,
+    required TResult Function(int done, int total) submitting,
+    required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
+    required TResult Function() actionLoading,
+    required TResult Function(String message) actionSuccess,
+    required TResult Function(String message) actionError,
+  }) {
+    return titleChangeResult(outcome);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(int revision)? loaded,
+    TResult? Function(String message)? error,
+    TResult? Function(int done, int total)? submitting,
+    TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
+    TResult? Function()? actionLoading,
+    TResult? Function(String message)? actionSuccess,
+    TResult? Function(String message)? actionError,
+  }) {
+    return titleChangeResult?.call(outcome);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(int revision)? loaded,
+    TResult Function(String message)? error,
+    TResult Function(int done, int total)? submitting,
+    TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
+    TResult Function()? actionLoading,
+    TResult Function(String message)? actionSuccess,
+    TResult Function(String message)? actionError,
+    required TResult orElse(),
+  }) {
+    if (titleChangeResult != null) {
+      return titleChangeResult(outcome);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
+    required TResult Function(Error value) error,
+    required TResult Function(Submitting value) submitting,
+    required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
+    required TResult Function(ActionLoading value) actionLoading,
+    required TResult Function(ActionSuccess value) actionSuccess,
+    required TResult Function(ActionError value) actionError,
+  }) {
+    return titleChangeResult(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
+    TResult? Function(Error value)? error,
+    TResult? Function(Submitting value)? submitting,
+    TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
+    TResult? Function(ActionLoading value)? actionLoading,
+    TResult? Function(ActionSuccess value)? actionSuccess,
+    TResult? Function(ActionError value)? actionError,
+  }) {
+    return titleChangeResult?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
+    TResult Function(Error value)? error,
+    TResult Function(Submitting value)? submitting,
+    TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
+    TResult Function(ActionLoading value)? actionLoading,
+    TResult Function(ActionSuccess value)? actionSuccess,
+    TResult Function(ActionError value)? actionError,
+    required TResult orElse(),
+  }) {
+    if (titleChangeResult != null) {
+      return titleChangeResult(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class TitleChangeResult implements ManageGuestsStates {
+  const factory TitleChangeResult(final TitleChangeOutcome outcome) =
+      _$TitleChangeResultImpl;
+
+  TitleChangeOutcome get outcome;
+
+  /// Create a copy of ManageGuestsStates
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TitleChangeResultImplCopyWith<_$TitleChangeResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1199,6 +1638,8 @@ class _$ActionLoadingImpl implements ActionLoading {
     required TResult Function(String message) error,
     required TResult Function(int done, int total) submitting,
     required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
     required TResult Function() actionLoading,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) actionError,
@@ -1215,6 +1656,8 @@ class _$ActionLoadingImpl implements ActionLoading {
     TResult? Function(String message)? error,
     TResult? Function(int done, int total)? submitting,
     TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult? Function()? actionLoading,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? actionError,
@@ -1231,6 +1674,8 @@ class _$ActionLoadingImpl implements ActionLoading {
     TResult Function(String message)? error,
     TResult Function(int done, int total)? submitting,
     TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult Function()? actionLoading,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? actionError,
@@ -1251,6 +1696,8 @@ class _$ActionLoadingImpl implements ActionLoading {
     required TResult Function(Error value) error,
     required TResult Function(Submitting value) submitting,
     required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
     required TResult Function(ActionLoading value) actionLoading,
     required TResult Function(ActionSuccess value) actionSuccess,
     required TResult Function(ActionError value) actionError,
@@ -1267,6 +1714,8 @@ class _$ActionLoadingImpl implements ActionLoading {
     TResult? Function(Error value)? error,
     TResult? Function(Submitting value)? submitting,
     TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
     TResult? Function(ActionLoading value)? actionLoading,
     TResult? Function(ActionSuccess value)? actionSuccess,
     TResult? Function(ActionError value)? actionError,
@@ -1283,6 +1732,8 @@ class _$ActionLoadingImpl implements ActionLoading {
     TResult Function(Error value)? error,
     TResult Function(Submitting value)? submitting,
     TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
     TResult Function(ActionLoading value)? actionLoading,
     TResult Function(ActionSuccess value)? actionSuccess,
     TResult Function(ActionError value)? actionError,
@@ -1373,6 +1824,8 @@ class _$ActionSuccessImpl implements ActionSuccess {
     required TResult Function(String message) error,
     required TResult Function(int done, int total) submitting,
     required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
     required TResult Function() actionLoading,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) actionError,
@@ -1389,6 +1842,8 @@ class _$ActionSuccessImpl implements ActionSuccess {
     TResult? Function(String message)? error,
     TResult? Function(int done, int total)? submitting,
     TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult? Function()? actionLoading,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? actionError,
@@ -1405,6 +1860,8 @@ class _$ActionSuccessImpl implements ActionSuccess {
     TResult Function(String message)? error,
     TResult Function(int done, int total)? submitting,
     TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult Function()? actionLoading,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? actionError,
@@ -1425,6 +1882,8 @@ class _$ActionSuccessImpl implements ActionSuccess {
     required TResult Function(Error value) error,
     required TResult Function(Submitting value) submitting,
     required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
     required TResult Function(ActionLoading value) actionLoading,
     required TResult Function(ActionSuccess value) actionSuccess,
     required TResult Function(ActionError value) actionError,
@@ -1441,6 +1900,8 @@ class _$ActionSuccessImpl implements ActionSuccess {
     TResult? Function(Error value)? error,
     TResult? Function(Submitting value)? submitting,
     TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
     TResult? Function(ActionLoading value)? actionLoading,
     TResult? Function(ActionSuccess value)? actionSuccess,
     TResult? Function(ActionError value)? actionError,
@@ -1457,6 +1918,8 @@ class _$ActionSuccessImpl implements ActionSuccess {
     TResult Function(Error value)? error,
     TResult Function(Submitting value)? submitting,
     TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
     TResult Function(ActionLoading value)? actionLoading,
     TResult Function(ActionSuccess value)? actionSuccess,
     TResult Function(ActionError value)? actionError,
@@ -1556,6 +2019,8 @@ class _$ActionErrorImpl implements ActionError {
     required TResult Function(String message) error,
     required TResult Function(int done, int total) submitting,
     required TResult Function(SubmitOutcome outcome) submitResult,
+    required TResult Function() titleChanging,
+    required TResult Function(TitleChangeOutcome outcome) titleChangeResult,
     required TResult Function() actionLoading,
     required TResult Function(String message) actionSuccess,
     required TResult Function(String message) actionError,
@@ -1572,6 +2037,8 @@ class _$ActionErrorImpl implements ActionError {
     TResult? Function(String message)? error,
     TResult? Function(int done, int total)? submitting,
     TResult? Function(SubmitOutcome outcome)? submitResult,
+    TResult? Function()? titleChanging,
+    TResult? Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult? Function()? actionLoading,
     TResult? Function(String message)? actionSuccess,
     TResult? Function(String message)? actionError,
@@ -1588,6 +2055,8 @@ class _$ActionErrorImpl implements ActionError {
     TResult Function(String message)? error,
     TResult Function(int done, int total)? submitting,
     TResult Function(SubmitOutcome outcome)? submitResult,
+    TResult Function()? titleChanging,
+    TResult Function(TitleChangeOutcome outcome)? titleChangeResult,
     TResult Function()? actionLoading,
     TResult Function(String message)? actionSuccess,
     TResult Function(String message)? actionError,
@@ -1608,6 +2077,8 @@ class _$ActionErrorImpl implements ActionError {
     required TResult Function(Error value) error,
     required TResult Function(Submitting value) submitting,
     required TResult Function(SubmitResult value) submitResult,
+    required TResult Function(TitleChanging value) titleChanging,
+    required TResult Function(TitleChangeResult value) titleChangeResult,
     required TResult Function(ActionLoading value) actionLoading,
     required TResult Function(ActionSuccess value) actionSuccess,
     required TResult Function(ActionError value) actionError,
@@ -1624,6 +2095,8 @@ class _$ActionErrorImpl implements ActionError {
     TResult? Function(Error value)? error,
     TResult? Function(Submitting value)? submitting,
     TResult? Function(SubmitResult value)? submitResult,
+    TResult? Function(TitleChanging value)? titleChanging,
+    TResult? Function(TitleChangeResult value)? titleChangeResult,
     TResult? Function(ActionLoading value)? actionLoading,
     TResult? Function(ActionSuccess value)? actionSuccess,
     TResult? Function(ActionError value)? actionError,
@@ -1640,6 +2113,8 @@ class _$ActionErrorImpl implements ActionError {
     TResult Function(Error value)? error,
     TResult Function(Submitting value)? submitting,
     TResult Function(SubmitResult value)? submitResult,
+    TResult Function(TitleChanging value)? titleChanging,
+    TResult Function(TitleChangeResult value)? titleChangeResult,
     TResult Function(ActionLoading value)? actionLoading,
     TResult Function(ActionSuccess value)? actionSuccess,
     TResult Function(ActionError value)? actionError,

@@ -2,6 +2,7 @@ import 'package:app/core/helpers/app_utilities.dart';
 import 'package:app/features/client_events/data/models/client_event_response.dart';
 import 'package:app/features/client_guests/data/contacts/device_contacts_service.dart';
 import 'package:app/features/client_guests/data/local/guest_draft_storage.dart';
+import 'package:app/features/client_guests/data/local/recent_titles_storage.dart';
 import 'package:app/features/client_guests/logic/contacts_picker_cubit.dart';
 import 'package:app/features/client_guests/logic/manage_guests_cubit.dart';
 import 'package:app/features/client_guests/ui/contacts_review_screen.dart';
@@ -59,8 +60,9 @@ void main() {
         await pumpLocalized(
           tester,
           BlocProvider(
-            create: (_) => ManageGuestsCubit(
-                FakeClientGuestsRepo(), GuestDraftStorage(AppUtilities())),
+            create: (_) => ManageGuestsCubit(FakeClientGuestsRepo(),
+                GuestDraftStorage(AppUtilities()),
+                RecentTitlesStorage(AppUtilities())),
             child: ManageGuestsScreen(
                 event: ClientEventDetails(id: 5, eventTitle: 'زفاف')),
           ),
@@ -81,7 +83,8 @@ void main() {
       });
 
       testWidgets('from a contacts review row $name', (tester) async {
-        final cubit = ContactsPickerCubit(_FakeContacts());
+        final cubit = ContactsPickerCubit(
+            _FakeContacts(), RecentTitlesStorage(AppUtilities()));
         await tester.runAsync(() => cubit.start({}));
         cubit.selectAllVisible();
         cubit.startReview();
@@ -93,8 +96,12 @@ void main() {
           keyboardHeight: keyboard,
         );
 
+        // The row's sheet has the number's field
+        await tester.tap(find.byIcon(Icons.edit_outlined).first);
+        await tester.pumpAndSettle();
+
         // Local number: no country yet, the chip shows a globe. With the
-        // keyboard up only a strip of the list is visible, so scroll to it.
+        // keyboard up only a strip of the sheet is visible, so scroll to it.
         final chip = find.byIcon(Icons.public_rounded).first;
         await tester.ensureVisible(chip);
         await tester.pumpAndSettle();
@@ -113,8 +120,9 @@ void main() {
       await pumpLocalized(
         tester,
         BlocProvider(
-          create: (_) => ManageGuestsCubit(
-              FakeClientGuestsRepo(), GuestDraftStorage(AppUtilities())),
+          create: (_) => ManageGuestsCubit(FakeClientGuestsRepo(),
+              GuestDraftStorage(AppUtilities()),
+              RecentTitlesStorage(AppUtilities())),
           child: ManageGuestsScreen(
               event: ClientEventDetails(id: 5, eventTitle: 'زفاف')),
         ),

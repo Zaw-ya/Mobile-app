@@ -92,6 +92,42 @@ void main() {
     });
   });
 
+  group('fromText', () {
+    test('empty is no title', () {
+      expect(GuestTitles.fromText('  '), const GuestTitle.none());
+      expect(GuestTitles.fromText(null), const GuestTitle.none());
+    });
+
+    test('a known preset is that preset, in either language', () {
+      expect(GuestTitles.fromText(' المكرم '), const GuestTitle.preset('المكرم'));
+      expect(GuestTitles.fromText('mr'), const GuestTitle.preset('Mr.'));
+    });
+
+    test('anything else is custom, with spaces cleaned', () {
+      expect(GuestTitles.fromText(' سعادة   الدكتور '),
+          const GuestTitle.custom('سعادة الدكتور'));
+    });
+  });
+
+  group('splitKnown', () {
+    test('a stored custom title comes off the name', () {
+      expect(GuestTitles.splitKnown('دكتور أحمد سالم', 'دكتور'),
+          (const GuestTitle.custom('دكتور'), 'أحمد سالم'));
+    });
+
+    test('falls back when the name no longer starts with it', () {
+      expect(GuestTitles.splitKnown('أحمد سالم', 'دكتور'),
+          (const GuestTitle.none(), 'أحمد سالم'));
+      expect(GuestTitles.splitKnown('المكرم أحمد', 'دكتور'),
+          (const GuestTitle.preset('المكرم'), 'أحمد'));
+    });
+
+    test('without a stored title only presets are known', () {
+      expect(GuestTitles.splitKnown('دكتور أحمد', null),
+          (const GuestTitle.none(), 'دكتور أحمد'));
+    });
+  });
+
   group('GuestTitle json', () {
     test('round-trips', () {
       for (final title in const [

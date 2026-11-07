@@ -58,6 +58,8 @@ class ApiConstants {
       'client/events/{eventId}/guests';
   static const String clientEventGuestEndpoint =
       'client/events/{eventId}/guests/{guestId}';
+  static const String clientEventGuestsTitleEndpoint =
+      'client/events/{eventId}/guests/title';
 
       // static String gateKeeperProfileEndpoint =
       // '/Gatekeeper/$gatekeeperId/profile';

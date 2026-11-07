@@ -38,3 +38,18 @@ class GuestOpResult {
 
   Map<String, dynamic> toJson() => _$GuestOpResultToJson(this);
 }
+
+/// `PUT client/events/{eventId}/guests/title`: who changed, and who was
+/// skipped and why (a guest sent an invitation, a name too long...).
+@JsonSerializable()
+class GuestsTitleResponse {
+  final List<int>? updated;
+  final List<GuestOpResult>? skipped;
+
+  GuestsTitleResponse({this.updated, this.skipped});
+
+  factory GuestsTitleResponse.fromJson(Map<String, dynamic> json) =>
+      _$GuestsTitleResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GuestsTitleResponseToJson(this);
+}

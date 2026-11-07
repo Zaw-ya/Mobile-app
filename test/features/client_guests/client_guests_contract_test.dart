@@ -64,6 +64,51 @@ void main() {
     ]);
   });
 
+  test('a guest with a title sends it next to the full name', () {
+    expect(
+        GuestInput(
+                name: 'دكتور أحمد',
+                phone: '966547111436',
+                noOfMembers: 1,
+                title: 'دكتور')
+            .toJson(),
+        {
+          'name': 'دكتور أحمد',
+          'phone': '966547111436',
+          'noOfMembers': 1,
+          'title': 'دكتور'
+        });
+  });
+
+  test('a stored title is read, and an old response has none', () {
+    final guest = ClientGuest.fromJson(const {
+      'guestId': 1,
+      'name': 'دكتور أحمد',
+      'title': 'دكتور',
+    });
+    expect(guest.titleAndName.$2, 'أحمد');
+    expect(ClientGuest.fromJson(const {'name': 'أحمد'}).title, isNull);
+  });
+
+  test('group title body keeps a null title, which removes it', () {
+    expect(GuestsTitleRequest(guestIds: [1, 2]).toJson(),
+        {'guestIds': [1, 2], 'title': null});
+    expect(GuestsTitleRequest(guestIds: [1], title: 'دكتور').toJson()['title'],
+        'دكتور');
+  });
+
+  test('parses a group title result', () {
+    final result = GuestsTitleResponse.fromJson(const {
+      'updated': [1],
+      'skipped': [
+        {'guestId': 2, 'code': 'GUEST_LOCKED', 'message': 'x'}
+      ],
+    });
+    expect(result.updated, [1]);
+    expect(result.skipped!.single.guestId, 2);
+    expect(result.skipped!.single.code, GuestErrorCodes.guestLocked);
+  });
+
   test('parses per-row add results', () {
     final result = AddGuestsResponse.fromJson(const {
       'success': true,

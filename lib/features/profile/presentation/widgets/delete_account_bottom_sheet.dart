@@ -13,6 +13,7 @@ import 'package:app/core/theming/typography_theme.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../client_guests/data/local/guest_draft_storage.dart';
+import '../../../client_guests/data/local/recent_titles_storage.dart';
 import '../../logic/profile_cubit.dart';
 import '../../logic/profile_states.dart';
 
@@ -41,6 +42,7 @@ class _DeleteAccountBottomSheetState extends State<DeleteAccountBottomSheet> {
     // Account is gone on the backend, so only clean up the device side
     await FirebaseMessagingHandler().unregisterDevice(notifyBackend: false);
     await getIt<GuestDraftStorage>().clearAllForCurrentUser();
+    await getIt<RecentTitlesStorage>().clearForCurrentUser();
     await AppUtilities().clearData();
     if (!mounted) return;
     context.pushNamedAndRemoveUntil(Routes.loginScreen, predicate: false);

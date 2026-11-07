@@ -51,6 +51,11 @@ class ClientGuestsRepo {
       _call(() => _apiService.deleteGuest(
           AppUtilities().serverToken, eventId, guestId));
 
+  Future<ApiResult<GuestsTitleResponse>> updateGuestsTitle(
+          int eventId, List<int> guestIds, String? title) =>
+      _call(() => _apiService.updateGuestsTitle(AppUtilities().serverToken,
+          eventId, GuestsTitleRequest(guestIds: guestIds, title: title)));
+
   Future<ApiResult<T>> _call<T>(Future<T> Function() request) async {
     try {
       return ApiResult.success(await request());

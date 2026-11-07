@@ -1,8 +1,9 @@
 /// The title (لقب) written before a guest's name on the card.
 ///
-/// The backend has no title field: the title is joined to the name and sent
-/// as the full name (`prefix` stays null). This file is the one place that
-/// knows the title lists, how they are joined and how they are split back.
+/// The full name always carries the title (`prefix` stays null); the title is
+/// also sent on its own so the backend can tell it from a first name. This
+/// file is the one place that knows the title lists, how they are joined and
+/// how they are split back.
 enum GuestTitleKind { preset, custom, none }
 
 class GuestTitle {
@@ -54,6 +55,24 @@ class GuestTitles {
 
   static final RegExp _spaces = RegExp(r'\s+');
 
+  /// A title from free text: empty is "no title", and a known preset (in
+  /// either language) is that preset rather than a custom title.
+  static GuestTitle fromText(String? text) {
+    final clean = (text ?? '').trim().replaceAll(_spaces, ' ');
+    if (clean.isEmpty) return const GuestTitle.none();
+    final key = _key(clean);
+    for (final preset in [...arabic, ...english]) {
+      if (_key(preset) == key) return GuestTitle.preset(preset);
+    }
+    return GuestTitle.custom(clean);
+  }
+
+  /// The title alone as sent to the backend; null for "no title".
+  static String? wireText(GuestTitle title) {
+    final clean = title.text.trim().replaceAll(_spaces, ' ');
+    return title.kind == GuestTitleKind.none || clean.isEmpty ? null : clean;
+  }
+
   /// The full name sent to the backend. "No title" sends the name as typed.
   static String compose(GuestTitle title, String name) {
     final cleanName = name.trim();
@@ -82,6 +101,17 @@ class GuestTitles {
       }
     }
     return (const GuestTitle.none(), name);
+  }
+
+  /// Like [split], but a title the backend stored (custom ones too) wins over
+  /// guessing, as long as the name still starts with it.
+  static (GuestTitle, String) splitKnown(String fullName, String? storedTitle) {
+    final name = fullName.trim();
+    final stored = wireText(fromText(storedTitle));
+    if (stored != null && name.startsWith('$stored ')) {
+      return (fromText(stored), name.substring(stored.length).trim());
+    }
+    return split(name);
   }
 
   /// Removes [title] from the start of [name] when it was typed twice

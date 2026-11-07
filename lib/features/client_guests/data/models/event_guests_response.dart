@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'guest_title.dart';
+
 part 'event_guests_response.g.dart';
 
 /// `GET client/events/{eventId}/guests`: the event's guest list and whether
@@ -47,6 +49,9 @@ class ClientGuest {
   /// Full name, title included.
   final String? name;
 
+  /// The title alone, when the backend knows it.
+  final String? title;
+
   /// National number, without the country code.
   final String? phone;
   final String? countryCode;
@@ -58,11 +63,16 @@ class ClientGuest {
   ClientGuest({
     this.guestId,
     this.name,
+    this.title,
     this.phone,
     this.countryCode,
     this.noOfMembers,
     this.isLocked,
   });
+
+  /// The guest's title, and the name without it.
+  (GuestTitle, String) get titleAndName =>
+      GuestTitles.splitKnown(name ?? '', title);
 
   /// Canonical number (country code + national number), like the drafts use.
   String get phoneDigits => '${countryCode ?? ''}${phone ?? ''}';

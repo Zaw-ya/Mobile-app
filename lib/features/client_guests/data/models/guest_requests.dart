@@ -30,14 +30,35 @@ class GuestInput {
   final String phone;
   final int noOfMembers;
 
+  /// The title alone; [name] already starts with it. Left out when there is
+  /// none, and ignored by a backend that doesn't store titles yet.
+  @JsonKey(includeIfNull: false)
+  final String? title;
+
   GuestInput({
     required this.name,
     required this.phone,
     required this.noOfMembers,
+    this.title,
   });
 
   factory GuestInput.fromJson(Map<String, dynamic> json) =>
       _$GuestInputFromJson(json);
 
   Map<String, dynamic> toJson() => _$GuestInputToJson(this);
+}
+
+/// `PUT client/events/{eventId}/guests/title`, up to
+/// [AddGuestsRequest.maxBatchSize] guests. A null [title] removes the title.
+@JsonSerializable()
+class GuestsTitleRequest {
+  final List<int> guestIds;
+  final String? title;
+
+  GuestsTitleRequest({required this.guestIds, this.title});
+
+  factory GuestsTitleRequest.fromJson(Map<String, dynamic> json) =>
+      _$GuestsTitleRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GuestsTitleRequestToJson(this);
 }

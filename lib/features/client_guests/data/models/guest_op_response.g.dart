@@ -43,3 +43,20 @@ Map<String, dynamic> _$GuestOpResultToJson(GuestOpResult instance) =>
       'guestId': instance.guestId,
       'warnings': instance.warnings,
     };
+
+GuestsTitleResponse _$GuestsTitleResponseFromJson(Map<String, dynamic> json) =>
+    GuestsTitleResponse(
+      updated: (json['updated'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
+      skipped: (json['skipped'] as List<dynamic>?)
+          ?.map((e) => GuestOpResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$GuestsTitleResponseToJson(
+        GuestsTitleResponse instance) =>
+    <String, dynamic>{
+      'updated': instance.updated,
+      'skipped': instance.skipped,
+    };

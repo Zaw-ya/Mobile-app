@@ -7,13 +7,15 @@ import '../../../../core/theming/colors.dart';
 import '../../data/models/guest_title.dart';
 import 'guest_input_decoration.dart';
 
-/// Title dropdown: the presets of the current language, "custom" (typed
-/// title) and "no title". [value] null means nothing was chosen yet.
+/// Title dropdown: the presets of the current language, the client's recent
+/// custom titles, "custom" (typed title) and "no title". [value] null means
+/// nothing was chosen yet.
 class GuestTitleField extends StatefulWidget {
   const GuestTitleField({
     super.key,
     required this.value,
     required this.onChanged,
+    this.recentTitles = const [],
     this.errorText,
     this.dense = false,
   });
@@ -22,6 +24,9 @@ class GuestTitleField extends StatefulWidget {
 
   /// Null when the client goes back from a custom title to the list.
   final ValueChanged<GuestTitle?> onChanged;
+
+  /// The client's last custom titles, newest first.
+  final List<String> recentTitles;
   final String? errorText;
   final bool dense;
 
@@ -32,6 +37,8 @@ class GuestTitleField extends StatefulWidget {
 class _GuestTitleFieldState extends State<GuestTitleField> {
   static const String _custom = '__custom';
   static const String _none = '__none';
+  static const String _recentHeader = '__recent_header';
+  static const String _recentPrefix = '__recent:';
 
   late final TextEditingController _customController = TextEditingController(
       text: widget.value?.kind == GuestTitleKind.custom
@@ -62,6 +69,10 @@ class _GuestTitleFieldState extends State<GuestTitleField> {
     }
 
     if (widget.value?.kind == GuestTitleKind.custom) {
+      // Changed from outside when a recent title is picked
+      if (_customController.text != widget.value!.text) {
+        _customController.text = widget.value!.text;
+      }
       return TextField(
         controller: _customController,
         autofocus: _customController.text.isEmpty,
@@ -77,7 +88,10 @@ class _GuestTitleFieldState extends State<GuestTitleField> {
             icon: const Icon(Icons.close_rounded, size: 18),
             color: AppColor.gray500,
             tooltip: 'guests_title_select'.tr(),
-            onPressed: () => widget.onChanged(null),
+            onPressed: () {
+              _customController.clear();
+              widget.onChanged(null);
+            },
           ),
         ).copyWith(counterText: ''),
       );
@@ -100,12 +114,28 @@ class _GuestTitleFieldState extends State<GuestTitleField> {
       items: [
         for (final preset in presets)
           DropdownMenuItem(value: preset, child: Text(preset)),
+        if (widget.recentTitles.isNotEmpty) ...[
+          DropdownMenuItem(
+            value: _recentHeader,
+            enabled: false,
+            child: Text('guests_titles_recent'.tr(),
+                style: context.typography.labelMedium),
+          ),
+          for (final title in widget.recentTitles)
+            DropdownMenuItem(
+                value: '$_recentPrefix$title', child: Text(title)),
+        ],
         DropdownMenuItem(
             value: _custom, child: Text('guests_title_custom'.tr())),
         DropdownMenuItem(value: _none, child: Text('guests_title_none'.tr())),
       ],
       onChanged: (value) {
         if (value == null) return;
+        if (value.startsWith(_recentPrefix)) {
+          widget.onChanged(
+              GuestTitle.custom(value.substring(_recentPrefix.length)));
+          return;
+        }
         widget.onChanged(switch (value) {
           _custom => GuestTitle.custom(_customController.text),
           _none => const GuestTitle.none(),

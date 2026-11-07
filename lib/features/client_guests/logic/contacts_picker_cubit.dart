@@ -5,19 +5,32 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/helpers/phone_number_helper.dart';
 import '../../../core/helpers/search_normalizer.dart' as search_text;
 import '../data/contacts/device_contacts_service.dart';
+import '../data/local/recent_titles_storage.dart';
 import '../data/models/draft_guest.dart';
 import '../data/models/guest_requests.dart';
 import '../data/models/guest_title.dart';
 import 'contacts_picker_states.dart';
 import 'guest_validation.dart';
 
+/// The review's tabs: the rows waiting for a title, or all of them.
+enum ReviewFilter { untitled, all }
+
+/// Review rows sharing a title; the title is what makes them a group.
+class ReviewTitleGroup {
+  final GuestTitle title;
+  final List<DraftGuest> rows;
+
+  const ReviewTitleGroup(this.title, this.rows);
+}
+
 /// Picking guests from the device contacts, then reviewing them before they
 /// go to the draft. Numbers are never converted: a local number stays
 /// flagged until the client edits it or picks a country for that row.
 class ContactsPickerCubit extends Cubit<ContactsPickerStates> {
   final DeviceContactsService _contacts;
+  final RecentTitlesStorage _recentTitles;
 
-  ContactsPickerCubit(this._contacts)
+  ContactsPickerCubit(this._contacts, this._recentTitles)
       : super(const ContactsPickerStates.initial());
 
   ContactsAccess _access = ContactsAccess.notDetermined;
@@ -34,9 +47,14 @@ class ContactsPickerCubit extends Cubit<ContactsPickerStates> {
   /// Review rows still waiting for a title.
   final Set<String> _untitled = {};
 
-  /// Review rows whose title came from "apply to all", so a later
-  /// "apply to all" may change them again.
-  final Set<String> _bulkTitled = {};
+  /// Review rows ticked for a group title.
+  final Set<String> _reviewSelected = {};
+
+  /// Review row → the contact and number it came from.
+  Map<String, String> _reviewOrigin = {};
+  ReviewFilter _reviewFilter = ReviewFilter.untitled;
+  String _reviewQuery = '';
+  List<String> _recent = [];
 
   ContactsAccess get access => _access;
   bool get isLimited => _access == ContactsAccess.limited;
@@ -49,6 +67,7 @@ class ContactsPickerCubit extends Cubit<ContactsPickerStates> {
   /// [taken] are the numbers already on the list or in the draft.
   Future<void> start(Set<String> taken) async {
     _taken = taken;
+    _recent = await _recentTitles.load();
     _access = await _contacts.check();
     await _loadIfAllowed();
   }
@@ -167,18 +186,75 @@ class ContactsPickerCubit extends Cubit<ContactsPickerStates> {
 
   List<DraftGuest> get reviewRows => List.unmodifiable(_review);
 
-  /// Builds the review rows from the selection. A known title in the
-  /// contact name is taken off and preselected.
+  ReviewFilter get reviewFilter => _reviewFilter;
+  String get reviewQuery => _reviewQuery;
+  int get untitledCount => _untitled.length;
+  int get reviewSelectedCount => _reviewSelected.length;
+
+  /// Rows of the current tab that match the review search.
+  List<DraftGuest> get reviewVisibleRows {
+    final q = normalizeForSearch(_reviewQuery);
+    final digits = PhoneNumberHelper.cleanDigits(_reviewQuery);
+    return _review.where((row) {
+      if (_reviewFilter == ReviewFilter.untitled && !isUntitled(row)) {
+        return false;
+      }
+      if (_reviewQuery.isEmpty) return true;
+      return normalizeForSearch(row.name).contains(q) ||
+          (digits.length >= 3 &&
+              PhoneNumberHelper.cleanDigits(row.phoneInput).contains(digits));
+    }).toList();
+  }
+
+  /// Visible rows that have a title, grouped by it; "no title" comes last.
+  List<ReviewTitleGroup> get reviewGroups {
+    final groups = <GuestTitle, List<DraftGuest>>{};
+    for (final row in reviewVisibleRows) {
+      if (!isUntitled(row)) groups.putIfAbsent(row.title, () => []).add(row);
+    }
+    final none = groups.remove(const GuestTitle.none());
+    return [
+      for (final entry in groups.entries)
+        ReviewTitleGroup(entry.key, entry.value),
+      if (none != null) ReviewTitleGroup(const GuestTitle.none(), none),
+    ];
+  }
+
+  /// Builds the review rows from the selection. A known title in the contact
+  /// name is taken off and preselected. Rows that are still valid keep what
+  /// was done to them, so going back to pick one more contact loses nothing.
   void startReview() {
     final stamp = DateTime.now().microsecondsSinceEpoch;
+    final previous = {
+      for (final row in _review) _reviewOrigin[row.localId]: row,
+    };
+    final wasUntitled = _untitled.toSet();
+    final origins = <String, String>{};
+    final rows = <DraftGuest>[];
     var i = 0;
     _untitled.clear();
-    _bulkTitled.clear();
+    for (final contact in _all) {
+      if (!_selected.containsKey(contact.id)) continue;
+      final origin = '${contact.id}|${_selected[contact.id]}';
+      final kept = previous[origin];
+      final row = kept ?? _rowFor(contact, '$stamp-${i++}');
+      if (kept != null && wasUntitled.contains(kept.localId)) {
+        _untitled.add(kept.localId);
+      }
+      origins[row.localId] = origin;
+      rows.add(row);
+    }
+    _reviewOrigin = origins;
+    _review = rows;
+    _reviewSelected.clear();
+    _reviewQuery = '';
+    // Rows needing a fix come first, and stay put while the client edits
     _review = [
-      for (final contact in _all)
-        if (_selected.containsKey(contact.id))
-          _rowFor(contact, '$stamp-${i++}'),
+      ...rows.where((r) => reviewContentIssue(r) != null),
+      ...rows.where((r) => reviewContentIssue(r) == null),
     ];
+    _reviewFilter =
+        _untitled.isEmpty ? ReviewFilter.all : ReviewFilter.untitled;
     _emitLoaded();
   }
 
@@ -200,28 +276,84 @@ class ContactsPickerCubit extends Cubit<ContactsPickerStates> {
 
   bool isUntitled(DraftGuest row) => _untitled.contains(row.localId);
 
-  /// Gives [title] to the rows without one, and to rows titled by an earlier
-  /// "apply to all"; titles picked on a row stay.
-  void applyTitleToAll(GuestTitle title) {
-    _review = [
-      for (final row in _review)
-        if (_untitled.contains(row.localId) ||
-            _bulkTitled.contains(row.localId))
-          row.copyWith(title: title)
-        else
-          row,
-    ];
-    for (final row in _review) {
-      if (_untitled.remove(row.localId)) _bulkTitled.add(row.localId);
+  void setReviewFilter(ReviewFilter filter) {
+    if (filter == _reviewFilter) return;
+    _reviewFilter = filter;
+    _reviewSelected.clear();
+    _emitLoaded();
+  }
+
+  void searchReview(String query) {
+    _reviewQuery = query.trim();
+    _emitLoaded();
+  }
+
+  bool isReviewSelected(DraftGuest row) =>
+      _reviewSelected.contains(row.localId);
+
+  void toggleReviewSelected(DraftGuest row) {
+    if (!_reviewSelected.remove(row.localId)) {
+      _reviewSelected.add(row.localId);
     }
     _emitLoaded();
   }
 
-  void updateReviewRow(DraftGuest row, {bool titleChanged = false}) {
-    if (titleChanged) {
-      _untitled.remove(row.localId);
-      _bulkTitled.remove(row.localId);
+  bool get allReviewVisibleSelected {
+    final visible = reviewVisibleRows;
+    return visible.isNotEmpty && visible.every(isReviewSelected);
+  }
+
+  /// Selects every visible row, or unselects them when all are selected.
+  void toggleAllReviewVisible() {
+    final ids = reviewVisibleRows.map((r) => r.localId);
+    if (allReviewVisibleSelected) {
+      _reviewSelected.removeAll(ids);
+    } else {
+      _reviewSelected.addAll(ids);
     }
+    _emitLoaded();
+  }
+
+  /// Gives [title] to the selected rows, whatever title they had.
+  Future<void> applyTitleToSelected(GuestTitle title) async {
+    _setTitle(_reviewSelected.toSet(), title);
+    _reviewSelected.clear();
+    if (_untitled.isEmpty) _reviewFilter = ReviewFilter.all;
+    await rememberTitle(title);
+    _emitLoaded();
+  }
+
+  /// Gives [title] to the rows still waiting for one.
+  void applyTitleToUntitled(GuestTitle title) {
+    _setTitle(_untitled.toSet(), title);
+    _reviewFilter = ReviewFilter.all;
+    _emitLoaded();
+  }
+
+  /// Changes the title of every row that has [from].
+  Future<void> renameReviewTitle(GuestTitle from, GuestTitle to) async {
+    _setTitle({
+      for (final row in _review)
+        if (!isUntitled(row) && row.title == from) row.localId,
+    }, to);
+    await rememberTitle(to);
+    _emitLoaded();
+  }
+
+  void _setTitle(Set<String> ids, GuestTitle title) {
+    final normalized = GuestTitles.fromText(title.text);
+    _review = [
+      for (final row in _review)
+        if (ids.contains(row.localId))
+          row.copyWith(title: normalized)
+        else
+          row,
+    ];
+    _untitled.removeAll(ids);
+  }
+
+  void updateReviewRow(DraftGuest row, {bool titleChanged = false}) {
+    if (titleChanged) _untitled.remove(row.localId);
     _review = [
       for (final r in _review) r.localId == row.localId ? row : r,
     ];
@@ -231,16 +363,20 @@ class ContactsPickerCubit extends Cubit<ContactsPickerStates> {
   void removeReviewRow(String localId) {
     _review = _review.where((r) => r.localId != localId).toList();
     _untitled.remove(localId);
-    _bulkTitled.remove(localId);
+    _reviewSelected.remove(localId);
     _emitLoaded();
   }
 
   /// Translation key of what is wrong with [row], or null when it can be added.
   String? reviewIssue(DraftGuest row) {
     if (isUntitled(row)) return 'guests_title_required';
-    final titleIssue = GuestValidation.title(row.title);
-    if (titleIssue != null) return titleIssue;
-    final nameIssue = GuestValidation.name(row.title, row.name);
+    return GuestValidation.title(row.title) ?? reviewContentIssue(row);
+  }
+
+  /// Like [reviewIssue], without the row's title choice.
+  String? reviewContentIssue(DraftGuest row) {
+    final title = isUntitled(row) ? const GuestTitle.none() : row.title;
+    final nameIssue = GuestValidation.name(title, row.name);
     if (nameIssue != null) return nameIssue;
     final phoneIssue = GuestValidation.phone(row.phoneCheck);
     if (phoneIssue != null) return phoneIssue;
@@ -253,19 +389,22 @@ class ContactsPickerCubit extends Cubit<ContactsPickerStates> {
     return null;
   }
 
-  /// Rows sorted with the ones needing a fix first.
-  List<DraftGuest> get reviewRowsSorted {
-    final rows = [..._review];
-    rows.sort((a, b) => (reviewIssue(a) == null ? 1 : 0)
-        .compareTo(reviewIssue(b) == null ? 1 : 0));
-    return rows;
-  }
+  int get reviewContentIssueCount =>
+      _review.where((r) => reviewContentIssue(r) != null).length;
 
   int get reviewIssueCount =>
       _review.where((r) => reviewIssue(r) != null).length;
 
   List<DraftGuest> get readyRows =>
       _review.where((r) => reviewIssue(r) == null).toList();
+
+  // ── Recent titles ─────────────────────────────────────────────────────────
+
+  List<String> get recentTitles => List.unmodifiable(_recent);
+
+  Future<void> rememberTitle(GuestTitle title) async {
+    _recent = await _recentTitles.remember(title);
+  }
 
   // ── Helpers ───────────────────────────────────────────────────────────────
 

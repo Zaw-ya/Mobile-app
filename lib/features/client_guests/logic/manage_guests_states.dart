@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'submit_outcome.dart';
+import 'title_change_outcome.dart';
 
 part 'manage_guests_states.freezed.dart';
 
@@ -19,6 +20,11 @@ class ManageGuestsStates with _$ManageGuestsStates {
       {required int done, required int total}) = Submitting;
   const factory ManageGuestsStates.submitResult(SubmitOutcome outcome) =
       SubmitResult;
+
+  /// A title being changed for a group of guests already on the list.
+  const factory ManageGuestsStates.titleChanging() = TitleChanging;
+  const factory ManageGuestsStates.titleChangeResult(
+      TitleChangeOutcome outcome) = TitleChangeResult;
 
   /// Update or delete of a guest already on the list.
   const factory ManageGuestsStates.actionLoading() = ActionLoading;

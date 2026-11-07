@@ -53,6 +53,52 @@ Future<bool> showGuestsConfirmDialog(
   return result ?? false;
 }
 
+enum UntitledChoice { back, addWithoutTitle, skipThem }
+
+/// Adding the review's rows while some still have no title.
+Future<UntitledChoice> showUntitledGuestsDialog(
+  BuildContext context, {
+  required int untitled,
+  required int ready,
+}) async {
+  final result = await showDialog<UntitledChoice>(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: AppColor.primaryLight,
+      shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
+      title: Text('guests_untitled_title'.tr(args: ['$untitled']),
+          style: context.typography.headlineSmall),
+      content: Text('guests_untitled_body'.tr(),
+          style:
+              context.typography.bodyMedium.copyWith(color: AppColor.gray700)),
+      actions: [
+        CustomButton.normal(
+          text: 'guests_untitled_back'.tr(),
+          color: AppColor.primaryDark,
+          onPressed: () => Navigator.of(context).pop(UntitledChoice.back),
+        ),
+        SizedBox(height: edge * 0.3),
+        CustomButton.normal(
+          text: 'guests_untitled_as_none'.tr(),
+          color: AppColor.gray200,
+          textColor: AppColor.primaryDark,
+          onPressed: () =>
+              Navigator.of(context).pop(UntitledChoice.addWithoutTitle),
+        ),
+        SizedBox(height: edge * 0.3),
+        CustomButton.normal(
+          text: 'guests_untitled_skip'.tr(args: ['$ready']),
+          color: AppColor.gray200,
+          textColor: AppColor.primaryDark,
+          onPressed: () => Navigator.of(context).pop(UntitledChoice.skipThem),
+        ),
+      ],
+    ),
+  );
+  return result ?? UntitledChoice.back;
+}
+
 enum LeaveChoice { save, discard, stay }
 
 /// Leaving the screen with unsaved draft changes.
