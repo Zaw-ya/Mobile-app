@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../core/theming/colors.dart';
 import '../../../core/widgets/handle_pop_invoked.dart';
 import '../../../generated/assets.dart';
+import '../../messages/logic/messages_cubit.dart';
 import 'cubits/landing_cubit.dart';
 import 'cubits/landing_states.dart';
 
@@ -163,6 +164,11 @@ List<BottomNavigationBarItem> _buildUserNavItems(LandingCubit cubit) {
       label: '',
     ),
     BottomNavigationBarItem(
+      icon: const _MessagesTabIcon(active: false),
+      activeIcon: const _MessagesTabIcon(active: true),
+      label: '',
+    ),
+    BottomNavigationBarItem(
       icon: SvgPicture.asset(
         Assets.imagesProfile,
         colorFilter: const ColorFilter.mode(AppColor.gray300, BlendMode.srcIn),
@@ -174,4 +180,31 @@ List<BottomNavigationBarItem> _buildUserNavItems(LandingCubit cubit) {
       label: '',
     ),
   ];
+}
+
+/// Chat icon with the unread-guest-messages badge (client tab bar).
+class _MessagesTabIcon extends StatelessWidget {
+  const _MessagesTabIcon({required this.active});
+  final bool active;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MessagesCubit, MessagesState>(
+      bloc: getIt<MessagesCubit>(),
+      buildWhen: (a, b) => a.unreadTotal != b.unreadTotal,
+      builder: (context, state) {
+        final icon = Icon(
+          active ? Icons.chat_bubble : Icons.chat_bubble_outline,
+          color: active ? AppColor.primaryDark : AppColor.gray300,
+          size: 26,
+        );
+        if (state.unreadTotal <= 0) return icon;
+        return Badge(
+          label: Text(state.unreadTotal > 99 ? '99+' : '${state.unreadTotal}'),
+          backgroundColor: AppColor.semanticError,
+          child: icon,
+        );
+      },
+    );
+  }
 }

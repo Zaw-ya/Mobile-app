@@ -7,6 +7,7 @@ class Routes {
   static const String qrCodeScreen = '/qrCodeScreen';
   static const String eventDetailScreen = '/eventDetailScreen';
   static const String notifications = '/notifications';
+  static const String chatScreen = '/chatScreen';
   static const String clientEventsDetailsScreen = '/clientEventsDetailsScreen';
   static const String clientGuestDetailsScreen = '/clientGuestDetailsScreen';
   static const String manageGuestsScreen = '/manageGuestsScreen';

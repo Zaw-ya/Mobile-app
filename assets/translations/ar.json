@@ -614,5 +614,13 @@
   "guests_country_group_english": "الدول الناطقة بالإنجليزية",
   "guests_country_group_europe": "أوروبا",
   "guests_country_group_other": "دول أخرى",
-  "guests_country_search_hint": "البحث باسم الدولة أو الكود"
+  "guests_country_search_hint": "البحث باسم الدولة أو الكود",
+  "no_messages": "لا توجد رسائل من الضيوف بعد",
+  "messages_load_failed": "تعذّر تحميل الرسائل. تحقق من الاتصال وحاول مرة أخرى.",
+  "messages_not_found": "هذه المحادثة لم تعد متاحة.",
+  "messages_reply_hint": "اكتب ردًا…",
+  "messages_send": "إرسال",
+  "messages_send_failed": "تعذّر الإرسال. اضغط إعادة المحاولة.",
+  "messages_network_error": "لا يوجد اتصال. اضغط إعادة المحاولة.",
+  "messages_template_not_configured": "الرد غير مفعّل لهذه المناسبة بعد. يرجى التواصل مع الدعم."
 }

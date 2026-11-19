@@ -18,6 +18,8 @@ import '../../features/client_guests/ui/manage_guests_screen.dart';
 import '../../features/client_statistics/data/models/guest_type_list.dart';
 import '../../features/client_statistics/logic/client_statistics_cubit.dart';
 import '../../features/client_statistics/ui/widgets/client_confirmation_services/client_message_status.dart';
+import '../../features/messages/logic/chat_cubit.dart';
+import '../../features/messages/ui/chat_screen.dart';
 import '../../features/notifications/ui/notifications_screen.dart';
 import '../../features/events_scan_history/data/models/gatekeeper_events_response.dart';
 import '../../features/events_scan_history/logic/gatekeeper_events_cubit.dart';
@@ -125,6 +127,19 @@ class AppRouter {
           value: getIt<NotificationsCubit>(),
           child: const NotificationsScreen(),
         ));
+
+      case Routes.chatScreen:
+        final chatArgs = arguments as Map;
+        final conversationId = (chatArgs['conversationId'] as num).toInt();
+        return _buildRoute(
+          BlocProvider(
+            create: (_) => getIt<ChatCubit>(param1: conversationId),
+            child: ChatScreen(
+              guestName: chatArgs['guestName']?.toString() ?? '',
+              eventTitle: chatArgs['eventTitle']?.toString() ?? '',
+            ),
+          ),
+        );
 
       case Routes.clientEventsDetailsScreen:
         final event = arguments as ClientEventDetails;
