@@ -31,6 +31,9 @@ import '../../features/qr_code_scanner/data/repo/qr_code_scanner_repo.dart';
 import '../../features/qr_code_scanner/logic/qr_code_scanner_cubit.dart';
 import '../../features/register/data/repo/register_repo.dart';
 import '../../features/register/logic/register_cubit.dart';
+import '../../features/messages/data/repo/messages_repo.dart';
+import '../../features/messages/logic/chat_cubit.dart';
+import '../../features/messages/logic/messages_cubit.dart';
 import '../../features/notifications/data/repo/notifications_repo.dart';
 import '../../features/notifications/logic/notifications_cubit.dart';
 import '../helpers/app_utilities.dart';
@@ -106,6 +109,12 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<NotificationsCubit>(
       () => NotificationsCubit(getIt<NotificationsRepo>()));
       
+
+  // Messages (guest feedback conversations). The list cubit is shared (tab badge, list, push); a chat is per conversation.
+  getIt.registerLazySingleton<MessagesRepo>(() => MessagesRepo(getIt()));
+  getIt.registerLazySingleton<MessagesCubit>(() => MessagesCubit(getIt<MessagesRepo>()));
+  getIt.registerFactoryParam<ChatCubit, int, void>(
+      (conversationId, _) => ChatCubit(getIt<MessagesRepo>(), conversationId));
 
   getIt.registerFactory<LandingCubit>(() => LandingCubit(getIt()));
   //profile

@@ -8,6 +8,9 @@ import '../routing/routes.dart';
 import 'navigation_service.dart';
 import 'notification_service.dart';
 import '../di/dependency_injection.dart';
+import '../../features/messages/logic/feedback_push.dart';
+import '../../features/messages/logic/messages_cubit.dart';
+import '../../features/messages/logic/messages_events.dart';
 import '../../features/notifications/logic/notifications_cubit.dart';
 
 class FirebaseMessagingHandler {
@@ -201,6 +204,9 @@ class FirebaseMessagingHandler {
     try {
       getIt<NotificationsCubit>().reset();
     } catch (_) {}
+    try {
+      getIt<MessagesCubit>().reset();
+    } catch (_) {}
   }
 
   /// Set up message handlers for different app states
@@ -231,6 +237,18 @@ class FirebaseMessagingHandler {
             'eventTitle': data['eventTitle'] ?? '',
           };
 
+          return;
+        }
+
+        // Guest feedback message -> open that conversation
+        if (FeedbackPush.matches(data)) {
+          final chatArgs = FeedbackPush.chatArguments(data);
+          if (chatArgs != null) {
+            pendingNavigationRoute = Routes.chatScreen;
+            pendingNavigationArguments = chatArgs;
+          } else {
+            pendingNavigationRoute = Routes.notifications;
+          }
           return;
         }
 
@@ -280,6 +298,19 @@ class FirebaseMessagingHandler {
     debugPrint('Received foreground message: ${message.messageId}');
     debugPrint('Message data: ${message.data}');
 
+    if (FeedbackPush.matches(message.data)) {
+      final convId = FeedbackPush.conversationId(message.data);
+      // Refresh an open list / chat with the new message.
+      MessagesEvents.notifyNewMessage(convId);
+      try {
+        getIt<NotificationsCubit>().loadNotifications();
+      } catch (_) {}
+      // iOS already shows the FCM banner in the foreground (presentation options above); a second,
+      // local banner would show the same message twice. Also no banner for the chat being read.
+      if (Platform.isIOS) return;
+      if (convId != null && MessagesEvents.openConversationId == convId) return;
+    }
+
     if (message.notification != null) {
       NotificationService().showInstantNotification(
         body: message.notification!.body ?? '',
@@ -320,6 +351,18 @@ class FirebaseMessagingHandler {
                   'eventTitle': data['eventTitle'] ?? '',
                 },
               );
+              return;
+            }
+            if (FeedbackPush.matches(data)) {
+              final chatArgs = FeedbackPush.chatArguments(data);
+              if (chatArgs == null) {
+                navigatorState.pushNamed(Routes.notifications);
+                return;
+              }
+              MessagesEvents.notifyNewMessage(chatArgs['conversationId'] as int);
+              // Already reading this conversation: it was just refreshed, don't stack a second chat.
+              if (MessagesEvents.openConversationId == chatArgs['conversationId']) return;
+              navigatorState.pushNamed(Routes.chatScreen, arguments: chatArgs);
               return;
             }
             if (data['type'] == 'NewEvent') {

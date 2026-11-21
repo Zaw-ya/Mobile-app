@@ -611,5 +611,13 @@
   "guests_country_group_english": "English-speaking countries",
   "guests_country_group_europe": "Europe",
   "guests_country_group_other": "Other countries",
-  "guests_country_search_hint": "Search by country or code"
+  "guests_country_search_hint": "Search by country or code",
+  "no_messages": "No guest messages yet",
+  "messages_load_failed": "Couldn't load messages. Check your connection and try again.",
+  "messages_not_found": "This conversation is no longer available.",
+  "messages_reply_hint": "Write a reply…",
+  "messages_send": "Send",
+  "messages_send_failed": "Couldn't send. Tap Retry.",
+  "messages_network_error": "No connection. Tap Retry.",
+  "messages_template_not_configured": "Replies aren't set up for this event yet. Please contact support."
 }

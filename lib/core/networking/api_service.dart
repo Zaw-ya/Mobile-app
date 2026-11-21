@@ -144,6 +144,37 @@ abstract class ApiService {
     @Path('id') String id,
   );
 
+  // Client messages (guest feedback conversations). Raw JSON: the repo maps it.
+  @GET(ApiConstants.clientMessagesConversationsEndpoint)
+  Future<dynamic> getMessageConversations(
+    @Header('Authorization') String token,
+    @Query('page') int page,
+  );
+
+  @GET(ApiConstants.clientMessagesConversationEndpoint)
+  Future<dynamic> getMessageConversation(
+    @Header('Authorization') String token,
+    @Path('conversationId') int conversationId,
+  );
+
+  @POST(ApiConstants.clientMessagesReadEndpoint)
+  Future<dynamic> markMessageConversationRead(
+    @Header('Authorization') String token,
+    @Path('conversationId') int conversationId,
+  );
+
+  @POST(ApiConstants.clientMessagesReplyEndpoint)
+  Future<dynamic> replyToMessageConversation(
+    @Header('Authorization') String token,
+    @Path('conversationId') int conversationId,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @GET(ApiConstants.clientMessagesUnreadCountEndpoint)
+  Future<dynamic> getMessagesUnreadCount(
+    @Header('Authorization') String token,
+  );
+
   @GET(ApiConstants.reserveEventEndpoint)
   Future<String> reserveEvent(
     @Header('Authorization') String token,

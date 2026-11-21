@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:app/core/routing/routes.dart';
+import 'package:app/features/messages/logic/feedback_push.dart';
+import 'package:app/features/messages/logic/messages_events.dart';
 import 'package:app/core/services/firebase_messaging_handler.dart';
 import 'package:app/core/services/navigation_service.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -127,6 +129,15 @@ class NotificationService {
               'eventId': int.parse(data['eventId'].toString()),
               'eventTitle': data['eventTitle'] ?? '',
             };
+          } else if (FeedbackPush.matches(data)) {
+            final chatArgs = FeedbackPush.chatArguments(data);
+            if (chatArgs != null) {
+              MessagesEvents.notifyNewMessage(chatArgs['conversationId'] as int);
+              FirebaseMessagingHandler.pendingNavigationRoute = Routes.chatScreen;
+              FirebaseMessagingHandler.pendingNavigationArguments = chatArgs;
+            } else {
+              FirebaseMessagingHandler.pendingNavigationRoute = Routes.notifications;
+            }
           } else if (type == 'NewEvent') {
             FirebaseMessagingHandler.pendingNavigationRoute =
                 Routes.landingView;

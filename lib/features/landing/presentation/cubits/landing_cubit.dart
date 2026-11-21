@@ -10,6 +10,8 @@ import '../../../events_scan_history/logic/gatekeeper_events_cubit.dart';
 import '../../../gatekeeper_calendar/presentation/calendar_view.dart';
 import '../../../gatekeeper_home/views/gatekeeper_home_screen.dart';
 import '../../../new_client_events/ui/new_client_events_screen.dart';
+import '../../../messages/logic/messages_cubit.dart';
+import '../../../messages/ui/messages_screen.dart';
 import '../../../notifications/logic/notifications_cubit.dart';
 import '../../../new_client_statistics/ui/new_client_statistics_screen.dart';
 import '../../../profile/data/models/profile_model.dart';
@@ -66,6 +68,11 @@ class LandingCubit extends Cubit<LandingStates> {
         // ),
         NewClientStatisticsScreen(),
 
+        BlocProvider<MessagesCubit>.value(
+          value: getIt<MessagesCubit>(),
+          child: const MessagesScreen(),
+        ),
+
         KeepAliveWrapper(
           child: BlocProvider(
             create:(_) => getIt<ProfileCubit>()..getProfileData(),
@@ -78,7 +85,14 @@ class LandingCubit extends Cubit<LandingStates> {
 
   // ── Navigation ───────────────────────────────────────────────────────────
 
+  /// Index of the Messages tab (clients only): [calendar, statistics, messages, profile].
+  static const int clientMessagesIndex = 2;
+
   void changeIndex(int index) {
+    // Re-entering Messages shows messages that arrived while another tab was open.
+    if (!isOrganizer && index == clientMessagesIndex && currentIndex != index) {
+      getIt<MessagesCubit>().load(silent: true);
+    }
     currentIndex = index;
     emit(LandingStates.loaded(currentIndex: currentIndex));
 
@@ -106,7 +120,11 @@ class LandingCubit extends Cubit<LandingStates> {
     FirebaseMessagingHandler().syncDeviceToken();
     // The shared cubit was reset on logout (or loaded before login), so refresh the badge
     getIt<NotificationsCubit>().loadNotifications();
-    if (AppUtilities().loginData.roleName == "Client") return;
+    if (AppUtilities().loginData.roleName == "Client") {
+      // Unread badge on the Messages tab (and a fresh list for a returning session)
+      getIt<MessagesCubit>().load(silent: true);
+      return;
+    }
     try {
       final response = await _profileRepo.getProfile();
       response.whenOrNull(

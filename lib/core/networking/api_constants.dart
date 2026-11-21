@@ -1,6 +1,7 @@
 class ApiConstants {
-  static const String apiBaseUrl = "https://api.specialcards.net/";
+  //static const String apiBaseUrl = "https://myinvite-api.runasp.net/";
 
+  static const String apiBaseUrl = "https://api.specialcards.net/";
   //static const String apiBaseUrl = "https://api.myinvite.cc/";
 
   static const String registerEndpoint = 'auth/register';
@@ -52,6 +53,18 @@ class ApiConstants {
       'Client/getguestcardstatisticsinfo';
 
   static const String deleteAccountEndpoint = 'Auth/DeleteAccount';
+
+  // Client messages (guest feedback conversations)
+  static const String clientMessagesConversationsEndpoint =
+      'client/messages/conversations';
+  static const String clientMessagesConversationEndpoint =
+      'client/messages/conversations/{conversationId}';
+  static const String clientMessagesReadEndpoint =
+      'client/messages/conversations/{conversationId}/read';
+  static const String clientMessagesReplyEndpoint =
+      'client/messages/conversations/{conversationId}/reply';
+  static const String clientMessagesUnreadCountEndpoint =
+      'client/messages/unread-count';
 
   // Client guest management
   static const String clientEventGuestsEndpoint =
