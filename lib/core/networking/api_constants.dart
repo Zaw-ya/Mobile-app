@@ -1,7 +1,7 @@
 class ApiConstants {
-  static const String apiBaseUrl = "https://myinvite-api.runasp.net/";
+  //static const String apiBaseUrl = "https://myinvite-api.runasp.net/";
 
-  //static const String apiBaseUrl = "https://api.specialcards.net/";
+  static const String apiBaseUrl = "https://api.specialcards.net/";
   //static const String apiBaseUrl = "https://api.myinvite.cc/";
 
   static const String registerEndpoint = 'auth/register';
